@@ -1,0 +1,41 @@
+name: Linting, Testing and Building
+
+on:
+  pull_request:
+    branches-ignore:
+      - "main"
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Install Flutter Packages
+        run: flutter pub get
+
+      - name: Analyze Project
+        run: dart analyze --fatal-warnings
+
+      - name: Run Tests
+        run: flutter test
+
+      - name: Build Project for iOS
+        run: flutter build ipa --no-codesign
+
+      - name: Build Project for Android
+        run: flutter build apk
