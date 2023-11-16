@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "de.tum.gocast"
+    namespace "de.tum.gocast_mobile"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

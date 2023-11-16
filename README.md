@@ -1,16 +1,3 @@
-# gocast_mobile
+# The mobile client for [gocast](https://github.com/TUM-Dev/gocast)
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This mobile client for [gocast](https://github.com/TUM-Dev/gocast) is currently under development by the [iPraktikum Winter 23/24](https://ase.cit.tum.de/teaching/23w/ipraktikum/) on behalf of the TUM Developers. In order not to influence the grading of the students, we would ask you to refrain from code contributions until **March 2023**. Until then, we look forward to your contributions in our other repositories. Thank you for your understanding! 
