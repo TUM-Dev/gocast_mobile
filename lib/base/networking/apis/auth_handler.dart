@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
 import 'package:gocast_mobile/base/helpers/model_generator.dart';
 import 'package:gocast_mobile/model/user_model.dart';
 import 'package:gocast_mobile/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthHandler {
   static Future<void> basicAuth(
@@ -34,21 +35,28 @@ class AuthHandler {
       data: formData,
     );
 
-    // For debug purposes only:
+    // Save jwt token
     List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
-    print(
-      'UserCookie: ${cookies.isNotEmpty ? cookies[0].value : 'No cookie set'}',
-    );
+
+    if (cookies.isNotEmpty) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('jwt', cookies[0].value);
+
+      // DEBUG: Check cookie - TODO: Remove before merge
+      String? jwt = prefs.getString('jwt');
+      print('Current jwt: $jwt\nbasicAuth finished.');
+    } else {
+      // TODO: Handle error
+    }
   }
 
-  // TODO@carlobortolan: Finish implementing TUM SSO
   static Future<void> ssoAuth(BuildContext context) async {
     print('ssoAuth started');
-    // Step 1: Redirect the user to the Shibboleth login page
+    // Redirect the user to the Shibboleth login page
     const loginUrl = 'https://live.rbg.tum.de/saml/out';
-    print('Login URL: $loginUrl');
+    print('Login URL: $Routes.basicLogin');
 
-    // Step 2: Open the login page in a web view
+    // Open the login page in a web view
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -63,43 +71,21 @@ class AuthHandler {
           onLoadStop:
               (webview.InAppWebViewController controller, Uri? url) async {
             print('Page load stopped: $url');
-            // Step 3: Redirect back to app and save cookie
-            if (url != null &&
-                url.toString().startsWith(
-                      'https://live.rbg.tum.de',
-                    )) {
+
+            // DEBUG: Get the cookies - TODO: Remove before merge
+            final cookieManager = webview.CookieManager.instance();
+            List<webview.Cookie> cookies =
+                await cookieManager.getCookies(url: url!);
+
+            // Save cookie
+            if (cookies.isNotEmpty) {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('jwt', cookies[0].value);
+            }
+
+            // Redirect back to app
+            if (url.toString().startsWith('https://live.rbg.tum.de')) {
               print('Redirect URL detected: $url');
-
-              // Extract the SAMLResponse parameter from the URL
-              final queryParams = Uri.splitQueryString(url.query);
-              final samlRequest = queryParams['SAMLRequest'];
-              final relayState = queryParams['RelayState'];
-              print('SAMLRequest: $samlRequest');
-              print('RelayState: $relayState');
-
-              // Send the SAMLResponse to the server to validate it and create a session
-              const ssoCallbackUrl = 'https://live.rbg.tum.de/shib';
-              final cookieJar = CookieJar();
-              final dio = Dio(
-                BaseOptions(
-                  followRedirects: false,
-                  validateStatus: (status) {
-                    return status! < 500;
-                  },
-                ),
-              );
-              dio.interceptors.add(CookieManager(cookieJar));
-
-              final formData = FormData.fromMap({
-                'SAMLResponse': samlRequest,
-              });
-
-              print('Sending SAMLResponse to server');
-              await dio.post(
-                ssoCallbackUrl,
-                data: formData,
-              );
-              print('SAMLResponse sent to server');
 
               // Close the web view and go back to the app
               print('Closing web view and returning to app');
@@ -109,7 +95,11 @@ class AuthHandler {
         ),
       ),
     );
-    print('ssoAuth finished');
+
+    // DEBUG: Check cookie - TODO: Remove before merge
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jwt = prefs.getString('jwt');
+    print('Current jwt: $jwt\nssoAuth finished.');
   }
 
 // Just for testing

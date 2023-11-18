@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/apis/auth_handler.dart';
 import 'package:gocast_mobile/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserViewModel with ChangeNotifier {
   UserViewModel(this.current);
@@ -19,8 +20,11 @@ class UserViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  Future<void> logout() async {
     current.removeUser();
     notifyListeners();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('jwt');
+    print('Logged out user and cleared tokens.');
   }
 }

@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   flutter_inappwebview: ^5.8.0
   provider: ^6.1.1
+  shared_preferences: ^2.2.2
   uni_links: ^0.5.1
 
 dev_dependencies:
