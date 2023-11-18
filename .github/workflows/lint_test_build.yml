@@ -1,8 +1,9 @@
 name: Linting, Testing and Building
 
 on:
-  pull_request:
+  push:
     branches-ignore:
+      - "dev"
       - "main"
 
 jobs:
@@ -34,8 +35,5 @@ jobs:
       - name: Run Tests
         run: flutter test
 
-      - name: Build Project for iOS
+      - name: Build Project
         run: flutter build ipa --no-codesign
-
-      - name: Build Project for Android
-        run: flutter build apk
