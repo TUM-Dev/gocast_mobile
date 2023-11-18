@@ -5,33 +5,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class LoginView extends ConsumerWidget {
   const LoginView({super.key});
 
+  Future<void> handleSSOLogin(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
+    // Call the SSO authentication function from /base/api/auth
+    await ref.read(userViewModel).ssoAuth(context);
+    // Navigate to the home screen after successful authentication
+    if (ref.read(userViewModel).current.value.user != null) {
+      // ignore: use_build_context_synchronously
+      await Navigator.pushNamed(context, '/welcome');
+    }
+  }
+
+  Future<void> handleBasicLogin(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
+    // Call the basic authentication function from /base/api/auth
+    await ref
+        .read(userViewModel)
+        .basicAuth(usernameController.text, passwordController.text)
+        .then(
+          (value) => {
+            if (ref.read(userViewModel).current.value.user != null)
+              {Navigator.pushNamed(context, '/welcome')},
+          },
+        );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController usernameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-
-    Future<void> handleSSOLogin(BuildContext context) async {
-      // Call the SSO authentication function from /base/api/auth
-      await ref.read(userViewModel).ssoAuth(context);
-      // Navigate to the home screen after successful authentication
-      if (ref.read(userViewModel).current.value.user != null) {
-        // ignore: use_build_context_synchronously
-        await Navigator.pushNamed(context, '/welcome');
-      }
-    }
-
-    Future<void> handleBasicLogin(BuildContext context) async {
-      // Call the basic authentication function from /base/api/auth
-      await ref
-          .read(userViewModel)
-          .basicAuth(usernameController.text, passwordController.text)
-          .then(
-            (value) => {
-              if (ref.read(userViewModel).current.value.user != null)
-                {Navigator.pushNamed(context, '/welcome')},
-            },
-          );
-    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,25 +55,13 @@ class LoginView extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 32),
-                      Image.asset(
-                        'assets/images/logos/tum-logo-blue.png',
-                        fit: BoxFit.contain,
-                        height: 64,
-                      ),
+                      LogoImage(),
                       const SizedBox(height: 32),
-                      ElevatedButton(
-                        onPressed: () => handleSSOLogin(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: const Text(
-                          'Sign in using TUM SSO',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      LoginButton(
+                        onPressed: () => handleSSOLogin(context, ref,
+                            usernameController, passwordController),
+                        label: 'Sign in using TUM SSO',
+                        key: const Key('basicSSOButton'),
                       ),
                       const SizedBox(height: 32),
                       const Divider(
@@ -105,24 +103,56 @@ class LoginView extends ConsumerWidget {
                         style: const TextStyle(color: Colors.blue),
                       ),
                       const SizedBox(height: 32),
-                      ElevatedButton(
-                        onPressed: () => handleBasicLogin(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      LoginButton(
+                        onPressed: () => handleBasicLogin(context, ref,
+                            usernameController, passwordController),
+                        label: 'Login',
+                        key: const Key('basicLoginButton'),
                       ),
                     ],
                   ),
                 ),
               ),
+      ),
+    );
+  }
+}
+
+class LogoImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/images/logos/tum-logo-blue.png',
+      fit: BoxFit.contain,
+      height: 64,
+    );
+  }
+}
+
+class LoginButton extends StatelessWidget {
+  const LoginButton({
+    required Key key,
+    required this.onPressed,
+    required this.label,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }
