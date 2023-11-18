@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/model/user_model.dart';
 import 'package:gocast_mobile/viewModels/user_viewmodel.dart';
 import 'package:gocast_mobile/views/home_view.dart';
 import 'package:gocast_mobile/views/login_view.dart';
 import 'package:gocast_mobile/views/welcome_view.dart';
-import 'package:provider/provider.dart';
-import 'package:gocast_mobile/bootstrap.dart';
+
+final userViewModel = Provider((ref) => UserViewModel());
+
+final userStateProvider = StreamProvider<UserState>((ref) {
+  return ref.watch(userViewModel).current.stream;
+});
 
 void main() {
-  bootstrap(() {
-    return ChangeNotifierProvider(
-      create: (context) =>
-          UserState(isLoading: false, user: null, errorMessage: ''),
-      child: const App(),
-    );
-  });
-
-//  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final current = Provider.of<UserState>(context);
-    final userViewModel = UserViewModel(current);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(userStateProvider);
 
     return MaterialApp(
       title: 'gocast',
@@ -37,34 +37,16 @@ class App extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      home: current.user == null
-          ? LoginView(
-              key: const Key('loginView'),
-              userViewModel: userViewModel,
-            )
-          : HomeView(
-              key: const Key('homeView'),
-              userViewModel: userViewModel,
-            ),
+      home: userState.value?.user == null
+          ? const LoginView(key: Key('loginView'))
+          : const HomeView(key: Key('homeView')),
       routes: {
-        '/welcome': (context) => current.user == null
-            ? LoginView(
-                key: const Key('loginView'),
-                userViewModel: UserViewModel(Provider.of<UserState>(context)),
-              )
-            : WelcomeView(
-                key: const Key('welcomeView'),
-                userViewModel: UserViewModel(Provider.of<UserState>(context)),
-              ),
-        '/home': (context) => current.user == null
-            ? LoginView(
-                key: const Key('loginView'),
-                userViewModel: UserViewModel(Provider.of<UserState>(context)),
-              )
-            : HomeView(
-                key: const Key('homeView'),
-                userViewModel: UserViewModel(Provider.of<UserState>(context)),
-              ),
+        '/welcome': (context) => userState.value?.user == null
+            ? const LoginView(key: Key('loginView'))
+            : const WelcomeView(key: Key('welcomeView')),
+        '/home': (context) => userState.value?.user == null
+            ? const LoginView(key: Key('loginView'))
+            : const HomeView(key: Key('homeView')),
       },
     );
   }

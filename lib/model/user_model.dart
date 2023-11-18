@@ -1,30 +1,37 @@
-import 'package:flutter/foundation.dart';
-
 // ignore_for_file: always_put_required_named_parameters_first
-class UserState with ChangeNotifier {
+class UserState {
   UserState({
     required this.isLoading,
-    required this.user,
+    this.user,
+    // Placeholder for future helpers (e.g. error handling)
     required this.errorMessage,
   });
+
+  // Default constructor
+  UserState.defaultConstructor()
+      : isLoading = false,
+        errorMessage = '',
+        user = null;
 
   bool isLoading;
   User? user;
   String errorMessage;
 
-  void setUser(User? newUser) {
+  void setUser(User newUser) {
+    print("User set to: ${newUser.name}");
     user = newUser;
-    notifyListeners();
   }
 
   void removeUser() {
     user = null;
-    notifyListeners();
   }
 
   void setIsLoading(bool isLoading) {
     this.isLoading = isLoading;
-    notifyListeners();
+  }
+
+  void toggleIsLoading() {
+    isLoading = !isLoading;
   }
 }
 

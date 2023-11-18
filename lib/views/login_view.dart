@@ -1,42 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/viewModels/user_viewmodel.dart';
+import 'package:gocast_mobile/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginView extends StatelessWidget {
-  LoginView({required this.userViewModel, super.key});
-
-  final UserViewModel userViewModel;
-
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  Future<void> _handleSSOLogin(BuildContext context) async {
-    // Call the SSO authentication function from /base/api/auth
-    await userViewModel.ssoAuth(context);
-    // Navigate to the home screen after successful authentication
-    if (userViewModel.current.user != null) {
-      // ignore: use_build_context_synchronously
-      await Navigator.pushNamed(context, '/welcome');
-    }
-  }
-
-  Future<void> _handleBasicLogin(BuildContext context) async {
-    // Call the basic authentication function from /base/api/auth
-    await userViewModel
-        .basicAuth(usernameController.text, passwordController.text)
-        .then(
-          (value) => {
-            if (userViewModel.current.user != null)
-              {Navigator.pushNamed(context, '/welcome')},
-          },
-        );
-  }
+class LoginView extends ConsumerWidget {
+  const LoginView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
+    Future<void> handleSSOLogin(BuildContext context) async {
+      // Call the SSO authentication function from /base/api/auth
+      await ref.read(userViewModel).ssoAuth(context);
+      // Navigate to the home screen after successful authentication
+      if (ref.read(userViewModel).current.value.user != null) {
+        // ignore: use_build_context_synchronously
+        await Navigator.pushNamed(context, '/welcome');
+      }
+    }
+
+    Future<void> handleBasicLogin(BuildContext context) async {
+      // Call the basic authentication function from /base/api/auth
+      await ref
+          .read(userViewModel)
+          .basicAuth(usernameController.text, passwordController.text)
+          .then(
+            (value) => {
+              if (ref.read(userViewModel).current.value.user != null)
+                {Navigator.pushNamed(context, '/welcome')},
+            },
+          );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: userViewModel.current.isLoading
+        child: ref.read(userViewModel).current.value.isLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Padding(
@@ -52,7 +52,7 @@ class LoginView extends StatelessWidget {
                       ),
                       const SizedBox(height: 32),
                       ElevatedButton(
-                        onPressed: () => _handleSSOLogin(context),
+                        onPressed: () => handleSSOLogin(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
@@ -106,7 +106,7 @@ class LoginView extends StatelessWidget {
                       ),
                       const SizedBox(height: 32),
                       ElevatedButton(
-                        onPressed: () => _handleBasicLogin(context),
+                        onPressed: () => handleBasicLogin(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(

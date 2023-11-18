@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/viewModels/user_viewmodel.dart';
+import 'package:gocast_mobile/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({required this.userViewModel, super.key});
-
-  final UserViewModel userViewModel;
+class HomeView extends ConsumerWidget {
+  const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Home'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: userViewModel.logout,
+            onPressed: () => ref.read(userViewModel).logout(),
           ),
         ],
       ),
