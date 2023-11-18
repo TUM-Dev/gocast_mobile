@@ -7,7 +7,6 @@ import 'package:gocast_mobile/base/helpers/model_generator.dart';
 import 'package:gocast_mobile/model/token_model.dart';
 import 'package:gocast_mobile/model/user_model.dart';
 import 'package:gocast_mobile/routes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthHandler {
   /* static Future<void> saveToken(List<Cookie> cookies) async {

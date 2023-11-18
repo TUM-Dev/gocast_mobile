@@ -55,11 +55,15 @@ class LoginView extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 32),
-                      LogoImage(),
+                      const LogoImage(),
                       const SizedBox(height: 32),
                       LoginButton(
-                        onPressed: () => handleSSOLogin(context, ref,
-                            usernameController, passwordController),
+                        onPressed: () => handleSSOLogin(
+                          context,
+                          ref,
+                          usernameController,
+                          passwordController,
+                        ),
                         label: 'Sign in using TUM SSO',
                         key: const Key('basicSSOButton'),
                       ),
@@ -104,8 +108,12 @@ class LoginView extends ConsumerWidget {
                       ),
                       const SizedBox(height: 32),
                       LoginButton(
-                        onPressed: () => handleBasicLogin(context, ref,
-                            usernameController, passwordController),
+                        onPressed: () => handleBasicLogin(
+                          context,
+                          ref,
+                          usernameController,
+                          passwordController,
+                        ),
                         label: 'Login',
                         key: const Key('basicLoginButton'),
                       ),
@@ -119,6 +127,8 @@ class LoginView extends ConsumerWidget {
 }
 
 class LogoImage extends StatelessWidget {
+  const LogoImage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Image.asset(
