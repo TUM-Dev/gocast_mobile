@@ -9,6 +9,23 @@ import 'package:gocast_mobile/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthHandler {
+  static Future<void> saveToken(List<Cookie> cookies) async {
+    for (var cookie in cookies) {
+      if (cookie.name == 'jwt') {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('jwt', cookie.value);
+
+        // DEBUG: Check cookie
+        String? jwt = prefs.getString('jwt');
+        print('Current jwt: $jwt');
+        return;
+      }
+    }
+
+    // TODO: Handle error when no jwt cookie is found
+    print('No JWT cookie found');
+  }
+
   static Future<void> basicAuth(
     String username,
     String password,
@@ -30,38 +47,35 @@ class AuthHandler {
       'password': password,
     });
 
-    await dio.post(
-      url,
-      data: formData,
-    );
+    try {
+      await dio.post(
+        url,
+        data: formData,
+      );
+    } catch (e) {
+      // TODO: Handle network errors
+      print('Request error: $e');
+      return;
+    }
 
-    // Save jwt token
     List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
 
-    if (cookies.isNotEmpty) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('jwt', cookies[0].value);
-
-      // DEBUG: Check cookie - TODO: Remove before merge
-      String? jwt = prefs.getString('jwt');
-      print('Current jwt: $jwt\nbasicAuth finished.');
-    } else {
-      // TODO: Handle error
-    }
+    // Save jwt token
+    await saveToken(cookies);
   }
 
   static Future<void> ssoAuth(BuildContext context) async {
     print('ssoAuth started');
     // Redirect the user to the Shibboleth login page
-    const loginUrl = 'https://live.rbg.tum.de/saml/out';
-    print('Login URL: $Routes.basicLogin');
+    print('Login URL: $Routes.ssoLogin');
 
     // Open the login page in a web view
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => webview.InAppWebView(
-          initialUrlRequest: webview.URLRequest(url: Uri.parse(loginUrl)),
+          initialUrlRequest:
+              webview.URLRequest(url: Uri.parse(Routes.ssoLogin)),
           onWebViewCreated: (webview.InAppWebViewController controller) {
             print('Web view created');
           },
@@ -72,19 +86,17 @@ class AuthHandler {
               (webview.InAppWebViewController controller, Uri? url) async {
             print('Page load stopped: $url');
 
-            // DEBUG: Get the cookies - TODO: Remove before merge
             final cookieManager = webview.CookieManager.instance();
             List<webview.Cookie> cookies =
                 await cookieManager.getCookies(url: url!);
 
-            // Save cookie
-            if (cookies.isNotEmpty) {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.setString('jwt', cookies[0].value);
-            }
+            // Save jwt token
+            await saveToken(
+              cookies.map((c) => Cookie(c.name, c.value)).toList(),
+            );
 
             // Redirect back to app
-            if (url.toString().startsWith('https://live.rbg.tum.de')) {
+            if (url.toString().startsWith(Routes.ssoRedirect)) {
               print('Redirect URL detected: $url');
 
               // Close the web view and go back to the app
@@ -95,26 +107,11 @@ class AuthHandler {
         ),
       ),
     );
-
-    // DEBUG: Check cookie - TODO: Remove before merge
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jwt = prefs.getString('jwt');
-    print('Current jwt: $jwt\nssoAuth finished.');
   }
 
-// Just for testing
+  // Generate user mock for testing the views until API/v2 is implemented
   static Future<User> fetchUser() async {
-    /*
-    TODO: Add GET:/user endpoint in gocast API to fetch current user information 
-    const url = 'http://localhost:8081/api/user';
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Cookie':
-            'jwt=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDA0MTc0ODksIlVzZXJJRCI6NCwiU2FtbFN1YmplY3RJRCI6bnVsbH0.gNkwmP2QDieyFb-oAq4zuimlIGozsD5eqlD3ZBs9lLxKE3UpQDVB-ufUmbY_hZq5WE2BVlZ3jLLdQKJKMsvJZNkKRMov_W7ADAxHgVa5IE7WWry9YGLNigVEM_ruagKrp8RyV2MOyA7xQKVudLwfF3RNhcJImVFSkpMTFH6IPr7PvIvilktgNmJDTq4hdieKmzAOQMuNsFxsAIAHXZvAOt9JP0XuIrQMJk6J9Ye201D_V6iObSyMa2AFE7nnTgvOMJeRiuhRrFy9u61XnWc7GfiE9b057aNhTKrTU389Z0vJaHJeIk9c-4x9jLuspMFpX_8g_J-EWfbCWXFHxPRqCQ',
-      },
-    );
-  */
+    // TODO: Add GET:/user endpoint in gocast API to fetch current user information
     return ModelGenerator.generateRandomUser();
   }
 }

@@ -5,6 +5,8 @@ const _ROOT_URL = 'http://10.0.2.2:8081/api';
 
 // AUTHENTICATION
 const _BASIC_AUTH_URL = 'http://10.0.2.2:8081/login';
+const _SSO_AUTH_URL = 'https://live.rbg.tum.de/saml/out';
+const _SSO_REDIRECT_URL = 'https://live.rbg.tum.de';
 
 // COURSES
 const _COURSES_PATH = '/courses';
@@ -22,6 +24,8 @@ const _NOTIFICATIONS_SERVER_PATH = '/notifications/server';
 
 class Routes {
   static const basicLogin = _BASIC_AUTH_URL;
+  static const ssoLogin = _SSO_AUTH_URL;
+  static const ssoRedirect = _SSO_REDIRECT_URL;
   static const courses = _ROOT_URL + _COURSES_PATH;
   static const coursesLive = _ROOT_URL + _COURSES_LIVE_PATH;
   static const coursesUser = _ROOT_URL + _COURSES_USER_PATH;
