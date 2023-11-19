@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
 import 'internallogin_screen.dart';
+import 'package:gocast_mobile/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Loginscreen extends StatelessWidget {
+class Loginscreen extends ConsumerWidget {
   const Loginscreen({super.key});
+  Future<void> handleSSOLogin(
+      BuildContext context,
+      WidgetRef ref,
+      TextEditingController usernameController,
+      TextEditingController passwordController,
+      ) async {
+    // Call the SSO authentication function from /base/api/auth
+    await ref.read(userViewModel).ssoAuth(context);
+    // Navigate to the home screen after successful authentication
+    if (ref.read(userViewModel).current.value.user != null) {
+      // ignore: use_build_context_synchronously
+      await Navigator.pushNamed(context, '/welcome');
+    }
+  }
+
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
 
@@ -18,22 +37,22 @@ class Loginscreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const Spacer(),
-              const Text(
-                'Turn on Notifications ?',
+              Text(
+                'Welcome To GoCast!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 24,
+                  color: Colors.blue[900], // Replace with the exact color
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 36),
               Image.asset(
-                'images/logo.png',
-                width: 200.0,
-                height: 200.0,
+                'assets/images/streamicon.png',
+                width: 150.0,
+                height: 150.0,
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 36),
               const Spacer(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -48,9 +67,10 @@ class Loginscreen extends StatelessWidget {
                   'TUM Login',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {
+                onPressed: () => handleSSOLogin(context, ref, usernameController,
+                  passwordController,
+                ),
 
-                },
               ),
               const SizedBox(height: 12),
               OutlinedButton(

@@ -15,7 +15,7 @@ class Notificationscreen extends StatelessWidget {
             children: <Widget>[
               const Spacer(),
               Image.asset(
-                'images/notification.png',
+                'assets/images/notification.png',
                 width: 200.0,
                 height: 200.0,
               ),

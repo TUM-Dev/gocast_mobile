@@ -16,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
             children: <Widget>[
               const Spacer(),
               Image.asset(
-                'images/streamicon.png',
+                'assets/images/streamicon.png',
                 width: 150.0,
                 height: 150.0,
               ),
