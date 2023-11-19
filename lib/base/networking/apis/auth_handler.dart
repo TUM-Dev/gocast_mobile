@@ -5,27 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
 import 'package:gocast_mobile/base/helpers/model_generator.dart';
 import 'package:gocast_mobile/model/token_model.dart';
-import 'package:gocast_mobile/model/user_model.dart';
+import 'package:gocast_mobile/model/user/user_model.dart';
 import 'package:gocast_mobile/routes.dart';
 
 class AuthHandler {
-  /* static Future<void> saveToken(List<Cookie> cookies) async {
-    for (var cookie in cookies) {
-      if (cookie.name == 'jwt') {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('jwt', cookie.value);
-
-        // DEBUG: Check cookie
-        String? jwt = prefs.getString('jwt');
-        debugPrint('Current jwt: $jwt');
-        return;
-      }
-    }
-
-    // TODO: Handle error when no jwt cookie is found
-    debugPrint('No JWT cookie found');
-  }
-*/
   static Future<void> basicAuth(
     String username,
     String password,
@@ -53,9 +36,8 @@ class AuthHandler {
         data: formData,
       );
     } catch (e) {
-      // TODO: Handle network errors
-      debugPrint('Request error: $e');
-      return;
+      // Throw the error so it can be caught and handled in the signIn method
+      throw Exception('Request error: $e');
     }
 
     List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
@@ -80,22 +62,27 @@ class AuthHandler {
               (webview.InAppWebViewController controller, Uri? url) async {
             debugPrint('Page load stopped: $url');
 
-            final cookieManager = webview.CookieManager.instance();
-            List<webview.Cookie> cookies =
-                await cookieManager.getCookies(url: url!);
+            try {
+              final cookieManager = webview.CookieManager.instance();
+              List<webview.Cookie> cookies =
+                  await cookieManager.getCookies(url: url!);
 
-            // Save jwt token
-            await Token.saveToken(
-              cookies.map((c) => Cookie(c.name, c.value)).toList(),
-            );
+              // Save jwt token
+              await Token.saveToken(
+                cookies.map((c) => Cookie(c.name, c.value)).toList(),
+              );
 
-            // Redirect back to app
-            if (url.toString().startsWith(Routes.ssoRedirect)) {
-              debugPrint('Redirect URL detected: $url');
+              // Redirect back to app
+              if (url.toString().startsWith(Routes.ssoRedirect)) {
+                debugPrint('Redirect URL detected: $url');
 
-              // Close the web view and go back to the app
-              debugPrint('Closing web view and returning to app');
-              Navigator.pop(context);
+                // Close the web view and go back to the app
+                debugPrint('Closing web view and returning to app');
+                Navigator.pop(context);
+              }
+            } catch (e) {
+              // Throw the error so it can be caught and handled by the caller of ssoAuth
+              throw Exception('Error in ssoAuth: $e');
             }
           },
         ),

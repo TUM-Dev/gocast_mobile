@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/apis/auth_handler.dart';
-import 'package:gocast_mobile/model/user_model.dart';
+import 'package:gocast_mobile/model/user/user_model.dart';
+import 'package:gocast_mobile/model/user/user_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -15,6 +18,7 @@ class UserViewModel {
         (value) => current.value.setUser(value),
         onError: (error) => current.addError(error),
       ),
+      onError: (error) => current.addError(error),
     );
   }
 
@@ -24,6 +28,7 @@ class UserViewModel {
         (value) => current.value.setUser(value),
         onError: (error) => current.addError(error),
       ),
+      onError: (error) => current.addError(error),
     );
   }
 
@@ -33,6 +38,6 @@ class UserViewModel {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('jwt');
-    print('Logged out user and cleared tokens.');
+    debugPrint('Logged out user and cleared tokens.');
   }
 }
