@@ -57,8 +57,9 @@ class Notificationscreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               TextButton(
-                child: Text('Skip',
-                    style: TextStyle(fontSize: 18, color: Colors.blue[900]),
+                child: Text(
+                  'Skip',
+                  style: TextStyle(fontSize: 18, color: Colors.blue[900]),
                 ),
                 onPressed: () {},
               ),

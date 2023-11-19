@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/main.dart';
 
-class InternalloginScreen extends StatelessWidget {
+class InternalloginScreen extends ConsumerWidget {
   const InternalloginScreen({super.key});
+  Future<void> handleBasicLogin(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
+    // Call the basic authentication function from /base/api/auth
+    await ref
+        .read(userViewModel)
+        .basicAuth(usernameController.text, passwordController.text)
+        .then(
+          (value) => {
+            if (ref.read(userViewModel).current.value.user != null)
+              {Navigator.pushNamed(context, '/welcome')},
+          },
+        );
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -35,18 +54,18 @@ class InternalloginScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'e.g. go42tum / example@tum.de',
                   hintStyle: TextStyle(
-                      color: Colors.grey,
+                    color: Colors.grey,
                   ), // Replace with the exact color
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 1.0,
+                      color: Colors.grey,
+                      width: 1.0,
                     ), // Replace with the exact color
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 2.0,
+                      color: Colors.blue,
+                      width: 2.0,
                     ), // Replace with the exact color
                   ),
                 ),
@@ -64,22 +83,23 @@ class InternalloginScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'Enter your password',
                   hintStyle: TextStyle(
-                      color: Colors.grey,
+                    color: Colors.grey,
                   ), // Replace with the exact color
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 1.0,
+                      color: Colors.grey,
+                      width: 1.0,
                     ), // Replace with the exact color
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 2.0,
+                      color: Colors.blue,
+                      width: 2.0,
                     ), // Replace with the exact color
                   ),
-                  suffixIcon: Icon(Icons.visibility_off,
-                      color: Colors.grey,
+                  suffixIcon: Icon(
+                    Icons.visibility_off,
+                    color: Colors.grey,
                   ), // Replace with the exact color
                 ),
               ),
@@ -90,7 +110,7 @@ class InternalloginScreen extends StatelessWidget {
                 child: const Text(
                   'Forgot Password?',
                   style: TextStyle(
-                      color: Colors.blue,
+                    color: Colors.blue,
                   ), // Replace with the exact color
                 ),
               ),

@@ -67,7 +67,7 @@ class WelcomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Loginscreen(),
+                      builder: (context) => const Loginscreen(),
                     ),
                   );
                 },
@@ -82,8 +82,9 @@ class WelcomeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: const Text('Continue without',
-                    style: TextStyle(fontSize: 18),
+                child: const Text(
+                  'Continue without',
+                  style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {},
               ),

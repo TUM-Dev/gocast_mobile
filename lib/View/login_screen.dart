@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class Loginscreen extends ConsumerWidget {
   const Loginscreen({super.key});
   Future<void> handleSSOLogin(
-      BuildContext context,
-      WidgetRef ref,
-      TextEditingController usernameController,
-      TextEditingController passwordController,
-      ) async {
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
     // Call the SSO authentication function from /base/api/auth
     await ref.read(userViewModel).ssoAuth(context);
     // Navigate to the home screen after successful authentication
@@ -20,15 +20,12 @@ class Loginscreen extends ConsumerWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController usernameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(
-
-      ),
+      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -67,10 +64,12 @@ class Loginscreen extends ConsumerWidget {
                   'TUM Login',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () => handleSSOLogin(context, ref, usernameController,
+                onPressed: () => handleSSOLogin(
+                  context,
+                  ref,
+                  usernameController,
                   passwordController,
                 ),
-
               ),
               const SizedBox(height: 12),
               OutlinedButton(
@@ -82,14 +81,15 @@ class Loginscreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: const Text('Use an Internal Account',
-                    style: TextStyle(fontSize: 18),
+                child: const Text(
+                  'Use an Internal Account',
+                  style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const InternalloginScreen(),
+                      builder: (context) => const InternalloginScreen(),
                     ),
                   );
                 },

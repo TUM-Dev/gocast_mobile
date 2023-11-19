@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,3 +27,4 @@ class WelcomeView extends ConsumerWidget {
     );
   }
 }
+*/
