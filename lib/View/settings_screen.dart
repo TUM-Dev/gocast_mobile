@@ -94,11 +94,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onTap: () {
               // Handle log out
               ref.read(userViewModel).logout();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Loginscreen(),
-                ),
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const Loginscreen()),
+                    (Route<dynamic> route) => false,
               );
             },
           ),
