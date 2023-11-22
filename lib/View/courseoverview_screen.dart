@@ -1,24 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/View/bookmarks_screen.dart';
+import 'package:gocast_mobile/View/download_screen.dart';
 import 'package:gocast_mobile/View/mycourses_screen.dart';
+import 'notifications_screen.dart';
 import 'package:gocast_mobile/View/publiccourses_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'settings_screen.dart';
 
-class CourseOverview extends StatelessWidget {
+final currentIndexProvider = StateProvider<int>((ref) => 0);
+
+class CourseOverview extends ConsumerWidget {
   const CourseOverview({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    void navigateToScreen(int index, BuildContext context) {
+      switch (index) {
+        case 0:
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) =>  const CourseOverview()),
+                (Route<dynamic> route) => false,
+          );
+          break;
+        case 1:
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const DownloadsScreen()),
+                (Route<dynamic> route) => false,
+          );
+          break;
+        case 2:
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) =>  const BookmarksScreen()),
+                (Route<dynamic> route) => false,
+          );
+          break;
+        case 3:
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) =>  NotificationsScreen()),
+                (Route<dynamic> route) => false,
+          );
+          break;
+        default:
+          break;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, // Replace with the exact color
-        title: const Text('GoCast',
-            style:
-                TextStyle(color: Colors.black),
+        title: const Text(
+          'GoCast',
+          style: TextStyle(color: Colors.black),
         ), // Replace with the exact color
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings,
-                color: Colors.black,
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.black,
             ), // Replace with the exact color
             onPressed: () {
               // Settings action
@@ -43,7 +81,11 @@ class CourseOverview extends StatelessWidget {
                 children: [
                   const Text(
                     'My Courses',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                    ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
@@ -66,11 +108,12 @@ class CourseOverview extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: const [
                   CourseCard(
-                      title: 'PSY101', subtitle: 'Introduction to Psychology',
+                    title: 'PSY101',
+                    subtitle: 'Introduction to Psychology',
                   ),
                   CourseCard(
-                      title: 'CS202',
-                      subtitle: 'Introduction to Computer Science',
+                    title: 'CS202',
+                    subtitle: 'Introduction to Computer Science',
                   ),
                   // Add more courses as needed
                 ],
@@ -83,7 +126,11 @@ class CourseOverview extends StatelessWidget {
                 children: [
                   const Text(
                     'Public Courses',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                    ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
@@ -106,10 +153,12 @@ class CourseOverview extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: const [
                   CourseCard(
-                      title: 'PSY101', subtitle: 'Public Psychology Course',
+                    title: 'PSY101',
+                    subtitle: 'Public Psychology Course',
                   ),
                   CourseCard(
-                      title: 'PSY101', subtitle: 'Public Psychology Course',
+                    title: 'PSY101',
+                    subtitle: 'Public Psychology Course',
                   ),
                   // Add more courses as needed
                 ],
@@ -119,28 +168,33 @@ class CourseOverview extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) => navigateToScreen(index, context),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-                color: Colors.blue,
+            icon: Icon(
+              Icons.home,
+              color: Colors.blue,
             ), // Replace with the exact color
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.download,
-                color: Colors.grey,
+            icon: Icon(
+              Icons.file_download,
+              color: Colors.grey,
             ), // Replace with the exact color
             label: 'Downloads',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark,
-                color: Colors.grey,
+            icon: Icon(
+              Icons.bookmark,
+              color: Colors.grey,
             ), // Replace with the exact color
             label: 'Bookmarks',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications,
-                color: Colors.grey,
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.grey,
             ), // Replace with the exact color
             label: 'Notifications',
           ),
@@ -173,16 +227,16 @@ class CourseCard extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ), // Replace with the exact color
           ),
           Text(
             subtitle,
             style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+              fontSize: 16,
+              color: Colors.grey,
             ), // Replace with the exact color
           ),
         ],

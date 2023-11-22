@@ -9,13 +9,14 @@ class MyCourses extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, // Replace with the exact color
-        title: const Text('GoCast',
-          style:
-          TextStyle(color: Colors.black),
+        title: const Text(
+          'GoCast',
+          style: TextStyle(color: Colors.black),
         ), // Replace with the exact color
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings,
+            icon: const Icon(
+              Icons.settings,
               color: Colors.black,
             ), // Replace with the exact color
             onPressed: () {
@@ -34,7 +35,6 @@ class MyCourses extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Row(
@@ -42,7 +42,11 @@ class MyCourses extends StatelessWidget {
                 children: [
                   Text(
                     'My Courses',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -54,7 +58,8 @@ class MyCourses extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: const [
                   CourseCard(
-                    title: 'PSY101', subtitle: 'Introduction to Psychology',
+                    title: 'PSY101',
+                    subtitle: 'Introduction to Psychology',
                   ),
                   CourseCard(
                     title: 'CS202',
@@ -70,25 +75,29 @@ class MyCourses extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,
+            icon: Icon(
+              Icons.home,
               color: Colors.blue,
             ), // Replace with the exact color
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.download,
+            icon: Icon(
+              Icons.download,
               color: Colors.grey,
             ), // Replace with the exact color
             label: 'Downloads',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark,
+            icon: Icon(
+              Icons.bookmark,
               color: Colors.grey,
             ), // Replace with the exact color
             label: 'Bookmarks',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications,
+            icon: Icon(
+              Icons.notifications,
               color: Colors.grey,
             ), // Replace with the exact color
             label: 'Notifications',

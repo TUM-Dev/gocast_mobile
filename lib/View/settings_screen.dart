@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/View/login_screen.dart';
+import 'package:gocast_mobile/View/welcome_screen.dart';
 import 'package:gocast_mobile/main.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -95,8 +95,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               // Handle log out
               ref.read(userViewModel).logout();
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const Loginscreen()),
-                    (Route<dynamic> route) => false,
+                MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                (Route<dynamic> route) => false,
               );
             },
           ),
