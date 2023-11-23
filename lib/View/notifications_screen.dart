@@ -27,24 +27,27 @@ class NotificationsScreen extends ConsumerWidget {
     switch (index) {
       case 0:
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) =>  const CourseOverview()),
-              (Route<dynamic> route) => false,
+          MaterialPageRoute(builder: (context) => const CourseOverview()),
+          (Route<dynamic> route) => false,
         );
         break;
       case 1:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DownloadsScreen()),
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const DownloadsScreen()),
+              (Route<dynamic> route) => false,
         );
+
         break;
       case 2:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const BookmarksScreen()),
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const BookmarksScreen()),
+              (Route<dynamic> route) => false,
         );
         break;
       case 3:
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) =>  NotificationsScreen()),
-              (Route<dynamic> route) => false,
+          MaterialPageRoute(builder: (context) => NotificationsScreen()),
+          (Route<dynamic> route) => false,
         );
         break;
       default:

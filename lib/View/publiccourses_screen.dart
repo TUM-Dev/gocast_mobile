@@ -43,9 +43,9 @@ class PublicCourses extends StatelessWidget {
                   Text(
                     'Public Courses',
                     style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ],

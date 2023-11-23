@@ -15,25 +15,25 @@ class DownloadsScreen extends ConsumerWidget {
         case 0:
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const CourseOverview()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
           break;
         case 1:
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const DownloadsScreen()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
           break;
         case 2:
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const BookmarksScreen()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
           break;
         case 3:
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => NotificationsScreen()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
           break;
         default:
@@ -41,79 +41,77 @@ class DownloadsScreen extends ConsumerWidget {
       }
     }
 
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Downloads'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement search functionality
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                // Implement more options functionality
-              },
-            ),
-          ],
-        ),
-        body: ListView(
-          children: const <Widget>[
-            DownloadItem(
-              imageName: 'assets/lecture_hall.jpg',
-              title: 'Lineare Algebra für Informatik [MA0901]',
-              date: 'July 24, 2019',
-              duration: '02:00:00',
-            ),
-            DownloadItem(
-              imageName: 'assets/computer_science.jpg',
-              title: 'Computer Science [CS202]',
-              date: 'July 23, 2019',
-              duration: '02:00:00',
-            ),
-            // Add more DownloadItem widgets as needed
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) => navigateToScreen(index, context),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.grey,
-              ), // Replace with the exact color
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.file_download,
-                color: Colors.blue,
-              ), // Replace with the exact color
-              label: 'Downloads',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.bookmark,
-                color: Colors.grey,
-              ), // Replace with the exact color
-              label: 'Bookmarks',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.grey,
-              ), // Replace with the exact color
-              label: 'Notifications',
-            ),
-          ],
-        ),
-      );
-
-    }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Downloads'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // Implement search functionality
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed: () {
+              // Implement more options functionality
+            },
+          ),
+        ],
+      ),
+      body: ListView(
+        children: const <Widget>[
+          DownloadItem(
+            imageName: 'assets/lecture_hall.jpg',
+            title: 'Lineare Algebra für Informatik [MA0901]',
+            date: 'July 24, 2019',
+            duration: '02:00:00',
+          ),
+          DownloadItem(
+            imageName: 'assets/computer_science.jpg',
+            title: 'Computer Science [CS202]',
+            date: 'July 23, 2019',
+            duration: '02:00:00',
+          ),
+          // Add more DownloadItem widgets as needed
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) => navigateToScreen(index, context),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: Colors.grey,
+            ), // Replace with the exact color
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.file_download,
+              color: Colors.blue,
+            ), // Replace with the exact color
+            label: 'Downloads',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.bookmark,
+              color: Colors.grey,
+            ), // Replace with the exact color
+            label: 'Bookmarks',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.grey,
+            ), // Replace with the exact color
+            label: 'Notifications',
+          ),
+        ],
+      ),
+    );
   }
-
+}
 
 class DownloadItem extends StatelessWidget {
   final String imageName;
@@ -121,7 +119,8 @@ class DownloadItem extends StatelessWidget {
   final String date;
   final String duration;
 
-  const DownloadItem({super.key,
+  const DownloadItem({
+    super.key,
     required this.imageName,
     required this.title,
     required this.date,
