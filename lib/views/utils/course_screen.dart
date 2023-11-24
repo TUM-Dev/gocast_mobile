@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/View/utils/custom_bottom_nav_bar.dart';
-import 'package:gocast_mobile/View/utils/constants.dart';
-import 'package:gocast_mobile/View/settings_screen.dart';
+import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/utils/constants.dart';
+import 'package:gocast_mobile/views/settings_screen.dart';
 
 class CoursesScreen extends StatelessWidget {
   final String title;

@@ -1,7 +1,7 @@
 // CourseListScreen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/View/utils/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
 
 class CourseListScreen extends ConsumerWidget {
   final String title;
