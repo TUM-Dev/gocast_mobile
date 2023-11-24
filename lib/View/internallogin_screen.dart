@@ -24,6 +24,8 @@ class InternalloginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -128,7 +130,12 @@ class InternalloginScreen extends ConsumerWidget {
                   'Login',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {},
+                onPressed: () => handleBasicLogin(
+                  context,
+                  ref,
+                  usernameController,
+                  passwordController,
+                ),
               ),
             ],
           ),
