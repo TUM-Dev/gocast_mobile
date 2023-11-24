@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'internallogin_screen.dart';
+import 'package:gocast_mobile/main.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
+  Future<void> handleSSOLogin(
+      BuildContext context,
+      WidgetRef ref,
+      TextEditingController usernameController,
+      TextEditingController passwordController,
+      ) async {
+    // Call the SSO authentication function from /base/api/auth
+    await ref.read(userViewModel).ssoAuth(context);
+    // Navigate to the home screen after successful authentication
+    if (ref.read(userViewModel).current.value.user != null) {
+      // ignore: use_build_context_synchronously
+      await Navigator.pushNamed(context, '/welcome');
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -60,17 +78,15 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Login',
+                  'TUM Login',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Loginscreen(),
-                    ),
-                  );
-                },
+                onPressed: () => handleSSOLogin(
+                  context,
+                  ref,
+                  usernameController,
+                  passwordController,
+                ),
               ),
               const SizedBox(height: 12),
               OutlinedButton(
@@ -87,6 +103,29 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {},
+              ),
+              const SizedBox(height: 12),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const InternalloginScreen(),
+                    ),
+                  );
+                  // Use the route name for your different screen
+                },
+                child:  Center(
+                  child: Text(
+                    'Use an internal account', // Your text
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.blue[900],
+                      color: Colors.blue[900], // Use theme color for consistency
+                      fontSize: 16, // Your preferred font size
+                    ),
+                  ),
+                ),
               ),
               const Spacer(flex: 2),
             ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/View/bookmarks_screen.dart';
-import 'package:gocast_mobile/View/download_screen.dart';
+import 'package:gocast_mobile/View/utils/custom_bottom_nav_bar.dart';
 import 'package:gocast_mobile/View/mycourses_screen.dart';
-import 'notifications_screen.dart';
 import 'package:gocast_mobile/View/publiccourses_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/View/utils/viewall_button_view.dart';
 import 'settings_screen.dart';
+import 'package:gocast_mobile/View/utils/course_card_view.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -14,37 +14,6 @@ class CourseOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void navigateToScreen(int index, BuildContext context) {
-      switch (index) {
-        case 0:
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const CourseOverview()),
-            (Route<dynamic> route) => false,
-          );
-          break;
-        case 1:
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const DownloadsScreen()),
-            (Route<dynamic> route) => false,
-          );
-          break;
-        case 2:
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const BookmarksScreen()),
-            (Route<dynamic> route) => false,
-          );
-          break;
-        case 3:
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => NotificationsScreen()),
-            (Route<dynamic> route) => false,
-          );
-          break;
-        default:
-          break;
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, // Replace with the exact color
@@ -87,17 +56,15 @@ class CourseOverview extends ConsumerWidget {
                       color: Colors.black,
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyCourses(),
-                        ),
-                      );
-                    },
+               ViewAllButton(
+                onViewAll: () { Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyCourses(),
                   ),
+                );
+                  }, // Use the reusable ViewAllButton widget
+              ),
                 ],
               ),
             ),
@@ -110,10 +77,12 @@ class CourseOverview extends ConsumerWidget {
                   CourseCard(
                     title: 'PSY101',
                     subtitle: 'Introduction to Psychology',
+                    path: 'assets/images/course1.png',
                   ),
                   CourseCard(
                     title: 'CS202',
                     subtitle: 'Introduction to Computer Science',
+                      path: 'assets/images/course2.png',
                   ),
                   // Add more courses as needed
                 ],
@@ -132,9 +101,8 @@ class CourseOverview extends ConsumerWidget {
                       color: Colors.black,
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: () {
+                  ViewAllButton(
+                    onViewAll: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -151,14 +119,16 @@ class CourseOverview extends ConsumerWidget {
               height: 200, // Adjust the height as needed
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
+                children:  const [
                   CourseCard(
                     title: 'PSY101',
                     subtitle: 'Public Psychology Course',
+                      path: 'assets/images/course1.png',
                   ),
                   CourseCard(
                     title: 'PSY101',
                     subtitle: 'Public Psychology Course',
+                      path: 'assets/images/course2.png',
                   ),
                   // Add more courses as needed
                 ],
@@ -167,80 +137,8 @@ class CourseOverview extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => navigateToScreen(index, context),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.blue,
-            ), // Replace with the exact color
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.file_download,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Downloads',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.bookmark,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Bookmarks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Notifications',
-          ),
-        ],
-      ),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
 
-class CourseCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const CourseCard({super.key, required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 160, // Adjust the width as needed
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Image.asset(
-              'path_to_your_course_image', // Replace with the actual path to your course image
-              fit: BoxFit.cover,
-            ),
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ), // Replace with the exact color
-          ),
-          Text(
-            subtitle,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ), // Replace with the exact color
-          ),
-        ],
-      ),
-    );
-  }
-}

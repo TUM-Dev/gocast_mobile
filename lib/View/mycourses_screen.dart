@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/View/utils/custom_bottom_nav_bar.dart';
 import 'settings_screen.dart';
-
+import 'package:gocast_mobile/View/utils/course_card_view.dart';
 class MyCourses extends StatelessWidget {
   const MyCourses({super.key});
 
@@ -56,14 +57,16 @@ class MyCourses extends StatelessWidget {
               height: 200, // Adjust the height as needed
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
+                children:  const [
                   CourseCard(
                     title: 'PSY101',
                     subtitle: 'Introduction to Psychology',
+                    path: 'assets/images/course1.png',
                   ),
                   CourseCard(
                     title: 'CS202',
                     subtitle: 'Introduction to Computer Science',
+                    path: 'assets/images/course2.png',
                   ),
                   // Add more courses as needed
                 ],
@@ -72,79 +75,8 @@ class MyCourses extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.blue,
-            ), // Replace with the exact color
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.download,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Downloads',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.bookmark,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Bookmarks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Notifications',
-          ),
-        ],
-      ),
+     bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
 
-class CourseCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const CourseCard({super.key, required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 160, // Adjust the width as needed
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Image.asset(
-              'path_to_your_course_image', // Replace with the actual path to your course image
-              fit: BoxFit.cover,
-            ),
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ), // Replace with the exact color
-          ),
-          Text(
-            subtitle,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ), // Replace with the exact color
-          ),
-        ],
-      ),
-    );
-  }
-}

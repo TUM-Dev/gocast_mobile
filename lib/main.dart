@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/View/courseoverview_screen.dart';
-import 'package:gocast_mobile/View/login_screen.dart';
 import 'package:gocast_mobile/model/user/user_state_model.dart';
 import 'package:gocast_mobile/viewModels/user_viewmodel.dart';
 import 'package:gocast_mobile/View/welcome_screen.dart';
@@ -42,10 +41,10 @@ class App extends ConsumerWidget {
       home: const WelcomeScreen(),
       routes: {
         '/welcome': (context) => userState.value?.user == null
-            ? const Loginscreen(key: Key('loginView'))
+            ? const WelcomeScreen(key: Key('welcomeView'))
             : const CourseOverview(key: Key('courseView')),
         '/home': (context) => userState.value?.user == null
-            ? const Loginscreen(key: Key('loginView'))
+            ? const WelcomeScreen(key: Key('welcomeView'))
             : const CourseOverview(key: Key('courseView')),
       },
     );

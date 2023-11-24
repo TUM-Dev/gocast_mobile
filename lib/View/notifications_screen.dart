@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/View/bookmarks_screen.dart';
-import 'package:gocast_mobile/View/download_screen.dart';
-import 'courseoverview_screen.dart';
+import 'utils/custom_bottom_nav_bar.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   NotificationsScreen({super.key});
@@ -23,37 +21,6 @@ class NotificationsScreen extends ConsumerWidget {
     // Add more data here
   };
 
-  void _navigateToScreen(int index, BuildContext context) {
-    switch (index) {
-      case 0:
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const CourseOverview()),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case 1:
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const DownloadsScreen()),
-              (Route<dynamic> route) => false,
-        );
-
-        break;
-      case 2:
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const BookmarksScreen()),
-              (Route<dynamic> route) => false,
-        );
-        break;
-      case 3:
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => NotificationsScreen()),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      default:
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -86,39 +53,8 @@ class NotificationsScreen extends ConsumerWidget {
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => _navigateToScreen(index, context),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.file_download,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Downloads',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.bookmark,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Bookmarks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.blue,
-            ), // Replace with the exact color
-            label: 'Notifications',
-          ),
-        ],
-      ),
+      bottomNavigationBar: const CustomBottomNavBar(
+    ),
     );
   }
 }

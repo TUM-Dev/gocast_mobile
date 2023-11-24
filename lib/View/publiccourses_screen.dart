@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/View/utils/custom_bottom_nav_bar.dart';
 import 'settings_screen.dart';
-
+import 'utils/course_card_view.dart';
 class PublicCourses extends StatelessWidget {
   const PublicCourses({super.key});
 
@@ -60,10 +61,12 @@ class PublicCourses extends StatelessWidget {
                   CourseCard(
                     title: 'PSY101',
                     subtitle: 'Public Psychology Course',
+                    path: 'assets/images/course1.png',
                   ),
                   CourseCard(
                     title: 'PSY101',
                     subtitle: 'Public Psychology Course',
+                    path: 'assets/images/course1.png',
                   ),
                   // Add more courses as needed
                 ],
@@ -72,79 +75,7 @@ class PublicCourses extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.blue,
-            ), // Replace with the exact color
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.download,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Downloads',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.bookmark,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Bookmarks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.grey,
-            ), // Replace with the exact color
-            label: 'Notifications',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CourseCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const CourseCard({super.key, required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 160, // Adjust the width as needed
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Image.asset(
-              'path_to_your_course_image', // Replace with the actual path to your course image
-              fit: BoxFit.cover,
-            ),
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ), // Replace with the exact color
-          ),
-          Text(
-            subtitle,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ), // Replace with the exact color
-          ),
-        ],
-      ),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
