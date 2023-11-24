@@ -3,22 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:gocast_mobile/model/user/user_model.dart';
 
 class UserState {
+  bool isLoading;
+  User? user;
+
   UserState({
     required this.isLoading,
     this.user,
-    // Placeholder for future helpers (e.g. error handling)
-    required this.errorMessage,
   });
 
   // Default constructor
   UserState.defaultConstructor()
       : isLoading = false,
-        errorMessage = '',
         user = null;
-
-  bool isLoading;
-  User? user;
-  String errorMessage;
 
   void setUser(User newUser) {
     debugPrint("User set to: ${newUser.name}");

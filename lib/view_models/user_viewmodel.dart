@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/apis/auth_handler.dart';
+import 'package:gocast_mobile/base/networking/apis/user_handler.dart';
 import 'package:gocast_mobile/model/user/user_model.dart';
 import 'package:gocast_mobile/model/user/user_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ class UserViewModel {
   // Sign in user and store cookie
   Future<void> basicAuth(String email, String password) async {
     await AuthHandler.basicAuth(email, password).then(
-      (value) => AuthHandler.fetchUser().then(
+      (value) => UserHandler.fetchUser().then(
         (value) => current.value.setUser(value),
         onError: (error) => current.addError(error),
       ),
@@ -24,7 +25,7 @@ class UserViewModel {
 
   Future<void> ssoAuth(BuildContext context) async {
     await AuthHandler.ssoAuth(context).then(
-      (value) => AuthHandler.fetchUser().then(
+      (value) => UserHandler.fetchUser().then(
         (value) => current.value.setUser(value),
         onError: (error) => current.addError(error),
       ),
