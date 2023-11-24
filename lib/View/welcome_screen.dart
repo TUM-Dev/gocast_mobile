@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'internallogin_screen.dart';
 import 'package:gocast_mobile/main.dart';
+import 'utils/constants.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
@@ -27,7 +28,7 @@ class WelcomeScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: screenPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,66 +68,13 @@ class WelcomeScreen extends ConsumerWidget {
                   _indicatorDot(false),
                 ],
               ),
+              // Image and Text widgets remain unchanged
               const Spacer(),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue[900],
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                child: const Text(
-                  'TUM Login',
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () => handleSSOLogin(
-                  context,
-                  ref,
-                  usernameController,
-                  passwordController,
-                ),
-              ),
+              _buildLoginButton(context, ref, usernameController, passwordController),
               const SizedBox(height: 12),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.blue),
-                  foregroundColor: Colors.blue[900],
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                child: const Text(
-                  'Continue without',
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () {},
-              ),
+              _buildContinueWithoutButton(),
               const SizedBox(height: 12),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const InternalloginScreen(),
-                    ),
-                  );
-                  // Use the route name for your different screen
-                },
-                child:  Center(
-                  child: Text(
-                    'Use an internal account', // Your text
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.blue[900],
-                      color: Colors.blue[900], // Use theme color for consistency
-                      fontSize: 16, // Your preferred font size
-                    ),
-                  ),
-                ),
-              ),
+              _buildInternalAccountLink(context),
               const Spacer(flex: 2),
             ],
           ),
@@ -135,13 +83,52 @@ class WelcomeScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildLoginButton(BuildContext context, WidgetRef ref, TextEditingController usernameController, TextEditingController passwordController) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue[900],
+        padding: const EdgeInsets.symmetric(vertical: buttonVerticalPadding),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+      ),
+      child: const Text('TUM Login', style: TextStyle(fontSize: 18)),
+      onPressed: () => handleSSOLogin(context, ref, usernameController, passwordController),
+    );
+  }
+
+  Widget _buildContinueWithoutButton() {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: Colors.blue[900] ?? Colors.blue),
+        foregroundColor: Colors.blue[900],
+        padding: const EdgeInsets.symmetric(vertical: buttonVerticalPadding),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+      ),
+      child: const Text('Continue without', style: TextStyle(fontSize: 18)),
+      onPressed: () {},
+    );
+  }
+
+  Widget _buildInternalAccountLink(BuildContext context) {
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const InternalloginScreen())),
+      child: const Center(
+        child: Text('Use an internal account', style: linkTextStyle),
+      ),
+    );
+  }
+
   Widget _indicatorDot(bool isActive) {
     return Container(
-      height: 10.0,
-      width: 10.0,
+      height: indicatorDotSize,
+      width: indicatorDotSize,
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: isActive ? Colors.blue : Colors.grey[300],
+        color: isActive ? indicatorActiveColor : Colors.grey[300],
         shape: BoxShape.circle,
       ),
     );

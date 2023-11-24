@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../courseoverview_screen.dart';
 import '../download_screen.dart';
-import 'package:gocast_mobile/View/bookmarks_screen.dart';
+import 'package:gocast_mobile/View/pinnedcourses_screen.dart';
 import 'package:gocast_mobile/View/notifications_screen.dart';
 
 // Assuming currentIndexProvider is defined in a global scope file:
@@ -36,7 +36,7 @@ class CustomBottomNavBar extends ConsumerWidget {
           break;
         case 2:
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const BookmarksScreen()),
+            MaterialPageRoute(builder: (context) => const PinnedCourses()),
                 (Route<dynamic> route) => false,
           );
           break;
