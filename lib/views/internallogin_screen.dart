@@ -6,21 +6,21 @@ class InternalloginScreen extends ConsumerWidget {
   const InternalloginScreen({super.key});
 
   Future<void> handleBasicLogin(
-      BuildContext context,
-      WidgetRef ref,
-      TextEditingController usernameController,
-      TextEditingController passwordController,
-      ) async {
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
     // Call the basic authentication function from /base/api/auth
     await ref
         .read(userViewModel)
         .basicAuth(usernameController.text, passwordController.text)
         .then(
           (value) => {
-        if (ref.read(userViewModel).current.value.user != null)
-          {Navigator.pushNamed(context, '/welcome')},
-      },
-    );
+            if (ref.read(userViewModel).current.value.user != null)
+              {Navigator.pushNamed(context, '/welcome')},
+          },
+        );
   }
 
   @override
@@ -31,7 +31,8 @@ class InternalloginScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        child: SingleChildScrollView( // Added SingleChildScrollView
+        child: SingleChildScrollView(
+          // Added SingleChildScrollView
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

@@ -60,8 +60,10 @@ class CustomBottomNavBar extends ConsumerWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.file_download,
-              color: _getColorForIcon(1, currentIndex)),
+          icon: Icon(
+            Icons.file_download,
+            color: _getColorForIcon(1, currentIndex),
+          ),
           label: 'Downloads',
         ),
         BottomNavigationBarItem(
@@ -69,8 +71,10 @@ class CustomBottomNavBar extends ConsumerWidget {
           label: 'Pinned',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications,
-              color: _getColorForIcon(3, currentIndex)),
+          icon: Icon(
+            Icons.notifications,
+            color: _getColorForIcon(3, currentIndex),
+          ),
           label: 'Notifications',
         ),
       ],
