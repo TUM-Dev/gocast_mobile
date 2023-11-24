@@ -9,7 +9,7 @@ class PinnedCourses extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const CourseListScreen(
-      title: 'Bookmarks',
+      title: 'Pinned',
       videoCards: [
         VideoCard(
           imageName: 'assets/images/course2.png',
