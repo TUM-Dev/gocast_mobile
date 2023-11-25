@@ -32,7 +32,7 @@ class UserViewModel {
 
   Future<void> _fetchUser() async {
     await UserHandler(_grpcHandler).fetchUser().then(
-          (value) => current.value.setUser(value as User),
+          (value) => current.value.setUser(value),
           onError: (error) => current.addError(error),
         );
   }
