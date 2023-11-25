@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
 import 'package:gocast_mobile/models/error_model.dart';
+import 'package:gocast_mobile/routes.dart';
 import 'package:gocast_mobile/views/courseoverview_screen.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/view_models/user_viewmodel.dart';
 import 'package:gocast_mobile/views/welcome_screen.dart';
 
-final userViewModel = Provider((ref) => UserViewModel());
+final grpcHandlerProvider = Provider((ref) {
+  final grpcHandler = GrpcHandler(Routes.grpcHost, Routes.grpcPort);
+  return grpcHandler;
+});
+
+final userViewModel = Provider((ref) {
+  final grpcHandler = ref.watch(grpcHandlerProvider);
+  return UserViewModel(grpcHandler);
+});
 
 final userStateProvider = StreamProvider<UserState>((ref) {
   return ref.watch(userViewModel).current.stream;

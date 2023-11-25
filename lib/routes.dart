@@ -1,7 +1,13 @@
 // ignore_for_file: constant_identifier_names
 
+// NOTE: 10.0.2.2 is the android emulator's alias for the loopback address on
+//       the host machine. On iOS, use either localhost or the actual IP address
+//       of the host machine.
+
 // API ROOT URL
 const _ROOT_URL = 'http://10.0.2.2:8081/api';
+const _GRPC_HOST = '10.0.2.2';
+const _GRPC_PORT = 12544;
 
 // AUTHENTICATION
 const _BASIC_AUTH_URL = 'http://10.0.2.2:8081/login';
@@ -23,6 +29,7 @@ const _NOTIFICATIONS_USER_PATH = '/notifications';
 const _NOTIFICATIONS_SERVER_PATH = '/notifications/server';
 
 class Routes {
+  // HTTP routes
   static const basicLogin = _BASIC_AUTH_URL;
   static const ssoLogin = _SSO_AUTH_URL;
   static const ssoRedirect = _SSO_REDIRECT_URL;
@@ -34,4 +41,8 @@ class Routes {
   static const semesters = _ROOT_URL + _SEMESTERS_PATH;
   static const notificationsUser = _ROOT_URL + _NOTIFICATIONS_USER_PATH;
   static const notificationsServer = _ROOT_URL + _NOTIFICATIONS_SERVER_PATH;
+
+  // gRPC routes
+  static const grpcHost = _GRPC_HOST;
+  static const grpcPort = _GRPC_PORT;
 }

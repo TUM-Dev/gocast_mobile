@@ -41,7 +41,7 @@ class ApiHandler {
   /// - Other: [AppError.unknownError] is thrown
   static void handleHttpStatus(int? statusCode, String? apiMessage) {
     if (statusCode == null) {
-      throw AppError.unknownError();
+      throw AppError.unknownError("Status code is null");
     }
 
     if (statusCode >= 100 && statusCode < 400) {
@@ -61,7 +61,7 @@ class ApiHandler {
       case 500:
         throw AppError.internalServerError();
       default:
-        throw AppError.unknownError();
+        throw AppError.unknownError("Status code: $statusCode");
     }
   }
 }
