@@ -14,24 +14,26 @@ class ModelGenerator {
     final matriculationNumber = 'M$id';
     final lrzId = 'L$id';
     final role = random.nextInt(3) + 1;
-    final password = 'password$id';
     final courses = List.generate(
       random.nextInt(5) + 1,
-      (index) => Course(id: index, name: 'Course$index'),
+      (index) => Course(
+          id: index, name: 'Course$index', teachingTerm: 'W', year: 2023),
     );
     final administeredCourses = List.generate(
       random.nextInt(3) + 1,
-      (index) => Course(id: index, name: 'Administered Course$index'),
+      (index) => Course(
+          id: index, name: 'Course$index', teachingTerm: 'W', year: 2023),
     );
     final pinnedCourses = List.generate(
       random.nextInt(3) + 1,
-      (index) => Course(id: index, name: 'Pinned Course$index'),
+      (index) => Course(
+          id: index, name: 'Course$index', teachingTerm: 'W', year: 2023),
     );
     final settings = List.generate(
       random.nextInt(3) + 1,
       (index) => UserSetting(
         id: index,
-        userId: id,
+        userID: random.nextInt(1000),
         type: UserSettingType.values[random.nextInt(3)],
         value: 'Value$index',
       ),
@@ -40,9 +42,12 @@ class ModelGenerator {
       random.nextInt(3) + 1,
       (index) => Bookmark(
         id: index,
-        userId: id,
-        title: 'Bookmark$index',
-        url: 'https://example.com/bookmark$index',
+        userID: id,
+        description: '',
+        hours: 1,
+        minutes: 2,
+        seconds: 3,
+        streamID: 4,
       ),
     );
 
@@ -52,9 +57,8 @@ class ModelGenerator {
       lastName: lastName,
       email: email,
       matriculationNumber: matriculationNumber,
-      lrzId: lrzId,
+      lrzID: lrzId,
       role: role,
-      password: password,
       courses: courses,
       administeredCourses: administeredCourses,
       pinnedCourses: pinnedCourses,
