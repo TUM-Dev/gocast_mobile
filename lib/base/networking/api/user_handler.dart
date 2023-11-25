@@ -1,19 +1,20 @@
-import 'package:gocast_mobile/models/user/user_model.dart';
-import 'package:gocast_mobile/base/helpers/model_generator.dart';
+import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
+import 'package:gocast_mobile/models/user/user_model.dart' as model;
 
 /// Class responsible for fetching and posting user-related data (e.g., fetch user details, update usersettings, etc.)
 class UserHandler {
-  // Generate user mock for testing the views until API/v2 is implemented
+  final GrpcHandler _grpcHandler;
 
-  /// Performs SSO authentication.
-  ///
-  /// This method opens the SSO login page in a web view. After the user logs in,
-  /// it saves the JWT token and redirects back to the app.
-  ///
-  /// Throws an [AppError] if a network error occurs or if no JWT-cookie is set.
+  UserHandler(this._grpcHandler);
 
-  static Future<User> fetchUser() async {
-    // TODO: Fetch user information from API (preferably over gRPC) - see issues
-    return ModelGenerator.generateRandomUser();
+  Future<model.User> fetchUser() async {
+    return await _grpcHandler.callGrpcMethod(
+      (client) async {
+        final response = await client.getUser(GetUserRequest());
+        // Deserialize the gRPC response into a User instance
+        return model.User.fromProto(response.user);
+      },
+    );
   }
 }

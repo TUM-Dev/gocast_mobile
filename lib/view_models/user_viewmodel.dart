@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/auth_handler.dart';
+import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/user_handler.dart';
 import 'package:gocast_mobile/models/user/user_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -12,25 +13,28 @@ class UserViewModel {
   BehaviorSubject<UserState> current =
       BehaviorSubject.seeded(UserState.defaultConstructor());
 
-  // Sign in user and store cookie
+  final GrpcHandler _grpcHandler;
+
+  UserViewModel(this._grpcHandler);
   Future<void> basicAuth(String email, String password) async {
     await AuthHandler.basicAuth(email, password).then(
-      (value) => UserHandler.fetchUser().then(
-        (value) => current.value.setUser(value),
-        onError: (error) => current.addError(error),
-      ),
+      (value) => _fetchUser(),
       onError: (error) => current.addError(error),
     );
   }
 
   Future<void> ssoAuth(BuildContext context) async {
     await AuthHandler.ssoAuth(context).then(
-      (value) => UserHandler.fetchUser().then(
-        (value) => current.value.setUser(value),
-        onError: (error) => current.addError(error),
-      ),
+      (value) => _fetchUser(),
       onError: (error) => current.addError(error),
     );
+  }
+
+  Future<void> _fetchUser() async {
+    await UserHandler(_grpcHandler).fetchUser().then(
+          (value) => current.value.setUser(value as User),
+          onError: (error) => current.addError(error),
+        );
   }
 
   Future<void> logout() async {
