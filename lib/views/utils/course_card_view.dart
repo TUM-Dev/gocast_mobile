@@ -5,7 +5,12 @@ class CourseCard extends StatelessWidget {
   final String subtitle;
   final String path;
 
-  const CourseCard({super.key, required this.title, required this.subtitle, required this.path});
+  const CourseCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.path,
+  });
 
   @override
   Widget build(BuildContext context) {

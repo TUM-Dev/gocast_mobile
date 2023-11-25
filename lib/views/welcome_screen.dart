@@ -7,11 +7,11 @@ import 'utils/constants.dart';
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
   Future<void> handleSSOLogin(
-      BuildContext context,
-      WidgetRef ref,
-      TextEditingController usernameController,
-      TextEditingController passwordController,
-      ) async {
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
     // Call the SSO authentication function from /base/api/auth
     await ref.read(userViewModel).ssoAuth(context);
     // Navigate to the home screen after successful authentication
@@ -70,7 +70,12 @@ class WelcomeScreen extends ConsumerWidget {
               ),
               // Image and Text widgets remain unchanged
               const Spacer(),
-              _buildLoginButton(context, ref, usernameController, passwordController),
+              _buildLoginButton(
+                context,
+                ref,
+                usernameController,
+                passwordController,
+              ),
               const SizedBox(height: 12),
               _buildContinueWithoutButton(),
               const SizedBox(height: 12),
@@ -83,7 +88,12 @@ class WelcomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLoginButton(BuildContext context, WidgetRef ref, TextEditingController usernameController, TextEditingController passwordController) {
+  Widget _buildLoginButton(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -94,7 +104,8 @@ class WelcomeScreen extends ConsumerWidget {
         ),
       ),
       child: const Text('TUM Login', style: TextStyle(fontSize: 18)),
-      onPressed: () => handleSSOLogin(context, ref, usernameController, passwordController),
+      onPressed: () =>
+          handleSSOLogin(context, ref, usernameController, passwordController),
     );
   }
 
@@ -115,7 +126,10 @@ class WelcomeScreen extends ConsumerWidget {
 
   Widget _buildInternalAccountLink(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const InternalloginScreen())),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const InternalloginScreen()),
+      ),
       child: const Center(
         child: Text('Use an internal account', style: linkTextStyle),
       ),

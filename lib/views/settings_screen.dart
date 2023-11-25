@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/View/welcome_screen.dart';
+import 'package:gocast_mobile/views/welcome_screen.dart';
 import 'package:gocast_mobile/main.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {

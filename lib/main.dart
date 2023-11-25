@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/View/courseoverview_screen.dart';
+import 'package:gocast_mobile/model/error_model.dart';
+import 'package:gocast_mobile/views/courseoverview_screen.dart';
 import 'package:gocast_mobile/model/user/user_state_model.dart';
-import 'package:gocast_mobile/viewModels/user_viewmodel.dart';
-import 'package:gocast_mobile/View/welcome_screen.dart';
+import 'package:gocast_mobile/view_models/user_viewmodel.dart';
+import 'package:gocast_mobile/views/welcome_screen.dart';
 
 final userViewModel = Provider((ref) => UserViewModel());
 
@@ -30,8 +31,9 @@ class App extends ConsumerWidget {
 
     if (userState.error != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        AppError error = userState.error as AppError;
         scaffoldMessengerKey.currentState!.showSnackBar(
-          SnackBar(content: Text('Error: ${userState.error}')),
+          SnackBar(content: Text('Error: ${error.message}')),
         );
       });
     }

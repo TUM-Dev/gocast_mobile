@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/View/mycourses_screen.dart';
-import 'package:gocast_mobile/View/publiccourses_screen.dart';
-import 'package:gocast_mobile/View/settings_screen.dart';
-import 'package:gocast_mobile/View/utils/constants.dart';
-import 'package:gocast_mobile/View/utils/course_card_view.dart';
-import 'package:gocast_mobile/View/utils/custom_bottom_nav_bar.dart';
-import 'package:gocast_mobile/View/utils/viewall_button_view.dart';
+import 'package:gocast_mobile/views/mycourses_screen.dart';
+import 'package:gocast_mobile/views/publiccourses_screen.dart';
+import 'package:gocast_mobile/views/settings_screen.dart';
+import 'package:gocast_mobile/views/utils/constants.dart';
+import 'package:gocast_mobile/views/utils/course_card_view.dart';
+import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/utils/viewall_button_view.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -24,12 +24,13 @@ class CourseOverview extends ConsumerWidget {
             _buildCourseSection(
               context: context,
               title: 'My Courses',
-              onViewAll: () => _navigateToScreen(context,  const MyCourses()),
+              onViewAll: () => _navigateToScreen(context, const MyCourses()),
             ),
             _buildCourseSection(
               context: context,
               title: 'Public Courses',
-              onViewAll: () => _navigateToScreen(context, const PublicCourses()),
+              onViewAll: () =>
+                  _navigateToScreen(context, const PublicCourses()),
             ),
           ],
         ),

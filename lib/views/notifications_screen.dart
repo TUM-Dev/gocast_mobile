@@ -21,7 +21,6 @@ class NotificationsScreen extends ConsumerWidget {
     // Add more data here
   };
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -53,8 +52,7 @@ class NotificationsScreen extends ConsumerWidget {
           );
         },
       ),
-      bottomNavigationBar: const CustomBottomNavBar(
-    ),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }

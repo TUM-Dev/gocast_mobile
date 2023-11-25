@@ -3,12 +3,19 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
-import 'package:gocast_mobile/base/helpers/model_generator.dart';
+import 'package:gocast_mobile/base/networking/apis/api_handler.dart';
+import 'package:gocast_mobile/model/error_model.dart';
 import 'package:gocast_mobile/model/token_model.dart';
-import 'package:gocast_mobile/model/user/user_model.dart';
 import 'package:gocast_mobile/routes.dart';
 
+/// Handles authentication for the application.
 class AuthHandler {
+  /// Performs basic authentication.
+  ///
+  /// This method sends a POST request to the basic login URL with the given
+  /// username and password. If the request is successful, it saves the JWT token.
+  ///
+  /// Throws an [AppError] if a network error occurs or if no JWT-cookie is set.
   static Future<void> basicAuth(
     String username,
     String password,
@@ -31,37 +38,35 @@ class AuthHandler {
     });
 
     try {
-      await dio.post(
-        url,
-        data: formData,
-      );
+      final response = await dio.post(url, data: formData);
+      ApiHandler.handleHttpResponse(response);
     } catch (e) {
-      // Throw the error so it can be caught and handled in the signIn method
-      throw Exception('Request error: $e');
+      // Throw the error so it can be caught and handled by the caller of basicAuth
+      throw AppError.networkError(e);
     }
 
-    List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
-
     // Save jwt token
-    await Token.saveToken(cookies);
+    List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
+    await Token.saveToken('jwt', cookies);
   }
 
+  /// Performs SSO authentication.
+  ///
+  /// This method opens the TUM -SSO login page in a web view. After the user
+  /// logs in, it saves the JWT token and redirects back to the app.
+  ///
+  /// Throws an [AppError] if a network error occurs or if no JWT-cookie is set.
   static Future<void> ssoAuth(BuildContext context) async {
-    debugPrint('ssoAuth started');
-    // Redirect the user to the Shibboleth login page
-    debugPrint('Login URL: $Routes.ssoLogin');
-
     // Open the login page in a web view
     await Navigator.push(
       context,
       MaterialPageRoute(
+        // Redirect the user to the Shibboleth login page
         builder: (context) => webview.InAppWebView(
           initialUrlRequest:
               webview.URLRequest(url: Uri.parse(Routes.ssoLogin)),
           onLoadStop:
               (webview.InAppWebViewController controller, Uri? url) async {
-            debugPrint('Page load stopped: $url');
-
             try {
               final cookieManager = webview.CookieManager.instance();
               List<webview.Cookie> cookies =
@@ -69,30 +74,22 @@ class AuthHandler {
 
               // Save jwt token
               await Token.saveToken(
+                'jwt',
                 cookies.map((c) => Cookie(c.name, c.value)).toList(),
               );
 
               // Redirect back to app
               if (url.toString().startsWith(Routes.ssoRedirect)) {
-                debugPrint('Redirect URL detected: $url');
-
                 // Close the web view and go back to the app
-                debugPrint('Closing web view and returning to app');
                 Navigator.pop(context);
               }
             } catch (e) {
               // Throw the error so it can be caught and handled by the caller of ssoAuth
-              throw Exception('Error in ssoAuth: $e');
+              throw AppError.networkError(e);
             }
           },
         ),
       ),
     );
-  }
-
-  // Generate user mock for testing the views until API/v2 is implemented
-  static Future<User> fetchUser() async {
-    // TODO: Add GET:/user endpoint in gocast API to fetch current user information
-    return ModelGenerator.generateRandomUser();
   }
 }
