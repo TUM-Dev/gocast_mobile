@@ -1,4 +1,4 @@
-import 'package:gocast_mobile/model/user/user_model.dart';
+import 'package:gocast_mobile/models/user/user_model.dart';
 import 'package:gocast_mobile/base/helpers/model_generator.dart';
 
 /// Class responsible for fetching and posting user-related data (e.g., fetch user details, update usersettings, etc.)

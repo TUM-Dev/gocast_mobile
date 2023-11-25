@@ -1,6 +1,6 @@
-import 'package:gocast_mobile/model/course/bookmark_model.dart';
-import 'package:gocast_mobile/model/course/course_model.dart';
-import 'package:gocast_mobile/model/user/user_settings_model.dart';
+import 'package:gocast_mobile/models/course/bookmark_model.dart';
+import 'package:gocast_mobile/models/course/course_model.dart';
+import 'package:gocast_mobile/models/user/user_settings_model.dart';
 
 class User {
   User({

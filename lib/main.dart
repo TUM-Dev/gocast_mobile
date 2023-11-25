@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/model/error_model.dart';
+import 'package:gocast_mobile/models/error_model.dart';
 import 'package:gocast_mobile/views/courseoverview_screen.dart';
-import 'package:gocast_mobile/model/user/user_state_model.dart';
+import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/view_models/user_viewmodel.dart';
 import 'package:gocast_mobile/views/welcome_screen.dart';
 

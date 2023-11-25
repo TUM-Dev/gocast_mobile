@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'dart:convert';
-import 'package:gocast_mobile/model/error_model.dart';
+import 'package:gocast_mobile/models/error_model.dart';
 
 class ApiHandler {
   /// Handles an HTTP response.

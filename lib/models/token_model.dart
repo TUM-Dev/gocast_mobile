@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:gocast_mobile/model/error_model.dart';
+import 'package:gocast_mobile/models/error_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Handles the storage and retrieval of JWT tokens.
