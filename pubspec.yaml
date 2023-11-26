@@ -19,11 +19,16 @@ dependencies:
   flutter_riverpod: ^2.4.6
   rxdart: ^0.27.7
   grpc: ^3.2.4
+  dio: ^5.3.4
+  fixnum: ^1.1.0
+  protobuf: ^3.1.0
+
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
+  protoc_plugin: ^21.1.2
 
 flutter:
   uses-material-design: true
