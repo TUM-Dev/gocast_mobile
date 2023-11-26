@@ -17,17 +17,29 @@ class ModelGenerator {
     final courses = List.generate(
       random.nextInt(5) + 1,
       (index) => Course(
-          id: index, name: 'Course$index', teachingTerm: 'W', year: 2023),
+        id: index,
+        name: 'Course$index',
+        teachingTerm: 'W',
+        year: 2023,
+      ),
     );
     final administeredCourses = List.generate(
       random.nextInt(3) + 1,
       (index) => Course(
-          id: index, name: 'Course$index', teachingTerm: 'W', year: 2023),
+        id: index,
+        name: 'Course$index',
+        teachingTerm: 'W',
+        year: 2023,
+      ),
     );
     final pinnedCourses = List.generate(
       random.nextInt(3) + 1,
       (index) => Course(
-          id: index, name: 'Course$index', teachingTerm: 'W', year: 2023),
+        id: index,
+        name: 'Course$index',
+        teachingTerm: 'W',
+        year: 2023,
+      ),
     );
     final settings = List.generate(
       random.nextInt(3) + 1,

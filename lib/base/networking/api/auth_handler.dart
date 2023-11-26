@@ -20,7 +20,7 @@ class AuthHandler {
     String username,
     String password,
   ) async {
-    const url = Routes.basicLogin;
+    var url = Routes.basicLogin;
     final cookieJar = CookieJar();
     final dio = Dio(
       BaseOptions(
