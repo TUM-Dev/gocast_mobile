@@ -10,6 +10,11 @@ The `api/gocast` directory contains protobuf files for the GoCast API, and the `
 
 To setup the protobuf files, follow the steps below:
 
+Make sure to have protoc installed:
+
+```
+brew install grpc protobuf
+```
 
 ```
 dart pub global activate protoc_plugin
