@@ -18,8 +18,6 @@ class UserHandler {
   /// This method sends a `getUser` gRPC call to fetch the user details. It deserializes the gRPC response into a [model.User] instance.
   ///
   /// Returns a [model.User] instance that represents the user details.
-  ///
-  /// Throws an [AppError] if a network error occurs or if the gRPC call fails.
   Future<model.User> fetchUser() async {
     return await _grpcHandler.callGrpcMethod(
       (client) async {
