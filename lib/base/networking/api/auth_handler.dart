@@ -3,9 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
-import 'package:gocast_mobile/base/networking/apis/api_handler.dart';
-import 'package:gocast_mobile/model/error_model.dart';
-import 'package:gocast_mobile/model/token_model.dart';
+import 'package:gocast_mobile/base/networking/api/api_handler.dart';
+import 'package:gocast_mobile/models/error_model.dart';
+import 'package:gocast_mobile/models/token_model.dart';
 import 'package:gocast_mobile/routes.dart';
 
 /// Handles authentication for the application.
@@ -20,7 +20,7 @@ class AuthHandler {
     String username,
     String password,
   ) async {
-    const url = Routes.basicLogin;
+    var url = Routes.basicLogin;
     final cookieJar = CookieJar();
     final dio = Dio(
       BaseOptions(

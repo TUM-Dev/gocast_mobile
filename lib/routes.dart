@@ -1,37 +1,42 @@
-// ignore_for_file: constant_identifier_names
+import 'dart:io';
 
-// API ROOT URL
-const _ROOT_URL = 'http://10.0.2.2:8081/api';
+class AppConfig {
+  AppConfig._(); // Private constructor
 
-// AUTHENTICATION
-const _BASIC_AUTH_URL = 'http://10.0.2.2:8081/login';
-const _SSO_AUTH_URL = 'https://live.rbg.tum.de/saml/out';
-const _SSO_REDIRECT_URL = 'https://live.rbg.tum.de';
+  // Determine the root URL based on the platform
+  // Used for development only. Once the api is deployed, this can be ignored.
+  static String get _rootUrl {
+    if (Platform.isAndroid) {
+      return 'http://10.0.2.2:8081/api';
+    } else if (Platform.isIOS) {
+      return 'http://localhost:8081/api';
+    }
+    throw UnsupportedError('Unsupported platform');
+  }
 
-// COURSES
-const _COURSES_PATH = '/courses';
-const _COURSES_LIVE_PATH = '/courses/live';
-const _COURSES_USER_PATH = '/courses/user';
-const _COURSES_USER_PINNED_PATH = '/courses/user/pinned';
-const _COURSES_PUBLIC_PATH = '/courses/public';
+  // AUTHENTICATION
+  static String get basicAuthUrl =>
+      '${_rootUrl.replaceFirst('/api', '')}/login';
+  static String get ssoAuthUrl => 'https://live.rbg.tum.de/saml/out';
+  static String get ssoRedirectUrl => 'https://live.rbg.tum.de';
 
-// SEMESTERS
-const _SEMESTERS_PATH = '/semesters';
+  // gRPC routes
+  static String get grpcHost {
+    return Platform.isAndroid
+        ? '10.0.2.2'
+        : 'localhost'; // Or host machine IP for iOS
+  }
 
-// USER AND SERVER NOTIFICATIONS
-const _NOTIFICATIONS_USER_PATH = '/notifications';
-const _NOTIFICATIONS_SERVER_PATH = '/notifications/server';
+  static const int grpcPort = 12544;
+}
 
 class Routes {
-  static const basicLogin = _BASIC_AUTH_URL;
-  static const ssoLogin = _SSO_AUTH_URL;
-  static const ssoRedirect = _SSO_REDIRECT_URL;
-  static const courses = _ROOT_URL + _COURSES_PATH;
-  static const coursesLive = _ROOT_URL + _COURSES_LIVE_PATH;
-  static const coursesUser = _ROOT_URL + _COURSES_USER_PATH;
-  static const coursesUserPinned = _ROOT_URL + _COURSES_USER_PINNED_PATH;
-  static const coursesPublic = _ROOT_URL + _COURSES_PUBLIC_PATH;
-  static const semesters = _ROOT_URL + _SEMESTERS_PATH;
-  static const notificationsUser = _ROOT_URL + _NOTIFICATIONS_USER_PATH;
-  static const notificationsServer = _ROOT_URL + _NOTIFICATIONS_SERVER_PATH;
+  // HTTP routes
+  static String get basicLogin => AppConfig.basicAuthUrl;
+  static String get ssoLogin => AppConfig.ssoAuthUrl;
+  static String get ssoRedirect => AppConfig.ssoRedirectUrl;
+
+  // gRPC config
+  static String get grpcHost => AppConfig.grpcHost;
+  static const int grpcPort = AppConfig.grpcPort;
 }

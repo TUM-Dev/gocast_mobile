@@ -1,6 +1,6 @@
 // ignore_for_file: always_put_required_named_parameters_first
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/model/user/user_model.dart';
+import 'package:gocast_mobile/models/user/user_model.dart';
 
 class UserState {
   bool isLoading;

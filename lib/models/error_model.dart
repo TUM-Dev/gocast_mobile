@@ -62,5 +62,6 @@ class AppError implements Exception {
   factory AppError.notFound() => AppError('🔍 Resource not found');
 
   /// Represents an unknown error.
-  factory AppError.unknownError() => AppError('❓ An unknown error occurred');
+  factory AppError.unknownError(String? message) =>
+      AppError('❓ An unknown error occurred {message: $message}');
 }

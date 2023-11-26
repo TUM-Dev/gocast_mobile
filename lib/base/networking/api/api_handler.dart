@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'dart:convert';
-import 'package:gocast_mobile/model/error_model.dart';
+import 'package:gocast_mobile/models/error_model.dart';
 
 class ApiHandler {
   /// Handles an HTTP response.
@@ -41,7 +41,7 @@ class ApiHandler {
   /// - Other: [AppError.unknownError] is thrown
   static void handleHttpStatus(int? statusCode, String? apiMessage) {
     if (statusCode == null) {
-      throw AppError.unknownError();
+      throw AppError.unknownError("Status code is null");
     }
 
     if (statusCode >= 100 && statusCode < 400) {
@@ -61,7 +61,7 @@ class ApiHandler {
       case 500:
         throw AppError.internalServerError();
       default:
-        throw AppError.unknownError();
+        throw AppError.unknownError("Status code: $statusCode");
     }
   }
 }

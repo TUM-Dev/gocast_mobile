@@ -33,7 +33,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             leading: const CircleAvatar(
               backgroundImage: AssetImage('path_to_your_profile_image'),
             ),
-            title: const Text('Max Mustermann'),
+            title: Text(
+              ref.read(userViewModel).current.value.user?.name ?? 'Guest',
+            ),
             onTap: () {
               // Navigate to profile edit screen
             },
