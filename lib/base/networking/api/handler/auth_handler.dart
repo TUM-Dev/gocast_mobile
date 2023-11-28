@@ -91,8 +91,10 @@ class AuthHandler {
                 // Log the cookie retrieval
                 _logger.d('Retrieved cookies from URL: $url');
 
-                await Token.saveToken('jwt',
-                    cookies.map((c) => Cookie(c.name, c.value)).toList());
+                await Token.saveToken(
+                  'jwt',
+                  cookies.map((c) => Cookie(c.name, c.value)).toList(),
+                );
                 _logger.i('JWT token saved successfully');
 
                 // Check if the URL is the redirect URL
