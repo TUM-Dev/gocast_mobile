@@ -4,9 +4,9 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
 import 'package:gocast_mobile/base/networking/api/handler/api_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/globals.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/models/utils/token_model.dart';
 import 'package:gocast_mobile/routes.dart';
 import 'package:logger/logger.dart';
 
@@ -55,7 +55,7 @@ class AuthHandler {
     // Save jwt token
     try {
       List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
-      await Token.saveToken('jwt', cookies);
+      await TokenHandler.saveToken('jwt', cookies);
       _logger.i('JWT token saved successfully for user: $username');
     } catch (e) {
       _logger.e('Error saving JWT token for user: $username, Error: $e');
@@ -91,7 +91,7 @@ class AuthHandler {
                 // Log the cookie retrieval
                 _logger.d('Retrieved cookies from URL: $url');
 
-                await Token.saveToken(
+                await TokenHandler.saveToken(
                   'jwt',
                   cookies.map((c) => Cookie(c.name, c.value)).toList(),
                 );

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
+import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/models/utils/token_model.dart';
 import 'package:grpc/grpc.dart';
 import 'package:logger/logger.dart';
 
@@ -44,7 +44,7 @@ class GrpcHandler {
   ) async {
     _logger.d('callGrpcMethod: Initiating gRPC call');
     try {
-      String token = await Token.loadToken('jwt');
+      String token = await TokenHandler.loadToken('jwt');
       final metadata = <String, String>{
         'grpcgateway-cookie': 'jwt=$token',
       };
