@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/routes.dart';
-import 'package:gocast_mobile/views/courseoverview_screen.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
+import 'package:gocast_mobile/routes.dart';
 import 'package:gocast_mobile/view_models/user_viewmodel.dart';
+import 'package:gocast_mobile/views/courseoverview_screen.dart';
 import 'package:gocast_mobile/views/welcome_screen.dart';
+import 'package:logger/logger.dart';
+
+import 'globals.dart';
 
 final grpcHandlerProvider = Provider((ref) {
   final grpcHandler = GrpcHandler(Routes.grpcHost, Routes.grpcPort);
@@ -23,6 +26,7 @@ final userStateProvider = StreamProvider<UserState>((ref) {
 });
 
 void main() {
+  Logger.level = Level.debug;
   runApp(
     const ProviderScope(
       child: App(),
@@ -49,6 +53,7 @@ class App extends ConsumerWidget {
     }
 
     return MaterialApp(
+      navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: const WelcomeScreen(),
       routes: {

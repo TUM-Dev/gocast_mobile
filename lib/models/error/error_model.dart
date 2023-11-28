@@ -27,6 +27,10 @@ class AppError implements Exception {
   factory AppError.networkError([dynamic error]) =>
       AppError('📡 Unable to connect to the network', error);
 
+  // Factory constructor for token errors
+  factory AppError.tokenSaveError([dynamic error]) =>
+      AppError('🔑 Token error occurred', error);
+
   /// Represents a JSON parsing error.
   factory AppError.jsonParsingError([dynamic error]) =>
       AppError('🔍 Unable to parse the data', error);

@@ -1,8 +1,12 @@
-import 'package:dio/dio.dart';
 import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
+import 'package:logger/logger.dart';
 
 class ApiHandler {
+  static final Logger _logger = Logger();
+
   /// Handles an HTTP response.
   ///
   /// This method checks the status code of the HTTP response and throws an [AppError] if necessary.
@@ -11,13 +15,27 @@ class ApiHandler {
   /// The `apiMessage` from the response is passed to the `handleHttpStatus` method and used for the error message
   /// of the [AppError.argumentError] thrown for a 400 status code.
   static void handleHttpResponse(Response response) {
-    // Decode the response body
+    _logger
+        .i('Received HTTP response with status code: ${response.statusCode}');
+
     if (response.data != null && response.data != '') {
-      // Extract the message from the decoded response body
-      var responseBody = jsonDecode(response.data);
-      String? apiMessage = responseBody['message'];
-      handleHttpStatus(response.statusCode, apiMessage);
+      try {
+        // Attempt to decode the response body
+        var responseBody = jsonDecode(response.data);
+        String? apiMessage = responseBody['message'];
+
+        // Log the extracted message
+        if (apiMessage != null) {
+          _logger.i('API message: $apiMessage');
+        }
+
+        handleHttpStatus(response.statusCode, apiMessage);
+      } catch (e) {
+        // Log any JSON decoding errors
+        _logger.e('Error decoding response data: $e');
+      }
     } else {
+      _logger.w('Response data is null or empty.');
       handleHttpStatus(response.statusCode, null);
     }
   }
@@ -40,27 +58,39 @@ class ApiHandler {
   /// - 500: [AppError.internalServerError] is thrown
   /// - Other: [AppError.unknownError] is thrown
   static void handleHttpStatus(int? statusCode, String? apiMessage) {
+    // Log the received status code and API message
+    _logger
+        .d('Handling HTTP status code: $statusCode, API message: $apiMessage');
+
     if (statusCode == null) {
+      _logger.e('Status code is null');
       throw AppError.unknownError("Status code is null");
     }
 
     if (statusCode >= 100 && statusCode < 400) {
-      // No error
+      // Log successful response
+      _logger.i('Successful HTTP response with status code: $statusCode');
       return;
     }
-
+    // Handle error status codes
     switch (statusCode) {
       case 400:
-        throw AppError.argumentError(apiMessage ?? "");
+        _logger.w('HTTP 400 Bad Request: $apiMessage');
+        throw AppError.argumentError(apiMessage ?? "Bad Request");
       case 401:
+        _logger.w('HTTP 401 Unauthorized');
         throw AppError.authenticationError();
       case 403:
+        _logger.w('HTTP 403 Forbidden');
         throw AppError.forbidden();
       case 404:
+        _logger.w('HTTP 404 Not Found');
         throw AppError.notFound();
       case 500:
+        _logger.e('HTTP 500 Internal Server Error');
         throw AppError.internalServerError();
       default:
+        _logger.e('Unknown error with status code: $statusCode');
         throw AppError.unknownError("Status code: $statusCode");
     }
   }

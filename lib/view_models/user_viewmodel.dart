@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/base/networking/api/auth_handler.dart';
-import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
-import 'package:gocast_mobile/base/networking/api/user_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserViewModel {
   BehaviorSubject<UserState> current =
@@ -13,6 +13,7 @@ class UserViewModel {
   final GrpcHandler _grpcHandler;
 
   UserViewModel(this._grpcHandler);
+
   Future<void> basicAuth(String email, String password) async {
     await AuthHandler.basicAuth(email, password).then(
       (value) => _fetchUser(),

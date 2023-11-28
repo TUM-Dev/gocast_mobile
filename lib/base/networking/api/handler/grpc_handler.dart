@@ -1,13 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/utils/token_model.dart';
 import 'package:grpc/grpc.dart';
+import 'package:logger/logger.dart';
 
 /// Handles gRPC communication for the application.
 class GrpcHandler {
+  static final Logger _logger = Logger();
+
   final String host;
   final int port;
   late ClientChannel _channel;
@@ -16,7 +18,7 @@ class GrpcHandler {
   ///
   /// The [host] and [port] are required.
   GrpcHandler(this.host, this.port) {
-    debugPrint('Connecting to gRPC server at $host:$port');
+    _logger.i('Creating GrpcHandler: Connecting to gRPC server at $host:$port');
 
     _channel = ClientChannel(
       host,
@@ -27,6 +29,7 @@ class GrpcHandler {
 
   /// Shuts down the gRPC client channel.
   Future<void> shutdown() async {
+    _logger.i('Shutting down GrpcHandler');
     await _channel.shutdown();
   }
 
@@ -39,6 +42,7 @@ class GrpcHandler {
   Future<T> callGrpcMethod<T>(
     Future<T> Function(APIClient client) grpcMethod,
   ) async {
+    _logger.d('callGrpcMethod: Initiating gRPC call');
     try {
       String token = await Token.loadToken('jwt');
       final metadata = <String, String>{
@@ -49,12 +53,16 @@ class GrpcHandler {
 
       return await grpcMethod(APIClient(_channel, options: callOptions));
     } on SocketException catch (socketException) {
+      _logger
+          .e('SocketException in callGrpcMethod: ${socketException.message}');
       throw AppError.networkError(socketException.message);
     } catch (error) {
-      debugPrint('Error: $error');
+      _logger.e('Error in callGrpcMethod: $error');
       if (error is GrpcError) {
+        _logger.e('gRPC error: ${error.code}, ${error.message}');
         throw mapGrpcErrorToAppError(error);
       } else {
+        _logger.e('Unknown error: $error');
         throw AppError.networkError(error);
       }
     }
@@ -64,6 +72,7 @@ class GrpcHandler {
   ///
   /// Takes a [GrpcError] and returns an [AppError] that corresponds to the gRPC status code.
   static AppError mapGrpcErrorToAppError(GrpcError error) {
+    _logger.d('Mapping gRPC error to AppError: ${error.code}');
     switch (error.code) {
       case StatusCode.invalidArgument:
         return AppError.argumentError(error.message ?? '');
