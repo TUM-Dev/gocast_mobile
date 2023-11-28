@@ -1,4 +1,4 @@
 git_url("git@github.com:TUM-Dev/gocast-Match.git")
 storage_mode("git")
 type("appstore")
-app_identifier(["de.tum.gocast"])
+app_identifier(["de.tum.cit.ase.ios2324.tum"])
