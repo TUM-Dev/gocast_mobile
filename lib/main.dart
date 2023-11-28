@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
-import 'package:gocast_mobile/models/error_model.dart';
+import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/routes.dart';
 import 'package:gocast_mobile/views/courseoverview_screen.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';

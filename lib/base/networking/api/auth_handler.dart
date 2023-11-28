@@ -4,8 +4,8 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
 import 'package:gocast_mobile/base/networking/api/api_handler.dart';
-import 'package:gocast_mobile/models/error_model.dart';
-import 'package:gocast_mobile/models/token_model.dart';
+import 'package:gocast_mobile/models/error/error_model.dart';
+import 'package:gocast_mobile/models/utils/token_model.dart';
 import 'package:gocast_mobile/routes.dart';
 
 /// Handles authentication for the application.

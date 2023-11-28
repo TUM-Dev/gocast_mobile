@@ -1,6 +1,6 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart'
     as proto;
-import 'package:gocast_mobile/models/error_model.dart'; // Import the generated protobuf file
+import 'package:gocast_mobile/models/error/error_model.dart'; // Import the generated protobuf file
 
 class UserSetting {
   UserSetting({

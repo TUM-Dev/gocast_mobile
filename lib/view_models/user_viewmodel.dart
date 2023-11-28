@@ -1,10 +1,7 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/user_handler.dart';
-import 'package:gocast_mobile/models/user/user_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
