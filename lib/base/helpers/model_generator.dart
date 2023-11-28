@@ -32,15 +32,18 @@ class ModelGenerator {
       year: _random.nextInt(5) + 2019, // Random year between 2019 and 2023
     );
   }
+
   /// Generate a random user setting
   static UserSetting _generateRandomUserSetting(int index) {
     return UserSetting(
       id: _uniqueId(),
       userID: _uniqueId(),
-      type: UserSettingType.values[_random.nextInt(UserSettingType.values.length)],
+      type: UserSettingType
+          .values[_random.nextInt(UserSettingType.values.length)],
       value: 'Value$index',
     );
   }
+
   /// Generate a random bookmark
   static Bookmark _generateRandomBookmark(int userId, int index) {
     return Bookmark(
@@ -63,11 +66,16 @@ class ModelGenerator {
     final matriculationNumber = 'M$id';
     final lrzId = 'L$id';
     final role = _random.nextInt(3) + 1;
-    final courses = List.generate(_random.nextInt(5) + 1, _generateRandomCourse);
-    final administeredCourses = List.generate(_random.nextInt(3) + 1, _generateRandomCourse);
-    final pinnedCourses = List.generate(_random.nextInt(3) + 1, _generateRandomCourse);
-    final settings = List.generate(_random.nextInt(3) + 1, _generateRandomUserSetting);
-    final bookmarks = List.generate(_random.nextInt(3) + 1, (index) => _generateRandomBookmark(id, index));
+    final courses =
+        List.generate(_random.nextInt(5) + 1, _generateRandomCourse);
+    final administeredCourses =
+        List.generate(_random.nextInt(3) + 1, _generateRandomCourse);
+    final pinnedCourses =
+        List.generate(_random.nextInt(3) + 1, _generateRandomCourse);
+    final settings =
+        List.generate(_random.nextInt(3) + 1, _generateRandomUserSetting);
+    final bookmarks = List.generate(
+        _random.nextInt(3) + 1, (index) => _generateRandomBookmark(id, index));
     return User(
       id: id,
       name: name,

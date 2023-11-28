@@ -21,10 +21,6 @@ final userViewModel = Provider((ref) {
   return UserViewModel(grpcHandler);
 });
 
-final userStateProvider = StreamProvider<UserState>((ref) {
-  return ref.watch(userViewModel).current.stream;
-});
-
 void main() {
   Logger.level = Level.debug;
   runApp(
@@ -41,28 +37,33 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.watch(userStateProvider);
+    return StreamBuilder<UserState>(
+      stream: ref.watch(userViewModel).current.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          AppError error = snapshot.error as AppError;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            scaffoldMessengerKey.currentState!.showSnackBar(
+              SnackBar(content: Text('Error: ${error.message}')),
+            );
+          });
+        }
 
-    if (userState.error != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        AppError error = userState.error as AppError;
-        scaffoldMessengerKey.currentState!.showSnackBar(
-          SnackBar(content: Text('Error: ${error.message}')),
+        return MaterialApp(
+          navigatorKey: navigatorKey,
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          home: snapshot.data?.user == null
+              ? const WelcomeScreen(key: Key('welcomeView'))
+              : const CourseOverview(key: Key('courseView')),
+          routes: {
+            '/welcome': (context) => snapshot.data?.user == null
+                ? const WelcomeScreen(key: Key('welcomeView'))
+                : const CourseOverview(key: Key('courseView')),
+            '/home': (context) => snapshot.data?.user == null
+                ? const WelcomeScreen(key: Key('welcomeView'))
+                : const CourseOverview(key: Key('courseView')),
+          },
         );
-      });
-    }
-
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      home: const WelcomeScreen(),
-      routes: {
-        '/welcome': (context) => userState.value?.user == null
-            ? const WelcomeScreen(key: Key('welcomeView'))
-            : const CourseOverview(key: Key('courseView')),
-        '/home': (context) => userState.value?.user == null
-            ? const WelcomeScreen(key: Key('welcomeView'))
-            : const CourseOverview(key: Key('courseView')),
       },
     );
   }
