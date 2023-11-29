@@ -6,6 +6,15 @@ import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
+/// CourseOverview
+///
+/// A widget that displays an overview of different course sections such as
+/// "My Courses" and "Public Courses" in a scrollable column layout.
+///
+/// It includes an AppBar and a BottomNavigationBar that remain static,
+/// while the content can scroll independently. This design ensures that the
+/// AppBar and BottomNavigationBar are not rebuilt unnecessarily, improving
+/// the performance and user experience.
 class CourseOverview extends ConsumerWidget {
   const CourseOverview({super.key});
 

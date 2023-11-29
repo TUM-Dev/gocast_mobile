@@ -3,12 +3,14 @@ import 'package:gocast_mobile/views/components/viewall_button_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
 
+/// CourseSection
 ///
-/// CourseSection is a widget that displays a section of courses.
-/// It is used in the CourseOverview screen to display the user's courses and public courses.
-///  * [sectionTitle] is the title of the section.
-///  * [courses] is a list of CourseCard widgets to display.
-///  * [onViewAll] is the action to perform when the user taps the View All button.
+/// A reusable stateless widget to display a specific course section.
+///
+/// It takes a [sectionTitle] to display the title of the section and
+/// dynamically generates a horizontal list of courses. This widget can be
+/// reused for various course sections by providing different titles and
+/// course lists.
 ///  * [context] is the BuildContext.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
