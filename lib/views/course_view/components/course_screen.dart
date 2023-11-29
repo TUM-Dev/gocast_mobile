@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
-import 'package:gocast_mobile/views/settings_screen.dart';
+import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
 
 class CoursesScreen extends StatelessWidget {
   final String title;
@@ -32,11 +32,11 @@ class CoursesScreen extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: appBarBackgroundColor,
-      title: const Text('GoCast', style: TextStyle(color: appBarTextColor)),
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      title: const Text('GoCast'),
       actions: [
         IconButton(
-          icon: const Icon(Icons.settings, color: appBarIconColor),
+          icon: const Icon(Icons.settings),
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const SettingsScreen()),
@@ -51,7 +51,6 @@ class CoursesScreen extends StatelessWidget {
       padding: sectionPadding,
       child: Text(
         title,
-        style: sectionTitleTextStyle,
       ),
     );
   }

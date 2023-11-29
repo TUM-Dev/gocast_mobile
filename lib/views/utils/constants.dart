@@ -1,38 +1,19 @@
-// constants.dart
+/// Constants for the Application
+///
+/// This file defines various constants used throughout the application.
+/// It includes UI-related constants like colors, text styles, padding, and image paths,
+/// which help maintain consistency and ease of changes across the app.
+///
+/// Contains:
+/// - Color definitions: Consistent color scheme for the app's UI.
+/// - Text Styles: Predefined styles for text used in various parts of the app.
+/// - Padding and Sizing constants: Standardized margins and dimensions.
+/// - Asset paths: Centralized references to image assets.
+///
+/// Note: For scalable theme management, consider using ThemeData in conjunction with these constants.
+library;
 
 import 'package:flutter/material.dart';
-
-// Colors
-const Color appBarBackgroundColor = Colors.white;
-const Color appBarIconColor = Colors.black;
-const Color appBarTextColor = Colors.black;
-const Color sectionTitleColor = Colors.black;
-const Color primaryColor = Colors.blue;
-const Color primaryTextColor = Colors.black;
-const Color secondaryTextColor = Colors.black54;
-const Color indicatorActiveColor = Colors.blue;
-const Color linkTextColor = Colors.blue; // Adjust as needed
-
-// Text Styles
-const TextStyle sectionTitleTextStyle = TextStyle(
-  fontSize: 22,
-  fontWeight: FontWeight.bold,
-  color: sectionTitleColor,
-);
-// Text Styles
-const TextStyle headingTextStyle = TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.bold,
-  color: primaryTextColor,
-);
-const TextStyle bodyTextStyle = TextStyle(
-  fontSize: 16,
-  color: secondaryTextColor,
-);
-const TextStyle linkTextStyle = TextStyle(
-  decoration: TextDecoration.underline,
-  fontSize: 16,
-);
 
 // Padding
 const EdgeInsets sectionPadding = EdgeInsets.all(16.0);

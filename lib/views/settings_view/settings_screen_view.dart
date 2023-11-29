@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/welcome_screen.dart';
 import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});

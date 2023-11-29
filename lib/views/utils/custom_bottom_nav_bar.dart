@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../courseoverview_screen.dart';
-import '../download_screen.dart';
-import 'package:gocast_mobile/views/pinnedcourses_screen.dart';
-import 'package:gocast_mobile/views/notifications_screen.dart';
+import 'package:gocast_mobile/views/course_view/pinned_courses_view.dart';
+import 'package:gocast_mobile/views/notifications_view/notifications_screen_view.dart';
+
+import '../course_view/courses_overview_view.dart';
+import '../course_view/downloaded_courses_view.dart';
 
 // Assuming currentIndexProvider is defined in a global scope file:
 // final currentIndexProvider = StateProvider<int>((ref) => 0);
@@ -11,8 +12,11 @@ import 'package:gocast_mobile/views/notifications_screen.dart';
 class CustomBottomNavBar extends ConsumerWidget {
   const CustomBottomNavBar({super.key});
 
-  Color _getColorForIcon(int index, int currentIndex) {
-    return index == currentIndex ? Colors.blue : Colors.grey;
+  Color _getColorForIcon(BuildContext context, int index, int currentIndex) {
+    // Use theme colors instead of hardcoded ones
+    return index == currentIndex
+        ? Colors.grey // Inactive icon color
+        : Theme.of(context).colorScheme.secondary;
   }
 
   @override
@@ -56,25 +60,25 @@ class CustomBottomNavBar extends ConsumerWidget {
       onTap: navigateToScreen,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home, color: _getColorForIcon(0, currentIndex)),
+          icon: Icon(Icons.home,
+              color: _getColorForIcon(context, 0, currentIndex),),
           label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.file_download,
-            color: _getColorForIcon(1, currentIndex),
+            Icons.download,
+            color: _getColorForIcon(context, 0, currentIndex),
           ),
           label: 'Downloads',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.push_pin, color: _getColorForIcon(2, currentIndex)),
+          icon: Icon(Icons.push_pin,
+              color: _getColorForIcon(context, 0, currentIndex),),
           label: 'Pinned',
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.notifications,
-            color: _getColorForIcon(3, currentIndex),
-          ),
+          icon: Icon(Icons.notifications,
+              color: _getColorForIcon(context, 0, currentIndex),),
           label: 'Notifications',
         ),
       ],

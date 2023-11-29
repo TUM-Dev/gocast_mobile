@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
 import 'package:gocast_mobile/base/networking/api/handler/api_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
-import 'package:gocast_mobile/globals.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/routes.dart';
+import 'package:gocast_mobile/views/utils/globals.dart';
+import 'package:gocast_mobile/views/utils/routes.dart';
 import 'package:logger/logger.dart';
 
 /// Handles authentication for the application.

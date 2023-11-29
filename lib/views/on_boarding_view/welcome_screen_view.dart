@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'internallogin_screen.dart';
 import 'package:gocast_mobile/main.dart';
-import 'utils/constants.dart';
+
+import '../login_view/internal_login_view.dart';
+import '../utils/constants.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
+
   Future<void> handleSSOLogin(
     BuildContext context,
     WidgetRef ref,
@@ -63,9 +65,9 @@ class WelcomeScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _indicatorDot(true),
-                  _indicatorDot(false),
-                  _indicatorDot(false),
+                  _indicatorDot(true, context),
+                  _indicatorDot(false, context),
+                  _indicatorDot(false, context),
                 ],
               ),
               // Image and Text widgets remain unchanged
@@ -131,18 +133,20 @@ class WelcomeScreen extends ConsumerWidget {
         MaterialPageRoute(builder: (context) => const InternalloginScreen()),
       ),
       child: const Center(
-        child: Text('Use an internal account', style: linkTextStyle),
+        child: Text('Use an internal account'),
       ),
     );
   }
 
-  Widget _indicatorDot(bool isActive) {
+  Widget _indicatorDot(bool isActive, BuildContext context) {
     return Container(
-      height: indicatorDotSize,
-      width: indicatorDotSize,
+      height: indicatorDotSize, // Defined in your constants
+      width: indicatorDotSize, // Defined in your constants
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: isActive ? indicatorActiveColor : Colors.grey[300],
+        color: isActive
+            ? Theme.of(context).colorScheme.secondary
+            : Colors.grey[300],
         shape: BoxShape.circle,
       ),
     );

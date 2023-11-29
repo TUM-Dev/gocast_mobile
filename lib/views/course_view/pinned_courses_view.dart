@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'utils/courselist_screen.dart';
-import 'package:gocast_mobile/views/utils/video_card_view.dart';
+import 'package:gocast_mobile/views/course_view/components/video_card_view.dart';
+
+import 'components/courselist_screen.dart';
 
 class PinnedCourses extends ConsumerWidget {
   const PinnedCourses({super.key});

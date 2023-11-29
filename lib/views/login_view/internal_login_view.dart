@@ -60,13 +60,6 @@ class InternalloginScreen extends ConsumerWidget {
                   controller: usernameController,
                   decoration: const InputDecoration(
                     hintText: 'e.g. go42tum / example@tum.de',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -80,17 +73,8 @@ class InternalloginScreen extends ConsumerWidget {
                 TextField(
                   controller: passwordController,
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your password',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                    ),
-                    suffixIcon: Icon(Icons.visibility_off, color: Colors.grey),
-                  ),
+                  decoration:
+                      const InputDecoration(hintText: 'Enter your password'),
                 ),
                 TextButton(
                   onPressed: () {

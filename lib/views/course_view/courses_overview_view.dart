@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/mycourses_screen.dart';
-import 'package:gocast_mobile/views/publiccourses_screen.dart';
-import 'package:gocast_mobile/views/settings_screen.dart';
+import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
+import 'package:gocast_mobile/views/course_view/my_courses_view.dart';
+import 'package:gocast_mobile/views/course_view/public_courses_view.dart';
+import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
-import 'package:gocast_mobile/views/utils/course_card_view.dart';
 import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
 import 'package:gocast_mobile/views/utils/viewall_button_view.dart';
 
@@ -41,11 +41,10 @@ class CourseOverview extends ConsumerWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: appBarBackgroundColor,
-      title: const Text('GoCast', style: TextStyle(color: appBarTextColor)),
+      title: const Text('GoCast'),
       actions: [
         IconButton(
-          icon: const Icon(Icons.settings, color: appBarIconColor),
+          icon: const Icon(Icons.settings),
           onPressed: () => _navigateToScreen(context, const SettingsScreen()),
         ),
       ],

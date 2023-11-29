@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'utils/custom_bottom_nav_bar.dart';
+
+import '../utils/custom_bottom_nav_bar.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   NotificationsScreen({super.key});
