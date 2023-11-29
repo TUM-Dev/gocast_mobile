@@ -1,7 +1,6 @@
 name: Deploy Beta to TestFlight and Play Store
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -47,9 +46,9 @@ jobs:
       - name: Install Flutter Packages
         run: flutter pub get
 
-      # - if: matrix.platform == 'ios'
-        # name: Install CocoaPods
-        # run: cd ./ios && pod install
+      - if: matrix.platform == 'ios'
+        name: Install CocoaPods
+        run: cd ./ios && pod install
 
       - if: matrix.platform == 'ios'
         name: Add SSH Key
