@@ -18,7 +18,7 @@ class InternalLoginScreen extends ConsumerWidget {
         .then(
           (value) => {
         if (ref.read(userViewModel).current.value.user != null)
-          {Navigator.pushNamed(context, '/welcome')},
+          {Navigator.pushNamed(context, '/courses')},
       },
     );
   }
