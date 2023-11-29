@@ -11,5 +11,15 @@
 library;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// Global key for the navigator state to be used for navigation in contexts where BuildContext is not available.
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+// Provider for managing the lifecycle of the username text controller
+final usernameControllerProvider =
+    Provider.autoDispose((ref) => TextEditingController());
+
+// Provider for managing the lifecycle of the password text controller
+final passwordControllerProvider =
+    Provider.autoDispose((ref) => TextEditingController());
