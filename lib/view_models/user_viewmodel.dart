@@ -3,36 +3,44 @@ import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserViewModel {
+  final Logger _logger = Logger();
   BehaviorSubject<UserState> current =
       BehaviorSubject.seeded(UserState.defaultConstructor());
-
   final GrpcHandler _grpcHandler;
 
   UserViewModel(this._grpcHandler);
 
   Future<void> basicAuth(String email, String password) async {
-    await AuthHandler.basicAuth(email, password).then(
-      (value) => _fetchUser(),
-      onError: (error) => current.addError(error),
-    );
+    try {
+      await AuthHandler.basicAuth(email, password);
+      await _fetchUser();
+    } catch (error) {
+      _logger.e(error);
+      current.addError(error);
+    }
   }
 
   Future<void> ssoAuth(BuildContext context) async {
-    await AuthHandler.ssoAuth(context).then(
-      (value) => _fetchUser(),
-      onError: (error) => current.addError(error),
-    );
+    try {
+      await AuthHandler.ssoAuth(context);
+      await _fetchUser();
+    } catch (error) {
+      current.addError(error);
+    }
   }
 
   Future<void> _fetchUser() async {
-    await UserHandler(_grpcHandler).fetchUser().then(
-          (value) => current.value.setUser(value),
-          onError: (error) => current.addError(error),
-        );
+    try {
+      var user = await UserHandler(_grpcHandler).fetchUser();
+      current.value.setUser(user);
+    } catch (error) {
+      current.addError(error);
+    }
   }
 
   Future<void> logout() async {
@@ -40,7 +48,11 @@ class UserViewModel {
     current.value = UserState.defaultConstructor();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('jwt');
-    debugPrint('Logged out user and cleared tokens.');
+    await prefs.remove('jwt');
+    _logger.i('Logged out user and cleared tokens.');
+  }
+
+  void dispose() {
+    current.close();
   }
 }
