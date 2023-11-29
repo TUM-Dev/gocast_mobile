@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 // Define a class for custom colors used throughout the app
 class AppColors {
-  static const Color primaryColor = Colors.blue;
+  static const Color primaryColor =
+      Color(0xFF0D47A1); // ARGB value of Colors.blue[900]
   static const Color primaryTextColor = Colors.black;
   static const Color secondaryTextColor = Colors.black54;
   static const Color appBarBackgroundColor = Colors.white;
@@ -47,7 +48,6 @@ final ThemeData appTheme = ThemeData(
     primary: AppColors.primaryColor,
     secondary: AppColors.indicatorActiveColor,
   ),
-
   appBarTheme: const AppBarTheme(
     color: AppColors.appBarBackgroundColor,
     iconTheme: IconThemeData(color: AppColors.appBarIconColor),
@@ -57,20 +57,17 @@ final ThemeData appTheme = ThemeData(
       fontWeight: FontWeight.bold,
     ),
   ),
-
   textTheme: const TextTheme(
     titleMedium: AppTextStyles.sectionTitle,
     displayLarge: AppTextStyles.heading,
     bodyLarge: AppTextStyles.body,
     titleSmall: AppTextStyles.link,
   ),
-
   buttonTheme: ButtonThemeData(
     buttonColor: AppColors.primaryColor,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
     textTheme: ButtonTextTheme.primary,
   ),
-
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
     hintStyle: const TextStyle(

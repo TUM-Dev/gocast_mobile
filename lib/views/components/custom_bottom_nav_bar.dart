@@ -15,8 +15,8 @@ class CustomBottomNavBar extends ConsumerWidget {
   Color _getColorForIcon(BuildContext context, int index, int currentIndex) {
     // Use theme colors instead of hardcoded ones
     return index == currentIndex
-        ? Colors.grey // Inactive icon color
-        : Theme.of(context).colorScheme.secondary;
+        ? Theme.of(context).colorScheme.primary
+        : Colors.grey;
   }
 
   @override
@@ -56,6 +56,7 @@ class CustomBottomNavBar extends ConsumerWidget {
     }
 
     return BottomNavigationBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       currentIndex: currentIndex,
       onTap: navigateToScreen,
       items: [
@@ -69,21 +70,21 @@ class CustomBottomNavBar extends ConsumerWidget {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.download,
-            color: _getColorForIcon(context, 0, currentIndex),
+            color: _getColorForIcon(context, 1, currentIndex),
           ),
           label: 'Downloads',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.push_pin,
-            color: _getColorForIcon(context, 0, currentIndex),
+            color: _getColorForIcon(context, 2, currentIndex),
           ),
           label: 'Pinned',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.notifications,
-            color: _getColorForIcon(context, 0, currentIndex),
+            color: _getColorForIcon(context, 3, currentIndex),
           ),
           label: 'Notifications',
         ),
