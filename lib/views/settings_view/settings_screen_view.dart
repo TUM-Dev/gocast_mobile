@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 
+
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -61,13 +62,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           ListTile(
             title: const Text('Push notifications'),
-            trailing: CupertinoSwitch(
+            trailing: Switch(
               value: isPushNotificationsEnabled,
               onChanged: (bool value) {
                 setState(() {
                   isPushNotificationsEnabled = value;
                 });
               },
+              inactiveTrackColor: Colors.grey,
             ),
             onTap: () {
               setState(() {
@@ -77,13 +79,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           ListTile(
             title: const Text('Dark mode'),
-            trailing: CupertinoSwitch(
+            trailing: Switch(
               value: isDarkMode,
               onChanged: (bool value) {
                 setState(() {
                   isDarkMode = value;
                 });
               },
+                inactiveTrackColor: Colors.grey,
             ),
             onTap: () {
               setState(() {

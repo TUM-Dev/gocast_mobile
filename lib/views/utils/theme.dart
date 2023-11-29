@@ -12,6 +12,7 @@ class AppColors {
   static const Color sectionTitleColor = Colors.black;
   static const Color indicatorActiveColor = Colors.blue;
   static const Color linkTextColor = Colors.blue;
+  static const Color inactiveColor = Colors.grey;
 }
 
 // Define a class for custom text styles
