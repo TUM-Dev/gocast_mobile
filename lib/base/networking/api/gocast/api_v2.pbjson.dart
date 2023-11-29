@@ -83,7 +83,8 @@ const GetUserRequest$json = {
 
 /// Descriptor for `GetUserRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserRequestDescriptor = $convert.base64Decode(
-    'Cg5HZXRVc2VyUmVxdWVzdA==');
+    'Cg5HZXRVc2VyUmVxdWVzdA==',
+);
 
 @$core.Deprecated('Use getUserCoursesRequestDescriptor instead')
 const GetUserCoursesRequest$json = {
@@ -126,7 +127,8 @@ const GetUserAdminRequest$json = {
 
 /// Descriptor for `GetUserAdminRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserAdminRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRVc2VyQWRtaW5SZXF1ZXN0');
+    'ChNHZXRVc2VyQWRtaW5SZXF1ZXN0',
+);
 
 @$core.Deprecated('Use getUserSettingsRequestDescriptor instead')
 const GetUserSettingsRequest$json = {
@@ -135,7 +137,8 @@ const GetUserSettingsRequest$json = {
 
 /// Descriptor for `GetUserSettingsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserSettingsRequestDescriptor = $convert.base64Decode(
-    'ChZHZXRVc2VyU2V0dGluZ3NSZXF1ZXN0');
+    'ChZHZXRVc2VyU2V0dGluZ3NSZXF1ZXN0',
+);
 
 @$core.Deprecated('Use getUserResponseDescriptor instead')
 const GetUserResponse$json = {
@@ -147,7 +150,8 @@ const GetUserResponse$json = {
 
 /// Descriptor for `GetUserResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserResponseDescriptor = $convert.base64Decode(
-    'Cg9HZXRVc2VyUmVzcG9uc2USIgoEdXNlchgBIAEoCzIOLnByb3RvYnVmLlVzZXJSBHVzZXI=');
+    'Cg9HZXRVc2VyUmVzcG9uc2USIgoEdXNlchgBIAEoCzIOLnByb3RvYnVmLlVzZXJSBHVzZXI=',
+);
 
 @$core.Deprecated('Use getUserCoursesResponseDescriptor instead')
 const GetUserCoursesResponse$json = {
@@ -232,7 +236,8 @@ const GetBookmarksRequest$json = {
 
 /// Descriptor for `GetBookmarksRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getBookmarksRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRCb29rbWFya3NSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgFUghzdHJlYW1JRA==');
+    'ChNHZXRCb29rbWFya3NSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgFUghzdHJlYW1JRA==',
+);
 
 @$core.Deprecated('Use getBookmarksResponseDescriptor instead')
 const GetBookmarksResponse$json = {

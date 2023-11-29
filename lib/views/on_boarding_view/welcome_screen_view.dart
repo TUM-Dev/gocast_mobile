@@ -33,7 +33,8 @@ class WelcomeScreen extends ConsumerWidget {
             children: <Widget>[
               const Spacer(),
               Image.asset('assets/images/streamicon.png',
-                  width: 150.0, height: 150.0),
+                  width: 150.0, height: 150.0,
+              ),
               const SizedBox(height: 24),
               _buildWelcomeText(),
               const SizedBox(height: 8),
@@ -59,7 +60,8 @@ class WelcomeScreen extends ConsumerWidget {
       'Welcome to Gocast',
       textAlign: TextAlign.center,
       style: TextStyle(
-          fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black,
+      ),
     );
   }
 
@@ -103,7 +105,8 @@ class WelcomeScreen extends ConsumerWidget {
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue[900],
         padding: const EdgeInsets.symmetric(
-            vertical: AppSizes.buttonVerticalPadding),
+            vertical: AppSizes.buttonVerticalPadding,
+        ),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
@@ -118,7 +121,8 @@ class WelcomeScreen extends ConsumerWidget {
         side: BorderSide(color: Colors.blue[900] ?? Colors.blue),
         foregroundColor: Colors.blue[900],
         padding: const EdgeInsets.symmetric(
-            vertical: AppSizes.buttonVerticalPadding),
+            vertical: AppSizes.buttonVerticalPadding,
+        ),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),

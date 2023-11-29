@@ -24,33 +24,40 @@ class APIClient extends $grpc.Client {
   static final _$getUser = $grpc.ClientMethod<$0.GetUserRequest, $0.GetUserResponse>(
       '/protobuf.API/getUser',
       ($0.GetUserRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserResponse.fromBuffer(value),
+  );
   static final _$getUserCourses = $grpc.ClientMethod<$0.GetUserCoursesRequest, $0.GetUserCoursesResponse>(
       '/protobuf.API/getUserCourses',
       ($0.GetUserCoursesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserCoursesResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserCoursesResponse.fromBuffer(value),
+  );
   static final _$getUserPinned = $grpc.ClientMethod<$0.GetUserPinnedRequest, $0.GetUserPinnedResponse>(
       '/protobuf.API/getUserPinned',
       ($0.GetUserPinnedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserPinnedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserPinnedResponse.fromBuffer(value),
+  );
   static final _$getUserAdminCourses = $grpc.ClientMethod<$0.GetUserAdminRequest, $0.GetUserAdminResponse>(
       '/protobuf.API/getUserAdminCourses',
       ($0.GetUserAdminRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserAdminResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserAdminResponse.fromBuffer(value),
+  );
   static final _$getUserSettings = $grpc.ClientMethod<$0.GetUserSettingsRequest, $0.GetUserSettingsResponse>(
       '/protobuf.API/getUserSettings',
       ($0.GetUserSettingsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserSettingsResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserSettingsResponse.fromBuffer(value),
+  );
   static final _$getUserBookmarks = $grpc.ClientMethod<$0.GetBookmarksRequest, $0.GetBookmarksResponse>(
       '/protobuf.API/getUserBookmarks',
       ($0.GetBookmarksRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetBookmarksResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetBookmarksResponse.fromBuffer(value),
+  );
 
   APIClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options,
-        interceptors: interceptors);
+        interceptors: interceptors,
+  );
 
   $grpc.ResponseFuture<$0.GetUserResponse> getUser($0.GetUserRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUser, request, options: options);
@@ -88,42 +95,54 @@ abstract class APIServiceBase extends $grpc.Service {
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserRequest.fromBuffer(value),
-        ($0.GetUserResponse value) => value.writeToBuffer()));
+        ($0.GetUserResponse value) => value.writeToBuffer(),
+    ),
+    );
     $addMethod($grpc.ServiceMethod<$0.GetUserCoursesRequest, $0.GetUserCoursesResponse>(
         'getUserCourses',
         getUserCourses_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserCoursesRequest.fromBuffer(value),
-        ($0.GetUserCoursesResponse value) => value.writeToBuffer()));
+        ($0.GetUserCoursesResponse value) => value.writeToBuffer(),
+    ),
+    );
     $addMethod($grpc.ServiceMethod<$0.GetUserPinnedRequest, $0.GetUserPinnedResponse>(
         'getUserPinned',
         getUserPinned_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserPinnedRequest.fromBuffer(value),
-        ($0.GetUserPinnedResponse value) => value.writeToBuffer()));
+        ($0.GetUserPinnedResponse value) => value.writeToBuffer(),
+    ),
+    );
     $addMethod($grpc.ServiceMethod<$0.GetUserAdminRequest, $0.GetUserAdminResponse>(
         'getUserAdminCourses',
         getUserAdminCourses_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserAdminRequest.fromBuffer(value),
-        ($0.GetUserAdminResponse value) => value.writeToBuffer()));
+        ($0.GetUserAdminResponse value) => value.writeToBuffer(),
+    ),
+    );
     $addMethod($grpc.ServiceMethod<$0.GetUserSettingsRequest, $0.GetUserSettingsResponse>(
         'getUserSettings',
         getUserSettings_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserSettingsRequest.fromBuffer(value),
-        ($0.GetUserSettingsResponse value) => value.writeToBuffer()));
+        ($0.GetUserSettingsResponse value) => value.writeToBuffer(),
+    ),
+    );
     $addMethod($grpc.ServiceMethod<$0.GetBookmarksRequest, $0.GetBookmarksResponse>(
         'getUserBookmarks',
         getUserBookmarks_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetBookmarksRequest.fromBuffer(value),
-        ($0.GetBookmarksResponse value) => value.writeToBuffer()));
+        ($0.GetBookmarksResponse value) => value.writeToBuffer(),
+    ),
+    );
   }
 
   $async.Future<$0.GetUserResponse> getUser_Pre($grpc.ServiceCall call, $async.Future<$0.GetUserRequest> request) async {
