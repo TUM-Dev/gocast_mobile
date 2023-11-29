@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
-import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
 
 class CoursesScreen extends StatelessWidget {
   final String title;
@@ -48,7 +48,7 @@ class CoursesScreen extends StatelessWidget {
 
   Padding _buildSectionTitle() {
     return Padding(
-      padding: sectionPadding,
+      padding: AppPadding.sectionPadding,
       child: Text(
         title,
       ),
@@ -57,7 +57,7 @@ class CoursesScreen extends StatelessWidget {
 
   SizedBox _buildCourseListView() {
     return SizedBox(
-      height: courseListHeight,
+      height: AppSizes.courseListHeight,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: courseCards,

@@ -16,16 +16,20 @@ library;
 import 'package:flutter/material.dart';
 
 // Padding
-const EdgeInsets sectionPadding = EdgeInsets.all(16.0);
-const EdgeInsets screenPadding = EdgeInsets.all(16.0);
+class AppPadding {
+  static const EdgeInsets sectionPadding = EdgeInsets.all(16.0);
+  static const EdgeInsets screenPadding = EdgeInsets.all(16.0);
+}
+
 
 // Image Paths
-const String courseImage1 = 'assets/images/course1.png';
-const String courseImage2 = 'assets/images/course2.png';
+class AppImages {
+  static const String course1 = 'assets/images/course1.png';
+  static const String course2 = 'assets/images/course2.png';
+}
 
-// Heights
-const double courseListHeight = 200.0;
-
-// Other Constants
-const double indicatorDotSize = 10.0;
-const double buttonVerticalPadding = 16.0;
+class AppSizes {
+  static const double courseListHeight = 200.0;
+  static const double indicatorDotSize = 10.0;
+  static const double buttonVerticalPadding = 16.0;
+}

@@ -30,7 +30,7 @@ class WelcomeScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: screenPadding,
+          padding: AppPadding.screenPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +100,7 @@ class WelcomeScreen extends ConsumerWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue[900],
-        padding: const EdgeInsets.symmetric(vertical: buttonVerticalPadding),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.buttonVerticalPadding),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -116,7 +116,7 @@ class WelcomeScreen extends ConsumerWidget {
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: Colors.blue[900] ?? Colors.blue),
         foregroundColor: Colors.blue[900],
-        padding: const EdgeInsets.symmetric(vertical: buttonVerticalPadding),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.buttonVerticalPadding),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -130,7 +130,7 @@ class WelcomeScreen extends ConsumerWidget {
     return InkWell(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const InternalloginScreen()),
+        MaterialPageRoute(builder: (context) => const InternalLoginScreen()),
       ),
       child: const Center(
         child: Text('Use an internal account'),
@@ -140,8 +140,8 @@ class WelcomeScreen extends ConsumerWidget {
 
   Widget _indicatorDot(bool isActive, BuildContext context) {
     return Container(
-      height: indicatorDotSize, // Defined in your constants
-      width: indicatorDotSize, // Defined in your constants
+      height: AppSizes.indicatorDotSize, // Defined in your constants
+      width: AppSizes.indicatorDotSize, // Defined in your constants
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
         color: isActive

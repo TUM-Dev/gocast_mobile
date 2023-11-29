@@ -5,8 +5,8 @@ import 'package:gocast_mobile/views/course_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
-import 'package:gocast_mobile/views/utils/custom_bottom_nav_bar.dart';
-import 'package:gocast_mobile/views/utils/viewall_button_view.dart';
+import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/components/viewall_button_view.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -95,12 +95,12 @@ class CourseOverview extends ConsumerWidget {
         CourseCard(
           title: 'PSY101',
           subtitle: 'Introduction to Psychology',
-          path: courseImage1,
+          path: AppImages.course1,
         ),
         CourseCard(
           title: 'PSY101',
           subtitle: 'Introduction to Computer Science',
-          path: courseImage2,
+          path: AppImages.course2,
         ),
         // ... Add more courses as needed
       ],

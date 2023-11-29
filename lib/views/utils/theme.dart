@@ -1,81 +1,88 @@
 import 'package:flutter/material.dart';
 
-// Colors
-const Color appBarBackgroundColor = Colors.white;
-const Color appBarIconColor = Colors.black;
-const Color appBarTextColor = Colors.black;
-const Color sectionTitleColor = Colors.black;
-const Color primaryColor = Colors.blue;
-const Color primaryTextColor = Colors.black;
-const Color secondaryTextColor = Colors.black54;
-const Color indicatorActiveColor = Colors.blue;
-const Color linkTextColor = Colors.blue; // Adjust as needed
+// Define a class for custom colors used throughout the app
+class AppColors {
+  static const Color primaryColor = Colors.blue;
+  static const Color primaryTextColor = Colors.black;
+  static const Color secondaryTextColor = Colors.black54;
+  static const Color appBarBackgroundColor = Colors.white;
+  static const Color appBarIconColor = Colors.black;
+  static const Color appBarTextColor = Colors.black;
+  static const Color sectionTitleColor = Colors.black;
+  static const Color indicatorActiveColor = Colors.blue;
+  static const Color linkTextColor = Colors.blue;
+}
 
-// Text Styles
-const TextStyle sectionTitleTextStyle = TextStyle(
-  fontSize: 22,
-  fontWeight: FontWeight.bold,
-  color: sectionTitleColor,
-);
-// Text Styles
-const TextStyle headingTextStyle = TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.bold,
-  color: primaryTextColor,
-);
-const TextStyle bodyTextStyle = TextStyle(
-  fontSize: 16,
-  color: secondaryTextColor,
-);
-const TextStyle linkTextStyle = TextStyle(
-  decoration: TextDecoration.underline,
-  fontSize: 16,
-);
+// Define a class for custom text styles
+class AppTextStyles {
+  static const TextStyle sectionTitle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: AppColors.sectionTitleColor,
+  );
 
+  static const TextStyle heading = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primaryTextColor,
+  );
+
+  static const TextStyle body = TextStyle(
+    fontSize: 16,
+    color: AppColors.secondaryTextColor,
+  );
+
+  static const TextStyle link = TextStyle(
+    decoration: TextDecoration.underline,
+    fontSize: 16,
+    color: AppColors.linkTextColor,
+  );
+}
+
+// Define the app's theme data
 final ThemeData appTheme = ThemeData(
-  // Basic color setup
-  primaryColor: primaryColor,
-  scaffoldBackgroundColor: appBarBackgroundColor,
+  primaryColor: AppColors.primaryColor,
+  scaffoldBackgroundColor: AppColors.appBarBackgroundColor,
   colorScheme: ColorScheme.fromSwatch().copyWith(
-    secondary: indicatorActiveColor,
+    primary: AppColors.primaryColor,
+    secondary: AppColors.indicatorActiveColor,
   ),
 
-  // AppBar theme
   appBarTheme: const AppBarTheme(
-    color: appBarBackgroundColor,
-    iconTheme: IconThemeData(color: appBarIconColor),
+    color: AppColors.appBarBackgroundColor,
+    iconTheme: IconThemeData(color: AppColors.appBarIconColor),
     titleTextStyle: TextStyle(
-      color: appBarTextColor,
+      color: AppColors.appBarTextColor,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
   ),
 
-  // Text themes
   textTheme: const TextTheme(
-    titleMedium: sectionTitleTextStyle, // Used for section titles
-    displayLarge: headingTextStyle, // Used for headings
-    bodyLarge: bodyTextStyle, // Used for body text
-    titleSmall: linkTextStyle, // Used for links
+    titleMedium: AppTextStyles.sectionTitle,
+    displayLarge: AppTextStyles.heading,
+    bodyLarge: AppTextStyles.body,
+    titleSmall: AppTextStyles.link,
   ),
 
-  // Button theme
   buttonTheme: ButtonThemeData(
-    buttonColor: primaryColor,
+    buttonColor: AppColors.primaryColor,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
     textTheme: ButtonTextTheme.primary,
   ),
 
-  // Input decoration theme (for text fields)
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
     hintStyle: const TextStyle(
-        color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500,),
+      color: Colors.grey,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
     enabledBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.grey, width: 1.0),
     ),
     focusedBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.blue, width: 2.0),
+      borderSide: BorderSide(color: AppColors.primaryColor, width: 2.0),
     ),
   ),
 );

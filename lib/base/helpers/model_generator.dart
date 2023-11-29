@@ -13,7 +13,9 @@ import 'package:fixnum/fixnum.dart';
 
 import '../networking/api/gocast/api_v2.pb.dart';
 
-
+/// Deprecated: This class is no longer used in the application.
+///
+/// A ModelGenerator class for generating mock data models.
 class ModelGenerator {
   static final _random = Random();
 

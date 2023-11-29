@@ -15,7 +15,7 @@ class PublicCourses extends StatelessWidget {
         CourseCard(
           title: 'PSY101',
           subtitle: 'Public Psychology Course',
-          path: courseImage1,
+          path: AppImages.course1,
         ),
         // Add more courses as needed
       ],
