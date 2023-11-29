@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
-import 'package:gocast_mobile/views/course_view/components/course_section.dart';
+import 'package:gocast_mobile/views/course_view/components/course_overview_section.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);

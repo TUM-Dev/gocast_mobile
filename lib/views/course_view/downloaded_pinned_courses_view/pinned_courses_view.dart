@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/course_view/components/video_card_view.dart';
+import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 
-import 'components/courselist_screen.dart';
-
+/// PinnedCourses
+///
+/// A widget representing the 'Pinned Courses' section of the app.
+/// It utilizes the CourseContentScreen to display a list of courses
+/// that the user has pinned.
 class PinnedCourses extends ConsumerWidget {
   const PinnedCourses({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const CourseListScreen(
+    return const CourseContentScreen(
       title: 'Pinned',
       videoCards: [
         VideoCard(

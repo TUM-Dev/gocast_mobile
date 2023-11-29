@@ -2,15 +2,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/course_view/components/video_card_view.dart';
+import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 
-import 'components/courselist_screen.dart';
-
-class DownloadsScreen extends ConsumerWidget {
-  const DownloadsScreen({super.key});
+/// DownloadsScreen
+///
+/// A widget representing the 'Downloads' section of the app.
+/// It displays courses that the user has downloaded for offline viewing.
+/// Like PinnedCourses, it also uses the CourseContentScreen for displaying its content.
+class DownloadedCourses extends ConsumerWidget {
+  const DownloadedCourses({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const CourseListScreen(
+    return const CourseContentScreen(
       title: 'Downloads',
       videoCards: [
         VideoCard(

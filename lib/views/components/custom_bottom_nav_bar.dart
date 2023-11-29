@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/course_view/pinned_courses_view.dart';
+import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/pinned_courses_view.dart';
 import 'package:gocast_mobile/views/notifications_view/notifications_screen_view.dart';
 
 import '../course_view/courses_overview_view.dart';
-import '../course_view/downloaded_courses_view.dart';
+import '../course_view/downloaded_pinned_courses_view/downloaded_courses_view.dart';
 
 // Assuming currentIndexProvider is defined in a global scope file:
 // final currentIndexProvider = StateProvider<int>((ref) => 0);
@@ -34,7 +34,7 @@ class CustomBottomNavBar extends ConsumerWidget {
           break;
         case 1:
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const DownloadsScreen()),
+            MaterialPageRoute(builder: (context) => const DownloadedCourses()),
             (Route<dynamic> route) => false,
           );
           break;
@@ -60,8 +60,10 @@ class CustomBottomNavBar extends ConsumerWidget {
       onTap: navigateToScreen,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home,
-              color: _getColorForIcon(context, 0, currentIndex),),
+          icon: Icon(
+            Icons.home,
+            color: _getColorForIcon(context, 0, currentIndex),
+          ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
@@ -72,13 +74,17 @@ class CustomBottomNavBar extends ConsumerWidget {
           label: 'Downloads',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.push_pin,
-              color: _getColorForIcon(context, 0, currentIndex),),
+          icon: Icon(
+            Icons.push_pin,
+            color: _getColorForIcon(context, 0, currentIndex),
+          ),
           label: 'Pinned',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications,
-              color: _getColorForIcon(context, 0, currentIndex),),
+          icon: Icon(
+            Icons.notifications,
+            color: _getColorForIcon(context, 0, currentIndex),
+          ),
           label: 'Notifications',
         ),
       ],
