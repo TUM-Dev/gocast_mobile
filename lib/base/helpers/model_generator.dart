@@ -75,7 +75,9 @@ class ModelGenerator {
     final settings =
         List.generate(_random.nextInt(3) + 1, _generateRandomUserSetting);
     final bookmarks = List.generate(
-        _random.nextInt(3) + 1, (index) => _generateRandomBookmark(id, index));
+      _random.nextInt(3) + 1,
+      (index) => _generateRandomBookmark(id, index),
+    );
     return User(
       id: id,
       name: name,

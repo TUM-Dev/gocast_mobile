@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/models/user/user_model.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 
 class UserState {
   bool isLoading;

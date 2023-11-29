@@ -1,5 +1,4 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
-import 'package:gocast_mobile/models/user/user_model.dart' as model;
 import 'package:logger/logger.dart';
 
 import 'grpc_handler.dart';
@@ -21,7 +20,7 @@ class UserHandler {
   /// This method sends a `getUser` gRPC call to fetch the user details. It deserializes the gRPC response into a [model.User] instance.
   ///
   /// Returns a [model.User] instance that represents the user details.
-  Future<model.User> fetchUser() async {
+  Future<User> fetchUser() async {
     _logger.i('Fetching user details');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -30,7 +29,7 @@ class UserHandler {
         _logger.i('User details fetched successfully');
         // Deserialize the gRPC response into a User instance
         _logger.d('User details: ${response.user}');
-        return model.User.fromProto(response.user);
+        return response.user;
       },
     );
   }
