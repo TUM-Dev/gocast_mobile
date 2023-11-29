@@ -6,10 +6,11 @@
 library;
 
 import 'dart:math';
-import 'package:gocast_mobile/models/course/bookmark_model.dart';
-import 'package:gocast_mobile/models/course/course_model.dart';
-import 'package:gocast_mobile/models/user/user_model.dart';
-import 'package:gocast_mobile/models/user/user_settings_model.dart';
+import 'package:fixnum/fixnum.dart';
+
+
+import '../networking/api/gocast/api_v2.pb.dart';
+
 
 class ModelGenerator {
   static final _random = Random();
@@ -26,7 +27,7 @@ class ModelGenerator {
   /// Generate a random course
   static Course _generateRandomCourse(int index) {
     return Course(
-      id: _uniqueId(),
+      id: Int64(_uniqueId()),
       name: 'Course$index',
       teachingTerm: _randomTeachingTerm(),
       year: _random.nextInt(5) + 2019, // Random year between 2019 and 2023
