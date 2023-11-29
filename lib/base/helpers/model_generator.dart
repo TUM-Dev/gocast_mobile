@@ -8,9 +8,6 @@
 library;
 
 import 'dart:math';
-import 'package:fixnum/fixnum.dart';
-
-
 import '../networking/api/gocast/api_v2.pb.dart';
 
 /// Deprecated: This class is no longer used in the application.
@@ -31,10 +28,8 @@ class ModelGenerator {
   /// Generate a random course
   static Course _generateRandomCourse(int index) {
     return Course(
-      id: Int64(_uniqueId()),
+      id: _uniqueId(),
       name: 'Course$index',
-      teachingTerm: _randomTeachingTerm(),
-      year: _random.nextInt(5) + 2019, // Random year between 2019 and 2023
     );
   }
 
