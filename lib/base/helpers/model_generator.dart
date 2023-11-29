@@ -3,6 +3,8 @@
 /// This class provides methods to generate random instances of various
 /// models like User, Course, UserSetting, and Bookmark for testing and
 /// development purposes.
+///
+/// Deprecated: This class is no longer used in the application.
 library;
 
 import 'dart:math';

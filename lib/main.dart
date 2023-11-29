@@ -8,6 +8,7 @@ import 'package:gocast_mobile/views/course_view/courses_overview_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:gocast_mobile/views/utils/globals.dart';
 import 'package:gocast_mobile/views/utils/routes.dart';
+import 'package:gocast_mobile/views/utils/theme.dart';
 
 import 'package:logger/logger.dart';
 
@@ -51,6 +52,7 @@ class App extends ConsumerWidget {
         }
 
         return MaterialApp(
+          theme: appTheme,
           navigatorKey: navigatorKey,
           scaffoldMessengerKey: scaffoldMessengerKey,
           home: snapshot.data?.user == null
