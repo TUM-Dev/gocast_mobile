@@ -33,8 +33,11 @@ class CourseListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ListView(
-        children: videoCards,
+      body: ListView.builder(
+        itemCount: videoCards.length,
+        itemBuilder: (BuildContext context, int index) {
+          return videoCards[index];
+        },
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
     );

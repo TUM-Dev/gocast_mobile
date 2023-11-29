@@ -58,9 +58,12 @@ class CoursesScreen extends StatelessWidget {
   SizedBox _buildCourseListView() {
     return SizedBox(
       height: AppSizes.courseListHeight,
-      child: ListView(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        children: courseCards,
+        itemCount: courseCards.length,
+        itemBuilder: (BuildContext context, int index) {
+          return courseCards[index];
+        },
       ),
     );
   }

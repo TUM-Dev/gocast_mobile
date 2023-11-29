@@ -53,9 +53,12 @@ class CourseSection extends StatelessWidget {
           _buildSectionTitle(title, onViewAll),
           SizedBox(
             height: 200,
-            child: ListView(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              children: courses,
+              itemCount: courses.length,
+              itemBuilder: (BuildContext context, int index) {
+                return courses[index];
+              },
             ),
           ),
         ],
