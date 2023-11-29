@@ -8,6 +8,7 @@
 library;
 
 import 'dart:math';
+
 import '../networking/api/gocast/api_v2.pb.dart';
 
 /// Deprecated: This class is no longer used in the application.
@@ -18,12 +19,6 @@ class ModelGenerator {
 
   /// Generate a random unique ID
   static int _uniqueId() => _random.nextInt(10000);
-
-  /// Generate a random teaching term
-  static String _randomTeachingTerm() {
-    const terms = ['W', 'S'];
-    return terms[_random.nextInt(terms.length)];
-  }
 
   /// Generate a random course
   static Course _generateRandomCourse(int index) {
