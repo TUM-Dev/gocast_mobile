@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_overview_section.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
@@ -20,9 +20,16 @@ class CourseOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: const SingleChildScrollView(
+    return  BaseView(
+      title: 'Go Cast',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () => _navigateToScreen(context, const SettingsScreen()), // Removed 'const' here
+        ),
+
+      ],
+      child: const SingleChildScrollView(
         child: Column(
           children: [
             CourseSection(sectionTitle: "My courses"),
@@ -32,10 +39,9 @@ class CourseOverview extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
-
+/*
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       title: const Text('GoCast'),
@@ -47,6 +53,8 @@ class CourseOverview extends ConsumerWidget {
       ],
     );
   }
+  */
+
 
   void _navigateToScreen(BuildContext context, Widget screen) {
     Navigator.push(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/views/components/base_view.dart';
 
-import '../components/custom_bottom_nav_bar.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   NotificationsScreen({super.key});
@@ -24,12 +24,10 @@ class NotificationsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notifications'),
-        centerTitle: true,
-      ),
-      body: ListView.builder(
+    return BaseView(
+
+      title: 'Notifications',
+      child: ListView.builder(
         itemCount: notifications.keys.length,
         itemBuilder: (context, index) {
           String key = notifications.keys.elementAt(index);
@@ -53,7 +51,7 @@ class NotificationsScreen extends ConsumerWidget {
           );
         },
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+
     );
   }
 }
