@@ -15,10 +15,11 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
   final List<Widget>? courses;
-
+  final VoidCallback onViewAll;
   const CourseSection({
     super.key,
     required this.sectionTitle,
+    required this.onViewAll,
     this.courses,
   });
 
@@ -31,7 +32,7 @@ class CourseSection extends StatelessWidget {
           _buildCourseSection(
             context: context,
             title: sectionTitle,
-            onViewAll: () {}, // Define the onViewAll action
+            onViewAll: onViewAll, // Define the onViewAll action
             courses: courses ?? _defaultCourses(),
           ),
         ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_overview_section.dart';
+import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
+import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);
@@ -29,12 +31,22 @@ class CourseOverview extends ConsumerWidget {
         ),
 
       ],
-      child: const SingleChildScrollView(
+      child:  SingleChildScrollView(
         child: Column(
           children: [
-            CourseSection(sectionTitle: "My courses"),
-            SizedBox(height: 20), // Space between the sections
-            CourseSection(sectionTitle: "Public courses"),
+            CourseSection(sectionTitle: "My courses",
+              onViewAll: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyCourses()),
+              ),
+            ),
+            const SizedBox(height: 20), // Space between the sections
+            CourseSection(sectionTitle: "Public courses",
+              onViewAll: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PublicCourses()),
+              ),
+            ),
             // Add other sections or content as needed
           ],
         ),
