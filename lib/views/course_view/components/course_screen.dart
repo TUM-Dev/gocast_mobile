@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
-import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
 
 class CoursesScreen extends StatelessWidget {
   final String title;
@@ -15,9 +15,10 @@ class CoursesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
+    return BaseView(
+      title: 'GoCast',
+      actions: _buildAppBarActions(context),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,24 +27,20 @@ class CoursesScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      title: const Text('GoCast'),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SettingsScreen()),
-          ),
+  List<Widget> _buildAppBarActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.settings),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingsScreen()),
         ),
-      ],
-    );
+      ),
+    ];
   }
 
   Padding _buildSectionTitle() {
