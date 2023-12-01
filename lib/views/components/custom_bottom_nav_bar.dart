@@ -24,6 +24,10 @@ class CustomBottomNavBar extends ConsumerWidget {
     final currentIndex = ref.watch(currentIndexProvider);
 
     void navigateToScreen(int index) {
+      if(currentIndex == index)
+        {
+          return;
+        }
       ref.read(currentIndexProvider.notifier).state = index; // Update the state
       switch (index) {
         case 0:
