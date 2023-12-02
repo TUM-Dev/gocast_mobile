@@ -11,11 +11,18 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 /// dynamically generates a horizontal list of courses. This widget can be
 /// reused for various course sections by providing different titles and
 /// course lists.
-///  * [context] is the BuildContext.
+///
+/// This widget also takes an [onViewAll] action to define the action to be
+/// performed when the user taps on the View All button.
+/// This widget also takes a [courses] list to display the list of courses.
+/// If no courses are provided, it will display a default list of courses.
+/// This widget can be reused for various course sections by providing
+/// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
   final List<Widget>? courses;
   final VoidCallback onViewAll;
+
   const CourseSection({
     super.key,
     required this.sectionTitle,

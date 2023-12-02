@@ -1,8 +1,13 @@
-// CourseListScreen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 
+/// CourseListScreen
+///
+/// This screen displays a list of courses.
+///
+/// It takes a [title] to display the title of the section and
+/// dynamically generates a horizontal list of courses.
 class CourseListScreen extends ConsumerWidget {
   final String title;
   final List<Widget> videoCards;
@@ -37,7 +42,6 @@ class CourseListScreen extends ConsumerWidget {
           return videoCards[index];
         },
       ),
-
     );
   }
 }

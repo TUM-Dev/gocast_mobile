@@ -3,6 +3,14 @@ import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
 
+/// CoursesScreen
+///
+/// This screen displays a list of courses.
+///
+/// It takes a [title] to display the title of the section and
+/// dynamically generates a horizontal list of courses. This widget can be
+/// reused for various course sections by providing different titles and
+/// course lists.
 class CoursesScreen extends StatelessWidget {
   final String title;
   final List<Widget> courseCards;
@@ -27,7 +35,6 @@ class CoursesScreen extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 

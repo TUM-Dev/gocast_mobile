@@ -54,7 +54,7 @@ class APIClient extends $grpc.Client {
 
   APIClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors,})
       : super(channel, options: options,
         interceptors: interceptors,
   );
