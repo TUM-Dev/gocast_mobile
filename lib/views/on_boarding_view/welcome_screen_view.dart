@@ -19,6 +19,10 @@ class WelcomeScreen extends ConsumerWidget {
     ref.watch(usernameControllerProvider);
     ref.watch(passwordControllerProvider);
 
+    final loginButtonProvider = StateProvider<bool>((ref) {
+      return false; // Initial state, 'false' means not loading
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -127,7 +131,7 @@ class WelcomeScreen extends ConsumerWidget {
 
   Future<void> handleSSOLogin(BuildContext context, WidgetRef ref) async {
     // Call the SSO authentication function from /base/api/auth
-    await ref.read(userViewModel).ssoAuth(context).then(
+    await ref.read(userViewModel).ssoAuth(context, ref).then(
           (value) => {
             if (ref.read(userViewModel).current.value.user != null)
               {Navigator.pushNamed(context, '/courses')}

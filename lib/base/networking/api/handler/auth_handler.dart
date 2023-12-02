@@ -3,8 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/api_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
+import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/views/utils/globals.dart';
 import 'package:gocast_mobile/views/utils/routes.dart';
@@ -64,24 +66,19 @@ class AuthHandler {
     }
   }
 
-  static Future<void> ssoAuth(BuildContext context) async {
+  static Future<void> ssoAuth(BuildContext context, WidgetRef ref) async {
     _logger.i('Starting SSO authentication');
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Scaffold(
           appBar: AppBar(
-            title: const Text('TUM Login'),
+            title: const Text('TUM Web Login'),
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back_ios_new_sharp),
               onPressed: () {
-                // This will work only in the webview, once api for user is implemented this will be adapted
-                if (isLoginSuccessful) {
-                  // Navigate back to the home screen
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                } else {
-                  Navigator.of(context).pop();
-                }
+                Navigator.pushNamed(context, '/home');
+                ref.read(userViewModel).isLoading.add(false);
               },
             ),
           ),

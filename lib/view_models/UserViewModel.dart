@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
@@ -35,11 +36,11 @@ class UserViewModel {
     }
   }
 
-  Future<void> ssoAuth(BuildContext context) async {
+  Future<void> ssoAuth(BuildContext context, WidgetRef ref) async {
     isLoading.add(true); // Start loading
     try {
       _logger.i('Logging in user ${current.value.user} with SSO');
-      await AuthHandler.ssoAuth(context);
+      await AuthHandler.ssoAuth(context, ref);
       await _fetchUser();
       _logger.i('Logged in user ${current.value.user} with SSO');
     } catch (error) {
