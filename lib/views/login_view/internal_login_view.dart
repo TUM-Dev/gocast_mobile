@@ -5,24 +5,6 @@ import 'package:gocast_mobile/main.dart';
 class InternalLoginScreen extends ConsumerWidget {
   const InternalLoginScreen({super.key});
 
-  Future<void> handleBasicLogin(
-      BuildContext context,
-      WidgetRef ref,
-      TextEditingController usernameController,
-      TextEditingController passwordController,
-      ) async {
-    // Call the basic authentication function from /base/api/auth
-    await ref
-        .read(userViewModel)
-        .basicAuth(usernameController.text, passwordController.text)
-        .then(
-          (value) => {
-        if (ref.read(userViewModel).current.value.user != null)
-          {Navigator.pushNamed(context, '/courses')},
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController usernameController = TextEditingController();
@@ -81,11 +63,11 @@ class InternalLoginScreen extends ConsumerWidget {
   }
 
   Widget _buildTextField(
-      String label,
-      String hintText,
-      TextEditingController controller, {
-        bool obscureText = false,
-      }) {
+    String label,
+    String hintText,
+    TextEditingController controller, {
+    bool obscureText = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -118,11 +100,12 @@ class InternalLoginScreen extends ConsumerWidget {
   }
 
   Widget _buildLoginButton(
-      BuildContext context,
-      WidgetRef ref,
-      TextEditingController usernameController,
-      TextEditingController passwordController,
-      ) {
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) {
+    final isLoading = ref.watch(userViewModel).isLoading;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -138,10 +121,36 @@ class InternalLoginScreen extends ConsumerWidget {
         usernameController,
         passwordController,
       ),
-      child: const Text(
-        'Login',
-        style: TextStyle(fontSize: 18),
-      ),
+      child: isLoading.value
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
+            )
+          : const Text(
+              'Login',
+              style: TextStyle(fontSize: 18),
+            ),
     );
+  }
+
+  Future<void> handleBasicLogin(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+  ) async {
+    await ref
+        .read(userViewModel)
+        .basicAuth(usernameController.text, passwordController.text)
+        .then(
+          (value) => {
+            if (ref.read(userViewModel).current.value.user != null)
+              {Navigator.pushNamed(context, '/courses')},
+          },
+        );
   }
 }
