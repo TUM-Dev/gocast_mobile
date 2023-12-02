@@ -19,10 +19,6 @@ class WelcomeScreen extends ConsumerWidget {
     ref.watch(usernameControllerProvider);
     ref.watch(passwordControllerProvider);
 
-    final loginButtonProvider = StateProvider<bool>((ref) {
-      return false; // Initial state, 'false' means not loading
-    });
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
