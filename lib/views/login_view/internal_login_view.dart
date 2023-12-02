@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/main.dart';
 
+/// Internal login screen view.
+///
+/// This screen is used to login with a username and password.
+/// It contains a welcome text, two text fields for username and password,
+/// a forgot password button and a login button.
+/// The login button calls the basic authentication function from /base/api/auth
+/// The forgot password button does nothing for now.
 class InternalLoginScreen extends ConsumerWidget {
   const InternalLoginScreen({super.key});
 

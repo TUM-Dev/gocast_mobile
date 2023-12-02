@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 
-
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -18,127 +17,114 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: _buildAppBar(context),
       body: ListView(
         children: [
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: AssetImage('path_to_your_profile_image'),
-            ),
-            title: Text(
-              ref.read(userViewModel).current.value.user?.name ?? 'Guest',
-            ),
-            onTap: () {
-              // Navigate to profile edit screen
-            },
-          ),
+          _buildProfileTile(),
           const Divider(),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'Account Settings',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
+          _buildSectionTitle('Account Settings'),
+          _buildEditableListTile('Edit profile', () {
+            // TODO: Navigate to edit profile screen
+          }),
+          _buildSwitchListTile(
+            title: 'Push notifications',
+            value: isPushNotificationsEnabled,
+            onChanged: (value) =>
+                setState(() => isPushNotificationsEnabled = value),
           ),
-          ListTile(
-            title: const Text('Edit profile'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              // Navigate to edit profile screen
-            },
+          _buildSwitchListTile(
+            title: 'Dark mode',
+            value: isDarkMode,
+            onChanged: (value) => setState(() => isDarkMode = value),
           ),
-          ListTile(
-            title: const Text('Push notifications'),
-            trailing: Switch(
-              value: isPushNotificationsEnabled,
-              onChanged: (bool value) {
-                setState(() {
-                  isPushNotificationsEnabled = value;
-                });
-              },
-              inactiveTrackColor: Colors.grey,
-            ),
-            onTap: () {
-              setState(() {
-                isPushNotificationsEnabled = !isPushNotificationsEnabled;
-              });
-            },
-          ),
-          ListTile(
-            title: const Text('Dark mode'),
-            trailing: Switch(
-              value: isDarkMode,
-              onChanged: (bool value) {
-                setState(() {
-                  isDarkMode = value;
-                });
-              },
-                inactiveTrackColor: Colors.grey,
-            ),
-            onTap: () {
-              setState(() {
-                isDarkMode = !isDarkMode;
-              });
-            },
-          ),
-          ListTile(
-            title: const Text('Log out'),
-            onTap: () {
-              // Handle log out
-              ref.read(userViewModel).logout();
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                (Route<dynamic> route) => false,
-              );
-            },
-          ),
+          _buildLogoutTile(context),
           const Divider(),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'More',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Adjust the color to match your design
-              ),
-            ),
-          ),
-          ListTile(
-            title: const Text('About us'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              // Navigate to about us screen
-            },
-          ),
-          ListTile(
-            title: const Text('Privacy policy'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              // Navigate to privacy policy screen
-            },
-          ),
-          ListTile(
-            title: const Text('Terms and conditions'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              // Navigate to terms and conditions screen
-            },
-          ),
+          _buildSectionTitle('More'),
+          _buildNavigableListTile('About us', () {
+            // TODO: Navigate to about us screen
+          }),
+          _buildNavigableListTile('Privacy policy', () {
+            // TODO: Navigate to privacy policy screen
+          }),
+          _buildNavigableListTile('Terms and conditions', () {
+            // TODO: Navigate to terms and conditions screen
+          }),
         ],
       ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text('Settings'),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => Navigator.pop(context),
+      ),
+    );
+  }
+
+  ListTile _buildProfileTile() {
+    return ListTile(
+      leading: const CircleAvatar(
+        backgroundImage: AssetImage('path/to/profile/image'),
+      ),
+      title: Text(ref.read(userViewModel).current.value.user?.name ?? 'Guest'),
+      onTap: () {
+        // TODO: Navigate to profile edit screen
+      },
+    );
+  }
+
+  Padding _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        title,
+        style: const TextStyle(
+            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black,),
+      ),
+    );
+  }
+
+  ListTile _buildEditableListTile(String title, VoidCallback onTap) {
+    return ListTile(
+      title: Text(title),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: onTap,
+    );
+  }
+
+  ListTile _buildSwitchListTile(
+      {required String title,
+      required bool value,
+      required ValueChanged<bool> onChanged,}) {
+    return ListTile(
+      title: Text(title),
+      trailing: Switch(
+          value: value, onChanged: onChanged, inactiveTrackColor: Colors.grey,),
+      onTap: () => onChanged(!value),
+    );
+  }
+
+  ListTile _buildLogoutTile(BuildContext context) {
+    return ListTile(
+      title: const Text('Log out'),
+      onTap: () {
+        ref.read(userViewModel).logout();
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+          (Route<dynamic> route) => false,
+        );
+      },
+    );
+  }
+
+  ListTile _buildNavigableListTile(String title, VoidCallback onTap) {
+    return ListTile(
+      title: Text(title),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: onTap,
     );
   }
 }

@@ -5,6 +5,12 @@ import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
 import 'package:gocast_mobile/views/utils/globals.dart';
 
+/// Welcome screen view.
+/// This is the first screen that the user sees when the app is opened.
+/// It contains a welcome text, a login button and a continue without login button.
+/// The login button calls the SSO authentication function from /base/api/auth
+/// The continue without login button does nothing for now.
+/// The internal account link navigates to the internal login screen.
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
 
