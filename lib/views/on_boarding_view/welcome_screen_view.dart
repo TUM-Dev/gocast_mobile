@@ -60,7 +60,7 @@ class WelcomeScreen extends ConsumerWidget {
 
   Widget _buildOverviewText() {
     return const Text(
-      "Here's a good place for a brief overview of the app or its key features.",
+      "Your Lectures on the Go",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 16, color: Colors.black54),
     );
@@ -103,7 +103,9 @@ class WelcomeScreen extends ConsumerWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: const Text('Continue without', style: TextStyle(fontSize: 18)),
-      onPressed: () {},
+      onPressed: () {
+        //TODO: Continue without login action
+      },
     );
   }
 

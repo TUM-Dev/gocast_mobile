@@ -6,6 +6,7 @@ import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_vie
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
+// current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 /// CourseOverview
@@ -22,26 +23,28 @@ class CourseOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return  BaseView(
+    return BaseView(
       title: 'Go Cast',
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
-          onPressed: () => _navigateToScreen(context, const SettingsScreen()), // Removed 'const' here
+          onPressed: () => _navigateToScreen(
+              context, const SettingsScreen(),), // Removed 'const' here
         ),
-
       ],
-      child:  SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            CourseSection(sectionTitle: "My courses",
+            CourseSection(
+              sectionTitle: "My courses",
               onViewAll: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const MyCourses()),
               ),
             ),
             const SizedBox(height: 20), // Space between the sections
-            CourseSection(sectionTitle: "Public courses",
+            CourseSection(
+              sectionTitle: "Public courses",
               onViewAll: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PublicCourses()),
@@ -53,20 +56,6 @@ class CourseOverview extends ConsumerWidget {
       ),
     );
   }
-/*
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('GoCast'),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () => _navigateToScreen(context, const SettingsScreen()),
-        ),
-      ],
-    );
-  }
-  */
-
 
   void _navigateToScreen(BuildContext context, Widget screen) {
     Navigator.push(

@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 
+/// VideoCard
+///
+/// A reusable widget that displays a video card with a thumbnail, title and subtitle.
+/// This widget is designed to be flexible and can be used to represent various
+/// types of video-related content, such as pinned videos or downloaded videos.
+///
+/// Parameters:
+///  [imageName] - The name of the image to be displayed as the thumbnail.
+///  [title] - The title of the video.
+///  [date] - The date of the video.
+///  [duration] - The duration of the video.
 class VideoCard extends StatelessWidget {
   final String imageName;
   final String title;

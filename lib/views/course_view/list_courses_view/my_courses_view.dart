@@ -4,7 +4,9 @@ import 'package:gocast_mobile/views/course_view/components/course_card_view.dart
 import '../../utils/constants.dart';
 import '../components/course_screen.dart';
 
-// MyCourses.dart
+/// MyCourses Screen
+/// This screen displays a list of My Courses.
+///
 class MyCourses extends StatelessWidget {
   const MyCourses({super.key});
 

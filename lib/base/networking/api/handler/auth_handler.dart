@@ -13,6 +13,7 @@ import 'package:logger/logger.dart';
 /// Handles authentication for the application.
 class AuthHandler {
   static final Logger _logger = Logger();
+  static bool isLoginSuccessful = false;
 
   /// Performs basic authentication.
   ///
@@ -63,57 +64,90 @@ class AuthHandler {
     }
   }
 
-  /// Performs SSO authentication.
-  ///
-  /// This method opens the TUM -SSO login page in a web view. After the user
-  /// logs in, it saves the JWT token and redirects back to the app.
-  ///
-  /// Throws an [AppError] if a network error occurs or if no JWT-cookie is set.
   static Future<void> ssoAuth(BuildContext context) async {
     _logger.i('Starting SSO authentication');
-    // Open the login page in a web view
     await Navigator.push(
       context,
       MaterialPageRoute(
-        // Redirect the user to the Shibboleth login page
-        builder: (context) => webview.InAppWebView(
-          initialUrlRequest:
-              webview.URLRequest(url: Uri.parse(Routes.ssoLogin)),
-          onLoadStop:
-              (webview.InAppWebViewController controller, Uri? url) async {
-            try {
-              if (url != null) {
-                _logger.d('Web view loaded URL: $url');
-                // Token retrieval and saving logic
-                final cookieManager = webview.CookieManager.instance();
-                List<webview.Cookie> cookies =
-                    await cookieManager.getCookies(url: url);
-                // Log the cookie retrieval
-                _logger.d('Retrieved cookies from URL: $url');
-
-                await TokenHandler.saveToken(
-                  'jwt',
-                  cookies.map((c) => Cookie(c.name, c.value)).toList(),
-                );
-                _logger.i('JWT token saved successfully');
-
-                // Check if the URL is the redirect URL
-                if (url.toString().startsWith(Routes.ssoRedirect)) {
-                  // Close the web view and go back to the app
-                  navigatorKey.currentState?.pop();
-                  _logger.i('SSO authentication completed, redirected to app');
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('TUM Login'),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                // This will work only in the webview, once api for user is implemented this will be adapted
+                if (isLoginSuccessful) {
+                  // Navigate back to the home screen
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                } else {
+                  Navigator.of(context).pop();
                 }
-              } else {
-                _logger.w('URL is null in web view onLoadStop');
-              }
-            } catch (e) {
-              _logger.e('Error during SSO authentication: $e');
-              // Throw the error so it can be caught and handled by the caller of ssoAuth
-              throw AppError.networkError(e);
-            }
-          },
+              },
+            ),
+          ),
+          body: _buildWebView(),
         ),
       ),
     );
+    isLoginSuccessful = false; // Reset the flag after WebView is closed
+  }
+
+  static Widget _buildWebView() {
+    return webview.InAppWebView(
+      initialUrlRequest: webview.URLRequest(url: Uri.parse(Routes.ssoLogin)),
+      onLoadStop: _onWebViewLoadStop,
+    );
+  }
+
+  static Future<void> _onWebViewLoadStop(
+    webview.InAppWebViewController controller,
+    Uri? url,
+  ) async {
+    try {
+      if (url != null && url.toString().startsWith(Routes.ssoRedirect)) {
+        _logger.i('Web view loaded URL: $url');
+        await _handleCookieRetrieval(url);
+        isLoginSuccessful = true; // Set flag to true on successful login
+        // Due to the token being signed from TUM Live RBG, the app will not be able to decode it
+        // Therefor can´t retrieve the user data from TUM database
+        // Once the API for user is implemented and deployed, this will be adapted to redirect to the course_overview_view
+        navigatorKey.currentState
+            ?.pop(); //Comment this line if you want to continue in the webview
+        _logger.i('SSO authentication completed, redirected to app');
+      } else if (url != null) {
+        _logger.d('Web view loaded URL: $url');
+      } else {
+        _logger.w('URL is null in web view onLoadStop');
+      }
+    } catch (e) {
+      _logger.e('Error during SSO authentication: $e');
+      throw AppError.networkError(e);
+    }
+  }
+
+  static Future<void> _handleCookieRetrieval(Uri url) async {
+    try {
+      final cookieManager = webview.CookieManager.instance();
+      List<webview.Cookie> cookies = await cookieManager.getCookies(url: url);
+      _logger.d('Retrieved cookies from URL: $url');
+      webview.Cookie? jwtCookie;
+      for (var cookie in cookies) {
+        if (cookie.name == 'jwt') {
+          jwtCookie = cookie;
+          break;
+        }
+      }
+      if (jwtCookie != null) {
+        await TokenHandler.saveToken(
+          'jwt',
+          [Cookie(jwtCookie.name, jwtCookie.value)],
+        );
+        _logger.i('JWT token saved successfully');
+      } else {
+        _logger.w('JWT cookie not found in response');
+      }
+    } catch (e) {
+      _logger.e('Error during cookie retrieval: $e');
+    }
   }
 }

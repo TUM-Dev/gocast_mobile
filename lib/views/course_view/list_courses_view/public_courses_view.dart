@@ -4,6 +4,8 @@ import 'package:gocast_mobile/views/course_view/components/course_card_view.dart
 import '../../utils/constants.dart';
 import '../components/course_screen.dart';
 
+/// PublicCourses Screen
+/// This screen displays a list of Public Courses.
 class PublicCourses extends StatelessWidget {
   const PublicCourses({super.key});
 

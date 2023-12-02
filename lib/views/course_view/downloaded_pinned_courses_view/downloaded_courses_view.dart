@@ -1,8 +1,7 @@
-// DownloadsScreen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/course_view/components/video_card_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
+import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 
 /// DownloadsScreen
 ///
