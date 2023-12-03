@@ -16,11 +16,23 @@ class UserViewModel {
   BehaviorSubject<UserState> current =
       BehaviorSubject.seeded(UserState.defaultConstructor());
 
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   final GrpcHandler _grpcHandler;
 
   UserViewModel(this._grpcHandler);
 
-  Future<void> basicAuth(String email, String password) async {
+  Future<void> handleBasicLogin(BuildContext context) async {
+    await _basicAuth(usernameController.text, passwordController.text).then(
+      (value) => {
+        if (current.value.user != null)
+          {Navigator.pushNamed(context, '/courses')},
+      },
+    );
+  }
+
+  Future<void> _basicAuth(String email, String password) async {
     isLoading.add(true); // Start loading
     try {
       _logger.i('Logging in user with email: $email');
@@ -71,6 +83,8 @@ class UserViewModel {
   }
 
   void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
     current.close();
   }
 

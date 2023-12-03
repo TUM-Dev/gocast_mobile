@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/view_models/UserViewModel.dart';
 
 /// Internal login screen view.
 ///
@@ -14,9 +15,7 @@ class InternalLoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-
+    final userViewModelRef = ref.watch(userViewModel);
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -32,22 +31,20 @@ class InternalLoginScreen extends ConsumerWidget {
                 _buildTextField(
                   'Username',
                   'e.g. go42tum / example@tum.de',
-                  usernameController,
+                  userViewModelRef.usernameController,
                 ),
                 const SizedBox(height: 24),
                 _buildTextField(
                   'Password',
                   'Enter your password',
-                  passwordController,
+                  userViewModelRef.passwordController,
                   obscureText: true,
                 ),
                 _buildForgotPasswordButton(),
                 const SizedBox(height: 24),
                 _buildLoginButton(
                   context,
-                  ref,
-                  usernameController,
-                  passwordController,
+                  userViewModelRef,
                 ),
               ],
             ),
@@ -108,11 +105,8 @@ class InternalLoginScreen extends ConsumerWidget {
 
   Widget _buildLoginButton(
     BuildContext context,
-    WidgetRef ref,
-    TextEditingController usernameController,
-    TextEditingController passwordController,
+    UserViewModel userViewModelRef,
   ) {
-    final isLoading = ref.watch(userViewModel).isLoading;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -122,42 +116,10 @@ class InternalLoginScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
       ),
-      onPressed: () => handleBasicLogin(
-        context,
-        ref,
-        usernameController,
-        passwordController,
-      ),
-      child: isLoading.value
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                strokeWidth: 2,
-              ),
-            )
-          : const Text(
-              'Login',
-              style: TextStyle(fontSize: 18),
-            ),
+      onPressed: () => userViewModelRef.handleBasicLogin(context),
+      child: userViewModelRef.isLoading.value
+          ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
+          : const Text('Login', style: TextStyle(fontSize: 18)),
     );
-  }
-
-  Future<void> handleBasicLogin(
-    BuildContext context,
-    WidgetRef ref,
-    TextEditingController usernameController,
-    TextEditingController passwordController,
-  ) async {
-    await ref
-        .read(userViewModel)
-        .basicAuth(usernameController.text, passwordController.text)
-        .then(
-          (value) => {
-            if (ref.read(userViewModel).current.value.user != null)
-              {Navigator.pushNamed(context, '/courses')},
-          },
-        );
   }
 }

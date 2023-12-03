@@ -67,7 +67,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   ListTile _buildProfileTile() {
     return ListTile(
       leading: const CircleAvatar(
-        backgroundImage: AssetImage('path/to/profile/image'),
+        backgroundImage: AssetImage('assets/images/profile_temp.png'),
       ),
       title: Text(ref.read(userViewModel).current.value.user?.name ?? 'Guest'),
       onTap: () {
@@ -82,7 +82,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       child: Text(
         title,
         style: const TextStyle(
-            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black,),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
       ),
     );
   }
@@ -95,14 +98,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  ListTile _buildSwitchListTile(
-      {required String title,
-      required bool value,
-      required ValueChanged<bool> onChanged,}) {
+  ListTile _buildSwitchListTile({
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
     return ListTile(
       title: Text(title),
       trailing: Switch(
-          value: value, onChanged: onChanged, inactiveTrackColor: Colors.grey,),
+        value: value,
+        onChanged: onChanged,
+        inactiveTrackColor: Colors.grey,
+      ),
       onTap: () => onChanged(!value),
     );
   }
