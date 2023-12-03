@@ -6,10 +6,10 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart' as webview;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/api_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
-import 'package:gocast_mobile/main.dart';
-import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/views/utils/globals.dart';
 import 'package:gocast_mobile/config/app_config.dart';
+import 'package:gocast_mobile/models/error/error_model.dart';
+import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/views/utils/globals.dart';
 import 'package:logger/logger.dart';
 
 /// Handles authentication for the application.
@@ -67,7 +67,9 @@ class AuthHandler {
   }
 
   static Future<void> ssoAuth(BuildContext context, WidgetRef ref) async {
+    final viewModel = ref.watch(userViewModelProvider.notifier);
     _logger.i('Starting SSO authentication');
+    //viewModel.current.value.setIsLoading(true);
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -78,7 +80,7 @@ class AuthHandler {
               icon: const Icon(Icons.arrow_back_ios_new_sharp),
               onPressed: () {
                 Navigator.pushNamed(context, '/home');
-                ref.read(userViewModel).isLoading.add(false);
+                viewModel.current.value.setIsLoading(false);
               },
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/view_models/UserViewModel.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
 import 'package:gocast_mobile/views/utils/globals.dart';
@@ -73,7 +74,7 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildLoginButton(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(userViewModel).isLoading;
+    final viewModel = ref.watch(userViewModelProvider.notifier);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -84,7 +85,7 @@ class WelcomeScreen extends ConsumerWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
-      child: isLoading.value
+      child: viewModel.current.value.isLoading
           ? const SizedBox(
               width: 20.0,
               height: 20.0,

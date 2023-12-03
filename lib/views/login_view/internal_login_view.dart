@@ -44,7 +44,7 @@ class InternalLoginScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
                 _buildLoginButton(
                   context,
-                  userViewModelRef,
+                  ref,
                 ),
               ],
             ),
@@ -105,8 +105,10 @@ class InternalLoginScreen extends ConsumerWidget {
 
   Widget _buildLoginButton(
     BuildContext context,
-    UserViewModel userViewModelRef,
+    WidgetRef ref,
   ) {
+    final userViewModelRef = ref.watch(userViewModel);
+    final viewModel = ref.watch(userViewModelProvider.notifier);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -117,7 +119,7 @@ class InternalLoginScreen extends ConsumerWidget {
         ),
       ),
       onPressed: () => userViewModelRef.handleBasicLogin(context),
-      child: userViewModelRef.isLoading.value
+      child: viewModel.current.value.isLoading
           ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
           : const Text('Login', style: TextStyle(fontSize: 18)),
     );
