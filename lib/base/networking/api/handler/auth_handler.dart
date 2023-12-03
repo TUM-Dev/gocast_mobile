@@ -9,7 +9,7 @@ import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/views/utils/globals.dart';
-import 'package:gocast_mobile/views/utils/routes.dart';
+import 'package:gocast_mobile/config/app_config.dart';
 import 'package:logger/logger.dart';
 
 /// Handles authentication for the application.
