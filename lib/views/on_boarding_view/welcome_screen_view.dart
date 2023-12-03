@@ -38,7 +38,7 @@ class WelcomeScreen extends ConsumerWidget {
               const Spacer(),
               _buildLoginButton(context, ref),
               const SizedBox(height: 12),
-              _buildContinueWithoutButton(),
+              _buildContinueWithoutButton(context),
               const SizedBox(height: 12),
               _buildInternalAccountLink(context),
               const Spacer(flex: 2),
@@ -94,7 +94,7 @@ class WelcomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildContinueWithoutButton() {
+  Widget _buildContinueWithoutButton(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: Colors.blue[900] ?? Colors.blue),
@@ -108,6 +108,7 @@ class WelcomeScreen extends ConsumerWidget {
       child: const Text('Continue without', style: TextStyle(fontSize: 18)),
       onPressed: () {
         //TODO: Continue without login action
+        Navigator.pushNamed(context, '/courses');
       },
     );
   }

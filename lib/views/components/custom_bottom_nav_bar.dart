@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/pinned_courses_view.dart';
 import 'package:gocast_mobile/views/notifications_view/notifications_screen_view.dart';
 
@@ -22,12 +23,12 @@ class CustomBottomNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(currentIndexProvider);
+    final isLoggedIn = ref.read(userViewModel).current.value.user != null;
 
     void navigateToScreen(int index) {
-      if(currentIndex == index)
-        {
-          return;
-        }
+      if (currentIndex == index) {
+        return;
+      }
       ref.read(currentIndexProvider.notifier).state = index; // Update the state
       switch (index) {
         case 0:
@@ -59,41 +60,43 @@ class CustomBottomNavBar extends ConsumerWidget {
       }
     }
 
-    return BottomNavigationBar(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      currentIndex: currentIndex,
-      onTap: navigateToScreen,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            color: _getColorForIcon(context, 0, currentIndex),
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.download,
-            color: _getColorForIcon(context, 1, currentIndex),
-          ),
-          label: 'Downloads',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.push_pin,
-            color: _getColorForIcon(context, 2, currentIndex),
-          ),
-          label: 'Pinned',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.notifications,
-            color: _getColorForIcon(context, 3, currentIndex),
-          ),
-          label: 'Notifications',
-        ),
-      ],
-      type: BottomNavigationBarType.fixed,
-    );
+    return isLoggedIn
+        ? BottomNavigationBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            currentIndex: currentIndex,
+            onTap: navigateToScreen,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: _getColorForIcon(context, 0, currentIndex),
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.download,
+                  color: _getColorForIcon(context, 1, currentIndex),
+                ),
+                label: 'Downloads',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.push_pin,
+                  color: _getColorForIcon(context, 2, currentIndex),
+                ),
+                label: 'Pinned',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.notifications,
+                  color: _getColorForIcon(context, 3, currentIndex),
+                ),
+                label: 'Notifications',
+              ),
+            ],
+            type: BottomNavigationBarType.fixed,
+          )
+        : Container(height: 0);
   }
 }

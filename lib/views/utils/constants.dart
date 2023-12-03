@@ -21,7 +21,6 @@ class AppPadding {
   static const EdgeInsets screenPadding = EdgeInsets.all(16.0);
 }
 
-
 // Image Paths
 class AppImages {
   static const String course1 = 'assets/images/course1.png';

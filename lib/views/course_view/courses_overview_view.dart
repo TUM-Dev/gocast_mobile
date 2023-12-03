@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_overview_section.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
@@ -23,25 +24,30 @@ class CourseOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isLoggedIn = ref.read(userViewModel).current.value.user != null;
+
     return BaseView(
       title: 'Go Cast',
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () => _navigateToScreen(
-              context, const SettingsScreen(),), // Removed 'const' here
+            context,
+            const SettingsScreen(),
+          ),
         ),
       ],
       child: SingleChildScrollView(
         child: Column(
           children: [
-            CourseSection(
-              sectionTitle: "My courses",
-              onViewAll: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyCourses()),
+            if (isLoggedIn)
+              CourseSection(
+                sectionTitle: "My courses",
+                onViewAll: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyCourses()),
+                ),
               ),
-            ),
             const SizedBox(height: 20), // Space between the sections
             CourseSection(
               sectionTitle: "Public courses",
