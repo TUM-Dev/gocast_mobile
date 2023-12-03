@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 
-
 class NotificationsScreen extends ConsumerWidget {
   NotificationsScreen({super.key});
 
@@ -25,7 +24,6 @@ class NotificationsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
-
       title: 'Notifications',
       child: ListView.builder(
         itemCount: notifications.keys.length,
@@ -51,7 +49,6 @@ class NotificationsScreen extends ConsumerWidget {
           );
         },
       ),
-
     );
   }
 }

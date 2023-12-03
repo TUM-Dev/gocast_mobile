@@ -9,6 +9,9 @@ class CourseModel {
   final String subtitle;
   final String imagePath;
 
-  CourseModel(
-      {required this.title, required this.subtitle, required this.imagePath});
+  CourseModel({
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+  });
 }
