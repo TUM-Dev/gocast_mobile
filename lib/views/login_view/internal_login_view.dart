@@ -118,7 +118,10 @@ class InternalLoginScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
       ),
-      onPressed: () => userViewModelRef.handleBasicLogin(context),
+      onPressed: () => {
+        userViewModelRef.handleBasicLogin(context),
+        viewModel.resetControllers(),
+      },
       child: viewModel.current.value.isLoading
           ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
           : const Text('Login', style: TextStyle(fontSize: 18)),

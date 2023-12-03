@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
+import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 
 /// CourseListScreen
 ///
@@ -10,7 +11,7 @@ import 'package:gocast_mobile/views/components/base_view.dart';
 /// dynamically generates a horizontal list of courses.
 class CourseListScreen extends ConsumerWidget {
   final String title;
-  final List<Widget> videoCards;
+  final List<VideoCard> videoCards;
 
   const CourseListScreen({
     super.key,

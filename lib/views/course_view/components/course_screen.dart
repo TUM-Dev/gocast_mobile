@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
+import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
 
@@ -13,7 +14,7 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 /// course lists.
 class CoursesScreen extends StatelessWidget {
   final String title;
-  final List<Widget> courseCards;
+  final List<CourseCard> courseCards;
 
   const CoursesScreen({
     super.key,

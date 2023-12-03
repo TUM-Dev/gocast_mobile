@@ -20,7 +20,7 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 /// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
-  final List<Widget>? courses;
+  final List<CourseCard>? courses;
   final VoidCallback onViewAll;
 
   const CourseSection({

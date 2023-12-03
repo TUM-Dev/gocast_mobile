@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/course_view/components/courselist_screen.dart';
+import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 
 /// CourseContentScreen
 ///
@@ -13,7 +14,7 @@ import 'package:gocast_mobile/views/course_view/components/courselist_screen.dar
 ///   [videoCards] - A list of VideoCard widgets to be displayed under the title.
 class CourseContentScreen extends ConsumerWidget {
   final String title;
-  final List<Widget> videoCards;
+  final List<VideoCard> videoCards;
 
   const CourseContentScreen({
     super.key,

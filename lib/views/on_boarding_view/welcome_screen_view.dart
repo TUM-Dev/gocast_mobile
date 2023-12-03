@@ -4,7 +4,6 @@ import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/view_models/UserViewModel.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
-import 'package:gocast_mobile/views/utils/globals.dart';
 
 /// Welcome screen view.
 /// This is the first screen that the user sees when the app is opened.
@@ -17,9 +16,6 @@ class WelcomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(usernameControllerProvider);
-    ref.watch(passwordControllerProvider);
-
     return Scaffold(
       body: SafeArea(
         child: Padding(

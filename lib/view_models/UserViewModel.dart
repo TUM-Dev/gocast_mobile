@@ -103,6 +103,11 @@ class UserViewModel extends StateNotifier<UserState> {
       current = BehaviorSubject.seeded(UserState.defaultConstructor());
     }
   }
+
+  void resetControllers() {
+    usernameController.clear();
+    passwordController.clear();
+  }
 }
 
 final userViewModelProvider = StateNotifierProvider<UserViewModel, UserState>(
