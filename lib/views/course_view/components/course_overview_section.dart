@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/models/course/course_model.dart';
 import 'package:gocast_mobile/views/components/viewall_button_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 import 'package:gocast_mobile/views/utils/constants.dart';
@@ -20,7 +21,7 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 /// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
-  final List<CourseCard>? courses;
+  final List<CourseModel>? courses;
   final VoidCallback onViewAll;
 
   const CourseSection({
@@ -39,7 +40,7 @@ class CourseSection extends StatelessWidget {
           _buildCourseSection(
             context: context,
             title: sectionTitle,
-            onViewAll: onViewAll, // Define the onViewAll action
+            onViewAll: onViewAll,
             courses: courses ?? _defaultCourses(),
           ),
         ],
@@ -51,7 +52,7 @@ class CourseSection extends StatelessWidget {
     required BuildContext context,
     required String title,
     required VoidCallback onViewAll,
-    required List<Widget> courses,
+    required List<CourseModel> courses,
   }) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -65,7 +66,12 @@ class CourseSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: courses.length,
               itemBuilder: (BuildContext context, int index) {
-                return courses[index];
+                final course = courses[index];
+                return CourseCard(
+                  title: course.title,
+                  subtitle: course.subtitle,
+                  path: course.imagePath,
+                );
               },
             ),
           ),
@@ -91,32 +97,32 @@ class CourseSection extends StatelessWidget {
     );
   }
 
-  List<Widget> _defaultCourses() {
-    return const [
-      CourseCard(
+  List<CourseModel> _defaultCourses() {
+    return [
+      CourseModel(
         title: 'PSY101',
         subtitle: 'Introduction to Psychology',
-        path: AppImages.course1,
+        imagePath: AppImages.course1,
       ),
-      CourseCard(
+      CourseModel(
         title: 'PSY102',
         subtitle: 'Introduction to Computer Science',
-        path: AppImages.course2,
+        imagePath: AppImages.course2,
       ),
-      CourseCard(
+      CourseModel(
         title: 'PSY103',
         subtitle: 'Introduction to Biology',
-        path: AppImages.course1,
+        imagePath: AppImages.course1,
       ),
-      CourseCard(
+      CourseModel(
         title: 'PSY104',
         subtitle: 'Introduction to Chemistry',
-        path: AppImages.course2,
+        imagePath: AppImages.course2,
       ),
-      CourseCard(
+      CourseModel(
         title: 'PSY105',
         subtitle: 'Introduction to Physics',
-        path: AppImages.course1,
+        imagePath: AppImages.course1,
       ),
     ];
   }

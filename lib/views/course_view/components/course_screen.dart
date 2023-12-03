@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/models/course/course_model.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
@@ -14,12 +15,12 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 /// course lists.
 class CoursesScreen extends StatelessWidget {
   final String title;
-  final List<CourseCard> courseCards;
+  final List<CourseModel> courses;
 
   const CoursesScreen({
     super.key,
     required this.title,
-    required this.courseCards,
+    required this.courses,
   });
 
   @override
@@ -65,9 +66,14 @@ class CoursesScreen extends StatelessWidget {
       height: AppSizes.courseListHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: courseCards.length,
+        itemCount: courses.length,
         itemBuilder: (BuildContext context, int index) {
-          return courseCards[index];
+          final course = courses[index]; // Get the course object
+          return CourseCard(
+            title: course.title,
+            subtitle: course.subtitle,
+            path: course.imagePath,
+          );
         },
       ),
     );

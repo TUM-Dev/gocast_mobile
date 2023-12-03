@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
+import 'package:gocast_mobile/models/course/course_model.dart';
 
 import '../../utils/constants.dart';
 import '../components/course_screen.dart';
@@ -11,13 +11,13 @@ class PublicCourses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CoursesScreen(
+    return CoursesScreen(
       title: 'Public Courses',
-      courseCards: [
-        CourseCard(
+      courses: [
+        CourseModel(
           title: 'PSY101',
           subtitle: 'Public Psychology Course',
-          path: AppImages.course1,
+          imagePath: AppImages.course1,
         ),
         // Add more courses as needed
       ],
