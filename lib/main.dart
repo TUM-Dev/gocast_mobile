@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/base/networking/api/grpc_handler.dart';
-import 'package:gocast_mobile/models/error_model.dart';
-import 'package:gocast_mobile/routes.dart';
-import 'package:gocast_mobile/views/courseoverview_screen.dart';
+import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
+import 'package:gocast_mobile/config/app_config.dart';
+import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:gocast_mobile/view_models/user_viewmodel.dart';
-import 'package:gocast_mobile/views/welcome_screen.dart';
+import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/views/course_view/courses_overview_view.dart';
+import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
+import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
+import 'package:gocast_mobile/views/utils/globals.dart';
+import 'package:gocast_mobile/views/utils/theme.dart';
+import 'package:logger/logger.dart';
 
-final grpcHandlerProvider = Provider((ref) {
-  final grpcHandler = GrpcHandler(Routes.grpcHost, Routes.grpcPort);
-  return grpcHandler;
-});
+import 'base/networking/api/gocast/api_v2.pb.dart';
 
-final userViewModel = Provider((ref) {
-  final grpcHandler = ref.watch(grpcHandlerProvider);
-  return UserViewModel(grpcHandler);
-});
-
-final userStateProvider = StreamProvider<UserState>((ref) {
-  return ref.watch(userViewModel).current.stream;
-});
+final grpcHandlerProvider =
+    Provider((ref) => GrpcHandler(Routes.grpcHost, Routes.grpcPort));
+final userViewModel =
+    Provider((ref) => UserViewModel(ref.watch(grpcHandlerProvider)));
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: App(),
-    ),
-  );
+  Logger.level = Level.debug;
+  runApp(const ProviderScope(child: App()));
 }
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -37,28 +31,41 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.watch(userStateProvider);
+    return StreamBuilder<UserState>(
+      stream: ref.watch(userViewModel).current.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          final error = snapshot.error as AppError;
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => scaffoldMessengerKey.currentState!.showSnackBar(
+              SnackBar(content: Text('Error: ${error.message}')),
+            ),
+          );
+        }
 
-    if (userState.error != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        AppError error = userState.error as AppError;
-        scaffoldMessengerKey.currentState!.showSnackBar(
-          SnackBar(content: Text('Error: ${error.message}')),
+        final Widget homeScreen = _getHomeScreen(snapshot.data?.user);
+
+        return MaterialApp(
+          theme: appTheme,
+          navigatorKey: navigatorKey,
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          home: homeScreen,
+          routes: _buildRoutes(homeScreen),
         );
-      });
-    }
-
-    return MaterialApp(
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      home: const WelcomeScreen(),
-      routes: {
-        '/welcome': (context) => userState.value?.user == null
-            ? const WelcomeScreen(key: Key('welcomeView'))
-            : const CourseOverview(key: Key('courseView')),
-        '/home': (context) => userState.value?.user == null
-            ? const WelcomeScreen(key: Key('welcomeView'))
-            : const CourseOverview(key: Key('courseView')),
       },
     );
+  }
+
+  Widget _getHomeScreen(User? user) {
+    return user == null ? const WelcomeScreen() : const CourseOverview();
+  }
+
+  Map<String, WidgetBuilder> _buildRoutes(Widget homeScreen) {
+    return {
+      '/welcome': (context) => homeScreen,
+      '/home': (context) => homeScreen,
+      '/login': (context) => const InternalLoginScreen(),
+      '/courses': (context) => const CourseOverview(),
+    };
   }
 }

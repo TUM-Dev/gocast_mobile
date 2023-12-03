@@ -1,26 +1,14 @@
-import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart'
-    as proto;
+/// Course model
+///
+/// A model class to represent a course.
+/// This Model is a temporary model to display the course list.
+/// This model will be replaced by the actual model class once the API for retrieving
+/// the course list is ready.
+class CourseModel {
+  final String title;
+  final String subtitle;
+  final String imagePath;
 
-class Course {
-  Course({
-    required this.id,
-    required this.name,
-    required this.teachingTerm,
-    required this.year,
-  });
-
-  int id;
-  String name;
-  String teachingTerm;
-  int year;
-
-  // Factory method to create a Course instance from the gRPC response
-  factory Course.fromProto(proto.Course course) {
-    return Course(
-      id: course.id as int,
-      name: course.name,
-      teachingTerm: course.teachingTerm,
-      year: course.year,
-    );
-  }
+  CourseModel(
+      {required this.title, required this.subtitle, required this.imagePath});
 }
