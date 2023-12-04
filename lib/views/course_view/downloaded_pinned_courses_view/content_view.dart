@@ -15,11 +15,13 @@ import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 class CourseContentScreen extends ConsumerWidget {
   final String title;
   final List<VideoCard> videoCards;
+  final Future<void> Function()? onRefresh;
 
   const CourseContentScreen({
     super.key,
     required this.title,
     required this.videoCards,
+    this.onRefresh,
   });
 
   @override
@@ -27,6 +29,7 @@ class CourseContentScreen extends ConsumerWidget {
     return CourseListScreen(
       title: title,
       videoCards: videoCards,
+      onRefresh: onRefresh,
     );
   }
 }

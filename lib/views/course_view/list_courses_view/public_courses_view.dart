@@ -12,7 +12,7 @@ class PublicCourses extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CoursesScreen(
       title: 'Public Courses',
-      courses: ref.read(userViewModel).current.value.publicCourses ?? [],
+      courses: ref.watch(userViewModel).current.value.publicCourses ?? [],
       onRefresh: () async {
         await ref.read(userViewModel).fetchPublicCourses();
       },

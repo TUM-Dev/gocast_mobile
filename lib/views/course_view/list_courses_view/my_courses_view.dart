@@ -5,7 +5,6 @@ import '../components/course_screen.dart';
 
 /// MyCourses Screen
 /// This screen displays a list of My Courses.
-///
 class MyCourses extends ConsumerWidget {
   const MyCourses({super.key});
 
@@ -13,7 +12,7 @@ class MyCourses extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CoursesScreen(
       title: 'My Courses',
-      courses: ref.read(userViewModel).current.value.userCourses ?? [],
+      courses: ref.watch(userViewModel).current.value.publicCourses ?? [],
       onRefresh: () async {
         await ref.read(userViewModel).fetchUserCourses();
       },

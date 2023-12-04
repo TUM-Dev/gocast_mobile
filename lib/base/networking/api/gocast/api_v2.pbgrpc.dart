@@ -70,38 +70,45 @@ class APIClient extends $grpc.Client {
           interceptors: interceptors,
         );
 
-  $grpc.ResponseFuture<$0.GetUserResponse> getUser($0.GetUserRequest request,
-      {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetUserResponse> getUser(
+    $0.GetUserRequest request, {
+    $grpc.CallOptions? options,
+  }) {
     return $createUnaryCall(_$getUser, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserCoursesResponse> getUserCourses(
-      $0.GetUserCoursesRequest request,
-      {$grpc.CallOptions? options}) {
+    $0.GetUserCoursesRequest request, {
+    $grpc.CallOptions? options,
+  }) {
     return $createUnaryCall(_$getUserCourses, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserPinnedResponse> getUserPinned(
-      $0.GetUserPinnedRequest request,
-      {$grpc.CallOptions? options}) {
+    $0.GetUserPinnedRequest request, {
+    $grpc.CallOptions? options,
+  }) {
     return $createUnaryCall(_$getUserPinned, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserAdminResponse> getUserAdminCourses(
-      $0.GetUserAdminRequest request,
-      {$grpc.CallOptions? options}) {
+    $0.GetUserAdminRequest request, {
+    $grpc.CallOptions? options,
+  }) {
     return $createUnaryCall(_$getUserAdminCourses, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserSettingsResponse> getUserSettings(
-      $0.GetUserSettingsRequest request,
-      {$grpc.CallOptions? options}) {
+    $0.GetUserSettingsRequest request, {
+    $grpc.CallOptions? options,
+  }) {
     return $createUnaryCall(_$getUserSettings, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetBookmarksResponse> getUserBookmarks(
-      $0.GetBookmarksRequest request,
-      {$grpc.CallOptions? options}) {
+    $0.GetBookmarksRequest request, {
+    $grpc.CallOptions? options,
+  }) {
     return $createUnaryCall(_$getUserBookmarks, request, options: options);
   }
 }
@@ -180,50 +187,69 @@ abstract class APIServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.GetUserResponse> getUser_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.GetUserRequest> request) async {
+    $grpc.ServiceCall call,
+    $async.Future<$0.GetUserRequest> request,
+  ) async {
     return getUser(call, await request);
   }
 
   $async.Future<$0.GetUserCoursesResponse> getUserCourses_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GetUserCoursesRequest> request) async {
+    $grpc.ServiceCall call,
+    $async.Future<$0.GetUserCoursesRequest> request,
+  ) async {
     return getUserCourses(call, await request);
   }
 
   $async.Future<$0.GetUserPinnedResponse> getUserPinned_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GetUserPinnedRequest> request) async {
+    $grpc.ServiceCall call,
+    $async.Future<$0.GetUserPinnedRequest> request,
+  ) async {
     return getUserPinned(call, await request);
   }
 
   $async.Future<$0.GetUserAdminResponse> getUserAdminCourses_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GetUserAdminRequest> request) async {
+    $grpc.ServiceCall call,
+    $async.Future<$0.GetUserAdminRequest> request,
+  ) async {
     return getUserAdminCourses(call, await request);
   }
 
   $async.Future<$0.GetUserSettingsResponse> getUserSettings_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GetUserSettingsRequest> request) async {
+    $grpc.ServiceCall call,
+    $async.Future<$0.GetUserSettingsRequest> request,
+  ) async {
     return getUserSettings(call, await request);
   }
 
   $async.Future<$0.GetBookmarksResponse> getUserBookmarks_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GetBookmarksRequest> request) async {
+    $grpc.ServiceCall call,
+    $async.Future<$0.GetBookmarksRequest> request,
+  ) async {
     return getUserBookmarks(call, await request);
   }
 
   $async.Future<$0.GetUserResponse> getUser(
-      $grpc.ServiceCall call, $0.GetUserRequest request);
+    $grpc.ServiceCall call,
+    $0.GetUserRequest request,
+  );
   $async.Future<$0.GetUserCoursesResponse> getUserCourses(
-      $grpc.ServiceCall call, $0.GetUserCoursesRequest request);
+    $grpc.ServiceCall call,
+    $0.GetUserCoursesRequest request,
+  );
   $async.Future<$0.GetUserPinnedResponse> getUserPinned(
-      $grpc.ServiceCall call, $0.GetUserPinnedRequest request);
+    $grpc.ServiceCall call,
+    $0.GetUserPinnedRequest request,
+  );
   $async.Future<$0.GetUserAdminResponse> getUserAdminCourses(
-      $grpc.ServiceCall call, $0.GetUserAdminRequest request);
+    $grpc.ServiceCall call,
+    $0.GetUserAdminRequest request,
+  );
   $async.Future<$0.GetUserSettingsResponse> getUserSettings(
-      $grpc.ServiceCall call, $0.GetUserSettingsRequest request);
+    $grpc.ServiceCall call,
+    $0.GetUserSettingsRequest request,
+  );
   $async.Future<$0.GetBookmarksResponse> getUserBookmarks(
-      $grpc.ServiceCall call, $0.GetBookmarksRequest request);
+    $grpc.ServiceCall call,
+    $0.GetBookmarksRequest request,
+  );
 }

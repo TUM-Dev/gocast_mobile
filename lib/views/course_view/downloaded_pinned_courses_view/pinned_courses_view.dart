@@ -18,17 +18,6 @@ class PinnedCourses extends ConsumerWidget {
     final pinnedCourses = ref.watch(userViewModel).current.value.userPinned;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pinned'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () async {
-              await ref.read(userViewModel).fetchUserPinned();
-            },
-          ),
-        ],
-      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await ref.read(userViewModel).fetchUserPinned();
@@ -45,10 +34,21 @@ class PinnedCourses extends ConsumerWidget {
                     duration: course.cameraPresetPreferences,
                   );
                 }).toList(),
+                onRefresh: () async {
+                  await ref.read(userViewModel).fetchUserPinned();
+                },
               )
-            : const BaseView(
+            : BaseView(
                 title: '',
-                child: Center(child: Text('No pinned courses')),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () async {
+                      await ref.read(userViewModel).fetchUserPinned();
+                    },
+                  ),
+                ],
+                child: const Center(child: Text('No pinned courses')),
               ),
       ),
     );

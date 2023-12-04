@@ -36,7 +36,7 @@ class CoursesScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle(),
-            courses.isEmpty ? _buildPlaceholder() : _buildCourseListView(),
+            courses.isEmpty ? _buildPlaceholder() : _buildCourseListView(ref),
           ],
         ),
       ),
@@ -75,7 +75,7 @@ class CoursesScreen extends ConsumerWidget {
     );
   }
 
-  SizedBox _buildCourseListView() {
+  SizedBox _buildCourseListView(WidgetRef ref) {
     return SizedBox(
       height: AppSizes.courseListHeight,
       child: ListView.builder(
