@@ -30,6 +30,12 @@ class CourseOverview extends ConsumerWidget {
       title: 'Go Cast',
       actions: [
         IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () async {
+            await ref.read(userViewModel).fetchUserCourses();
+          },
+        ),
+        IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () => _navigateToScreen(
             context,
@@ -53,7 +59,9 @@ class CourseOverview extends ConsumerWidget {
               sectionTitle: "Public courses",
               onViewAll: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PublicCourses()),
+                MaterialPageRoute(
+                  builder: (context) => const PublicCourses(),
+                ),
               ),
             ),
             // Add other sections or content as needed

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/models/course/course_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
@@ -13,35 +14,41 @@ import 'package:gocast_mobile/views/utils/constants.dart';
 /// dynamically generates a horizontal list of courses. This widget can be
 /// reused for various course sections by providing different titles and
 /// course lists.
-class CoursesScreen extends StatelessWidget {
+class CoursesScreen extends ConsumerWidget {
   final String title;
-  final List<CourseModel> courses;
+  final List<Course> courses;
+  final Future<void> Function() onRefresh;
 
   const CoursesScreen({
     super.key,
     required this.title,
     required this.courses,
+    required this.onRefresh,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
       title: 'GoCast',
-      actions: _buildAppBarActions(context),
+      actions: _buildAppBarActions(context, ref),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle(),
-            _buildCourseListView(),
+            courses.isEmpty ? _buildPlaceholder() : _buildCourseListView(),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> _buildAppBarActions(BuildContext context) {
+  List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
     return [
+      IconButton(
+        icon: const Icon(Icons.refresh),
+        onPressed: onRefresh,
+      ),
       IconButton(
         icon: const Icon(Icons.settings),
         onPressed: () => Navigator.push(
@@ -61,6 +68,13 @@ class CoursesScreen extends StatelessWidget {
     );
   }
 
+  Padding _buildPlaceholder() {
+    return const Padding(
+      padding: AppPadding.sectionPadding,
+      child: Center(child: Text('No courses found.')),
+    );
+  }
+
   SizedBox _buildCourseListView() {
     return SizedBox(
       height: AppSizes.courseListHeight,
@@ -70,9 +84,9 @@ class CoursesScreen extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final course = courses[index]; // Get the course object
           return CourseCard(
-            title: course.title,
-            subtitle: course.subtitle,
-            path: course.imagePath,
+            title: course.name,
+            subtitle: course.slug,
+            path: 'assets/images/course2.png',
           );
         },
       ),

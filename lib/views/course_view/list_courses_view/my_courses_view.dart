@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/models/course/course_model.dart';
-
-import '../../utils/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/main.dart';
 import '../components/course_screen.dart';
 
 /// MyCourses Screen
 /// This screen displays a list of My Courses.
 ///
-class MyCourses extends StatelessWidget {
+class MyCourses extends ConsumerWidget {
   const MyCourses({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CoursesScreen(
       title: 'My Courses',
-      courses: [
-        CourseModel(
-          title: 'PSY101',
-          subtitle: 'Introduction to Psychology',
-          imagePath: AppImages.course1,
-        ),
-        // Add more courses as needed
-      ],
+      courses: ref.read(userViewModel).current.value.userCourses ?? [],
+      onRefresh: () async {
+        await ref.read(userViewModel).fetchUserCourses();
+      },
     );
   }
 }
