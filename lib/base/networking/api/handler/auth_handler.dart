@@ -8,7 +8,7 @@ import 'package:gocast_mobile/base/networking/api/handler/api_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/config/app_config.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/view_models/user_view_model.dart';
 import 'package:gocast_mobile/views/utils/globals.dart';
 import 'package:logger/logger.dart';
 

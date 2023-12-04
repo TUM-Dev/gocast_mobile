@@ -4,7 +4,7 @@ import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/config/app_config.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/view_models/user_view_model.dart';
 import 'package:gocast_mobile/views/course_view/courses_overview_view.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
