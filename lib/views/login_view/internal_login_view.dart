@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/main.dart';
-import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/view_models/user_view_model.dart';
 
 /// Internal login screen view.
 ///

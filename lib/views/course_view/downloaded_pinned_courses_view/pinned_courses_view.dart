@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 
@@ -13,17 +15,42 @@ class PinnedCourses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const CourseContentScreen(
-      title: 'Pinned',
-      videoCards: [
-        VideoCard(
-          imageName: 'assets/images/course2.png',
-          title: 'Computer Science [CS202]',
-          date: 'July 23, 2019',
-          duration: '02:00:00',
-        ),
-        // Add more VideoCard widgets as needed
-      ],
+    final pinnedCourses = ref.watch(userViewModel).current.value.userPinned;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pinned'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () async {
+              await ref.read(userViewModel).fetchUserPinned();
+            },
+          ),
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await ref.read(userViewModel).fetchUserPinned();
+        },
+        child: pinnedCourses != null && pinnedCourses.isNotEmpty
+            ? CourseContentScreen(
+                title: "Pinned",
+                videoCards: pinnedCourses.map((course) {
+                  return VideoCard(
+                    imageName: 'assets/images/course2.png',
+                    title: "${course.name} - ${course.slug}",
+                    date:
+                        "${course.semester.year} ${course.semester.teachingTerm}",
+                    duration: course.cameraPresetPreferences,
+                  );
+                }).toList(),
+              )
+            : const BaseView(
+                title: '',
+                child: Center(child: Text('No pinned courses')),
+              ),
+      ),
     );
   }
 }
