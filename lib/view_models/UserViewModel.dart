@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
@@ -12,8 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
-
-  //BehaviorSubject<bool> isLoading = BehaviorSubject.seeded(false);
 
   BehaviorSubject<UserState> current =
       BehaviorSubject.seeded(UserState.defaultConstructor());
@@ -57,14 +56,14 @@ class UserViewModel extends StateNotifier<UserState> {
       current.value.setIsLoading(false);
       current.addError(error);
     } finally {
-      current.value.setIsLoading(false); // Stop loading
+      current.value.setIsLoading(false);
     }
   }
 
   /// Handles SSO authentication.
   /// This method call the ssoAuth method
   Future<void> ssoAuth(BuildContext context, WidgetRef ref) async {
-    current.value.setIsLoading(true); // Start loading
+    current.value.setIsLoading(true);
     try {
       _logger.i('Logging in user ${current.value.user} with SSO');
       await AuthHandler.ssoAuth(context, ref);
@@ -74,18 +73,85 @@ class UserViewModel extends StateNotifier<UserState> {
       current.value.setIsLoading(false);
       current.addError(error);
     } finally {
-      current.value.setIsLoading(false); // Stop loading
+      current.value.setIsLoading(false);
     }
   }
 
   Future<void> _fetchUser() async {
-    current.value.setIsLoading(true); // Start loading
+    current.value.setIsLoading(true);
     try {
       _logger.i('Fetching user');
       var user = await UserHandler(_grpcHandler).fetchUser();
       current.value.setUser(user);
     } catch (error) {
       current.addError(error);
+    } finally {
+      current.value.setIsLoading(false);
+    }
+  }
+
+  Future<void> fetchUserCourses() async {
+    current.value.setIsLoading(true);
+    try {
+      _logger.i('Fetching user courses');
+      var courses = await UserHandler(_grpcHandler).fetchUserCourses();
+      current.value.setUserCourses(courses);
+    } catch (error) {
+      current.addError(error);
+    } finally {
+      current.value.setIsLoading(false);
+    }
+  }
+
+  Future<void> fetchUserPinned() async {
+    current.value.setIsLoading(true);
+    try {
+      _logger.i('Fetching user pinned');
+      var courses = await UserHandler(_grpcHandler).fetchUserPinned();
+      current.value.setUserPinned(courses);
+    } catch (error) {
+      current.addError(error);
+    } finally {
+      current.value.setIsLoading(false);
+    }
+  }
+
+  Future<void> fetchUserSettings() async {
+    current.value.setIsLoading(true);
+    try {
+      _logger.i('Fetching user settings');
+      var settings = await UserHandler(_grpcHandler).fetchUserSettings();
+      current.value.setUserSettings(settings);
+    } catch (error) {
+      current.addError(error);
+    } finally {
+      current.value.setIsLoading(false);
+    }
+  }
+
+  Future<void> fetchUserBookmarks() async {
+    current.value.setIsLoading(true);
+    try {
+      _logger.i('Fetching user bookmarks');
+      var bookmarks = await UserHandler(_grpcHandler).fetchUserBookmarks();
+      current.value.setUserBookmarks(bookmarks);
+    } catch (error) {
+      current.addError(error);
+    } finally {
+      current.value.setIsLoading(false);
+    }
+  }
+
+  Future<void> fetchPublicCourses() async {
+    current.value.setIsLoading(true);
+    try {
+      _logger.i('Fetching public courses');
+      var courses = await UserHandler(_grpcHandler).fetchUserCourses();
+      current.value.setPublicCourses(courses);
+    } catch (error) {
+      current.addError(error);
+    } finally {
+      current.value.setIsLoading(false);
     }
   }
 
