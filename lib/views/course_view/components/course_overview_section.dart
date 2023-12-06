@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/models/course/course_model.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/viewall_button_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
-import 'package:gocast_mobile/views/utils/constants.dart';
 
 /// CourseSection
 ///

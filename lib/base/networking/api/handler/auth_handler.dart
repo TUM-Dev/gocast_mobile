@@ -8,8 +8,8 @@ import 'package:gocast_mobile/base/networking/api/handler/api_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/config/app_config.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/view_models/user_view_model.dart';
-import 'package:gocast_mobile/views/utils/globals.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
 
 /// Handles authentication for the application.
@@ -67,31 +67,39 @@ class AuthHandler {
   }
 
   static Future<void> ssoAuth(BuildContext context, WidgetRef ref) async {
-    final viewModel = ref.watch(userViewModelProvider.notifier);
+    final viewModel = ref.read(userViewModelProvider.notifier);
+
     _logger.i('Starting SSO authentication');
-    //viewModel.current.value.setIsLoading(true);
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: const Text('TUM Web Login'),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_sharp),
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-                viewModel.current.value.setIsLoading(false);
-              },
+    viewModel.setIsLoading(true); // Set loading state
+    _logger.i('Loading SSO login page');
+
+    try {
+      await navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) => Scaffold(
+            appBar: AppBar(
+              title: const Text('TUM Web Login'),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                onPressed: () {
+                  navigatorKey.currentState?.pushReplacementNamed('/welcome');
+                },
+              ),
             ),
+            body: _buildWebView(),
           ),
-          body: _buildWebView(),
         ),
-      ),
-    );
-    isLoginSuccessful = false; // Reset the flag after WebView is closed
+      );
+    } catch (e) {
+      _logger.e('Error during SSO authentication');
+    } finally {
+      viewModel
+          .setIsLoading(false); // Reset loading state after WebView is closed
+    }
   }
 
   static Widget _buildWebView() {
+    _logger.i('Building web view');
     return webview.InAppWebView(
       initialUrlRequest: webview.URLRequest(url: Uri.parse(Routes.ssoLogin)),
       onLoadStop: _onWebViewLoadStop,
@@ -106,12 +114,11 @@ class AuthHandler {
       if (url != null && url.toString().startsWith(Routes.ssoRedirect)) {
         _logger.i('Web view loaded URL: $url');
         await _handleCookieRetrieval(url);
-        isLoginSuccessful = true; // Set flag to true on successful login
+        isLoginSuccessful = false; // Set flag to true on successful login
         // Due to the token being signed from TUM Live RBG, the app will not be able to decode it
         // Therefor can´t retrieve the user data from TUM database
         // Once the API for user is implemented and deployed, this will be adapted to redirect to the course_overview_view
-        navigatorKey.currentState
-            ?.pop(); //Comment this line if you want to continue in the webview
+        navigatorKey.currentState?.pushReplacementNamed('/welcome');
         _logger.i('SSO authentication completed, redirected to app');
       } else if (url != null) {
         _logger.d('Web view loaded URL: $url');

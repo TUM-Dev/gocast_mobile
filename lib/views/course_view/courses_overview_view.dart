@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_overview_section.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
@@ -24,7 +24,7 @@ class CourseOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoggedIn = ref.read(userViewModel).current.value.user != null;
+    final isLoggedIn = ref.read(userViewModelProvider).user != null;
 
     return BaseView(
       title: 'Go Cast',
@@ -32,7 +32,7 @@ class CourseOverview extends ConsumerWidget {
         IconButton(
           icon: const Icon(Icons.refresh),
           onPressed: () async {
-            await ref.read(userViewModel).fetchUserCourses();
+            await ref.read(userViewModelProvider.notifier).fetchUserCourses();
           },
         ),
         IconButton(

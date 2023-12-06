@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/main.dart';
-import 'package:gocast_mobile/view_models/user_view_model.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
-import 'package:gocast_mobile/views/utils/constants.dart';
 
 /// Welcome screen view.
 /// This is the first screen that the user sees when the app is opened.
@@ -70,7 +69,7 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildLoginButton(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(userViewModelProvider.notifier);
+    final viewModel = ref.watch(userViewModelProvider);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -81,7 +80,7 @@ class WelcomeScreen extends ConsumerWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
-      child: viewModel.current.value.isLoading
+      child: viewModel.isLoading
           ? const SizedBox(
               width: 20.0,
               height: 20.0,
@@ -124,13 +123,12 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Future<void> handleSSOLogin(BuildContext context, WidgetRef ref) async {
-    // Call the SSO authentication function from /base/api/auth
-    await ref.read(userViewModel).ssoAuth(context, ref).then(
+    await ref.read(userViewModelProvider.notifier).ssoAuth(context, ref).then(
           (value) => {
-            if (ref.read(userViewModel).current.value.user != null)
+            if (ref.read(userViewModelProvider).user != null)
               {Navigator.pushNamed(context, '/courses')}
             else
-              {Navigator.pushNamed(context, '/home')},
+              {Navigator.pushNamed(context, '/welcome')},
           },
         );
   }

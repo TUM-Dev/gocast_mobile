@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 /// Global Objects and State for the Application
 ///
 /// This file contains global keys and objects that are required to be accessed
@@ -8,10 +11,6 @@
 /// - GlobalKey for NavigatorState: Used for navigation in contexts where BuildContext is not available.
 ///
 /// Note: Use globals judiciously as they can lead to tightly coupled code and make testing more difficult.
-library;
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global key for the navigator state to be used for navigation in contexts where BuildContext is not available.
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

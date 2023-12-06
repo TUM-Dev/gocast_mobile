@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_card_view.dart';
@@ -15,14 +15,15 @@ class PinnedCourses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pinnedCourses = ref.watch(userViewModel).current.value.userPinned;
+    final pinnedCourses =
+        ref.watch(userViewModelProvider).user?.pinnedCourses ?? [];
 
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(userViewModel).fetchUserPinned();
+          await ref.read(userViewModelProvider.notifier).fetchUserPinned();
         },
-        child: pinnedCourses != null && pinnedCourses.isNotEmpty
+        child: pinnedCourses.isNotEmpty
             ? CourseContentScreen(
                 title: "Pinned",
                 videoCards: pinnedCourses.map((course) {
@@ -35,7 +36,9 @@ class PinnedCourses extends ConsumerWidget {
                   );
                 }).toList(),
                 onRefresh: () async {
-                  await ref.read(userViewModel).fetchUserPinned();
+                  await ref
+                      .read(userViewModelProvider.notifier)
+                      .fetchUserPinned();
                 },
               )
             : BaseView(
@@ -44,7 +47,9 @@ class PinnedCourses extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () async {
-                      await ref.read(userViewModel).fetchUserPinned();
+                      await ref
+                          .read(userViewModelProvider.notifier)
+                          .fetchUserPinned();
                     },
                   ),
                 ],

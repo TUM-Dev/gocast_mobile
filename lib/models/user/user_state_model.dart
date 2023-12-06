@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
+import 'package:gocast_mobile/models/error/error_model.dart';
 
 class UserState {
   bool isLoading;
@@ -9,6 +10,7 @@ class UserState {
   List<UserSetting>? userSettings;
   List<Bookmark>? userBookmarks;
   List<Course>? publicCourses;
+  AppError? error;
 
   UserState({
     required this.isLoading,
@@ -18,12 +20,18 @@ class UserState {
     this.userSettings,
     this.userBookmarks,
     this.publicCourses,
+    this.error,
   });
 
   // Default constructor
   UserState.defaultConstructor()
       : isLoading = false,
-        user = null;
+        user = null,
+        userCourses = null,
+        userPinned = null,
+        userSettings = null,
+        userBookmarks = null,
+        publicCourses = null;
 
   void setUser(User user) {
     debugPrint("User set to: ${user.name}");
@@ -60,5 +68,27 @@ class UserState {
 
   void toggleIsLoading() {
     isLoading = !isLoading;
+  }
+
+  UserState copyWith({
+    bool? isLoading,
+    User? user,
+    List<Course>? userCourses,
+    List<Course>? userPinned,
+    List<UserSetting>? userSettings,
+    List<Bookmark>? userBookmarks,
+    List<Course>? publicCourses,
+    AppError? error,
+  }) {
+    return UserState(
+      isLoading: isLoading ?? this.isLoading,
+      user: user ?? this.user,
+      userCourses: userCourses ?? this.userCourses,
+      userPinned: userPinned ?? this.userPinned,
+      userSettings: userSettings ?? this.userSettings,
+      userBookmarks: userBookmarks ?? this.userBookmarks,
+      publicCourses: publicCourses ?? this.publicCourses,
+      error: error ?? this.error,
+    );
   }
 }
