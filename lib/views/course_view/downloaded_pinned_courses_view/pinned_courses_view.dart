@@ -33,6 +33,7 @@ class PinnedCourses extends ConsumerWidget {
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
                     duration: course.cameraPresetPreferences,
+          onTap: () {},
                   );
                 }).toList(),
                 onRefresh: () async {
