@@ -13,6 +13,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool isDarkMode = false;
   bool isPushNotificationsEnabled = false;
+  bool isDownloadOverWifiOnly= false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             title: 'Dark mode',
             value: isDarkMode,
             onChanged: (value) => setState(() => isDarkMode = value),
+          ),
+          _buildSwitchListTile(
+            title: 'Download Over Wi-Fi only',
+            value: isDownloadOverWifiOnly,
+            onChanged: (value) =>
+                setState(() => isDownloadOverWifiOnly = value),
           ),
           _buildLogoutTile(context),
           const Divider(),
@@ -118,7 +125,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   ListTile _buildLogoutTile(BuildContext context) {
     return ListTile(
-      title: const Text('Log out'),
+      title: const Text('Log out',
+      style: TextStyle(color: Colors.red),),
       onTap: () {
         ref.read(userViewModelProvider.notifier).logout();
         Navigator.of(context).pushAndRemoveUntil(

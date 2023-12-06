@@ -29,12 +29,7 @@ class CourseOverview extends ConsumerWidget {
     return BaseView(
       title: 'Go Cast',
       actions: [
-        IconButton(
-          icon: const Icon(Icons.refresh),
-          onPressed: () async {
-            await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-          },
-        ),
+
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () => _navigateToScreen(
@@ -43,6 +38,11 @@ class CourseOverview extends ConsumerWidget {
           ),
         ),
       ],
+    child: RefreshIndicator(
+    onRefresh: () async {
+    await ref.read(userViewModelProvider.notifier).fetchUserCourses();
+    },
+
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -67,7 +67,8 @@ class CourseOverview extends ConsumerWidget {
             // Add other sections or content as needed
           ],
         ),
-      ),
+      )
+    ,),
     );
   }
 
