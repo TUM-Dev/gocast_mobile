@@ -32,15 +32,17 @@ class CourseCard extends StatelessWidget {
           width: MediaQuery.of(context).size.width *
               0.4, // was 160, now it's 40% of the screen width
           padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            //crossAxisAlignment: CrossAxisAlignment.start,
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildCourseImage(),
+              Expanded(child: _buildCourseImage()), // Wrapped with Expanded
               _buildCourseTitle(),
               _buildCourseSubtitle(),
               _buildCourseisLive(),
             ],
           ),
+
         ),
       ),
     );
