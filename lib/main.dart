@@ -7,6 +7,7 @@ import 'package:gocast_mobile/views/course_view/courses_overview_view.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
+import 'package:touch_indicator/touch_indicator.dart';
 
 import 'base/networking/api/gocast/api_v2.pb.dart';
 
@@ -40,6 +41,7 @@ class App extends ConsumerWidget {
       theme: appTheme,
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
+      builder: (context, child) => TouchIndicator(child: child!),
       home: homeScreen,
       routes: _buildRoutes(),
     );

@@ -26,7 +26,7 @@ class DownloadedCourses extends ConsumerWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const VideoPlayerCard(videoUrl: "4", title: "title", date: "date"),
+              builder: (context) => const VideoPlayerCard(videoUrl: "assets/reviewTrailer.mp4", title: "title", date: "date"),
             ),
           );
         },
