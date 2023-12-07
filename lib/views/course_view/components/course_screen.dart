@@ -29,14 +29,28 @@ class CoursesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
-      title: 'GoCast',
+      title: title,
       actions: _buildAppBarActions(context, ref),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle(),
-            courses.isEmpty ? _buildPlaceholder() : _buildCourseListView(ref),
+      child: RefreshIndicator(
+        onRefresh: onRefresh,
+        color: Colors.blue,
+        // Indicator color
+        backgroundColor: Colors.white,
+        // Background color of the indicator
+        strokeWidth: 2.0,
+        // Thickness of the indicator circle
+        displacement: 20.0,
+        // How far to pull down to trigger refresh
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: _buildSectionTitle(),
+            ),
+            courses.isEmpty
+                ? SliverFillRemaining(
+                    child: _buildPlaceholder(),
+                  )
+                : _buildCourseListView(),
           ],
         ),
       ),
@@ -45,10 +59,6 @@ class CoursesScreen extends ConsumerWidget {
 
   List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
     return [
-      IconButton(
-        icon: const Icon(Icons.refresh),
-        onPressed: onRefresh,
-      ),
       IconButton(
         icon: const Icon(Icons.settings),
         onPressed: () => Navigator.push(
@@ -75,20 +85,24 @@ class CoursesScreen extends ConsumerWidget {
     );
   }
 
-  SizedBox _buildCourseListView(WidgetRef ref) {
-    return SizedBox(
-      height: AppSizes.courseListHeight,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: courses.length,
-        itemBuilder: (BuildContext context, int index) {
-          final course = courses[index]; // Get the course object
+  Widget _buildCourseListView() {
+    return SliverGrid(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          final course = courses[index];
           return CourseCard(
             title: course.name,
             subtitle: course.slug,
             path: 'assets/images/course2.png',
           );
         },
+        childCount: courses.length,
       ),
     );
   }

@@ -44,10 +44,14 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
-    return Expanded(
-      child: Image.asset(
-        path, // Replace with the actual path to your course image
-        fit: BoxFit.cover,
+    return AspectRatio(
+      aspectRatio: 10 / 7,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.asset(
+          path,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -71,7 +75,7 @@ class CourseCard extends StatelessWidget {
       style: const TextStyle(
         fontSize: 16,
         color: Colors.grey,
-      ), // Replace with the exact color
+      ),
     );
   }
 }

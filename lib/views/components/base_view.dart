@@ -23,7 +23,14 @@ class BaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Colors.black,
+              ),
+          textAlign: TextAlign.center,
+        ),
+        titleSpacing: 0.0,
         actions: actions, // Use the actions here
       ),
       body: child,

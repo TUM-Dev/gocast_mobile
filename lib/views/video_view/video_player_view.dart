@@ -59,7 +59,7 @@ class _VideoPlayerCardState extends State<VideoPlayerCard> {
             children: [
               IconButton(
                 icon: const Icon(Icons.chat_bubble_outline),
-                onPressed: () {}
+                onPressed: () {},
               ),
               IconButton(
                 icon: const Icon(Icons.check_circle_outline),
