@@ -113,7 +113,7 @@ class WelcomeScreen extends ConsumerWidget {
       child: const Text('Continue without', style: TextStyle(fontSize: 18)),
       onPressed: () {
         //TODO: Continue without login action
-        Navigator.pushNamed(context, '/courses');
+        Navigator.pushNamed(context, '/publiccourses');
       },
     );
   }
