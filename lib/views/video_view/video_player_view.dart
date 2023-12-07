@@ -17,10 +17,10 @@ class VideoPlayerCard extends StatefulWidget {
   });
 
   @override
-  _VideoPlayerCardState createState() => _VideoPlayerCardState();
+  VideoPlayerCardState createState() => VideoPlayerCardState();
 }
 
-class _VideoPlayerCardState extends State<VideoPlayerCard> {
+class VideoPlayerCardState extends State<VideoPlayerCard> {
   late VideoPlayerController _controller;
   bool _isFullscreen = false;
 
