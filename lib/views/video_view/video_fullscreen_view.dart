@@ -12,10 +12,10 @@ class FullScreenVideoPlayer extends StatefulWidget {
   });
 
   @override
-  _FullScreenVideoPlayerState createState() => _FullScreenVideoPlayerState();
+  FullScreenVideoPlayerState createState() => FullScreenVideoPlayerState();
 }
 
-class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
+class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

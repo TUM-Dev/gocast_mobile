@@ -4,9 +4,9 @@ class ViewAllButton extends StatelessWidget {
   final VoidCallback? onViewAll;
 
   const ViewAllButton({
-    Key? key,
+    super.key,
     required this.onViewAll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
