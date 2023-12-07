@@ -20,7 +20,7 @@ class PublicCourses extends ConsumerWidget {
     });
 
     return CoursesScreen(
-      title: 'My Courses',
+      title: 'Public Courses',
       courses: ref.watch(userViewModelProvider).publicCourses ?? [],
       onRefresh: () async {
         await ref.read(userViewModelProvider.notifier).fetchPublicCourses();

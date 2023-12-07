@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
@@ -140,7 +141,7 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isLoading: true);
     try {
       _logger.i('Fetching public courses');
-      var courses = await UserHandler(_grpcHandler).fetchUserCourses();
+      var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
       state = state.copyWith(publicCourses: courses);
     } catch (error) {
       state = state.copyWith(error: error as AppError, isLoading: false);
