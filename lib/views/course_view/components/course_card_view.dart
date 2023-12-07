@@ -11,12 +11,14 @@ class CourseCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String path;
+  final bool live;
 
   const CourseCard({
     super.key,
     required this.title,
     required this.subtitle,
     required this.path,
+    required this.live,
   });
 
   @override
@@ -30,12 +32,13 @@ class CourseCard extends StatelessWidget {
           width: MediaQuery.of(context).size.width *
               0.4, // was 160, now it's 40% of the screen width
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildCourseImage(),
               _buildCourseTitle(),
               _buildCourseSubtitle(),
+              _buildCourseisLive(),
             ],
           ),
         ),
@@ -78,4 +81,26 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
+  Widget _buildCourseisLive() {
+    return live
+        ? const Row(
+      children: [
+        Icon(
+          Icons.circle,
+          size: 10,
+          color: Colors.red,
+        ),
+        SizedBox(width: 5), // Add spacing between the dot and text
+        Text(
+          'Live Now',
+          style: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    )
+        : const SizedBox(); // Return an empty SizedBox if not live
+  }
+
 }

@@ -43,9 +43,6 @@ class CoursesScreen extends ConsumerWidget {
         // How far to pull down to trigger refresh
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: _buildSectionTitle(),
-            ),
             courses.isEmpty
                 ? SliverFillRemaining(
                     child: _buildPlaceholder(),
@@ -69,14 +66,7 @@ class CoursesScreen extends ConsumerWidget {
     ];
   }
 
-  Padding _buildSectionTitle() {
-    return Padding(
-      padding: AppPadding.sectionPadding,
-      child: Text(
-        title,
-      ),
-    );
-  }
+
 
   Padding _buildPlaceholder() {
     return const Padding(
@@ -100,6 +90,7 @@ class CoursesScreen extends ConsumerWidget {
             title: course.name,
             subtitle: course.slug,
             path: 'assets/images/course2.png',
+            live: true,
           );
         },
         childCount: courses.length,

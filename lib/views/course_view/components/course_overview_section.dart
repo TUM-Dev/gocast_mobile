@@ -55,7 +55,7 @@ class CourseSection extends StatelessWidget {
     required List<CourseModel> courses,
   }) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -71,6 +71,7 @@ class CourseSection extends StatelessWidget {
                   title: course.title,
                   subtitle: course.subtitle,
                   path: course.imagePath,
+                  live: course.courseIsLive,
                 );
               },
             ),
@@ -103,26 +104,32 @@ class CourseSection extends StatelessWidget {
         title: 'PSY101',
         subtitle: 'Introduction to Psychology',
         imagePath: AppImages.course1,
+        courseIsLive: true,
+
       ),
       CourseModel(
         title: 'PSY102',
         subtitle: 'Introduction to Computer Science',
         imagePath: AppImages.course2,
+        courseIsLive: false,
       ),
       CourseModel(
         title: 'PSY103',
         subtitle: 'Introduction to Biology',
         imagePath: AppImages.course1,
+        courseIsLive: false,
       ),
       CourseModel(
         title: 'PSY104',
         subtitle: 'Introduction to Chemistry',
         imagePath: AppImages.course2,
+        courseIsLive: false,
       ),
       CourseModel(
         title: 'PSY105',
         subtitle: 'Introduction to Physics',
         imagePath: AppImages.course1,
+        courseIsLive: false,
       ),
     ];
   }

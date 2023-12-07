@@ -27,7 +27,7 @@ class CourseOverview extends ConsumerWidget {
     final isLoggedIn = ref.read(userViewModelProvider).user != null;
 
     return BaseView(
-      title: 'Go Cast',
+      title: 'GoCast',
       actions: [
 
         IconButton(
@@ -38,6 +38,7 @@ class CourseOverview extends ConsumerWidget {
           ),
         ),
       ],
+
     child: RefreshIndicator(
     onRefresh: () async {
     await ref.read(userViewModelProvider.notifier).fetchUserCourses();
@@ -48,13 +49,21 @@ class CourseOverview extends ConsumerWidget {
           children: [
             if (isLoggedIn)
               CourseSection(
+                sectionTitle: "Livenow",
+                onViewAll: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyCourses()),
+                ),
+              ),
+            //const SizedBox(height: 5),
+              CourseSection(
                 sectionTitle: "My courses",
                 onViewAll: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyCourses()),
                 ),
               ),
-            const SizedBox(height: 20), // Space between the sections
+            //const SizedBox(height: 5), // Space between the sections
             CourseSection(
               sectionTitle: "Public courses",
               onViewAll: () => Navigator.push(

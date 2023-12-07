@@ -8,10 +8,12 @@ class CourseModel {
   final String title;
   final String subtitle;
   final String imagePath;
+  final bool courseIsLive;
 
   CourseModel({
     required this.title,
     required this.subtitle,
     required this.imagePath,
+    required this.courseIsLive,
   });
 }
