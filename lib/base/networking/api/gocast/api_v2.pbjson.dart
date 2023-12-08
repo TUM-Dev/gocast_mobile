@@ -482,6 +482,30 @@ const GetSemestersRequest$json = {
 final $typed_data.Uint8List getSemestersRequestDescriptor = $convert.base64Decode(
     'ChNHZXRTZW1lc3RlcnNSZXF1ZXN0');
 
+@$core.Deprecated('Use postPinnedRequestDescriptor instead')
+const PostPinnedRequest$json = {
+  '1': 'PostPinnedRequest',
+  '2': [
+    {'1': 'courseID', '3': 1, '4': 1, '5': 5, '10': 'courseID'},
+  ],
+};
+
+/// Descriptor for `PostPinnedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPinnedRequestDescriptor = $convert.base64Decode(
+    'ChFQb3N0UGlubmVkUmVxdWVzdBIaCghjb3Vyc2VJRBgBIAEoBVIIY291cnNlSUQ=');
+
+@$core.Deprecated('Use deletePinnedRequestDescriptor instead')
+const DeletePinnedRequest$json = {
+  '1': 'DeletePinnedRequest',
+  '2': [
+    {'1': 'courseID', '3': 1, '4': 1, '5': 5, '10': 'courseID'},
+  ],
+};
+
+/// Descriptor for `DeletePinnedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deletePinnedRequestDescriptor = $convert.base64Decode(
+    'ChNEZWxldGVQaW5uZWRSZXF1ZXN0EhoKCGNvdXJzZUlEGAEgASgFUghjb3Vyc2VJRA==');
+
 @$core.Deprecated('Use getPublicCoursesResponseDescriptor instead')
 const GetPublicCoursesResponse$json = {
   '1': 'GetPublicCoursesResponse',
@@ -509,6 +533,24 @@ final $typed_data.Uint8List getSemestersResponseDescriptor = $convert.base64Deco
     'ChRHZXRTZW1lc3RlcnNSZXNwb25zZRIsCgdjdXJyZW50GAEgASgLMhIucHJvdG9idWYuU2VtZX'
     'N0ZXJSB2N1cnJlbnQSMAoJc2VtZXN0ZXJzGAIgAygLMhIucHJvdG9idWYuU2VtZXN0ZXJSCXNl'
     'bWVzdGVycw==');
+
+@$core.Deprecated('Use postPinnedResponseDescriptor instead')
+const PostPinnedResponse$json = {
+  '1': 'PostPinnedResponse',
+};
+
+/// Descriptor for `PostPinnedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPinnedResponseDescriptor = $convert.base64Decode(
+    'ChJQb3N0UGlubmVkUmVzcG9uc2U=');
+
+@$core.Deprecated('Use deletePinnedResponseDescriptor instead')
+const DeletePinnedResponse$json = {
+  '1': 'DeletePinnedResponse',
+};
+
+/// Descriptor for `DeletePinnedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deletePinnedResponseDescriptor = $convert.base64Decode(
+    'ChREZWxldGVQaW5uZWRSZXNwb25zZQ==');
 
 @$core.Deprecated('Use streamDescriptor instead')
 const Stream$json = {
@@ -559,4 +601,99 @@ final $typed_data.Uint8List streamDescriptor = $convert.base64Decode(
     'V3cxgVIAEoDVIIdm9kVmlld3MSIAoLc3RhcnRPZmZzZXQYFiABKA1SC3N0YXJ0T2Zmc2V0EhwK'
     'CWVuZE9mZnNldBgXIAEoDVIJZW5kT2Zmc2V0EhoKCGR1cmF0aW9uGBwgASgFUghkdXJhdGlvbg'
     '==');
+
+@$core.Deprecated('Use getStreamRequestDescriptor instead')
+const GetStreamRequest$json = {
+  '1': 'GetStreamRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 4, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetStreamRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStreamRequestDescriptor = $convert.base64Decode(
+    'ChBHZXRTdHJlYW1SZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgEUghzdHJlYW1JRA==');
+
+@$core.Deprecated('Use getNowLiveRequestDescriptor instead')
+const GetNowLiveRequest$json = {
+  '1': 'GetNowLiveRequest',
+};
+
+/// Descriptor for `GetNowLiveRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getNowLiveRequestDescriptor = $convert.base64Decode(
+    'ChFHZXROb3dMaXZlUmVxdWVzdA==');
+
+@$core.Deprecated('Use getThumbsLiveRequestDescriptor instead')
+const GetThumbsLiveRequest$json = {
+  '1': 'GetThumbsLiveRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 4, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetThumbsLiveRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsLiveRequestDescriptor = $convert.base64Decode(
+    'ChRHZXRUaHVtYnNMaXZlUmVxdWVzdBIaCghzdHJlYW1JRBgBIAEoBFIIc3RyZWFtSUQ=');
+
+@$core.Deprecated('Use getThumbsVODRequestDescriptor instead')
+const GetThumbsVODRequest$json = {
+  '1': 'GetThumbsVODRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 4, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetThumbsVODRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsVODRequestDescriptor = $convert.base64Decode(
+    'ChNHZXRUaHVtYnNWT0RSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgEUghzdHJlYW1JRA==');
+
+@$core.Deprecated('Use getStreamResponseDescriptor instead')
+const GetStreamResponse$json = {
+  '1': 'GetStreamResponse',
+  '2': [
+    {'1': 'stream', '3': 1, '4': 1, '5': 11, '6': '.protobuf.Stream', '10': 'stream'},
+  ],
+};
+
+/// Descriptor for `GetStreamResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStreamResponseDescriptor = $convert.base64Decode(
+    'ChFHZXRTdHJlYW1SZXNwb25zZRIoCgZzdHJlYW0YASABKAsyEC5wcm90b2J1Zi5TdHJlYW1SBn'
+    'N0cmVhbQ==');
+
+@$core.Deprecated('Use getNowLiveResponseDescriptor instead')
+const GetNowLiveResponse$json = {
+  '1': 'GetNowLiveResponse',
+  '2': [
+    {'1': 'stream', '3': 1, '4': 3, '5': 11, '6': '.protobuf.Stream', '10': 'stream'},
+  ],
+};
+
+/// Descriptor for `GetNowLiveResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getNowLiveResponseDescriptor = $convert.base64Decode(
+    'ChJHZXROb3dMaXZlUmVzcG9uc2USKAoGc3RyZWFtGAEgAygLMhAucHJvdG9idWYuU3RyZWFtUg'
+    'ZzdHJlYW0=');
+
+@$core.Deprecated('Use getThumbsVODResponseDescriptor instead')
+const GetThumbsVODResponse$json = {
+  '1': 'GetThumbsVODResponse',
+  '2': [
+    {'1': 'path', '3': 1, '4': 1, '5': 9, '10': 'path'},
+  ],
+};
+
+/// Descriptor for `GetThumbsVODResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsVODResponseDescriptor = $convert.base64Decode(
+    'ChRHZXRUaHVtYnNWT0RSZXNwb25zZRISCgRwYXRoGAEgASgJUgRwYXRo');
+
+@$core.Deprecated('Use getThumbsLiveResponseDescriptor instead')
+const GetThumbsLiveResponse$json = {
+  '1': 'GetThumbsLiveResponse',
+  '2': [
+    {'1': 'path', '3': 1, '4': 1, '5': 9, '10': 'path'},
+  ],
+};
+
+/// Descriptor for `GetThumbsLiveResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsLiveResponseDescriptor = $convert.base64Decode(
+    'ChVHZXRUaHVtYnNMaXZlUmVzcG9uc2USEgoEcGF0aBgBIAEoCVIEcGF0aA==');
 
