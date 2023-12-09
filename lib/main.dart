@@ -29,9 +29,14 @@ class App extends ConsumerWidget {
     // Check for errors in userState and show a SnackBar if any
     if (userState.error != null) {
       Future.microtask(
-        () => scaffoldMessengerKey.currentState?.showSnackBar(
-          SnackBar(content: Text('Error: ${userState.error!.message}')),
-        ),
+        () {
+          scaffoldMessengerKey.currentState?.showSnackBar(
+            SnackBar(content: Text('Error: ${userState.error!.message}')),
+          );
+
+          // Clear the error
+          ref.read(userViewModelProvider.notifier).clearError();
+        },
       );
     }
 

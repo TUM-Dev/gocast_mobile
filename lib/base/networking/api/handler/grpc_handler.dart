@@ -56,14 +56,14 @@ class GrpcHandler {
       _logger
           .e('SocketException in callGrpcMethod: ${socketException.message}');
       throw AppError.networkError(socketException.message);
-    } catch (error) {
-      _logger.e('Error in callGrpcMethod: $error');
-      if (error is GrpcError) {
-        _logger.e('gRPC error: ${error.code}, ${error.message}');
-        throw mapGrpcErrorToAppError(error);
+    } catch (e) {
+      _logger.e('Error in callGrpcMethod: $e');
+      if (e is GrpcError) {
+        _logger.e('gRPC error: ${e.code}, ${e.message}');
+        throw mapGrpcErrorToAppError(e);
       } else {
-        _logger.e('Unknown error: $error');
-        throw AppError.networkError(error);
+        _logger.e('Unknown error: $e');
+        throw AppError.networkError(e);
       }
     }
   }

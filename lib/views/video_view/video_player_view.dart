@@ -91,9 +91,13 @@ class VideoPlayerCardState extends State<VideoPlayerCard> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         IconButton(
-            icon: const Icon(Icons.chat_bubble_outline), onPressed: () {}),
+          icon: const Icon(Icons.chat_bubble_outline),
+          onPressed: () {},
+        ),
         IconButton(
-            icon: const Icon(Icons.check_circle_outline), onPressed: () {}),
+          icon: const Icon(Icons.check_circle_outline),
+          onPressed: () {},
+        ),
         IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
       ],
     );

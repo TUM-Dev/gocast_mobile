@@ -45,4 +45,26 @@ class UserState {
       error: error ?? this.error,
     );
   }
+
+  UserState clearError({
+    bool? isLoading,
+    User? user,
+    List<Course>? userCourses,
+    List<Course>? userPinned,
+    List<UserSetting>? userSettings,
+    List<Bookmark>? userBookmarks,
+    List<Course>? publicCourses,
+    AppError? error,
+  }) {
+    return UserState(
+      isLoading: isLoading ?? this.isLoading,
+      user: user ?? this.user,
+      userCourses: userCourses ?? this.userCourses,
+      userPinned: userPinned ?? this.userPinned,
+      userSettings: userSettings ?? this.userSettings,
+      userBookmarks: userBookmarks ?? this.userBookmarks,
+      publicCourses: publicCourses ?? this.publicCourses,
+      error: null,
+    );
+  }
 }
