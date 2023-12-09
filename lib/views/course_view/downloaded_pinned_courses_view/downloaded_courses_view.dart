@@ -29,7 +29,7 @@ class DownloadedCourses extends ConsumerWidget {
                 builder: (context) => const VideoPlayerCard(
                     videoUrl: "assets/reviewTrailer.mp4",
                     title: "title",
-                    date: "date"),
+                    date: "date",),
               ),
             );
           },
