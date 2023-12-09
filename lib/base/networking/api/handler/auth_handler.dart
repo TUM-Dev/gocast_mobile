@@ -83,7 +83,7 @@ class AuthHandler {
                 icon: const Icon(Icons.arrow_back_ios_new_sharp),
                 onPressed: () {
                   viewModel.setLoading(
-                      false); // Reset loading state after WebView is closed
+                      false,); // Reset loading state after WebView is closed
                   navigatorKey.currentState?.pushReplacementNamed('/welcome');
                 },
               ),

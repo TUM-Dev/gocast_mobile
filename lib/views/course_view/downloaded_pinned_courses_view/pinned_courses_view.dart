@@ -17,7 +17,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => ref.read(userViewModelProvider.notifier).fetchUserPinned());
+        () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),);
   }
 
   @override
