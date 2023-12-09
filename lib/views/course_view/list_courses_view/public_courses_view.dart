@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 
-import '../components/course_screen.dart';
+import '../components/courses_screen.dart';
 
 class PublicCourses extends ConsumerStatefulWidget {
   const PublicCourses({super.key});
@@ -16,7 +16,8 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => ref.read(userViewModelProvider.notifier).fetchPublicCourses(),);
+      () => ref.read(userViewModelProvider.notifier).fetchPublicCourses(),
+    );
   }
 
   @override

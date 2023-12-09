@@ -83,7 +83,8 @@ class AuthHandler {
                 icon: const Icon(Icons.arrow_back_ios_new_sharp),
                 onPressed: () {
                   viewModel.setLoading(
-                      false,); // Reset loading state after WebView is closed
+                    false,
+                  ); // Reset loading state after WebView is closed
                   navigatorKey.currentState?.pushReplacementNamed('/welcome');
                 },
               ),
@@ -94,9 +95,6 @@ class AuthHandler {
       );
     } catch (e) {
       _logger.e('Error during SSO authentication');
-      viewModel
-          .setLoading(false); // Reset loading state after WebView is closed
-    } finally {
       viewModel
           .setLoading(false); // Reset loading state after WebView is closed
     }
@@ -118,7 +116,7 @@ class AuthHandler {
       if (url != null && url.toString().startsWith(Routes.ssoRedirect)) {
         _logger.i('Web view loaded URL: $url');
         await _handleCookieRetrieval(url);
-        isLoginSuccessful = false; // Set flag to true on successful login
+        isLoginSuccessful = true; // Set flag to true on successful login
         // Due to the token being signed from TUM Live RBG, the app will not be able to decode it
         // Therefor can´t retrieve the user data from TUM database
         // Once the API for user is implemented and deployed, this will be adapted to redirect to the course_overview_view

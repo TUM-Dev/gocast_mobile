@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-import 'package:gocast_mobile/views/course_view/components/course_overview_section.dart';
+import 'package:gocast_mobile/views/course_view/components/course_section.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
@@ -69,7 +69,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                   ),
                   courses: userCourses ?? [],
                 ),
-              //const SizedBox(height: 5),
+
               CourseSection(
                 sectionTitle: "My courses",
                 onViewAll: () => Navigator.push(

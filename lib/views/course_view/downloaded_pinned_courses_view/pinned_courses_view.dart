@@ -17,7 +17,8 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),);
+      () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),
+    );
   }
 
   @override
@@ -30,7 +31,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
           await ref.read(userViewModelProvider.notifier).fetchUserPinned();
         },
         child: userPinned.isNotEmpty
-            ? CourseContentScreen(
+            ? ContentView(
                 title: "Pinned",
                 videoCards: userPinned.map((course) {
                   return VideoCard(
@@ -42,11 +43,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
                     onTap: () {},
                   );
                 }).toList(),
-                onRefresh: () async {
-                  await ref
-                      .read(userViewModelProvider.notifier)
-                      .fetchUserPinned();
-                },
               )
             : BaseView(
                 title: '',

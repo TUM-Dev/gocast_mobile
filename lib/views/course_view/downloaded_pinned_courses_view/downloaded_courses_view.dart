@@ -14,7 +14,7 @@ class DownloadedCourses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return  CourseContentScreen(
+    return ContentView(
       title: 'Downloads',
       videoCards: [
         VideoCard(
@@ -22,14 +22,17 @@ class DownloadedCourses extends ConsumerWidget {
           title: 'Lineare Algebra für Informatik [MA0901]',
           date: 'July 24, 2019',
           duration: '02:00:00',
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const VideoPlayerCard(videoUrl: "assets/reviewTrailer.mp4", title: "title", date: "date"),
-            ),
-          );
-        },
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const VideoPlayerCard(
+                    videoUrl: "assets/reviewTrailer.mp4",
+                    title: "title",
+                    date: "date"),
+              ),
+            );
+          },
         ),
         // Add more VideoCard widgets as needed
       ],

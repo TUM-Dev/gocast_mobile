@@ -4,7 +4,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/pinned_courses_view.dart';
 import 'package:gocast_mobile/views/notifications_view/notifications_screen_view.dart';
 
-import '../course_view/courses_overview_view.dart';
+import '../course_view/courses_overview.dart';
 import '../course_view/downloaded_pinned_courses_view/downloaded_courses_view.dart';
 
 // Assuming currentIndexProvider is defined in a global scope file:
@@ -66,7 +66,11 @@ class CustomBottomNavBar extends ConsumerWidget {
   }
 
   void _onItemTapped(
-      BuildContext context, WidgetRef ref, int index, int currentIndex,) {
+    BuildContext context,
+    WidgetRef ref,
+    int index,
+    int currentIndex,
+  ) {
     if (currentIndex == index) return;
 
     ref.read(currentIndexProvider.notifier).state = index;
@@ -94,8 +98,13 @@ class CustomBottomNavBar extends ConsumerWidget {
     );
   }
 
-  BottomNavigationBarItem _buildNavigationBarItem(IconData icon, String label,
-      BuildContext context, int currentIndex, int itemIndex,) {
+  BottomNavigationBarItem _buildNavigationBarItem(
+    IconData icon,
+    String label,
+    BuildContext context,
+    int currentIndex,
+    int itemIndex,
+  ) {
     return BottomNavigationBarItem(
       icon: Icon(
         icon,

@@ -39,7 +39,7 @@ class CourseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildCourseSection(
+          _buildCourseSectionOrMessage(
             context: context,
             title: sectionTitle,
             onViewAll: onViewAll,
@@ -48,6 +48,22 @@ class CourseSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildCourseSectionOrMessage({
+    required BuildContext context,
+    required String title,
+    required VoidCallback onViewAll,
+    required List<Course> courses,
+  }) {
+    return courses.isNotEmpty
+        ? _buildCourseSection(
+            context: context,
+            title: title,
+            onViewAll: onViewAll,
+            courses: courses,
+          )
+        : _buildNoCoursesMessage(context, title);
   }
 
   Widget _buildCourseSection({
@@ -108,6 +124,74 @@ class CourseSection extends StatelessWidget {
         ViewAllButton(onViewAll: onViewAll),
       ],
     );
+  }
+
+  Widget _buildNoCoursesMessage(BuildContext context, String title) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black, // Adjust color as per your theme
+                ),
+              ),
+              const Spacer(),
+              // This will push the title to the start of the Row
+            ],
+          ),
+          const SizedBox(height: 20), // Spacing between title and icon
+          const Center(
+            // Center the icon
+            child: Icon(Icons.folder_open, size: 50, color: Colors.grey),
+          ),
+          const SizedBox(height: 8), // Spacing between icon and text
+          Center(
+            child: Text(
+              'No $title found',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12), // Spacing between text and button
+          Center(
+            // Center the button
+            child: ElevatedButton(
+              onPressed: () {
+                /* Action */
+              },
+              child: Text(
+                _buttonText(title),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _buttonText(String title) {
+    switch (title) {
+      case 'My courses':
+        return 'Enroll in a Course';
+      case 'livenow':
+        return 'No courses currently live';
+      case 'Public courses':
+        return 'No public courses found';
+      default:
+        return 'Discover Courses';
+    }
   }
 
   List<Course> _defaultCourses() {
