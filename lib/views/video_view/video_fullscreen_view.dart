@@ -43,7 +43,9 @@ class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
           children: [
             IconButton(
               icon: Icon(
-                widget.controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                widget.controller.value.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow,
                 color: Colors.white,
               ),
               onPressed: () {
@@ -62,7 +64,7 @@ class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
             ),
           ],
         ),
-       // SizedBox(height: 20),
+        // SizedBox(height: 20),
       ],
     );
   }

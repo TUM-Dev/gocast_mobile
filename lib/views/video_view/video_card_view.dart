@@ -44,12 +44,15 @@ class VideoCard extends StatelessWidget {
                   // Padding for the duration chip inside the stack
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0,),
+                      horizontal: 8.0,
+                      vertical: 4.0,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.6),
                       // Semi-transparent black background
                       borderRadius: BorderRadius.circular(
-                          4.0,), // Rounded corners for the chip
+                        4.0,
+                      ), // Rounded corners for the chip
                     ),
                     child: Text(
                       duration,
@@ -65,7 +68,11 @@ class VideoCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                  left: 16.0, right: 16.0, top: 8.0, bottom: 12.0,),
+                left: 16.0,
+                right: 16.0,
+                top: 8.0,
+                bottom: 12.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

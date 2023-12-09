@@ -24,9 +24,11 @@ class WelcomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const Spacer(),
-              Center( // This centers the image horizontally and prevents stretching
+              Center(
+                // This centers the image horizontally and prevents stretching
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25), // Rounded corner radius
+                  borderRadius:
+                      BorderRadius.circular(25), // Rounded corner radius
                   child: Image.asset(
                     'assets/images/logo.png',
                     width: 200.0, // Set the width to 150 units
@@ -58,10 +60,9 @@ class WelcomeScreen extends ConsumerWidget {
       'Welcome to Gocast',
       textAlign: TextAlign.center,
       style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF0D47A1),
-
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: Color(0xFF0D47A1),
       ),
     );
   }
@@ -84,16 +85,16 @@ class WelcomeScreen extends ConsumerWidget {
           vertical: AppSizes.buttonVerticalPadding,
         ),
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: viewModel.isLoading
           ? const SizedBox(
-        width: 20.0,
-        height: 20.0,
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        ),
-      )
+              width: 20.0,
+              height: 20.0,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            )
           : const Text('TUM Login', style: TextStyle(fontSize: 18)),
       onPressed: () => handleSSOLogin(context, ref),
     );
@@ -108,7 +109,7 @@ class WelcomeScreen extends ConsumerWidget {
           vertical: AppSizes.buttonVerticalPadding,
         ),
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: const Text('Continue without', style: TextStyle(fontSize: 18)),
       onPressed: () {
@@ -131,11 +132,11 @@ class WelcomeScreen extends ConsumerWidget {
   Future<void> handleSSOLogin(BuildContext context, WidgetRef ref) async {
     await ref.read(userViewModelProvider.notifier).ssoAuth(context, ref).then(
           (value) => {
-        if (ref.read(userViewModelProvider).user != null)
-          {Navigator.pushNamed(context, '/courses')}
-        else
-          {Navigator.pushNamed(context, '/welcome')},
-      },
-    );
+            if (ref.read(userViewModelProvider).user != null)
+              {Navigator.pushNamed(context, '/courses')}
+            else
+              {Navigator.pushNamed(context, '/welcome')},
+          },
+        );
   }
 }
