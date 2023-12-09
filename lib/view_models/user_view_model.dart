@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -100,7 +102,7 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isLoading: true);
     try {
       _logger.i('Fetching user pinned');
-      var courses = await UserHandler(_grpcHandler).fetchUserPinned();
+      var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
       state = state.copyWith(userPinned: courses);
     } catch (error) {
       _logger.e(error);
@@ -128,7 +130,7 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isLoading: true);
     try {
       _logger.i('Fetching user bookmarks');
-      var bookmarks = await UserHandler(_grpcHandler).fetchUserBookmarks();
+      var bookmarks = await BooKMarkHandler(_grpcHandler).fetchUserBookmarks();
       state = state.copyWith(userBookmarks: bookmarks);
     } catch (error) {
       state = state.copyWith(error: error as AppError, isLoading: false);

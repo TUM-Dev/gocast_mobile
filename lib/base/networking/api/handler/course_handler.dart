@@ -2,6 +2,9 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
 
+/// Handles course-related data operations.
+///
+/// This class is responsible for fetching and posting course-related data, such as fetching public courses and semesters.
 class CourseHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
@@ -14,7 +17,6 @@ class CourseHandler {
       (client) async {
         final response =
             await client.getPublicCourses(GetPublicCoursesRequest());
-        _logger.i('Public courses fetched successfully');
         _logger.d('Public courses: ${response.courses}');
         return response.courses;
       },
@@ -26,7 +28,6 @@ class CourseHandler {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.getSemesters(GetSemestersRequest());
-        _logger.i('Semesters fetched successfully');
         _logger.d('Semesters: ${response.semesters}');
         return response.semesters;
       },

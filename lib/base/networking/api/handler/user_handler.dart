@@ -50,20 +50,20 @@ class UserHandler {
     );
   }
 
-  /// Fetches the current user's pinned courses.
+  /// Fetches the current user's admin courses.
   ///
-  /// This method sends a `getUserPinned` gRPC call to fetch the user's pinned
-  ///  courses.
+  /// This method sends a `getUserAdminCourses` gRPC call to fetch the user's
+  /// admin courses.
   ///
-  /// Returns a [List<Course>] instance that represents the user's pinned
-  /// courses.
-  Future<List<Course>> fetchUserPinned() async {
-    _logger.i('Fetching user pinned');
+  /// Returns a [List<Course>] instance that represents the user's admin courses.
+  Future<List<Course>> fetchUserAdminCourses() async {
+    _logger.i('Fetching user admin courses');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-        final response = await client.getUserPinned(GetUserPinnedRequest());
-        _logger.i('User pinned fetched successfully');
-        _logger.d('User pinned: ${response.courses}');
+        final response =
+            await client.getUserAdminCourses(GetUserAdminRequest());
+        _logger.i('User admin courses fetched successfully');
+        _logger.d('User admin courses: ${response.courses}');
         return response.courses;
       },
     );
@@ -84,24 +84,6 @@ class UserHandler {
         _logger.i('User settings fetched successfully');
         _logger.d('User settings: ${response.userSettings}');
         return response.userSettings;
-      },
-    );
-  }
-
-  /// Fetches the current user's bookmarks.
-  ///
-  /// This method sends a `getUserBookmarks` gRPC call to fetch the user's
-  /// bookmarks.
-  ///
-  /// Returns a [List<Bookmark>] instance that represents the user's bookmarks.
-  Future<List<Bookmark>> fetchUserBookmarks() async {
-    _logger.i('Fetching user bookmarks');
-    return _grpcHandler.callGrpcMethod(
-      (client) async {
-        final response = await client.getUserBookmarks(GetBookmarksRequest());
-        _logger.i('User bookmarks fetched successfully');
-        _logger.d('User bookmarks: ${response.bookmarks}');
-        return response.bookmarks;
       },
     );
   }
