@@ -92,7 +92,9 @@ class BooKMarkHandler {
   ///
   /// returns [Bookmark]: The `Bookmark` instance representing the updated bookmark.
   Future<Bookmark> updateBookmark(
-      int bookmarkID, BookmarkData bookmarkData,) async {
+    int bookmarkID,
+    BookmarkData bookmarkData,
+  ) async {
     var request = PatchBookmarkRequest(
       bookmarkID: bookmarkID,
       description: bookmarkData.description,

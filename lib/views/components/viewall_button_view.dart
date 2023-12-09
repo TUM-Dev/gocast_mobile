@@ -12,7 +12,7 @@ class ViewAllButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onViewAll,
-      child:const  Icon(
+      child: const Icon(
         Icons.arrow_forward_ios,
         size: 25,
         color: Colors.black,

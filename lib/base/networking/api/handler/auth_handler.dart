@@ -52,7 +52,7 @@ class AuthHandler {
     } catch (e) {
       _logger.e('Authentication failed for user: $username, Error: $e');
       // Throw the error so it can be caught and handled by the caller of basicAuth
-      throw AppError.networkError(e.toString());
+      throw AppError.networkError(e);
     }
 
     // Save jwt token

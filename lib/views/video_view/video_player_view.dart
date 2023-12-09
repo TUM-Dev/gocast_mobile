@@ -70,9 +70,9 @@ class VideoPlayerCardState extends State<VideoPlayerCard> {
       children: <Widget>[
         _controller.value.isInitialized
             ? AspectRatio(
-          aspectRatio: _controller.value.aspectRatio,
-          child: VideoPlayer(_controller),
-        )
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
             : const CircularProgressIndicator(),
         _buildFullScreenButton(),
       ],
@@ -90,8 +90,14 @@ class VideoPlayerCardState extends State<VideoPlayerCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        IconButton(icon: const Icon(Icons.chat_bubble_outline), onPressed: () {}),
-        IconButton(icon: const Icon(Icons.check_circle_outline), onPressed: () {}),
+        IconButton(
+          icon: const Icon(Icons.chat_bubble_outline),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.check_circle_outline),
+          onPressed: () {},
+        ),
         IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
       ],
     );
@@ -126,12 +132,13 @@ class VideoPlayerCardState extends State<VideoPlayerCard> {
         DeviceOrientation.landscapeRight,
         DeviceOrientation.landscapeLeft,
       ]);
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => FullScreenVideoPlayer(
-          controller: _controller,
-          onExitFullscreen: _exitFullScreen,
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => FullScreenVideoPlayer(
+            controller: _controller,
+            onExitFullscreen: _exitFullScreen,
+          ),
         ),
-      ),
       );
     }
     setState(() => _isFullscreen = !_isFullscreen);
