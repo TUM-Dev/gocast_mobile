@@ -5,35 +5,41 @@ import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 
-/// PinnedCourses
-///
-/// A widget representing the 'Pinned Courses' section of the app.
-/// It utilizes the CourseContentScreen to display a list of courses
-/// that the user has pinned.
-class PinnedCourses extends ConsumerWidget {
+class PinnedCourses extends ConsumerStatefulWidget {
   const PinnedCourses({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final pinnedCourses =
-        ref.watch(userViewModelProvider).user?.pinnedCourses ?? [];
+  PinnedCoursesState createState() => PinnedCoursesState();
+}
+
+class PinnedCoursesState extends ConsumerState<PinnedCourses> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+        () => ref.read(userViewModelProvider.notifier).fetchUserPinned());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
 
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
           await ref.read(userViewModelProvider.notifier).fetchUserPinned();
         },
-        child: pinnedCourses.isNotEmpty
+        child: userPinned.isNotEmpty
             ? CourseContentScreen(
                 title: "Pinned",
-                videoCards: pinnedCourses.map((course) {
+                videoCards: userPinned.map((course) {
                   return VideoCard(
                     imageName: 'assets/images/course2.png',
                     title: "${course.name} - ${course.slug}",
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
                     duration: course.cameraPresetPreferences,
-          onTap: () {},
+                    onTap: () {},
                   );
                 }).toList(),
                 onRefresh: () async {

@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 
+@immutable
 class UserState {
-  bool isLoading;
-  User? user;
-  List<Course>? userCourses;
-  List<Course>? userPinned;
-  List<UserSetting>? userSettings;
-  List<Bookmark>? userBookmarks;
-  List<Course>? publicCourses;
-  AppError? error;
+  final bool isLoading;
+  final User? user;
+  final List<Course>? userCourses;
+  final List<Course>? userPinned;
+  final List<UserSetting>? userSettings;
+  final List<Bookmark>? userBookmarks;
+  final List<Course>? publicCourses;
+  final AppError? error;
 
-  UserState({
-    required this.isLoading,
+  const UserState({
+    this.isLoading = false,
     this.user,
     this.userCourses,
     this.userPinned,
@@ -22,53 +23,6 @@ class UserState {
     this.publicCourses,
     this.error,
   });
-
-  // Default constructor
-  UserState.defaultConstructor()
-      : isLoading = false,
-        user = null,
-        userCourses = null,
-        userPinned = null,
-        userSettings = null,
-        userBookmarks = null,
-        publicCourses = null;
-
-  void setUser(User user) {
-    debugPrint("User set to: ${user.name}");
-    this.user = user;
-  }
-
-  void setUserCourses(List<Course> userCourses) {
-    this.userCourses = userCourses;
-  }
-
-  void setUserPinned(List<Course> userPinned) {
-    this.userPinned = userPinned;
-  }
-
-  void setUserSettings(List<UserSetting> userSettings) {
-    this.userSettings = userSettings;
-  }
-
-  void setUserBookmarks(List<Bookmark> userBookmarks) {
-    this.userBookmarks = userBookmarks;
-  }
-
-  void setPublicCourses(List<Course> publicCourses) {
-    this.publicCourses = publicCourses;
-  }
-
-  void removeUser() {
-    user = null;
-  }
-
-  void setIsLoading(bool isLoading) {
-    this.isLoading = isLoading;
-  }
-
-  void toggleIsLoading() {
-    isLoading = !isLoading;
-  }
 
   UserState copyWith({
     bool? isLoading,

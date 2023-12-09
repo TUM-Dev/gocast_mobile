@@ -70,7 +70,7 @@ class AuthHandler {
     final viewModel = ref.read(userViewModelProvider.notifier);
 
     _logger.i('Starting SSO authentication');
-    viewModel.setIsLoading(true); // Set loading state
+    viewModel.setLoading(true); // Set loading state
     _logger.i('Loading SSO login page');
 
     try {
@@ -82,6 +82,8 @@ class AuthHandler {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios_new_sharp),
                 onPressed: () {
+                  viewModel.setLoading(
+                      false); // Reset loading state after WebView is closed
                   navigatorKey.currentState?.pushReplacementNamed('/welcome');
                 },
               ),
@@ -92,9 +94,11 @@ class AuthHandler {
       );
     } catch (e) {
       _logger.e('Error during SSO authentication');
+      viewModel
+          .setLoading(false); // Reset loading state after WebView is closed
     } finally {
       viewModel
-          .setIsLoading(false); // Reset loading state after WebView is closed
+          .setLoading(false); // Reset loading state after WebView is closed
     }
   }
 

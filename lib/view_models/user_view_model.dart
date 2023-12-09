@@ -17,7 +17,7 @@ class UserViewModel extends StateNotifier<UserState> {
 
   final GrpcHandler _grpcHandler;
 
-  UserViewModel(this._grpcHandler) : super(UserState.defaultConstructor());
+  UserViewModel(this._grpcHandler) : super(const UserState());
 
   /// Handles basic authentication.
   /// This method call the basicAuth method
@@ -45,7 +45,7 @@ class UserViewModel extends StateNotifier<UserState> {
     try {
       _logger.i('Logging in user with email: $email');
       await AuthHandler.basicAuth(email, password);
-      await _fetchUser();
+      await fetchUser();
     } catch (error) {
       _logger.e(error);
       state = state.copyWith(error: error as AppError, isLoading: false);
@@ -59,10 +59,10 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> ssoAuth(BuildContext context, WidgetRef ref) async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Logging in user ${state.user} with SSO');
+      _logger.i('Logging in user with SSO');
       await AuthHandler.ssoAuth(context, ref);
-      await _fetchUser();
-      _logger.i('Logged in user ${state.user} with SSO');
+      await fetchUser();
+      _logger.i('Logged in user with SSO');
     } catch (error) {
       state = state.copyWith(error: error as AppError, isLoading: false);
     } finally {
@@ -70,17 +70,14 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> _fetchUser() async {
-    state = state.copyWith(isLoading: true);
+  Future<void> fetchUser() async {
     try {
       _logger.i('Fetching user');
       var user = await UserHandler(_grpcHandler).fetchUser();
-      state = state.copyWith(user: user);
+      state = state.copyWith(user: user, isLoading: false);
     } catch (error) {
       _logger.e(error);
       state = state.copyWith(error: error as AppError, isLoading: false);
-    } finally {
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -89,31 +86,25 @@ class UserViewModel extends StateNotifier<UserState> {
     try {
       _logger.i('Fetching user courses');
       var courses = await UserHandler(_grpcHandler).fetchUserCourses();
-      state = state.copyWith(userCourses: courses);
+      state = state.copyWith(userCourses: courses, isLoading: false);
     } catch (error) {
       _logger.e(error);
       state = state.copyWith(error: error as AppError, isLoading: false);
-    } finally {
-      state = state.copyWith(isLoading: false);
     }
   }
 
   Future<void> fetchUserPinned() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching user pinned');
       var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
-      state = state.copyWith(userPinned: courses);
+      state = state.copyWith(userPinned: courses, isLoading: false);
     } catch (error) {
       _logger.e(error);
       state = state.copyWith(error: error as AppError, isLoading: false);
-    } finally {
-      state = state.copyWith(isLoading: false);
     }
   }
 
   Future<void> fetchUserSettings() async {
-    state = state.copyWith(isLoading: true);
     try {
       _logger.i('Fetching user settings');
       var settings = await UserHandler(_grpcHandler).fetchUserSettings();
@@ -131,11 +122,9 @@ class UserViewModel extends StateNotifier<UserState> {
     try {
       _logger.i('Fetching user bookmarks');
       var bookmarks = await BooKMarkHandler(_grpcHandler).fetchUserBookmarks();
-      state = state.copyWith(userBookmarks: bookmarks);
+      state = state.copyWith(userBookmarks: bookmarks, isLoading: false);
     } catch (error) {
       state = state.copyWith(error: error as AppError, isLoading: false);
-    } finally {
-      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -144,28 +133,25 @@ class UserViewModel extends StateNotifier<UserState> {
     try {
       _logger.i('Fetching public courses');
       var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
-      state = state.copyWith(publicCourses: courses);
+      state = state.copyWith(publicCourses: courses, isLoading: false);
     } catch (error) {
       state = state.copyWith(error: error as AppError, isLoading: false);
-    } finally {
-      state = state.copyWith(isLoading: false);
     }
   }
 
   Future<void> logout() async {
-    state.removeUser();
-    state = UserState.defaultConstructor();
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('jwt');
     _logger.i('Logged out user and cleared tokens.');
+
+    state = const UserState(); // Resets the state to its initial value
   }
 
   void clearError() {
     state = state.copyWith(error: null);
   }
 
-  void setIsLoading(bool isLoading) {
-    state.isLoading = isLoading;
+  void setLoading(bool isLoading) {
+    state = state.copyWith(isLoading: isLoading);
   }
 }

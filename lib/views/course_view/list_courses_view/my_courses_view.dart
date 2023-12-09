@@ -4,24 +4,28 @@ import 'package:gocast_mobile/providers.dart';
 
 import '../components/course_screen.dart';
 
-/// MyCourses Screen
-/// This screen displays a list of My Courses.
-class MyCourses extends ConsumerWidget {
+class MyCourses extends ConsumerStatefulWidget {
   const MyCourses({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Schedule the data fetch after the build method using Future.microtask
-    Future.microtask(() async {
-      // Check if the course data is already available before fetching
-      if (ref.read(userViewModelProvider).userCourses == null) {
-        await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-      }
-    });
+  MyCoursesState createState() => MyCoursesState();
+}
+
+class MyCoursesState extends ConsumerState<MyCourses> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+        () => ref.read(userViewModelProvider.notifier).fetchUserCourses());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userCourses = ref.watch(userViewModelProvider).userCourses ?? [];
 
     return CoursesScreen(
       title: 'My Courses',
-      courses: ref.watch(userViewModelProvider).userCourses ?? [],
+      courses: userCourses,
       onRefresh: () async {
         await ref.read(userViewModelProvider.notifier).fetchUserCourses();
       },

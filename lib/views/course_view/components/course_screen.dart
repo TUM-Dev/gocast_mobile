@@ -66,8 +66,6 @@ class CoursesScreen extends ConsumerWidget {
     ];
   }
 
-
-
   Padding _buildPlaceholder() {
     return const Padding(
       padding: AppPadding.sectionPadding,
@@ -90,7 +88,7 @@ class CoursesScreen extends ConsumerWidget {
             title: course.name,
             subtitle: course.slug,
             path: 'assets/images/course2.png',
-            live: true,
+            live: course.streams.any((stream) => stream.liveNow),
           );
         },
         childCount: courses.length,

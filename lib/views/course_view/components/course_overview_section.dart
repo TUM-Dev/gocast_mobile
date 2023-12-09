@@ -1,5 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/models/course/course_model.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/viewall_button_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
@@ -21,7 +23,7 @@ import 'package:gocast_mobile/views/course_view/components/course_card_view.dart
 /// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
-  final List<CourseModel>? courses;
+  final List<Course>? courses;
   final VoidCallback onViewAll;
 
   const CourseSection({
@@ -52,7 +54,7 @@ class CourseSection extends StatelessWidget {
     required BuildContext context,
     required String title,
     required VoidCallback onViewAll,
-    required List<CourseModel> courses,
+    required List<Course> courses,
   }) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -66,12 +68,22 @@ class CourseSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: courses.length,
               itemBuilder: (BuildContext context, int index) {
+                /// Those are temporary values until we get the real data from the API
+                final Random random = Random();
                 final course = courses[index];
+                String imagePath;
+                List<String> imagePaths = [
+                  AppImages.course1,
+                  AppImages.course2,
+                ];
+                imagePath = imagePaths[random.nextInt(imagePaths.length)];
+
+                /// End of temporary values
                 return CourseCard(
-                  title: course.title,
-                  subtitle: course.subtitle,
-                  path: course.imagePath,
-                  live: course.courseIsLive,
+                  title: course.name,
+                  subtitle: course.slug,
+                  path: imagePath,
+                  live: course.streams.any((stream) => stream.liveNow),
                 );
               },
             ),
@@ -98,38 +110,132 @@ class CourseSection extends StatelessWidget {
     );
   }
 
-  List<CourseModel> _defaultCourses() {
+  List<Course> _defaultCourses() {
     return [
-      CourseModel(
-        title: 'PSY101',
-        subtitle: 'Introduction to Psychology',
-        imagePath: AppImages.course1,
-        courseIsLive: true,
-
+      Course(
+        name: 'PSY101',
+        slug: 'Introduction to Psychology',
+        //imagePath: AppImages.course1,
+        vODEnabled: true,
+        cameraPresetPreferences: 'HD',
+        semester: Semester(
+          year: 2021,
+          teachingTerm: 'Fall',
+        ),
+        streams: [
+          Stream(
+            name: 'Lecture',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: true,
+          ),
+          Stream(
+            name: 'Tutorial',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+        ],
       ),
-      CourseModel(
-        title: 'PSY102',
-        subtitle: 'Introduction to Computer Science',
-        imagePath: AppImages.course2,
-        courseIsLive: false,
+      Course(
+        name: 'PSY102',
+        slug: 'Introduction to Mathematics',
+        //imagePath: AppImages.course2,
+        vODEnabled: false,
+        cameraPresetPreferences: 'HD',
+        semester: Semester(
+          year: 2021,
+          teachingTerm: 'Fall',
+        ),
+        streams: [
+          Stream(
+            name: 'Lecture',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+          Stream(
+            name: 'Tutorial',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: true,
+          ),
+        ],
       ),
-      CourseModel(
-        title: 'PSY103',
-        subtitle: 'Introduction to Biology',
-        imagePath: AppImages.course1,
-        courseIsLive: false,
+      Course(
+        name: 'PSY103',
+        slug: 'Introduction to Chemistry',
+        //imagePath: AppImages.course2,
+        vODEnabled: true,
+        cameraPresetPreferences: 'HD',
+        semester: Semester(
+          year: 2021,
+          teachingTerm: 'Fall',
+        ),
+        streams: [
+          Stream(
+            name: 'Lecture',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+          Stream(
+            name: 'Tutorial',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+        ],
       ),
-      CourseModel(
-        title: 'PSY104',
-        subtitle: 'Introduction to Chemistry',
-        imagePath: AppImages.course2,
-        courseIsLive: false,
+      Course(
+        name: 'PSY104',
+        slug: 'Introduction to Biology',
+        //imagePath: AppImages.course2,
+        vODEnabled: true,
+        cameraPresetPreferences: 'HD',
+        semester: Semester(
+          year: 2021,
+          teachingTerm: 'Fall',
+        ),
+        streams: [
+          Stream(
+            name: 'Lecture',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+          Stream(
+            name: 'Tutorial',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+        ],
       ),
-      CourseModel(
-        title: 'PSY105',
-        subtitle: 'Introduction to Physics',
-        imagePath: AppImages.course1,
-        courseIsLive: false,
+      Course(
+        name: 'PSY105',
+        slug: 'Introduction to Physics',
+        //imagePath: AppImages.course2,
+        vODEnabled: true,
+        cameraPresetPreferences: 'HD',
+        semester: Semester(
+          year: 2021,
+          teachingTerm: 'Fall',
+        ),
+        streams: [
+          Stream(
+            name: 'Lecture',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+          Stream(
+            name: 'Tutorial',
+            playlistUrl:
+                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
+            liveNow: false,
+          ),
+        ],
       ),
     ];
   }

@@ -39,10 +39,9 @@ class CourseCard extends StatelessWidget {
               Expanded(child: _buildCourseImage()), // Wrapped with Expanded
               _buildCourseTitle(),
               _buildCourseSubtitle(),
-              _buildCourseisLive(),
+              _buildCourseIsLive(),
             ],
           ),
-
         ),
       ),
     );
@@ -83,26 +82,26 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
-  Widget _buildCourseisLive() {
+
+  Widget _buildCourseIsLive() {
     return live
         ? const Row(
-      children: [
-        Icon(
-          Icons.circle,
-          size: 10,
-          color: Colors.red,
-        ),
-        SizedBox(width: 5), // Add spacing between the dot and text
-        Text(
-          'Live Now',
-          style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    )
+            children: [
+              Icon(
+                Icons.circle,
+                size: 10,
+                color: Colors.red,
+              ),
+              SizedBox(width: 5), // Add spacing between the dot and text
+              Text(
+                'Live Now',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          )
         : const SizedBox(); // Return an empty SizedBox if not live
   }
-
 }

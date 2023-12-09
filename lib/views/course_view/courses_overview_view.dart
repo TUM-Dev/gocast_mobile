@@ -10,26 +10,38 @@ import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 // current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
-/// CourseOverview
-///
-/// A widget that displays an overview of different course sections such as
-/// "My Courses" and "Public Courses" in a scrollable column layout.
-///
-/// It includes an AppBar and a BottomNavigationBar that remain static,
-/// while the content can scroll independently. This design ensures that the
-/// AppBar and BottomNavigationBar are not rebuilt unnecessarily, improving
-/// the performance and user experience.
-class CourseOverview extends ConsumerWidget {
+class CourseOverview extends ConsumerStatefulWidget {
   const CourseOverview({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isLoggedIn = ref.read(userViewModelProvider).user != null;
+  CourseOverviewState createState() => CourseOverviewState();
+}
+
+class CourseOverviewState extends ConsumerState<CourseOverview> {
+  @override
+  void initState() {
+    super.initState();
+    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+
+    Future.microtask(() {
+      // Fetch user courses if the user is logged in
+      if (ref.read(userViewModelProvider).user != null) {
+        userViewModelNotifier.fetchUserCourses();
+      }
+      // Fetch public courses regardless of user's login status
+      userViewModelNotifier.fetchPublicCourses();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoggedIn = ref.watch(userViewModelProvider).user != null;
+    final userCourses = ref.watch(userViewModelProvider).userCourses;
+    final publicCourses = ref.watch(userViewModelProvider).publicCourses;
 
     return BaseView(
       title: 'GoCast',
       actions: [
-
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () => _navigateToScreen(
@@ -38,46 +50,50 @@ class CourseOverview extends ConsumerWidget {
           ),
         ),
       ],
-
-    child: RefreshIndicator(
-    onRefresh: () async {
-    await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-    },
-
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (isLoggedIn)
-              CourseSection(
-                sectionTitle: "Livenow",
-                onViewAll: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyCourses()),
+      child: RefreshIndicator(
+        onRefresh: () async {
+          final userViewModelNotifier =
+              ref.read(userViewModelProvider.notifier);
+          await userViewModelNotifier.fetchUserCourses();
+          await userViewModelNotifier.fetchPublicCourses();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (isLoggedIn)
+                CourseSection(
+                  sectionTitle: "Livenow",
+                  onViewAll: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyCourses()),
+                  ),
+                  courses: userCourses ?? [],
                 ),
-              ),
-            //const SizedBox(height: 5),
+              //const SizedBox(height: 5),
               CourseSection(
                 sectionTitle: "My courses",
                 onViewAll: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyCourses()),
                 ),
+                courses: userCourses ?? [],
               ),
-            //const SizedBox(height: 5), // Space between the sections
-            CourseSection(
-              sectionTitle: "Public courses",
-              onViewAll: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PublicCourses(),
+              //const SizedBox(height: 5), // Space between the sections
+              CourseSection(
+                sectionTitle: "Public courses",
+                onViewAll: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PublicCourses(),
+                  ),
                 ),
+                courses: publicCourses ?? [],
               ),
-            ),
-            // Add other sections or content as needed
-          ],
+              // Add other sections or content as needed
+            ],
+          ),
         ),
-      )
-    ,),
+      ),
     );
   }
 
