@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
@@ -10,7 +11,6 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
@@ -140,11 +140,10 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   Future<void> logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('jwt');
-    _logger.i('Logged out user and cleared tokens.');
-
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: 'jwt');
     state = const UserState(); // Resets the state to its initial value
+    _logger.i('Logged out user and cleared tokens.');
   }
 
   void clearError() {
