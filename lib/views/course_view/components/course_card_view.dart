@@ -11,12 +11,14 @@ class CourseCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String path;
+  final bool live;
 
   const CourseCard({
     super.key,
     required this.title,
     required this.subtitle,
     required this.path,
+    required this.live,
   });
 
   @override
@@ -30,12 +32,14 @@ class CourseCard extends StatelessWidget {
           width: MediaQuery.of(context).size.width *
               0.4, // was 160, now it's 40% of the screen width
           padding: const EdgeInsets.all(8.0),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildCourseImage(),
+              Expanded(child: _buildCourseImage()), // Wrapped with Expanded
               _buildCourseTitle(),
               _buildCourseSubtitle(),
+              _buildCourseIsLive(),
             ],
           ),
         ),
@@ -44,10 +48,14 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
-    return Expanded(
-      child: Image.asset(
-        path, // Replace with the actual path to your course image
-        fit: BoxFit.cover,
+    return AspectRatio(
+      aspectRatio: 10 / 7,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.asset(
+          path,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -71,7 +79,29 @@ class CourseCard extends StatelessWidget {
       style: const TextStyle(
         fontSize: 16,
         color: Colors.grey,
-      ), // Replace with the exact color
+      ),
     );
+  }
+
+  Widget _buildCourseIsLive() {
+    return live
+        ? const Row(
+            children: [
+              Icon(
+                Icons.circle,
+                size: 10,
+                color: Colors.red,
+              ),
+              SizedBox(width: 5), // Add spacing between the dot and text
+              Text(
+                'Live Now',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          )
+        : const SizedBox(); // Return an empty SizedBox if not live
   }
 }

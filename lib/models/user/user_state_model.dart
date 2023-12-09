@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
+import 'package:gocast_mobile/models/error/error_model.dart';
 
+@immutable
 class UserState {
-  bool isLoading;
-  User? user;
+  final bool isLoading;
+  final User? user;
+  final List<Course>? userCourses;
+  final List<Course>? userPinned;
+  final List<UserSetting>? userSettings;
+  final List<Bookmark>? userBookmarks;
+  final List<Course>? publicCourses;
+  final AppError? error;
 
-  UserState({
-    required this.isLoading,
+  const UserState({
+    this.isLoading = false,
     this.user,
+    this.userCourses,
+    this.userPinned,
+    this.userSettings,
+    this.userBookmarks,
+    this.publicCourses,
+    this.error,
   });
 
-  // Default constructor
-  UserState.defaultConstructor()
-      : isLoading = false,
-        user = null;
-
-  void setUser(User newUser) {
-    debugPrint("User set to: ${newUser.name}");
-    user = newUser;
-  }
-
-  void removeUser() {
-    user = null;
-  }
-
-  void setIsLoading(bool isLoading) {
-    this.isLoading = isLoading;
-  }
-
-  void toggleIsLoading() {
-    isLoading = !isLoading;
+  UserState copyWith({
+    bool? isLoading,
+    User? user,
+    List<Course>? userCourses,
+    List<Course>? userPinned,
+    List<UserSetting>? userSettings,
+    List<Bookmark>? userBookmarks,
+    List<Course>? publicCourses,
+    AppError? error,
+  }) {
+    return UserState(
+      isLoading: isLoading ?? this.isLoading,
+      user: user ?? this.user,
+      userCourses: userCourses ?? this.userCourses,
+      userPinned: userPinned ?? this.userPinned,
+      userSettings: userSettings ?? this.userSettings,
+      userBookmarks: userBookmarks ?? this.userBookmarks,
+      publicCourses: publicCourses ?? this.publicCourses,
+      error: error ?? this.error,
+    );
   }
 }

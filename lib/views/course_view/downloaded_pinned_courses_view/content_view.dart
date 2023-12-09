@@ -12,11 +12,11 @@ import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 /// Parameters:
 ///   [title] - The title of the content section.
 ///   [videoCards] - A list of VideoCard widgets to be displayed under the title.
-class CourseContentScreen extends ConsumerWidget {
+class ContentView extends ConsumerWidget {
   final String title;
   final List<VideoCard> videoCards;
 
-  const CourseContentScreen({
+  const ContentView({
     super.key,
     required this.title,
     required this.videoCards,

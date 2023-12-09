@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/main.dart';
-import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
-import 'package:gocast_mobile/views/utils/constants.dart';
 
 /// Welcome screen view.
 /// This is the first screen that the user sees when the app is opened.
@@ -25,10 +24,15 @@ class WelcomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const Spacer(),
-              Image.asset(
-                'assets/images/streamicon.png',
-                width: 150.0,
-                height: 150.0,
+              Center( // This centers the image horizontally and prevents stretching
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25), // Rounded corner radius
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    width: 200.0, // Set the width to 150 units
+                    height: 200.0, // Set the height to 150 units
+                  ),
+                ),
               ),
               const SizedBox(height: 24),
               _buildWelcomeText(),
@@ -54,9 +58,10 @@ class WelcomeScreen extends ConsumerWidget {
       'Welcome to Gocast',
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF0D47A1),
+
       ),
     );
   }
@@ -70,7 +75,7 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildLoginButton(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(userViewModelProvider.notifier);
+    final viewModel = ref.watch(userViewModelProvider);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -79,16 +84,16 @@ class WelcomeScreen extends ConsumerWidget {
           vertical: AppSizes.buttonVerticalPadding,
         ),
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
-      child: viewModel.current.value.isLoading
+      child: viewModel.isLoading
           ? const SizedBox(
-              width: 20.0,
-              height: 20.0,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            )
+        width: 20.0,
+        height: 20.0,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
+      )
           : const Text('TUM Login', style: TextStyle(fontSize: 18)),
       onPressed: () => handleSSOLogin(context, ref),
     );
@@ -103,12 +108,12 @@ class WelcomeScreen extends ConsumerWidget {
           vertical: AppSizes.buttonVerticalPadding,
         ),
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: const Text('Continue without', style: TextStyle(fontSize: 18)),
       onPressed: () {
         //TODO: Continue without login action
-        Navigator.pushNamed(context, '/courses');
+        Navigator.pushNamed(context, '/publiccourses');
       },
     );
   }
@@ -124,14 +129,13 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Future<void> handleSSOLogin(BuildContext context, WidgetRef ref) async {
-    // Call the SSO authentication function from /base/api/auth
-    await ref.read(userViewModel).ssoAuth(context, ref).then(
+    await ref.read(userViewModelProvider.notifier).ssoAuth(context, ref).then(
           (value) => {
-            if (ref.read(userViewModel).current.value.user != null)
-              {Navigator.pushNamed(context, '/courses')}
-            else
-              {Navigator.pushNamed(context, '/home')},
-          },
-        );
+        if (ref.read(userViewModelProvider).user != null)
+          {Navigator.pushNamed(context, '/courses')}
+        else
+          {Navigator.pushNamed(context, '/welcome')},
+      },
+    );
   }
 }

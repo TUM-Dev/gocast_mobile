@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/main.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -13,6 +13,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool isDarkMode = false;
   bool isPushNotificationsEnabled = false;
+  bool isDownloadOverWifiOnly= false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             title: 'Dark mode',
             value: isDarkMode,
             onChanged: (value) => setState(() => isDarkMode = value),
+          ),
+          _buildSwitchListTile(
+            title: 'Download Over Wi-Fi only',
+            value: isDownloadOverWifiOnly,
+            onChanged: (value) =>
+                setState(() => isDownloadOverWifiOnly = value),
           ),
           _buildLogoutTile(context),
           const Divider(),
@@ -69,7 +76,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       leading: const CircleAvatar(
         backgroundImage: AssetImage('assets/images/profile_temp.png'),
       ),
-      title: Text(ref.read(userViewModel).current.value.user?.name ?? 'Guest'),
+      title: Text(
+        ref.read(userViewModelProvider).user?.name ?? 'Guest',
+      ),
       onTap: () {
         // TODO: Navigate to profile edit screen
       },
@@ -116,9 +125,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   ListTile _buildLogoutTile(BuildContext context) {
     return ListTile(
-      title: const Text('Log out'),
+      title: const Text('Log out',
+      style: TextStyle(color: Colors.red),),
       onTap: () {
-        ref.read(userViewModel).logout();
+        ref.read(userViewModelProvider.notifier).logout();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const WelcomeScreen()),
           (Route<dynamic> route) => false,

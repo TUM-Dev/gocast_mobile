@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/main.dart';
-import 'package:gocast_mobile/view_models/UserViewModel.dart';
+import 'package:gocast_mobile/providers.dart';
 
 /// Internal login screen view.
 ///
@@ -10,12 +9,26 @@ import 'package:gocast_mobile/view_models/UserViewModel.dart';
 /// a forgot password button and a login button.
 /// The login button calls the basic authentication function from /base/api/auth
 /// The forgot password button does nothing for now.
-class InternalLoginScreen extends ConsumerWidget {
+class InternalLoginScreen extends ConsumerStatefulWidget {
   const InternalLoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userViewModelRef = ref.watch(userViewModel);
+  InternalLoginScreenState createState() => InternalLoginScreenState();
+}
+
+class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -31,21 +44,18 @@ class InternalLoginScreen extends ConsumerWidget {
                 _buildTextField(
                   'Username',
                   'e.g. go42tum / example@tum.de',
-                  userViewModelRef.usernameController,
+                  usernameController,
                 ),
                 const SizedBox(height: 24),
                 _buildTextField(
                   'Password',
                   'Enter your password',
-                  userViewModelRef.passwordController,
+                  passwordController,
                   obscureText: true,
                 ),
                 _buildForgotPasswordButton(),
                 const SizedBox(height: 24),
-                _buildLoginButton(
-                  context,
-                  ref,
-                ),
+                _buildLoginButton(context, ref),
               ],
             ),
           ),
@@ -103,12 +113,8 @@ class InternalLoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLoginButton(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    final userViewModelRef = ref.watch(userViewModel);
-    final viewModel = ref.watch(userViewModelProvider.notifier);
+  Widget _buildLoginButton(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(userViewModelProvider);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -118,11 +124,14 @@ class InternalLoginScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
       ),
-      onPressed: () => {
-        userViewModelRef.handleBasicLogin(context),
-        viewModel.resetControllers(),
+      onPressed: () {
+        final viewModel = ref.read(userViewModelProvider.notifier);
+        viewModel.handleBasicLogin(
+          usernameController.text,
+          passwordController.text,
+        );
       },
-      child: viewModel.current.value.isLoading
+      child: userState.isLoading
           ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
           : const Text('Login', style: TextStyle(fontSize: 18)),
     );

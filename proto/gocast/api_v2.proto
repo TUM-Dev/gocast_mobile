@@ -103,7 +103,171 @@ service API {
       description: "Returns the bookmarks created by the current user, optionally filtered by stream."
     };
   }
+
+  rpc postUserPinned(PostPinnedRequest) returns (PostPinnedResponse) {
+    option (google.api.http) = {
+      post: "/user/pinned"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Add a course to the user's pinned courses."
+      description: "Adds a new course to the current user's pinned courses."
+    };
+  }
+
+  rpc putUserBookmark(PutBookmarkRequest) returns (PutBookmarkResponse) {
+    option (google.api.http) = {
+      put: "/user/bookmarks"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Create a new bookmark."
+      description: "Creates a new bookmark for the current user."
+    };
+  }
+
+  rpc patchUserBookmark(PatchBookmarkRequest) returns (PatchBookmarkResponse) {
+    option (google.api.http) = {
+      patch: "/user/bookmarks/{bookmarkID}"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Update a bookmark."
+      description: "Updates a bookmark of the current user."
+    };
+  }
+
+  rpc deleteUserBookmark(DeleteBookmarkRequest) returns (DeleteBookmarkResponse) {
+    option (google.api.http) = {
+      delete: "/user/bookmarks/{bookmarkID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Delete a bookmark."
+      description: "Deletes a bookmark of the current user."
+    };
+  }
+
+  rpc deleteUserPinned(DeletePinnedRequest) returns (DeletePinnedResponse) {
+    option (google.api.http) = {
+      delete: "/user/pinned/{courseID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Delete a user's pinned course."
+      description: "Removes a course from the current user's pinned courses."
+    };
+  }
+
+  rpc getBannerAlerts(GetBannerAlertsRequest) returns (GetBannerAlertsResponse) {
+    option (google.api.http) = {
+      get: "/user/banner-alerts"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Get all banner alerts."
+      description: "Returns all banner alerts."
+    };
+  }
+
+  rpc getFeatureNotifications(GetFeatureNotificationsRequest) returns (GetFeatureNotificationsResponse) {
+    option (google.api.http) = {
+      get: "/user/feature-notifications"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Get all feature notifications."
+      description: "Returns all feature notifications."
+    };
+  }
   // END API/V2/USER
+
+  // BEGIN API/V2/COURSES
+  rpc getPublicCourses(GetPublicCoursesRequest) returns (GetPublicCoursesResponse) {
+    option (google.api.http) = {
+      get: "/courses/public"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Courses"
+      summary: "Get all public courses"
+      description: "Returns all public courses."
+    };
+  }
+
+  rpc getSemesters(GetSemestersRequest) returns (GetSemestersResponse) {
+    option (google.api.http) = {
+      get: "/courses/semesters"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Semester"
+      summary: "Get all semesters"
+      description: "Returns all semesters"
+    };
+  }
+  // END API/V2/COURSES
+
+  // START API/V2/STREAMS
+  rpc GetStream(GetStreamRequest) returns (GetStreamResponse) {
+    option (google.api.http) = {
+      get: "/streams/w/vod/streamID"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Stream"
+      summary: "Get stream for VOD"
+      description: "Returns stream for VOD."
+    };
+  }
+  
+  rpc GetNowLive(GetNowLiveRequest) returns (GetNowLiveResponse) {
+    option (google.api.http) = {
+      get: "/streams/w/live/streamID"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Stream"
+      summary: "Get stream for livestream"
+      description: "Returns stream for livestream."
+    };
+  }
+
+  rpc getThumbsVOD(GetThumbsVODRequest) returns (GetThumbsVODResponse) {
+    option (google.api.http) = {
+      get: "/streams/thumbs/vod/{streamID}/thumbs"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Stream"
+      summary: "Get thumbnail of VOD"
+      description: "Returns path of thumbnail for a VOD."
+    };
+  }
+
+  rpc getThumbsLive(GetThumbsLiveRequest) returns (GetThumbsLiveResponse) {
+    option (google.api.http) = {
+      get: "/streams/thumbs/live/{streamID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Stream"
+      summary: "Get thumbnail of livestream"
+      description: "Returns path of thumbnail for a livestream."
+    };
+  }
+
+  // END API/V2/STREAMS
 }
 
 ///////////////////////////////
@@ -147,9 +311,8 @@ message GetUserRequest {}
 message GetUserCoursesRequest {
   int32 year = 1;
   string term = 2;
-  string query = 3;
-  int32 limit = 4;
-  int32 skip = 5;
+  int32 limit = 3;
+  int32 skip = 4;
 }
 
 message GetUserPinnedRequest {
@@ -160,6 +323,7 @@ message GetUserPinnedRequest {
 }
 
 message GetUserAdminRequest {}
+
 
 message GetUserSettingsRequest {}
 
@@ -187,6 +351,8 @@ message GetUserSettingsResponse {
   repeated UserSetting userSettings = 1;
 }
 
+
+
 ///////////////////////////////
 ////// BOOKMARK_MESSAGE ///////
 ///////////////////////////////
@@ -209,12 +375,81 @@ message GetBookmarksRequest {
   int32 streamID = 1;
 }
 
+message PutBookmarkRequest {
+  string description = 1;
+  uint32 hours = 2;
+  uint32 minutes = 3;
+  uint32 seconds = 4;
+  uint32 streamID = 5;
+}
+
+message PatchBookmarkRequest {
+  string description = 1;
+  uint32 hours = 2;
+  uint32 minutes = 3;
+  uint32 seconds = 4;
+  uint32 bookmarkID = 5;
+}
+
+message DeleteBookmarkRequest {
+  uint32 bookmarkID = 1;
+}
+
 ///////////////////////////////
 ////// BOOKMARK_RESPONSE //////
 ///////////////////////////////
 
 message GetBookmarksResponse {
   repeated Bookmark bookmarks = 1;
+}
+
+message PutBookmarkResponse {
+  Bookmark bookmark = 1;
+}
+
+message PatchBookmarkResponse {
+  Bookmark bookmark = 1;
+}
+
+message DeleteBookmarkResponse {}
+
+
+///////////////////////////////
+//// NOTIFICATION_MESSAGE /////
+///////////////////////////////
+
+message BannerAlert {
+  uint32 id = 1;
+  string startsAt = 2;
+  string expiresAt = 3;
+  string text = 4;
+  bool warn = 5;
+}
+
+message FeatureNotification {
+  uint32 id = 1;
+  string Title = 2;
+  string Body = 3;
+  uint32 Target = 4;
+}
+
+///////////////////////////////
+//// NOTIFICATION_REQUEST /////
+///////////////////////////////
+
+message GetBannerAlertsRequest {}
+message GetFeatureNotificationsRequest {}
+
+///////////////////////////////
+//// NOTIFICATION_RESPONSE ////
+///////////////////////////////
+
+message GetBannerAlertsResponse {
+  repeated BannerAlert bannerAlerts = 1;
+}
+
+message GetFeatureNotificationsResponse {
+  repeated FeatureNotification featureNotifications = 1;
 }
 
 ///////////////////////////////
@@ -239,9 +474,47 @@ message Course {
 }
 
 message Semester { 
-  string teachingTerm = 3;
-  uint32 year = 4;
+  string teachingTerm = 1;
+  uint32 year = 2;
 }
+
+///////////////////////////////
+/////// COURSE_REQUEST ////////
+///////////////////////////////
+
+message GetPublicCoursesRequest {
+  int32 year = 1;
+  string term = 2;
+  int32 limit = 3;
+  int32 skip = 4;
+}
+
+message GetSemestersRequest {}
+
+message PostPinnedRequest {
+  int32 courseID = 1;
+}
+
+message DeletePinnedRequest {
+  int32 courseID = 1;
+}
+
+///////////////////////////////
+/////// COURSE_RESPONSE ///////
+///////////////////////////////
+
+message GetPublicCoursesResponse {
+  repeated Course courses = 1;
+}
+
+message GetSemestersResponse { 
+  Semester current = 1;
+  repeated Semester semesters = 2;
+}
+
+message PostPinnedResponse {}
+
+message DeletePinnedResponse {}
 
 ///////////////////////////////
 /////// STREAM_MESSAGE ////////
@@ -272,4 +545,42 @@ message Stream {
   uint32 startOffset = 22;
   uint32 endOffset = 23;
   int32 duration = 28;
+}
+
+///////////////////////////////
+/////// STREAM_REQUESTS ///////
+///////////////////////////////
+
+message GetStreamRequest {
+  uint64 streamID = 1;
+}
+
+message GetNowLiveRequest {}
+
+message GetThumbsLiveRequest {
+  uint64 streamID = 1;
+}
+
+message GetThumbsVODRequest {
+  uint64 streamID = 1;
+}
+
+///////////////////////////////
+////// STREAM_RESPONSES ///////
+///////////////////////////////
+
+message GetStreamResponse {
+  Stream stream = 1;
+}
+
+message GetNowLiveResponse {
+  repeated Stream stream = 1;
+}
+
+message GetThumbsVODResponse {
+  string path = 1;
+}
+
+message GetThumbsLiveResponse {
+  string path = 1;
 }

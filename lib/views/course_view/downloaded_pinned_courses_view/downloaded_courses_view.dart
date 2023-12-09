@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_card_view.dart';
+import 'package:gocast_mobile/views/video_view/video_player_view.dart';
 
 /// DownloadsScreen
 ///
@@ -13,7 +14,7 @@ class DownloadedCourses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const CourseContentScreen(
+    return ContentView(
       title: 'Downloads',
       videoCards: [
         VideoCard(
@@ -21,6 +22,17 @@ class DownloadedCourses extends ConsumerWidget {
           title: 'Lineare Algebra für Informatik [MA0901]',
           date: 'July 24, 2019',
           duration: '02:00:00',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const VideoPlayerCard(
+                    videoUrl: "assets/reviewTrailer.mp4",
+                    title: "title",
+                    date: "date",),
+              ),
+            );
+          },
         ),
         // Add more VideoCard widgets as needed
       ],
