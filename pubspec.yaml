@@ -27,6 +27,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   video_player: ^2.8.1
   touch_indicator: ^2.0.0
+  chewie: ^1.7.4
 
 
 dev_dependencies:

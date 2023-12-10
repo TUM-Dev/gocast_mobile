@@ -4,6 +4,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_card_view.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 /// DownloadsScreen
 ///
@@ -33,12 +34,21 @@ class DownloadedCourses extends ConsumerWidget {
                   return VideoCard(
                     imageName: 'assets/images/course1.png',
                     // Update as necessary
-                    title: "${course.name} - ${course.slug}",
+                    title: course.name,
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
                     duration: course.cameraPresetPreferences,
                     onTap: () {
-                      // Implement navigation to video player or course details
+                      String videoTitle = course.name;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VideoPlayerPage(
+                            videoAssetPath: "assets/reviewTrailer.mp4",
+                            title: videoTitle,
+                          ),
+                        ),
+                      );
                     },
                   );
                 }).toList(),

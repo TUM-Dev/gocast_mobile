@@ -15,6 +15,12 @@ class MockData {
       .where((course) => course.streams.any((stream) => stream.liveNow))
       .toList();
   static final List<Course> mockDownloadedCourses = _mockDownloadedCourses(2);
+  static final List<String> messages = [
+    'Hello, welcome to the lecture!',
+    'Can you explain this topic further?',
+    'Sure, let me elaborate on that.',
+    'I have a question about the homework, do we calculate this using the formula from the lecture?',
+  ];
 
   static List<Course> _defaultCourses() {
     // Generate courses without considering liveNow status
