@@ -77,7 +77,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         backgroundImage: AssetImage('assets/images/profile_temp.png'),
       ),
       title: Text(
-        ref.read(userViewModelProvider).user?.name ?? 'Guest',
+        ref.read(userViewModelProvider).user?.name ?? '',
       ),
       onTap: () {
         // TODO: Navigate to profile edit screen

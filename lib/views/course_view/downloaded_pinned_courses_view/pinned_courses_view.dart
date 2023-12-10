@@ -17,7 +17,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   void initState() {
     super.initState();
     Future.microtask(
-      () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),
+      () => ref.read(userViewModelProvider).userPinned,
     );
   }
 
@@ -28,7 +28,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+          ref.read(userViewModelProvider).userPinned;
         },
         child: userPinned.isNotEmpty
             ? ContentView(
@@ -40,7 +40,9 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
                     duration: course.cameraPresetPreferences,
-                    onTap: () {},
+                    onTap: () {
+                      // Implement navigation to video player or course details
+                    },
                   );
                 }).toList(),
               )
@@ -50,9 +52,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () async {
-                      await ref
-                          .read(userViewModelProvider.notifier)
-                          .fetchUserPinned();
+                      ref.read(userViewModelProvider).userPinned;
                     },
                   ),
                 ],

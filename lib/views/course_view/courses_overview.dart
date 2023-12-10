@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/models/user/mockData.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
@@ -21,23 +22,20 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   @override
   void initState() {
     super.initState();
-    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
-
+    ref.read(userViewModelProvider.notifier);
     Future.microtask(() {
       // Fetch user courses if the user is logged in
-      if (ref.read(userViewModelProvider).user != null) {
-        userViewModelNotifier.fetchUserCourses();
-      }
-      // Fetch public courses regardless of user's login status
-      userViewModelNotifier.fetchPublicCourses();
+      ref.read(userViewModelProvider).userCourses;
+      ref.read(userViewModelProvider).publicCourses;
+      ref.read(userViewModelProvider).userPinned;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = ref.watch(userViewModelProvider).user != null;
-    final userCourses = ref.watch(userViewModelProvider).userCourses;
-    final publicCourses = ref.watch(userViewModelProvider).publicCourses;
+    var userCourses = ref.watch(userViewModelProvider).userCourses;
+    var publicCourses = ref.watch(userViewModelProvider).publicCourses;
 
     return BaseView(
       title: 'GoCast',
@@ -52,10 +50,10 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       ],
       child: RefreshIndicator(
         onRefresh: () async {
-          final userViewModelNotifier =
-              ref.read(userViewModelProvider.notifier);
-          await userViewModelNotifier.fetchUserCourses();
-          await userViewModelNotifier.fetchPublicCourses();
+          //final userViewModelNotifier =
+          ref.read(userViewModelProvider.notifier);
+          userCourses = ref.read(userViewModelProvider).userCourses;
+          publicCourses = ref.read(userViewModelProvider).publicCourses;
         },
         child: SingleChildScrollView(
           child: Column(
@@ -67,7 +65,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     context,
                     MaterialPageRoute(builder: (context) => const MyCourses()),
                   ),
-                  courses: userCourses ?? [],
+                  courses: MockData.liveCourses,
                 ),
 
               CourseSection(

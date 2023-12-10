@@ -16,7 +16,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
   void initState() {
     super.initState();
     Future.microtask(
-      () => ref.read(userViewModelProvider.notifier).fetchUserCourses(),
+      () => ref.read(userViewModelProvider).userCourses,
     );
   }
 
@@ -28,7 +28,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
       title: 'My Courses',
       courses: userCourses,
       onRefresh: () async {
-        await ref.read(userViewModelProvider.notifier).fetchUserCourses();
+        ref.read(userViewModelProvider).userCourses;
       },
     );
   }
