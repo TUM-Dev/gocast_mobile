@@ -64,7 +64,7 @@ class VideoPlayerPageState extends State<VideoPlayerPage> {
           flex: 5, // Adjust flex ratio to change the space allocation
           child: _controllerManager.buildVideoPlayer(),
         ),
-        Expanded(
+        const Expanded(
           flex: 4, // Adjust flex ratio
           child: ChatView(),
         ),

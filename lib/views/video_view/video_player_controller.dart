@@ -20,9 +20,9 @@ class VideoPlayerControllerManager {
       looping: false,
       materialProgressColors: ChewieProgressColors(
         playedColor: AppColors.primaryColor, // TUM Dark Blue
-        handleColor: Color(0xFF98C1D9), // TUM Light Blue
+        handleColor: const Color(0xFF98C1D9), // TUM Light Blue
         backgroundColor: Colors.white,
-        bufferedColor: Color(0xFFDADADA),
+        bufferedColor: const Color(0xFFDADADA),
       ),
       placeholder: Container(
         color: AppColors.appBarBackgroundColor,

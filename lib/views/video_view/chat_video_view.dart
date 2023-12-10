@@ -19,7 +19,7 @@ class ChatView extends StatelessWidget {
 
   Widget _buildChatList() {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -28,7 +28,7 @@ class ChatView extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
