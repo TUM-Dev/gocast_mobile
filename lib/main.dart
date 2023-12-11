@@ -10,14 +10,22 @@ import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
 import 'package:touch_indicator/touch_indicator.dart';
+import 'package:flutter/services.dart';
+
 
 import 'base/networking/api/gocast/api_v2.pb.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Logger.level = Level.debug;
-  runApp(const ProviderScope(child: App()));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const ProviderScope(child: App()));
+  });
 }
 
 class App extends ConsumerWidget {
