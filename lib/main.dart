@@ -16,14 +16,8 @@ import 'base/networking/api/gocast/api_v2.pb.dart';
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   Logger.level = Level.debug;
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]).then((_) {
-    runApp(const ProviderScope(child: App()));
-  });
+  runApp(const ProviderScope(child: App()));
 }
 
 class App extends ConsumerWidget {
