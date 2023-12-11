@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
@@ -47,12 +48,32 @@ class App extends ConsumerWidget {
       theme: appTheme,
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
-      builder: (context, child) => TouchIndicator(child: child!),
+      builder: (context, child) {
+        _setPreferredOrientations(context);
+        return TouchIndicator(child: child!);
+      },
       home: homeScreen,
       routes: _buildRoutes(),
     );
   }
 
+  void _setPreferredOrientations(BuildContext context) {
+    if (MediaQuery.of(context).size.shortestSide < 600) {
+      // This is likely a phone
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    } else {
+      // This is likely a tablet
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
+  }
   Widget _getHomeScreen(User? user) {
     return user == null ? const WelcomeScreen() : const CourseOverview();
   }
