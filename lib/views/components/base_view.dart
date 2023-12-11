@@ -30,7 +30,7 @@ class BaseView extends StatelessWidget {
               ),
           textAlign: TextAlign.center,
         ),
-        automaticallyImplyLeading: false,
+        //automaticallyImplyLeading: false,
         titleSpacing: 0.0,
         actions: actions, // Use the actions here
       ),
