@@ -19,29 +19,29 @@ class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // Wrap the Card with InkWell
-      onTap: onTap, // Use the onTap callback
+      onTap: onTap,
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min, // To reduce the height of the card
+          mainAxisSize: MainAxisSize.min,
           children: [
             Stack(
               alignment: Alignment.bottomRight,
-              // Aligns the timestamp to the bottom right of the image
               children: [
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.asset(
-                    imageName,
-                    fit: BoxFit
-                        .cover, // This will cover the entire space of the Stack
+                Padding(
+                  // Add padding to the Image
+                  padding: const EdgeInsets.all(8.0),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.asset(
+                      imageName,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  // Padding for the duration chip inside the stack
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8.0,
@@ -49,10 +49,7 @@ class VideoCard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.6),
-                      // Semi-transparent black background
-                      borderRadius: BorderRadius.circular(
-                        4.0,
-                      ), // Rounded corners for the chip
+                      borderRadius: BorderRadius.circular(4.0),
                     ),
                     child: Text(
                       duration,

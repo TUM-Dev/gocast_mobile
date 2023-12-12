@@ -74,6 +74,7 @@ class App extends ConsumerWidget {
       ]);
     }
   }
+
   Widget _getHomeScreen(User? user) {
     return user == null ? const WelcomeScreen() : const CourseOverview();
   }
