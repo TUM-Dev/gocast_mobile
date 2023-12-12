@@ -47,7 +47,7 @@ class WelcomeScreen extends ConsumerWidget {
               _buildContinueWithoutButton(context),
               const SizedBox(height: 12),
               _buildInternalAccountLink(context),
-              const Spacer(flex: 2),
+              const SizedBox(height: 48)
             ],
           ),
         ),
@@ -125,7 +125,16 @@ class WelcomeScreen extends ConsumerWidget {
         context,
         MaterialPageRoute(builder: (context) => const InternalLoginScreen()),
       ),
-      child: const Center(child: Text('Use an internal account')),
+      child: const Center(
+        child: Text(
+          'Use an internal account',
+          style: TextStyle(
+            decoration: TextDecoration.underline,
+            color: Colors.grey,
+            decorationColor: Colors.grey,
+          ),
+        ),
+      ),
     );
   }
 
