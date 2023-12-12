@@ -44,7 +44,8 @@ class DownloadedCourses extends ConsumerWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => VideoPlayerPage(
-                            videoAssetPath: "assets/reviewTrailer.mp4",
+                            videoAssetPath:
+                                "https://ia804704.us.archive.org/5/items/UncleJoe/Uncle_Joe.mp4",
                             title: videoTitle,
                           ),
                         ),

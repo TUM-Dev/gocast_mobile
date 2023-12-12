@@ -11,7 +11,8 @@ class VideoPlayerControllerManager {
   VideoPlayerControllerManager({required this.videoAssetPath});
 
   Future<void> initializePlayer() async {
-    videoPlayerController = VideoPlayerController.asset(videoAssetPath);
+    videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(videoAssetPath));
     await videoPlayerController.initialize();
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
@@ -10,8 +11,6 @@ import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
 import 'package:touch_indicator/touch_indicator.dart';
-import 'package:flutter/services.dart';
-
 
 import 'base/networking/api/gocast/api_v2.pb.dart';
 
@@ -20,12 +19,7 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Logger.level = Level.debug;
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]).then((_) {
-    runApp(const ProviderScope(child: App()));
-  });
+  runApp(const ProviderScope(child: App()));
 }
 
 class App extends ConsumerWidget {
@@ -57,7 +51,6 @@ class App extends ConsumerWidget {
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
       builder: (context, child) {
-        _setPreferredOrientations(context);
         return TouchIndicator(child: child!);
       },
       home: homeScreen,
@@ -84,16 +77,16 @@ class App extends ConsumerWidget {
   }
 }
 
-  Widget _getHomeScreen(User? user) {
-    return user == null ? const WelcomeScreen() : const CourseOverview();
-  }
+Widget _getHomeScreen(User? user) {
+  return user == null ? const WelcomeScreen() : const CourseOverview();
+}
 
-  Map<String, WidgetBuilder> _buildRoutes() {
-    return {
-      '/welcome': (context) => const WelcomeScreen(),
-      '/login': (context) => const InternalLoginScreen(),
-      '/courses': (context) => const CourseOverview(),
-      '/publiccourses': (context) => const PublicCourses(),
-      '/mycourses': (context) => const MyCourses(),
-    };
-  }
+Map<String, WidgetBuilder> _buildRoutes() {
+  return {
+    '/welcome': (context) => const WelcomeScreen(),
+    '/login': (context) => const InternalLoginScreen(),
+    '/courses': (context) => const CourseOverview(),
+    '/publiccourses': (context) => const PublicCourses(),
+    '/mycourses': (context) => const MyCourses(),
+  };
+}
