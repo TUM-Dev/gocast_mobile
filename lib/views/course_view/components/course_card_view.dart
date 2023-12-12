@@ -32,14 +32,19 @@ class CourseCard extends StatelessWidget {
           width: MediaQuery.of(context).size.width *
               0.4, // was 160, now it's 40% of the screen width
           padding: const EdgeInsets.all(8.0),
-
+          color: Colors.white70,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildCourseSubtitle(),
+                  _buildLive(),
+                ],
+              ),
               Expanded(child: _buildCourseImage()), // Wrapped with Expanded
               _buildCourseTitle(),
-              _buildCourseSubtitle(),
-              _buildCourseIsLive(),
             ],
           ),
         ),
@@ -48,15 +53,28 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
-    return AspectRatio(
-      aspectRatio: 10 / 7,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: Image.asset(
-          path,
-          fit: BoxFit.cover,
-        ),
-      ),
+    return Stack(
+      children: [
+        Stack(
+          children: [
+            AspectRatio(
+              aspectRatio: 10 / 7,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  path,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 2, // Adjust as needed for the position
+              left: 2, // Adjust as needed for the position
+              child: _buildLive(), // Place the _buildLive widget here
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -64,10 +82,12 @@ class CourseCard extends StatelessWidget {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
+      maxLines: 2,
       style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontSize: 17,
+        fontWeight: FontWeight.w600,
         color: Colors.black,
+        height: 1,
       ),
     );
   }
@@ -81,6 +101,42 @@ class CourseCard extends StatelessWidget {
         color: Colors.grey,
       ),
     );
+  }
+
+  Widget _buildLiveDot() {
+    return live
+        ? const Row(
+            children: [
+              //spacing between dot and course number
+              Icon(
+                Icons.circle,
+                size: 15,
+                color: Colors.red,
+              ),
+            ],
+          )
+        : const SizedBox(); // Return an empty SizedBox if not live
+  }
+
+  Widget _buildLive() {
+    return live
+        ? Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.only(left: 4, right: 4),
+            child: //spacing between dot and course number
+                const Text(
+              'Live',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+          )
+        : const SizedBox(); // Return an empty SizedBox if not live
   }
 
   Widget _buildCourseIsLive() {

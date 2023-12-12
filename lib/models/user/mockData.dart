@@ -99,7 +99,9 @@ class MockData {
     String courseName = '$adjective $topic $format';
 
     // Constructing a slug
-    String courseSlug = '${topic.replaceAll(' ', '_')}_$format'.toLowerCase();
+    //String courseSlug = '${topic.replaceAll(' ', '_')}_$format'.toLowerCase();
+    //TODO this is no longer a "slug"
+    String courseSlug = _courseNumbers[_random.nextInt(_courseNumbers.length)].toString();
 
     // Other attributes
     String playlistUrl =
@@ -180,5 +182,15 @@ class MockData {
     'Lecture Series',
     'Lab',
     'Tutorial',
+  ];
+
+  //TODO separate endpoint or cut off title
+  static const List<String> _courseNumbers = [
+    'IN2023',
+    'IN0009',
+    'MA1037',
+    'CS3021',
+    'IN1009',
+    'MA2037',
   ];
 }
