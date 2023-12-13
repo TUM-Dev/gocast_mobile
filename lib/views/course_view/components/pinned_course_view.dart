@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../base/networking/api/gocast/api_v2.pb.dart';
 
 /// PinnedCourseCard
 ///
@@ -8,18 +9,14 @@ import 'package:flutter/material.dart';
 ///
 /// Parameters:
 ///   [imageName] - The asset path or URL of the course image.
-///   [title] - The title of the pinned course.
-///   [date] - The date or timestamp associated with the course.
-///   [duration] - The duration or length of the course.
+///   [course] - The course model containing details such as title, date, and duration.
 ///   [isPinned] - A boolean indicating whether the course is currently pinned.
 ///   [onPinToggle] - A callback function triggered when the user toggles the pin icon.
 ///   [onTap] - A callback function triggered when the user taps the card to view the course content.
 ///
 class PinnedCourseCard extends StatelessWidget {
   final String imageName;
-  final String title;
-  final String date;
-  final String duration;
+  final Course course;
   final bool isPinned;
   final VoidCallback onPinToggle;
   final VoidCallback onTap;
@@ -27,9 +24,7 @@ class PinnedCourseCard extends StatelessWidget {
   const PinnedCourseCard({
     super.key,
     required this.imageName,
-    required this.title,
-    required this.date,
-    required this.duration,
+    required this.course,
     required this.isPinned,
     required this.onTap,
     required this.onPinToggle,
@@ -53,15 +48,16 @@ class PinnedCourseCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        '${course.name} - ${course.slug}',
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        date,
+                        "${course.semester.year} ${course.semester.teachingTerm}",
                         style: const TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,

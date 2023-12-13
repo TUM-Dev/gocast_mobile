@@ -40,10 +40,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
                   return PinnedCourseCard(
                     imageName: 'assets/images/course2.png',
-                    title: "${course.name} - ${course.slug}",
-                    date:
-                        "${course.semester.year} ${course.semester.teachingTerm}",
-                    duration: course.cameraPresetPreferences,
+                    course: course,
                     onTap: () {},
                     isPinned: isPinned,
                     onPinToggle: () {
