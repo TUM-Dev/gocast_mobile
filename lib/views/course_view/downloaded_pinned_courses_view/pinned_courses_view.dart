@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
-import 'package:gocast_mobile/views/video_view/video_card_view.dart';
+import 'package:gocast_mobile/views/course_view/components/pinned_course_view.dart';
+import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/pinned_courses_content_view.dart';
 
 class PinnedCourses extends ConsumerStatefulWidget {
   const PinnedCourses({super.key});
@@ -31,16 +31,30 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
           await ref.read(userViewModelProvider.notifier).fetchUserPinned();
         },
         child: userPinned.isNotEmpty
-            ? ContentView(
+            ? PinnedCoursesContentView(
                 title: "Pinned Courses",
-                videoCards: userPinned.map((course) {
-                  return VideoCard(
+                pinnedCourseCards: userPinned.map((course) {
+                  final isPinned = userPinned.any(
+                    (pinnedCourse) => pinnedCourse.id == course.id,
+                  );
+
+                  return PinnedCourseCard(
                     imageName: 'assets/images/course2.png',
                     title: "${course.name} - ${course.slug}",
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
                     duration: course.cameraPresetPreferences,
                     onTap: () {},
+                    isPinned: isPinned,
+                    onPinToggle: () {
+                      final viewModel =
+                          ref.read(userViewModelProvider.notifier);
+                      if (isPinned) {
+                        viewModel.unpinCourse(course.id);
+                      } else {
+                        viewModel.pinCourse(course.id);
+                      }
+                    },
                   );
                 }).toList(),
               )
