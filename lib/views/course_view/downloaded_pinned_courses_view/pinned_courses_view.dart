@@ -32,7 +32,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         },
         child: userPinned.isNotEmpty
             ? ContentView(
-                title: "Pinned",
+                title: "Pinned Courses",
                 videoCards: userPinned.map((course) {
                   return VideoCard(
                     imageName: 'assets/images/course2.png',

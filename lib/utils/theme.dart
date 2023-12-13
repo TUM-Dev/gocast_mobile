@@ -13,6 +13,7 @@ class AppColors {
   static const Color indicatorActiveColor = Colors.blue;
   static const Color linkTextColor = Colors.blue;
   static const Color inactiveColor = Colors.grey;
+  static const Color tumBlue = Color(0xFF0065BD);
 }
 
 // Define a class for custom text styles
