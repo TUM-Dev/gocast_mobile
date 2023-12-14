@@ -74,36 +74,65 @@ class User extends $pb.GeneratedMessage {
     return $result;
   }
   User._() : super();
-  factory User.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory User.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory User.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory User.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'User',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'User',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'lastName', protoName: 'lastName')
     ..aOS(4, _omitFieldNames ? '' : 'email')
-    ..aOS(5, _omitFieldNames ? '' : 'matriculationNumber',
-        protoName: 'matriculationNumber')
+    ..aOS(
+      5,
+      _omitFieldNames ? '' : 'matriculationNumber',
+      protoName: 'matriculationNumber',
+    )
     ..aOS(6, _omitFieldNames ? '' : 'lrzID', protoName: 'lrzID')
     ..a<$core.int>(7, _omitFieldNames ? '' : 'role', $pb.PbFieldType.OU3)
-    ..pc<Course>(8, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: Course.create)
     ..pc<Course>(
-        9, _omitFieldNames ? '' : 'administeredCourses', $pb.PbFieldType.PM,
-        protoName: 'administeredCourses', subBuilder: Course.create)
-    ..pc<Course>(10, _omitFieldNames ? '' : 'pinnedCourses', $pb.PbFieldType.PM,
-        protoName: 'pinnedCourses', subBuilder: Course.create)
-    ..pc<UserSetting>(11, _omitFieldNames ? '' : 'settings', $pb.PbFieldType.PM,
-        subBuilder: UserSetting.create)
-    ..pc<Bookmark>(12, _omitFieldNames ? '' : 'bookmarks', $pb.PbFieldType.PM,
-        subBuilder: Bookmark.create)
+      8,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
+      subBuilder: Course.create,
+    )
+    ..pc<Course>(
+      9,
+      _omitFieldNames ? '' : 'administeredCourses',
+      $pb.PbFieldType.PM,
+      protoName: 'administeredCourses',
+      subBuilder: Course.create,
+    )
+    ..pc<Course>(
+      10,
+      _omitFieldNames ? '' : 'pinnedCourses',
+      $pb.PbFieldType.PM,
+      protoName: 'pinnedCourses',
+      subBuilder: Course.create,
+    )
+    ..pc<UserSetting>(
+      11,
+      _omitFieldNames ? '' : 'settings',
+      $pb.PbFieldType.PM,
+      subBuilder: UserSetting.create,
+    )
+    ..pc<Bookmark>(
+      12,
+      _omitFieldNames ? '' : 'bookmarks',
+      $pb.PbFieldType.PM,
+      subBuilder: Bookmark.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -124,7 +153,9 @@ class User extends $pb.GeneratedMessage {
   static $pb.PbList<User> createRepeated() => $pb.PbList<User>();
   @$core.pragma('dart2js:noInline')
   static User getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<User>(create);
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<User>(
+        create,
+      );
   static User? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -250,24 +281,37 @@ class UserSetting extends $pb.GeneratedMessage {
     return $result;
   }
   UserSetting._() : super();
-  factory UserSetting.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory UserSetting.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory UserSetting.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory UserSetting.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'UserSetting',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'UserSetting',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'userID', $pb.PbFieldType.OU3,
-        protoName: 'userID')
-    ..e<UserSettingType>(3, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
-        defaultOrMaker: UserSettingType.PREFERRED_NAME,
-        valueOf: UserSettingType.valueOf,
-        enumValues: UserSettingType.values)
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'userID',
+      $pb.PbFieldType.OU3,
+      protoName: 'userID',
+    )
+    ..e<UserSettingType>(
+      3,
+      _omitFieldNames ? '' : 'type',
+      $pb.PbFieldType.OE,
+      defaultOrMaker: UserSettingType.PREFERRED_NAME,
+      valueOf: UserSettingType.valueOf,
+      enumValues: UserSettingType.values,
+    )
     ..aOS(4, _omitFieldNames ? '' : 'value')
     ..hasRequiredFields = false;
 
@@ -345,18 +389,22 @@ class UserSetting extends $pb.GeneratedMessage {
 class GetUserRequest extends $pb.GeneratedMessage {
   factory GetUserRequest() => create();
   GetUserRequest._() : super();
-  factory GetUserRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetUserRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -405,17 +453,22 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserCoursesRequest._() : super();
-  factory GetUserCoursesRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserCoursesRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserCoursesRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserCoursesRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserCoursesRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetUserCoursesRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'term')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
@@ -431,7 +484,8 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetUserCoursesRequest copyWith(
-          void Function(GetUserCoursesRequest) updates) =>
+    void Function(GetUserCoursesRequest) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetUserCoursesRequest))
           as GetUserCoursesRequest;
 
@@ -519,17 +573,22 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserPinnedRequest._() : super();
-  factory GetUserPinnedRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserPinnedRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserPinnedRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserPinnedRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserPinnedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetUserPinnedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'term')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
@@ -612,18 +671,22 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
 class GetUserAdminRequest extends $pb.GeneratedMessage {
   factory GetUserAdminRequest() => create();
   GetUserAdminRequest._() : super();
-  factory GetUserAdminRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserAdminRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserAdminRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserAdminRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserAdminRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetUserAdminRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -652,18 +715,22 @@ class GetUserAdminRequest extends $pb.GeneratedMessage {
 class GetUserSettingsRequest extends $pb.GeneratedMessage {
   factory GetUserSettingsRequest() => create();
   GetUserSettingsRequest._() : super();
-  factory GetUserSettingsRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserSettingsRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserSettingsRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserSettingsRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserSettingsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetUserSettingsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -674,7 +741,8 @@ class GetUserSettingsRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetUserSettingsRequest copyWith(
-          void Function(GetUserSettingsRequest) updates) =>
+    void Function(GetUserSettingsRequest) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetUserSettingsRequest))
           as GetUserSettingsRequest;
 
@@ -702,19 +770,28 @@ class PostPinnedRequest extends $pb.GeneratedMessage {
     return $result;
   }
   PostPinnedRequest._() : super();
-  factory PostPinnedRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PostPinnedRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory PostPinnedRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PostPinnedRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostPinnedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.O3,
-        protoName: 'courseID')
+    _omitMessageNames ? '' : 'PostPinnedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.O3,
+      protoName: 'courseID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -764,19 +841,28 @@ class DeletePinnedRequest extends $pb.GeneratedMessage {
     return $result;
   }
   DeletePinnedRequest._() : super();
-  factory DeletePinnedRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeletePinnedRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory DeletePinnedRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeletePinnedRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeletePinnedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.O3,
-        protoName: 'courseID')
+    _omitMessageNames ? '' : 'DeletePinnedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.O3,
+      protoName: 'courseID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -826,17 +912,22 @@ class GetUserResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserResponse._() : super();
-  factory GetUserResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetUserResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOM<User>(1, _omitFieldNames ? '' : 'user', subBuilder: User.create)
     ..hasRequiredFields = false;
 
@@ -889,19 +980,28 @@ class GetUserCoursesResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserCoursesResponse._() : super();
-  factory GetUserCoursesResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserCoursesResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserCoursesResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserCoursesResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserCoursesResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: Course.create)
+    _omitMessageNames ? '' : 'GetUserCoursesResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
+      subBuilder: Course.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -913,7 +1013,8 @@ class GetUserCoursesResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetUserCoursesResponse copyWith(
-          void Function(GetUserCoursesResponse) updates) =>
+    void Function(GetUserCoursesResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetUserCoursesResponse))
           as GetUserCoursesResponse;
 
@@ -944,19 +1045,28 @@ class GetUserPinnedResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserPinnedResponse._() : super();
-  factory GetUserPinnedResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserPinnedResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserPinnedResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserPinnedResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserPinnedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: Course.create)
+    _omitMessageNames ? '' : 'GetUserPinnedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
+      subBuilder: Course.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -968,7 +1078,8 @@ class GetUserPinnedResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetUserPinnedResponse copyWith(
-          void Function(GetUserPinnedResponse) updates) =>
+    void Function(GetUserPinnedResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetUserPinnedResponse))
           as GetUserPinnedResponse;
 
@@ -999,19 +1110,28 @@ class GetUserAdminResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserAdminResponse._() : super();
-  factory GetUserAdminResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserAdminResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserAdminResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserAdminResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserAdminResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: Course.create)
+    _omitMessageNames ? '' : 'GetUserAdminResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
+      subBuilder: Course.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1053,20 +1173,29 @@ class GetUserSettingsResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetUserSettingsResponse._() : super();
-  factory GetUserSettingsResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserSettingsResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetUserSettingsResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetUserSettingsResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserSettingsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetUserSettingsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..pc<UserSetting>(
-        1, _omitFieldNames ? '' : 'userSettings', $pb.PbFieldType.PM,
-        protoName: 'userSettings', subBuilder: UserSetting.create)
+      1,
+      _omitFieldNames ? '' : 'userSettings',
+      $pb.PbFieldType.PM,
+      protoName: 'userSettings',
+      subBuilder: UserSetting.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1078,7 +1207,8 @@ class GetUserSettingsResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetUserSettingsResponse copyWith(
-          void Function(GetUserSettingsResponse) updates) =>
+    void Function(GetUserSettingsResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetUserSettingsResponse))
           as GetUserSettingsResponse;
 
@@ -1101,18 +1231,22 @@ class GetUserSettingsResponse extends $pb.GeneratedMessage {
 class PostPinnedResponse extends $pb.GeneratedMessage {
   factory PostPinnedResponse() => create();
   PostPinnedResponse._() : super();
-  factory PostPinnedResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PostPinnedResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory PostPinnedResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PostPinnedResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostPinnedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'PostPinnedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1141,18 +1275,22 @@ class PostPinnedResponse extends $pb.GeneratedMessage {
 class DeletePinnedResponse extends $pb.GeneratedMessage {
   factory DeletePinnedResponse() => create();
   DeletePinnedResponse._() : super();
-  factory DeletePinnedResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeletePinnedResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory DeletePinnedResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeletePinnedResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeletePinnedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'DeletePinnedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1214,26 +1352,39 @@ class Bookmark extends $pb.GeneratedMessage {
     return $result;
   }
   Bookmark._() : super();
-  factory Bookmark.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Bookmark.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory Bookmark.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Bookmark.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Bookmark',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'Bookmark',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'hours', $pb.PbFieldType.OU3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'minutes', $pb.PbFieldType.OU3)
     ..a<$core.int>(5, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)
-    ..a<$core.int>(6, _omitFieldNames ? '' : 'userID', $pb.PbFieldType.OU3,
-        protoName: 'userID')
-    ..a<$core.int>(7, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
-        protoName: 'streamID')
+    ..a<$core.int>(
+      6,
+      _omitFieldNames ? '' : 'userID',
+      $pb.PbFieldType.OU3,
+      protoName: 'userID',
+    )
+    ..a<$core.int>(
+      7,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
+      protoName: 'streamID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1353,19 +1504,28 @@ class GetBookmarksRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetBookmarksRequest._() : super();
-  factory GetBookmarksRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBookmarksRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetBookmarksRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBookmarksRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBookmarksRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.O3,
-        protoName: 'streamID')
+    _omitMessageNames ? '' : 'GetBookmarksRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.O3,
+      protoName: 'streamID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1431,23 +1591,32 @@ class PutBookmarkRequest extends $pb.GeneratedMessage {
     return $result;
   }
   PutBookmarkRequest._() : super();
-  factory PutBookmarkRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PutBookmarkRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory PutBookmarkRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PutBookmarkRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PutBookmarkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'PutBookmarkRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOS(1, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'hours', $pb.PbFieldType.OU3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'minutes', $pb.PbFieldType.OU3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
-        protoName: 'streamID')
+    ..a<$core.int>(
+      5,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
+      protoName: 'streamID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1561,23 +1730,32 @@ class PatchBookmarkRequest extends $pb.GeneratedMessage {
     return $result;
   }
   PatchBookmarkRequest._() : super();
-  factory PatchBookmarkRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PatchBookmarkRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory PatchBookmarkRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PatchBookmarkRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PatchBookmarkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'PatchBookmarkRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOS(1, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'hours', $pb.PbFieldType.OU3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'minutes', $pb.PbFieldType.OU3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'bookmarkID', $pb.PbFieldType.OU3,
-        protoName: 'bookmarkID')
+    ..a<$core.int>(
+      5,
+      _omitFieldNames ? '' : 'bookmarkID',
+      $pb.PbFieldType.OU3,
+      protoName: 'bookmarkID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1676,19 +1854,28 @@ class DeleteBookmarkRequest extends $pb.GeneratedMessage {
     return $result;
   }
   DeleteBookmarkRequest._() : super();
-  factory DeleteBookmarkRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeleteBookmarkRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory DeleteBookmarkRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeleteBookmarkRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteBookmarkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'bookmarkID', $pb.PbFieldType.OU3,
-        protoName: 'bookmarkID')
+    _omitMessageNames ? '' : 'DeleteBookmarkRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'bookmarkID',
+      $pb.PbFieldType.OU3,
+      protoName: 'bookmarkID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1700,7 +1887,8 @@ class DeleteBookmarkRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DeleteBookmarkRequest copyWith(
-          void Function(DeleteBookmarkRequest) updates) =>
+    void Function(DeleteBookmarkRequest) updates,
+  ) =>
       super.copyWith((message) => updates(message as DeleteBookmarkRequest))
           as DeleteBookmarkRequest;
 
@@ -1740,19 +1928,28 @@ class GetBookmarksResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetBookmarksResponse._() : super();
-  factory GetBookmarksResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBookmarksResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetBookmarksResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBookmarksResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBookmarksResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Bookmark>(1, _omitFieldNames ? '' : 'bookmarks', $pb.PbFieldType.PM,
-        subBuilder: Bookmark.create)
+    _omitMessageNames ? '' : 'GetBookmarksResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Bookmark>(
+      1,
+      _omitFieldNames ? '' : 'bookmarks',
+      $pb.PbFieldType.PM,
+      subBuilder: Bookmark.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1794,19 +1991,27 @@ class PutBookmarkResponse extends $pb.GeneratedMessage {
     return $result;
   }
   PutBookmarkResponse._() : super();
-  factory PutBookmarkResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PutBookmarkResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory PutBookmarkResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PutBookmarkResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PutBookmarkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..aOM<Bookmark>(1, _omitFieldNames ? '' : 'bookmark',
-        subBuilder: Bookmark.create)
+    _omitMessageNames ? '' : 'PutBookmarkResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..aOM<Bookmark>(
+      1,
+      _omitFieldNames ? '' : 'bookmark',
+      subBuilder: Bookmark.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1858,19 +2063,27 @@ class PatchBookmarkResponse extends $pb.GeneratedMessage {
     return $result;
   }
   PatchBookmarkResponse._() : super();
-  factory PatchBookmarkResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PatchBookmarkResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory PatchBookmarkResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory PatchBookmarkResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PatchBookmarkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..aOM<Bookmark>(1, _omitFieldNames ? '' : 'bookmark',
-        subBuilder: Bookmark.create)
+    _omitMessageNames ? '' : 'PatchBookmarkResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..aOM<Bookmark>(
+      1,
+      _omitFieldNames ? '' : 'bookmark',
+      subBuilder: Bookmark.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1882,7 +2095,8 @@ class PatchBookmarkResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   PatchBookmarkResponse copyWith(
-          void Function(PatchBookmarkResponse) updates) =>
+    void Function(PatchBookmarkResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as PatchBookmarkResponse))
           as PatchBookmarkResponse;
 
@@ -1916,18 +2130,22 @@ class PatchBookmarkResponse extends $pb.GeneratedMessage {
 class DeleteBookmarkResponse extends $pb.GeneratedMessage {
   factory DeleteBookmarkResponse() => create();
   DeleteBookmarkResponse._() : super();
-  factory DeleteBookmarkResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeleteBookmarkResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory DeleteBookmarkResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory DeleteBookmarkResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteBookmarkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'DeleteBookmarkResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1938,7 +2156,8 @@ class DeleteBookmarkResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DeleteBookmarkResponse copyWith(
-          void Function(DeleteBookmarkResponse) updates) =>
+    void Function(DeleteBookmarkResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as DeleteBookmarkResponse))
           as DeleteBookmarkResponse;
 
@@ -1982,17 +2201,22 @@ class BannerAlert extends $pb.GeneratedMessage {
     return $result;
   }
   BannerAlert._() : super();
-  factory BannerAlert.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BannerAlert.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory BannerAlert.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BannerAlert.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BannerAlert',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'BannerAlert',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'startsAt', protoName: 'startsAt')
     ..aOS(3, _omitFieldNames ? '' : 'expiresAt', protoName: 'expiresAt')
@@ -2106,22 +2330,31 @@ class FeatureNotification extends $pb.GeneratedMessage {
     return $result;
   }
   FeatureNotification._() : super();
-  factory FeatureNotification.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory FeatureNotification.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory FeatureNotification.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory FeatureNotification.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'FeatureNotification',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'FeatureNotification',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'Title', protoName: 'Title')
     ..aOS(3, _omitFieldNames ? '' : 'Body', protoName: 'Body')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'Target', $pb.PbFieldType.OU3,
-        protoName: 'Target')
+    ..a<$core.int>(
+      4,
+      _omitFieldNames ? '' : 'Target',
+      $pb.PbFieldType.OU3,
+      protoName: 'Target',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2199,18 +2432,22 @@ class FeatureNotification extends $pb.GeneratedMessage {
 class GetBannerAlertsRequest extends $pb.GeneratedMessage {
   factory GetBannerAlertsRequest() => create();
   GetBannerAlertsRequest._() : super();
-  factory GetBannerAlertsRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBannerAlertsRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetBannerAlertsRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBannerAlertsRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBannerAlertsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetBannerAlertsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2221,7 +2458,8 @@ class GetBannerAlertsRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetBannerAlertsRequest copyWith(
-          void Function(GetBannerAlertsRequest) updates) =>
+    void Function(GetBannerAlertsRequest) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetBannerAlertsRequest))
           as GetBannerAlertsRequest;
 
@@ -2241,18 +2479,22 @@ class GetBannerAlertsRequest extends $pb.GeneratedMessage {
 class GetFeatureNotificationsRequest extends $pb.GeneratedMessage {
   factory GetFeatureNotificationsRequest() => create();
   GetFeatureNotificationsRequest._() : super();
-  factory GetFeatureNotificationsRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetFeatureNotificationsRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetFeatureNotificationsRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetFeatureNotificationsRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetFeatureNotificationsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetFeatureNotificationsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2263,10 +2505,11 @@ class GetFeatureNotificationsRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetFeatureNotificationsRequest copyWith(
-          void Function(GetFeatureNotificationsRequest) updates) =>
+    void Function(GetFeatureNotificationsRequest) updates,
+  ) =>
       super.copyWith(
-              (message) => updates(message as GetFeatureNotificationsRequest))
-          as GetFeatureNotificationsRequest;
+        (message) => updates(message as GetFeatureNotificationsRequest),
+      ) as GetFeatureNotificationsRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2293,20 +2536,29 @@ class GetBannerAlertsResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetBannerAlertsResponse._() : super();
-  factory GetBannerAlertsResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBannerAlertsResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetBannerAlertsResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetBannerAlertsResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBannerAlertsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetBannerAlertsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..pc<BannerAlert>(
-        1, _omitFieldNames ? '' : 'bannerAlerts', $pb.PbFieldType.PM,
-        protoName: 'bannerAlerts', subBuilder: BannerAlert.create)
+      1,
+      _omitFieldNames ? '' : 'bannerAlerts',
+      $pb.PbFieldType.PM,
+      protoName: 'bannerAlerts',
+      subBuilder: BannerAlert.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2318,7 +2570,8 @@ class GetBannerAlertsResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetBannerAlertsResponse copyWith(
-          void Function(GetBannerAlertsResponse) updates) =>
+    void Function(GetBannerAlertsResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetBannerAlertsResponse))
           as GetBannerAlertsResponse;
 
@@ -2349,21 +2602,29 @@ class GetFeatureNotificationsResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetFeatureNotificationsResponse._() : super();
-  factory GetFeatureNotificationsResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetFeatureNotificationsResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetFeatureNotificationsResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetFeatureNotificationsResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetFeatureNotificationsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetFeatureNotificationsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..pc<FeatureNotification>(
-        1, _omitFieldNames ? '' : 'featureNotifications', $pb.PbFieldType.PM,
-        protoName: 'featureNotifications',
-        subBuilder: FeatureNotification.create)
+      1,
+      _omitFieldNames ? '' : 'featureNotifications',
+      $pb.PbFieldType.PM,
+      protoName: 'featureNotifications',
+      subBuilder: FeatureNotification.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2375,10 +2636,11 @@ class GetFeatureNotificationsResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetFeatureNotificationsResponse copyWith(
-          void Function(GetFeatureNotificationsResponse) updates) =>
+    void Function(GetFeatureNotificationsResponse) updates,
+  ) =>
       super.copyWith(
-              (message) => updates(message as GetFeatureNotificationsResponse))
-          as GetFeatureNotificationsResponse;
+        (message) => updates(message as GetFeatureNotificationsResponse),
+      ) as GetFeatureNotificationsResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2390,8 +2652,9 @@ class GetFeatureNotificationsResponse extends $pb.GeneratedMessage {
       $pb.PbList<GetFeatureNotificationsResponse>();
   @$core.pragma('dart2js:noInline')
   static GetFeatureNotificationsResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GetFeatureNotificationsResponse>(
-          create);
+          $pb.GeneratedMessage.$_defaultFor<GetFeatureNotificationsResponse>(
+        create,
+      );
   static GetFeatureNotificationsResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2461,40 +2724,73 @@ class Course extends $pb.GeneratedMessage {
     return $result;
   }
   Course._() : super();
-  factory Course.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Course.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory Course.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Course.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Course',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'Course',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'slug')
-    ..aOM<Semester>(4, _omitFieldNames ? '' : 'semester',
-        subBuilder: Semester.create)
-    ..aOS(5, _omitFieldNames ? '' : 'TUMOnlineIdentifier',
-        protoName: 'TUMOnlineIdentifier')
+    ..aOM<Semester>(
+      4,
+      _omitFieldNames ? '' : 'semester',
+      subBuilder: Semester.create,
+    )
+    ..aOS(
+      5,
+      _omitFieldNames ? '' : 'TUMOnlineIdentifier',
+      protoName: 'TUMOnlineIdentifier',
+    )
     ..aOB(6, _omitFieldNames ? '' : 'VODEnabled', protoName: 'VODEnabled')
-    ..aOB(7, _omitFieldNames ? '' : 'downloadsEnabled',
-        protoName: 'downloadsEnabled')
+    ..aOB(
+      7,
+      _omitFieldNames ? '' : 'downloadsEnabled',
+      protoName: 'downloadsEnabled',
+    )
     ..aOB(8, _omitFieldNames ? '' : 'chatEnabled', protoName: 'chatEnabled')
-    ..aOB(9, _omitFieldNames ? '' : 'anonymousChatEnabled',
-        protoName: 'anonymousChatEnabled')
-    ..aOB(10, _omitFieldNames ? '' : 'moderatedChatEnabled',
-        protoName: 'moderatedChatEnabled')
-    ..aOB(11, _omitFieldNames ? '' : 'vodChatEnabled',
-        protoName: 'vodChatEnabled')
-    ..pc<Stream>(12, _omitFieldNames ? '' : 'streams', $pb.PbFieldType.PM,
-        subBuilder: Stream.create)
-    ..aOS(13, _omitFieldNames ? '' : 'cameraPresetPreferences',
-        protoName: 'cameraPresetPreferences')
-    ..aOS(14, _omitFieldNames ? '' : 'sourcePreferences',
-        protoName: 'sourcePreferences')
+    ..aOB(
+      9,
+      _omitFieldNames ? '' : 'anonymousChatEnabled',
+      protoName: 'anonymousChatEnabled',
+    )
+    ..aOB(
+      10,
+      _omitFieldNames ? '' : 'moderatedChatEnabled',
+      protoName: 'moderatedChatEnabled',
+    )
+    ..aOB(
+      11,
+      _omitFieldNames ? '' : 'vodChatEnabled',
+      protoName: 'vodChatEnabled',
+    )
+    ..pc<Stream>(
+      12,
+      _omitFieldNames ? '' : 'streams',
+      $pb.PbFieldType.PM,
+      subBuilder: Stream.create,
+    )
+    ..aOS(
+      13,
+      _omitFieldNames ? '' : 'cameraPresetPreferences',
+      protoName: 'cameraPresetPreferences',
+    )
+    ..aOS(
+      14,
+      _omitFieldNames ? '' : 'sourcePreferences',
+      protoName: 'sourcePreferences',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2695,17 +2991,22 @@ class Semester extends $pb.GeneratedMessage {
     return $result;
   }
   Semester._() : super();
-  factory Semester.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Semester.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory Semester.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Semester.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Semester',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'Semester',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOS(1, _omitFieldNames ? '' : 'teachingTerm', protoName: 'teachingTerm')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
     ..hasRequiredFields = false;
@@ -2779,17 +3080,22 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetPublicCoursesRequest._() : super();
-  factory GetPublicCoursesRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetPublicCoursesRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetPublicCoursesRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetPublicCoursesRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetPublicCoursesRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetPublicCoursesRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'term')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
@@ -2805,7 +3111,8 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetPublicCoursesRequest copyWith(
-          void Function(GetPublicCoursesRequest) updates) =>
+    void Function(GetPublicCoursesRequest) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetPublicCoursesRequest))
           as GetPublicCoursesRequest;
 
@@ -2873,18 +3180,22 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
 class GetSemestersRequest extends $pb.GeneratedMessage {
   factory GetSemestersRequest() => create();
   GetSemestersRequest._() : super();
-  factory GetSemestersRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetSemestersRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetSemestersRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetSemestersRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetSemestersRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetSemestersRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2921,19 +3232,28 @@ class GetCourseStreamsRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetCourseStreamsRequest._() : super();
-  factory GetCourseStreamsRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetCourseStreamsRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetCourseStreamsRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetCourseStreamsRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetCourseStreamsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.O3,
-        protoName: 'courseID')
+    _omitMessageNames ? '' : 'GetCourseStreamsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.O3,
+      protoName: 'courseID',
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2945,7 +3265,8 @@ class GetCourseStreamsRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetCourseStreamsRequest copyWith(
-          void Function(GetCourseStreamsRequest) updates) =>
+    void Function(GetCourseStreamsRequest) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetCourseStreamsRequest))
           as GetCourseStreamsRequest;
 
@@ -2985,19 +3306,28 @@ class GetPublicCoursesResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetPublicCoursesResponse._() : super();
-  factory GetPublicCoursesResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetPublicCoursesResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetPublicCoursesResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetPublicCoursesResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetPublicCoursesResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: Course.create)
+    _omitMessageNames ? '' : 'GetPublicCoursesResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
+      subBuilder: Course.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3009,7 +3339,8 @@ class GetPublicCoursesResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetPublicCoursesResponse copyWith(
-          void Function(GetPublicCoursesResponse) updates) =>
+    void Function(GetPublicCoursesResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetPublicCoursesResponse))
           as GetPublicCoursesResponse;
 
@@ -3044,21 +3375,33 @@ class GetSemestersResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetSemestersResponse._() : super();
-  factory GetSemestersResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetSemestersResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetSemestersResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetSemestersResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetSemestersResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..aOM<Semester>(1, _omitFieldNames ? '' : 'current',
-        subBuilder: Semester.create)
-    ..pc<Semester>(2, _omitFieldNames ? '' : 'semesters', $pb.PbFieldType.PM,
-        subBuilder: Semester.create)
+    _omitMessageNames ? '' : 'GetSemestersResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..aOM<Semester>(
+      1,
+      _omitFieldNames ? '' : 'current',
+      subBuilder: Semester.create,
+    )
+    ..pc<Semester>(
+      2,
+      _omitFieldNames ? '' : 'semesters',
+      $pb.PbFieldType.PM,
+      subBuilder: Semester.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3114,19 +3457,28 @@ class GetCourseStreamsResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetCourseStreamsResponse._() : super();
-  factory GetCourseStreamsResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetCourseStreamsResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetCourseStreamsResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetCourseStreamsResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetCourseStreamsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Stream>(1, _omitFieldNames ? '' : 'streams', $pb.PbFieldType.PM,
-        subBuilder: Stream.create)
+    _omitMessageNames ? '' : 'GetCourseStreamsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Stream>(
+      1,
+      _omitFieldNames ? '' : 'streams',
+      $pb.PbFieldType.PM,
+      subBuilder: Stream.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3138,7 +3490,8 @@ class GetCourseStreamsResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetCourseStreamsResponse copyWith(
-          void Function(GetCourseStreamsResponse) updates) =>
+    void Function(GetCourseStreamsResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetCourseStreamsResponse))
           as GetCourseStreamsResponse;
 
@@ -3261,55 +3614,104 @@ class Stream extends $pb.GeneratedMessage {
     return $result;
   }
   Stream._() : super();
-  factory Stream.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Stream.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory Stream.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory Stream.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Stream',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU6,
-        defaultOrMaker: $fixnum.Int64.ZERO)
+    _omitMessageNames ? '' : 'Stream',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..a<$fixnum.Int64>(
+      1,
+      _omitFieldNames ? '' : 'id',
+      $pb.PbFieldType.OU6,
+      defaultOrMaker: $fixnum.Int64.ZERO,
+    )
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'description')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
-        protoName: 'courseID')
-    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'start',
-        subBuilder: $1.Timestamp.create)
-    ..aOM<$1.Timestamp>(6, _omitFieldNames ? '' : 'end',
-        subBuilder: $1.Timestamp.create)
+    ..a<$core.int>(
+      4,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.OU3,
+      protoName: 'courseID',
+    )
+    ..aOM<$1.Timestamp>(
+      5,
+      _omitFieldNames ? '' : 'start',
+      subBuilder: $1.Timestamp.create,
+    )
+    ..aOM<$1.Timestamp>(
+      6,
+      _omitFieldNames ? '' : 'end',
+      subBuilder: $1.Timestamp.create,
+    )
     ..aOB(7, _omitFieldNames ? '' : 'chatEnabled', protoName: 'chatEnabled')
     ..aOS(8, _omitFieldNames ? '' : 'roomName', protoName: 'roomName')
     ..aOS(9, _omitFieldNames ? '' : 'roomCode', protoName: 'roomCode')
-    ..aOS(10, _omitFieldNames ? '' : 'eventTypeName',
-        protoName: 'eventTypeName')
+    ..aOS(
+      10,
+      _omitFieldNames ? '' : 'eventTypeName',
+      protoName: 'eventTypeName',
+    )
     ..a<$core.int>(
-        11, _omitFieldNames ? '' : 'TUMOnlineEventID', $pb.PbFieldType.OU3,
-        protoName: 'TUMOnlineEventID')
-    ..aOS(12, _omitFieldNames ? '' : 'seriesIdentifier',
-        protoName: 'seriesIdentifier')
+      11,
+      _omitFieldNames ? '' : 'TUMOnlineEventID',
+      $pb.PbFieldType.OU3,
+      protoName: 'TUMOnlineEventID',
+    )
+    ..aOS(
+      12,
+      _omitFieldNames ? '' : 'seriesIdentifier',
+      protoName: 'seriesIdentifier',
+    )
     ..aOS(13, _omitFieldNames ? '' : 'playlistUrl', protoName: 'playlistUrl')
-    ..aOS(14, _omitFieldNames ? '' : 'playlistUrlPRES',
-        protoName: 'playlistUrlPRES')
-    ..aOS(15, _omitFieldNames ? '' : 'playlistUrlCAM',
-        protoName: 'playlistUrlCAM')
+    ..aOS(
+      14,
+      _omitFieldNames ? '' : 'playlistUrlPRES',
+      protoName: 'playlistUrlPRES',
+    )
+    ..aOS(
+      15,
+      _omitFieldNames ? '' : 'playlistUrlCAM',
+      protoName: 'playlistUrlCAM',
+    )
     ..aOB(16, _omitFieldNames ? '' : 'liveNow', protoName: 'liveNow')
-    ..aOM<$1.Timestamp>(17, _omitFieldNames ? '' : 'liveNowTimestamp',
-        protoName: 'liveNowTimestamp', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(
+      17,
+      _omitFieldNames ? '' : 'liveNowTimestamp',
+      protoName: 'liveNowTimestamp',
+      subBuilder: $1.Timestamp.create,
+    )
     ..aOB(18, _omitFieldNames ? '' : 'recording')
     ..aOB(19, _omitFieldNames ? '' : 'premiere')
     ..aOB(20, _omitFieldNames ? '' : 'ended')
-    ..a<$core.int>(21, _omitFieldNames ? '' : 'vodViews', $pb.PbFieldType.OU3,
-        protoName: 'vodViews')
     ..a<$core.int>(
-        22, _omitFieldNames ? '' : 'startOffset', $pb.PbFieldType.OU3,
-        protoName: 'startOffset')
-    ..a<$core.int>(23, _omitFieldNames ? '' : 'endOffset', $pb.PbFieldType.OU3,
-        protoName: 'endOffset')
+      21,
+      _omitFieldNames ? '' : 'vodViews',
+      $pb.PbFieldType.OU3,
+      protoName: 'vodViews',
+    )
+    ..a<$core.int>(
+      22,
+      _omitFieldNames ? '' : 'startOffset',
+      $pb.PbFieldType.OU3,
+      protoName: 'startOffset',
+    )
+    ..a<$core.int>(
+      23,
+      _omitFieldNames ? '' : 'endOffset',
+      $pb.PbFieldType.OU3,
+      protoName: 'endOffset',
+    )
     ..a<$core.int>(28, _omitFieldNames ? '' : 'duration', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -3640,20 +4042,29 @@ class GetStreamRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetStreamRequest._() : super();
-  factory GetStreamRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetStreamRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetStreamRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetStreamRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetStreamRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetStreamRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$fixnum.Int64>(
-        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
-        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU6,
+      protoName: 'streamID',
+      defaultOrMaker: $fixnum.Int64.ZERO,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3695,18 +4106,22 @@ class GetStreamRequest extends $pb.GeneratedMessage {
 class GetNowLiveRequest extends $pb.GeneratedMessage {
   factory GetNowLiveRequest() => create();
   GetNowLiveRequest._() : super();
-  factory GetNowLiveRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetNowLiveRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetNowLiveRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetNowLiveRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetNowLiveRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
+    _omitMessageNames ? '' : 'GetNowLiveRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -3743,20 +4158,29 @@ class GetThumbsLiveRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetThumbsLiveRequest._() : super();
-  factory GetThumbsLiveRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsLiveRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetThumbsLiveRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsLiveRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsLiveRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetThumbsLiveRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$fixnum.Int64>(
-        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
-        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU6,
+      protoName: 'streamID',
+      defaultOrMaker: $fixnum.Int64.ZERO,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3807,20 +4231,29 @@ class GetThumbsVODRequest extends $pb.GeneratedMessage {
     return $result;
   }
   GetThumbsVODRequest._() : super();
-  factory GetThumbsVODRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsVODRequest.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetThumbsVODRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsVODRequest.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsVODRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetThumbsVODRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..a<$fixnum.Int64>(
-        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
-        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU6,
+      protoName: 'streamID',
+      defaultOrMaker: $fixnum.Int64.ZERO,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3870,17 +4303,22 @@ class GetStreamResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetStreamResponse._() : super();
-  factory GetStreamResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetStreamResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetStreamResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetStreamResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetStreamResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetStreamResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOM<Stream>(1, _omitFieldNames ? '' : 'stream', subBuilder: Stream.create)
     ..hasRequiredFields = false;
 
@@ -3933,19 +4371,28 @@ class GetNowLiveResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetNowLiveResponse._() : super();
-  factory GetNowLiveResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetNowLiveResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetNowLiveResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetNowLiveResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetNowLiveResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
-    ..pc<Stream>(1, _omitFieldNames ? '' : 'stream', $pb.PbFieldType.PM,
-        subBuilder: Stream.create)
+    _omitMessageNames ? '' : 'GetNowLiveResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
+    ..pc<Stream>(
+      1,
+      _omitFieldNames ? '' : 'stream',
+      $pb.PbFieldType.PM,
+      subBuilder: Stream.create,
+    )
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -3986,17 +4433,22 @@ class GetThumbsVODResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetThumbsVODResponse._() : super();
-  factory GetThumbsVODResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsVODResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetThumbsVODResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsVODResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsVODResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetThumbsVODResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOS(1, _omitFieldNames ? '' : 'path')
     ..hasRequiredFields = false;
 
@@ -4048,17 +4500,22 @@ class GetThumbsLiveResponse extends $pb.GeneratedMessage {
     return $result;
   }
   GetThumbsLiveResponse._() : super();
-  factory GetThumbsLiveResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsLiveResponse.fromBuffer(
+    $core.List<$core.int> i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromBuffer(i, r);
-  factory GetThumbsLiveResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory GetThumbsLiveResponse.fromJson(
+    $core.String i, [
+    $pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY,
+  ]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsLiveResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
-      createEmptyInstance: create)
+    _omitMessageNames ? '' : 'GetThumbsLiveResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    createEmptyInstance: create,
+  )
     ..aOS(1, _omitFieldNames ? '' : 'path')
     ..hasRequiredFields = false;
 
@@ -4071,7 +4528,8 @@ class GetThumbsLiveResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetThumbsLiveResponse copyWith(
-          void Function(GetThumbsLiveResponse) updates) =>
+    void Function(GetThumbsLiveResponse) updates,
+  ) =>
       super.copyWith((message) => updates(message as GetThumbsLiveResponse))
           as GetThumbsLiveResponse;
 
