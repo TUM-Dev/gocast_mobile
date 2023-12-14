@@ -53,13 +53,13 @@ class MockData {
     return shuffledCourses.take(count).toList();
   }
 
-  static List<Course> _mockPublicCoursesDefault(int count) {
+  /* static List<Course> _mockPublicCoursesDefault(int count) {
     if (count >= mockCourses.length) {
       return List<Course>.from(mockCourses);
     }
     var shuffledCourses = List<Course>.from(mockCourses)..shuffle();
     return shuffledCourses.take(count).toList();
-  }
+  }*/
 
   static List<Course> _mockDownloadedCourses(int count) {
     if (count >= mockUserCourses.length) {
