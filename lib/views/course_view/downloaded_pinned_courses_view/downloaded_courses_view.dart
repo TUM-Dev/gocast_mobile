@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
@@ -32,12 +34,14 @@ class DownloadedCourses extends ConsumerWidget {
                 title: 'Downloads',
                 videoCards: userDownloaded.map((course) {
                   return VideoCard(
+                    duration:
+                        "${Random().nextInt(2).toString().padLeft(2, '0')}:${Random().nextInt(59).toString().padLeft(2, '0')}:${Random().nextInt(60).toString().padLeft(2, '0')}",
                     imageName: 'assets/images/course1.png',
                     // Update as necessary
                     title: course.name,
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
-                   // duration: course.cameraPresetPreferences,
+                    // duration: course.cameraPresetPreferences,
                     onTap: () {
                       String videoTitle = course.name;
                       Navigator.push(

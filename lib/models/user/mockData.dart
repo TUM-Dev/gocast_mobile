@@ -97,10 +97,11 @@ class MockData {
     String adjective = _adjectives[_random.nextInt(_adjectives.length)];
     String format = _formats[_random.nextInt(_formats.length)];
     String courseName = '$adjective $topic $format';
-
+    String prefix = _random.nextBool() ? 'IN0' : 'CIT0';
+    int number =
+        _random.nextInt(900) + 100; // Generates a number from 100 to 999
+    String courseSlug = '$prefix$number';
     // Constructing a slug
-    String courseSlug = '${topic.replaceAll(' ', '_')}_$format'.toLowerCase();
-
     // Other attributes
     String playlistUrl =
         'assets/sample.mp4'; // Replace with actual playlist URL'https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8'
