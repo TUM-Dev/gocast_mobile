@@ -23,8 +23,9 @@ class CourseListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String paddedTitle = '  $title  ';
     return BaseView(
-      title: title,
+      title: paddedTitle,
       actions: [
         if (onRefresh != null)
           IconButton(
