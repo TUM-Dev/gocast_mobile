@@ -52,14 +52,14 @@ class NotificationsScreen extends ConsumerWidget {
                 ),
               ),
               ...notifications[key]!.map(
-                    (notification) => Container(
+                (notification) => Container(
                   margin:
-                  const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
+                      const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
                   padding: const EdgeInsets.all(1.0),
                   decoration: BoxDecoration(
                     color: Colors.grey[200], // Light grey background color
                     borderRadius:
-                    BorderRadius.circular(8.0), // Optional: rounded corners
+                        BorderRadius.circular(8.0), // Optional: rounded corners
                   ),
                   child: ListTile(
                     title: Text(notification),
