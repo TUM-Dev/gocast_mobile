@@ -37,7 +37,7 @@ class DownloadedCourses extends ConsumerWidget {
                     title: course.name,
                     date:
                         "${course.semester.year} ${course.semester.teachingTerm}",
-                    duration: course.cameraPresetPreferences,
+                   // duration: course.cameraPresetPreferences,
                     onTap: () {
                       String videoTitle = course.name;
                       Navigator.push(

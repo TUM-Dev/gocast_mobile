@@ -60,7 +60,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
             children: [
               if (isLoggedIn)
                 CourseSection(
-                  sectionTitle: "Livenow",
+                  sectionTitle: "LiveNow",
                   onViewAll: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MyCourses()),
@@ -69,7 +69,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 ),
 
               CourseSection(
-                sectionTitle: "My courses",
+                sectionTitle: "My Courses",
                 onViewAll: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyCourses()),
@@ -78,7 +78,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
               ),
               //const SizedBox(height: 5), // Space between the sections
               CourseSection(
-                sectionTitle: "Public courses",
+                sectionTitle: "Public Courses",
                 onViewAll: () => Navigator.push(
                   context,
                   MaterialPageRoute(

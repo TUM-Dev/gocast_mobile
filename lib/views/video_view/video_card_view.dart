@@ -12,7 +12,8 @@ class VideoCard extends StatelessWidget {
     required this.imageName,
     required this.title,
     required this.date,
-    required this.duration,
+
+    this.duration="2:15:00",
     required this.onTap, // Add this line
   });
 
