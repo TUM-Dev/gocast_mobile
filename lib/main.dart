@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
@@ -58,35 +57,17 @@ class App extends ConsumerWidget {
     );
   }
 
-  void _setPreferredOrientations(BuildContext context) {
-    if (MediaQuery.of(context).size.shortestSide < 600) {
-      // This is likely a phone
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    } else {
-      // This is likely a tablet
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    }
+  Widget _getHomeScreen(User? user) {
+    return user == null ? const WelcomeScreen() : const CourseOverview();
   }
-}
 
-Widget _getHomeScreen(User? user) {
-  return user == null ? const WelcomeScreen() : const CourseOverview();
-}
-
-Map<String, WidgetBuilder> _buildRoutes() {
-  return {
-    '/welcome': (context) => const WelcomeScreen(),
-    '/login': (context) => const InternalLoginScreen(),
-    '/courses': (context) => const CourseOverview(),
-    '/publiccourses': (context) => const PublicCourses(),
-    '/mycourses': (context) => const MyCourses(),
-  };
+  Map<String, WidgetBuilder> _buildRoutes() {
+    return {
+      '/welcome': (context) => const WelcomeScreen(),
+      '/login': (context) => const InternalLoginScreen(),
+      '/courses': (context) => const CourseOverview(),
+      '/publiccourses': (context) => const PublicCourses(),
+      '/mycourses': (context) => const MyCourses(),
+    };
+  }
 }

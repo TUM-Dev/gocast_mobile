@@ -4,8 +4,8 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 class MockData {
   static final _random = Random();
-  static const String mockEmail = 'a';
-  static const String mockPassword = 'a';
+  static const String mockEmail = 'max@legend.com';
+  static const String mockPassword = 'secure';
   static final List<UserSetting> mockUserSettings = mockUser.settings;
   static final List<Course> mockCourses = _defaultCourses();
   static final List<Course> mockUserCourses = _mockUserCoursesDefault(3);
