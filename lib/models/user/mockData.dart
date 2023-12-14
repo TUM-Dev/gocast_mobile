@@ -4,13 +4,13 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 class MockData {
   static final _random = Random();
-  static const String mockEmail = 'maxTheBoss';
-  static const String mockPassword = 'qwertz';
+  static const String mockEmail = 'a';
+  static const String mockPassword = 'a';
   static final List<UserSetting> mockUserSettings = mockUser.settings;
   static final List<Course> mockCourses = _defaultCourses();
   static final List<Course> mockUserCourses = _mockUserCoursesDefault(3);
   static final List<Course> mockUserPinned = _mockPinCoursesDefault(2);
-  static final List<Course> mockPublicCourses = _mockPublicCoursesDefault(5);
+  static final List<Course> mockPublicCourses = mockCourses;
   static final List<Course> liveCourses = mockCourses
       .where((course) => course.streams.any((stream) => stream.liveNow))
       .toList();
@@ -103,7 +103,7 @@ class MockData {
 
     // Other attributes
     String playlistUrl =
-        'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6';
+        'assets/sample.mp4'; // Replace with actual playlist URL'https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8'
     bool vodEnabled = _random.nextBool();
     String cameraPresetPreferences = _random.nextBool() ? 'HD' : 'SD';
     bool liveNow = false;
