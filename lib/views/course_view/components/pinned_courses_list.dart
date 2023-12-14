@@ -28,11 +28,6 @@ class PinnedCourseList extends ConsumerWidget {
     return BaseView(
       title: title,
       actions: [
-        if (onRefresh != null)
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: onRefresh,
-          ),
         IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {
@@ -46,12 +41,19 @@ class PinnedCourseList extends ConsumerWidget {
           },
         ),
       ],
-      child: ListView.builder(
-        itemCount: pinnedCoursesCard.length,
-        itemBuilder: (BuildContext context, int index) {
-          return pinnedCoursesCard[index];
-        },
-      ),
+      child: pinnedCoursesCard.isEmpty
+          ? const Center(
+              child: Text(
+                'No pinned courses',
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          : ListView.builder(
+              itemCount: pinnedCoursesCard.length,
+              itemBuilder: (BuildContext context, int index) {
+                return pinnedCoursesCard[index];
+              },
+            ),
     );
   }
 }

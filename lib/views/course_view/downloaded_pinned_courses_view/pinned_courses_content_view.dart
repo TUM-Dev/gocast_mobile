@@ -13,10 +13,9 @@ import 'package:gocast_mobile/views/course_view/components/pinned_course_view.da
 ///   [title] - The title of the content section.
 ///   [pinnedCourseCards] - A list of cards representing pinned courses.
 ///
-
 class PinnedCoursesContentView extends ConsumerWidget {
   final String title;
-  final List<PinnedCourseCard> pinnedCourseCards; // Corrected property name
+  final List<PinnedCourseCard> pinnedCourseCards;
 
   const PinnedCoursesContentView({
     super.key,
