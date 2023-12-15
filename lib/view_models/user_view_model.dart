@@ -127,6 +127,7 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> logout() async {
     const storage = FlutterSecureStorage();
     await storage.delete(key: 'jwt');
+    await storage.delete(key: 'device_token');
     state = const UserState(); // Resets the state to its initial value
     _logger.i('Logged out user and cleared tokens.');
   }

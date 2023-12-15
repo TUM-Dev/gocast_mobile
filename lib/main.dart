@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
@@ -98,20 +99,21 @@ class App extends ConsumerWidget {
       sound: true,
     );
 
-    messaging.getToken().then((token) {
+    messaging.getToken().then((token) async {
       debugPrint('Device Token: $token');
-      if (token != null && token != notificationViewModel.deviceToken) {
+      var storedToken = await TokenHandler.loadTokenNoException("device_token");
+      if (token != null && token != storedToken) {
         notificationViewModel.postDeviceToken(token);
       }
     });
 
-    messaging.onTokenRefresh.listen((token) {
-      if (token != notificationViewModel.deviceToken) {
+    messaging.onTokenRefresh.listen((token) async {
+      var storedToken = await TokenHandler.loadTokenNoException("device_token");
+      if (token != storedToken) {
         notificationViewModel.postDeviceToken(token);
       }
       debugPrint('Token refreshed: $token');
     });
-    // TODO: REMOVE TOKEN WHEN LOGGING OUT
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint("New message arrived: ${message.data.entries.first}");

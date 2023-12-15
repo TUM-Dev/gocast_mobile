@@ -1,17 +1,18 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:logger/logger.dart';
 
 class NotificationViewModel {
   final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
-  String deviceToken;
 
-  NotificationViewModel(this._grpcHandler, this.deviceToken);
+  NotificationViewModel(this._grpcHandler);
 
   Future<void> postDeviceToken(String deviceToken) async {
     try {
-      this.deviceToken = deviceToken;
+      TokenHandler.saveToken("device_token", deviceToken);
       _logger.i('Posting device token');
       await NotificationHandler(_grpcHandler).postDeviceToken(deviceToken);
     } catch (e) {
@@ -19,9 +20,11 @@ class NotificationViewModel {
     }
   }
 
-  Future<void> deleteDeviceToken(String deviceToken) async {
+  Future<void> deleteDeviceToken() async {
     try {
-      this.deviceToken = "";
+      var deviceToken = await TokenHandler.loadTokenNoException("device_token");
+      const storage = FlutterSecureStorage();
+      await storage.delete(key: 'device_token');
       _logger.i('Deleting device token');
       await NotificationHandler(_grpcHandler).deleteDeviceToken(deviceToken);
     } catch (e) {

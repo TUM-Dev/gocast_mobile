@@ -130,6 +130,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         style: TextStyle(color: Colors.red),
       ),
       onTap: () {
+        ref.read(notificationViewModelProvider).deleteDeviceToken();
         ref.read(userViewModelProvider.notifier).logout();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const WelcomeScreen()),

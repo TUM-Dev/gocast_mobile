@@ -14,5 +14,5 @@ final userViewModelProvider = StateNotifierProvider<UserViewModel, UserState>(
 );
 
 final notificationViewModelProvider = Provider<NotificationViewModel>(
-  (ref) => NotificationViewModel(ref.watch(grpcHandlerProvider), ""),
+  (ref) => NotificationViewModel(ref.watch(grpcHandlerProvider)),
 );
