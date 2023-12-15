@@ -58,7 +58,7 @@ class AuthHandler {
     // Save jwt token
     try {
       List<Cookie> cookies = await cookieJar.loadForRequest(Uri.parse(url));
-      await TokenHandler.saveToken('jwt', cookies);
+      await TokenHandler.saveTokenFromCookies('jwt', cookies);
       _logger.i('JWT token saved successfully for user: $username');
     } catch (e) {
       _logger.e('Error saving JWT token for user: $username, Error: $e');
@@ -146,7 +146,7 @@ class AuthHandler {
         }
       }
       if (jwtCookie != null) {
-        await TokenHandler.saveToken(
+        await TokenHandler.saveTokenFromCookies(
           'jwt',
           [Cookie(jwtCookie.name, jwtCookie.value)],
         );

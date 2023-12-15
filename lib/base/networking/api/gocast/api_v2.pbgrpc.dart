@@ -104,6 +104,20 @@ class APIClient extends $grpc.Client {
     ($core.List<$core.int> value) =>
         $0.GetFeatureNotificationsResponse.fromBuffer(value),
   );
+  static final _$postDeviceToken =
+      $grpc.ClientMethod<$0.PostDeviceTokenRequest, $0.PostDeviceTokenResponse>(
+    '/protobuf.API/postDeviceToken',
+    ($0.PostDeviceTokenRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.PostDeviceTokenResponse.fromBuffer(value),
+  );
+  static final _$deleteDeviceToken = $grpc.ClientMethod<
+      $0.DeleteDeviceTokenRequest, $0.DeleteDeviceTokenResponse>(
+    '/protobuf.API/deleteDeviceToken',
+    ($0.DeleteDeviceTokenRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.DeleteDeviceTokenResponse.fromBuffer(value),
+  );
   static final _$getPublicCourses = $grpc.ClientMethod<
       $0.GetPublicCoursesRequest, $0.GetPublicCoursesResponse>(
     '/protobuf.API/getPublicCourses',
@@ -253,6 +267,20 @@ class APIClient extends $grpc.Client {
       request,
       options: options,
     );
+  }
+
+  $grpc.ResponseFuture<$0.PostDeviceTokenResponse> postDeviceToken(
+    $0.PostDeviceTokenRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$postDeviceToken, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.DeleteDeviceTokenResponse> deleteDeviceToken(
+    $0.DeleteDeviceTokenRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$deleteDeviceToken, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetPublicCoursesResponse> getPublicCourses(
@@ -455,6 +483,30 @@ abstract class APIServiceBase extends $grpc.Service {
       ),
     );
     $addMethod(
+      $grpc.ServiceMethod<$0.PostDeviceTokenRequest,
+          $0.PostDeviceTokenResponse>(
+        'postDeviceToken',
+        postDeviceToken_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.PostDeviceTokenRequest.fromBuffer(value),
+        ($0.PostDeviceTokenResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.DeleteDeviceTokenRequest,
+          $0.DeleteDeviceTokenResponse>(
+        'deleteDeviceToken',
+        deleteDeviceToken_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.DeleteDeviceTokenRequest.fromBuffer(value),
+        ($0.DeleteDeviceTokenResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
       $grpc.ServiceMethod<$0.GetPublicCoursesRequest,
           $0.GetPublicCoursesResponse>(
         'getPublicCourses',
@@ -624,6 +676,20 @@ abstract class APIServiceBase extends $grpc.Service {
     return getFeatureNotifications(call, await request);
   }
 
+  $async.Future<$0.PostDeviceTokenResponse> postDeviceToken_Pre(
+    $grpc.ServiceCall call,
+    $async.Future<$0.PostDeviceTokenRequest> request,
+  ) async {
+    return postDeviceToken(call, await request);
+  }
+
+  $async.Future<$0.DeleteDeviceTokenResponse> deleteDeviceToken_Pre(
+    $grpc.ServiceCall call,
+    $async.Future<$0.DeleteDeviceTokenRequest> request,
+  ) async {
+    return deleteDeviceToken(call, await request);
+  }
+
   $async.Future<$0.GetPublicCoursesResponse> getPublicCourses_Pre(
     $grpc.ServiceCall call,
     $async.Future<$0.GetPublicCoursesRequest> request,
@@ -724,6 +790,14 @@ abstract class APIServiceBase extends $grpc.Service {
   $async.Future<$0.GetFeatureNotificationsResponse> getFeatureNotifications(
     $grpc.ServiceCall call,
     $0.GetFeatureNotificationsRequest request,
+  );
+  $async.Future<$0.PostDeviceTokenResponse> postDeviceToken(
+    $grpc.ServiceCall call,
+    $0.PostDeviceTokenRequest request,
+  );
+  $async.Future<$0.DeleteDeviceTokenResponse> deleteDeviceToken(
+    $grpc.ServiceCall call,
+    $0.DeleteDeviceTokenRequest request,
   );
   $async.Future<$0.GetPublicCoursesResponse> getPublicCourses(
     $grpc.ServiceCall call,

@@ -506,6 +506,34 @@ final $typed_data.Uint8List featureNotificationDescriptor = $convert.base64Decod
     'ChNGZWF0dXJlTm90aWZpY2F0aW9uEg4KAmlkGAEgASgNUgJpZBIUCgVUaXRsZRgCIAEoCVIFVG'
     'l0bGUSEgoEQm9keRgDIAEoCVIEQm9keRIWCgZUYXJnZXQYBCABKA1SBlRhcmdldA==');
 
+@$core.Deprecated('Use postDeviceTokenRequestDescriptor instead')
+const PostDeviceTokenRequest$json = {
+  '1': 'PostDeviceTokenRequest',
+  '2': [
+    {'1': 'deviceToken', '3': 1, '4': 1, '5': 9, '10': 'deviceToken'},
+  ],
+};
+
+/// Descriptor for `PostDeviceTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postDeviceTokenRequestDescriptor =
+    $convert.base64Decode(
+        'ChZQb3N0RGV2aWNlVG9rZW5SZXF1ZXN0EiAKC2RldmljZVRva2VuGAEgASgJUgtkZXZpY2VUb2'
+        'tlbg==');
+
+@$core.Deprecated('Use deleteDeviceTokenRequestDescriptor instead')
+const DeleteDeviceTokenRequest$json = {
+  '1': 'DeleteDeviceTokenRequest',
+  '2': [
+    {'1': 'deviceToken', '3': 1, '4': 1, '5': 9, '10': 'deviceToken'},
+  ],
+};
+
+/// Descriptor for `DeleteDeviceTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDeviceTokenRequestDescriptor =
+    $convert.base64Decode(
+        'ChhEZWxldGVEZXZpY2VUb2tlblJlcXVlc3QSIAoLZGV2aWNlVG9rZW4YASABKAlSC2RldmljZV'
+        'Rva2Vu');
+
 @$core.Deprecated('Use getBannerAlertsRequestDescriptor instead')
 const GetBannerAlertsRequest$json = {
   '1': 'GetBannerAlertsRequest',
@@ -523,6 +551,24 @@ const GetFeatureNotificationsRequest$json = {
 /// Descriptor for `GetFeatureNotificationsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getFeatureNotificationsRequestDescriptor =
     $convert.base64Decode('Ch5HZXRGZWF0dXJlTm90aWZpY2F0aW9uc1JlcXVlc3Q=');
+
+@$core.Deprecated('Use postDeviceTokenResponseDescriptor instead')
+const PostDeviceTokenResponse$json = {
+  '1': 'PostDeviceTokenResponse',
+};
+
+/// Descriptor for `PostDeviceTokenResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postDeviceTokenResponseDescriptor =
+    $convert.base64Decode('ChdQb3N0RGV2aWNlVG9rZW5SZXNwb25zZQ==');
+
+@$core.Deprecated('Use deleteDeviceTokenResponseDescriptor instead')
+const DeleteDeviceTokenResponse$json = {
+  '1': 'DeleteDeviceTokenResponse',
+};
+
+/// Descriptor for `DeleteDeviceTokenResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDeviceTokenResponseDescriptor =
+    $convert.base64Decode('ChlEZWxldGVEZXZpY2VUb2tlblJlc3BvbnNl');
 
 @$core.Deprecated('Use getBannerAlertsResponseDescriptor instead')
 const GetBannerAlertsResponse$json = {

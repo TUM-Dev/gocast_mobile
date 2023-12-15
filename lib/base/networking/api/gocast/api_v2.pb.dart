@@ -2196,6 +2196,132 @@ class FeatureNotification extends $pb.GeneratedMessage {
   void clearTarget() => clearField(4);
 }
 
+class PostDeviceTokenRequest extends $pb.GeneratedMessage {
+  factory PostDeviceTokenRequest({
+    $core.String? deviceToken,
+  }) {
+    final $result = create();
+    if (deviceToken != null) {
+      $result.deviceToken = deviceToken;
+    }
+    return $result;
+  }
+  PostDeviceTokenRequest._() : super();
+  factory PostDeviceTokenRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory PostDeviceTokenRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PostDeviceTokenRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'deviceToken', protoName: 'deviceToken')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  PostDeviceTokenRequest clone() =>
+      PostDeviceTokenRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PostDeviceTokenRequest copyWith(
+          void Function(PostDeviceTokenRequest) updates) =>
+      super.copyWith((message) => updates(message as PostDeviceTokenRequest))
+          as PostDeviceTokenRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PostDeviceTokenRequest create() => PostDeviceTokenRequest._();
+  PostDeviceTokenRequest createEmptyInstance() => create();
+  static $pb.PbList<PostDeviceTokenRequest> createRepeated() =>
+      $pb.PbList<PostDeviceTokenRequest>();
+  @$core.pragma('dart2js:noInline')
+  static PostDeviceTokenRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PostDeviceTokenRequest>(create);
+  static PostDeviceTokenRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get deviceToken => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set deviceToken($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasDeviceToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDeviceToken() => clearField(1);
+}
+
+class DeleteDeviceTokenRequest extends $pb.GeneratedMessage {
+  factory DeleteDeviceTokenRequest({
+    $core.String? deviceToken,
+  }) {
+    final $result = create();
+    if (deviceToken != null) {
+      $result.deviceToken = deviceToken;
+    }
+    return $result;
+  }
+  DeleteDeviceTokenRequest._() : super();
+  factory DeleteDeviceTokenRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DeleteDeviceTokenRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'DeleteDeviceTokenRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'deviceToken', protoName: 'deviceToken')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  DeleteDeviceTokenRequest clone() =>
+      DeleteDeviceTokenRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  DeleteDeviceTokenRequest copyWith(
+          void Function(DeleteDeviceTokenRequest) updates) =>
+      super.copyWith((message) => updates(message as DeleteDeviceTokenRequest))
+          as DeleteDeviceTokenRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteDeviceTokenRequest create() => DeleteDeviceTokenRequest._();
+  DeleteDeviceTokenRequest createEmptyInstance() => create();
+  static $pb.PbList<DeleteDeviceTokenRequest> createRepeated() =>
+      $pb.PbList<DeleteDeviceTokenRequest>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteDeviceTokenRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DeleteDeviceTokenRequest>(create);
+  static DeleteDeviceTokenRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get deviceToken => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set deviceToken($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasDeviceToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDeviceToken() => clearField(1);
+}
+
 class GetBannerAlertsRequest extends $pb.GeneratedMessage {
   factory GetBannerAlertsRequest() => create();
   GetBannerAlertsRequest._() : super();
@@ -2280,6 +2406,90 @@ class GetFeatureNotificationsRequest extends $pb.GeneratedMessage {
   static GetFeatureNotificationsRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GetFeatureNotificationsRequest>(create);
   static GetFeatureNotificationsRequest? _defaultInstance;
+}
+
+class PostDeviceTokenResponse extends $pb.GeneratedMessage {
+  factory PostDeviceTokenResponse() => create();
+  PostDeviceTokenResponse._() : super();
+  factory PostDeviceTokenResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory PostDeviceTokenResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PostDeviceTokenResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  PostDeviceTokenResponse clone() =>
+      PostDeviceTokenResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PostDeviceTokenResponse copyWith(
+          void Function(PostDeviceTokenResponse) updates) =>
+      super.copyWith((message) => updates(message as PostDeviceTokenResponse))
+          as PostDeviceTokenResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PostDeviceTokenResponse create() => PostDeviceTokenResponse._();
+  PostDeviceTokenResponse createEmptyInstance() => create();
+  static $pb.PbList<PostDeviceTokenResponse> createRepeated() =>
+      $pb.PbList<PostDeviceTokenResponse>();
+  @$core.pragma('dart2js:noInline')
+  static PostDeviceTokenResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PostDeviceTokenResponse>(create);
+  static PostDeviceTokenResponse? _defaultInstance;
+}
+
+class DeleteDeviceTokenResponse extends $pb.GeneratedMessage {
+  factory DeleteDeviceTokenResponse() => create();
+  DeleteDeviceTokenResponse._() : super();
+  factory DeleteDeviceTokenResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DeleteDeviceTokenResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'DeleteDeviceTokenResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  DeleteDeviceTokenResponse clone() =>
+      DeleteDeviceTokenResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  DeleteDeviceTokenResponse copyWith(
+          void Function(DeleteDeviceTokenResponse) updates) =>
+      super.copyWith((message) => updates(message as DeleteDeviceTokenResponse))
+          as DeleteDeviceTokenResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteDeviceTokenResponse create() => DeleteDeviceTokenResponse._();
+  DeleteDeviceTokenResponse createEmptyInstance() => create();
+  static $pb.PbList<DeleteDeviceTokenResponse> createRepeated() =>
+      $pb.PbList<DeleteDeviceTokenResponse>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteDeviceTokenResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DeleteDeviceTokenResponse>(create);
+  static DeleteDeviceTokenResponse? _defaultInstance;
 }
 
 class GetBannerAlertsResponse extends $pb.GeneratedMessage {

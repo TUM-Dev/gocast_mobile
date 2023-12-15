@@ -1,5 +1,5 @@
 import 'package:logger/logger.dart';
-
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'grpc_handler.dart';
 
 /// Handles notification-related data operations.
@@ -22,7 +22,8 @@ class NotificationHandler {
     _logger.i('Posting device token');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-        //await client.postDeviceToken(PostDeviceTokenRequest(deviceToken));
+        await client
+            .postDeviceToken(PostDeviceTokenRequest(deviceToken: deviceToken));
         _logger.i('Device token posted successfully');
       },
     );
@@ -36,7 +37,9 @@ class NotificationHandler {
     _logger.i('Deleting device token');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-        //await client.deleteDeviceToken(DeleteDeviceTokenRequest(deviceToken));
+        await client.deleteDeviceToken(
+          DeleteDeviceTokenRequest(deviceToken: deviceToken),
+        );
         _logger.i('Device token deleted successfully');
       },
     );

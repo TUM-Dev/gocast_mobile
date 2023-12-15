@@ -12,14 +12,15 @@ class TokenHandler {
   static final Logger _logger = Logger();
   static const _storage = FlutterSecureStorage();
 
-  /// Stores a JWT token.
+  /// Stores a token.
   ///
-  /// This method saves a JWT token to shared preferences. The token is identified
+  /// This method saves a token to shared preferences. The token is identified
   /// by the given key and is extracted from the list of cookies.
   ///
   /// Throws an [AppError] with an authentication error message if no JWT token
   /// is found in the list of cookies.
-  static Future<void> saveToken(String key, List<Cookie> cookies) async {
+  static Future<void> saveTokenFromCookies(
+      String key, List<Cookie> cookies) async {
     for (var cookie in cookies) {
       if (cookie.name == key) {
         await _storage.write(key: key, value: cookie.value);
@@ -32,13 +33,26 @@ class TokenHandler {
     throw AppError.authenticationError();
   }
 
-  /// Retrieves a JWT token.
+  /// Stores a token.
   ///
-  /// This method loads a JWT token from shared preferences. The token is identified
-  /// by the given key.
+  /// This method saves a JWT token to shared preferences. The token is identified
+  /// by the given key and value.
   ///
   /// Throws an [AppError] with an authentication error message if no JWT token
-  /// is found in shared preferences.
+  /// is found in the list of cookies.
+  static Future<void> saveToken(String key, String value) async {
+    await _storage.write(key: key, value: value);
+    _logger.i('Token saved to secure storage: ${value}');
+    return;
+  }
+
+  /// Retrieves a token.
+  ///
+  /// This method loads a token from shared preferences. The token is identified
+  /// by the given key.
+  ///
+  /// Throws an [AppError] with an authentication error message if no token is
+  /// found in shared preferences.
   static Future<String> loadToken(String key) async {
     try {
       final token = await _storage.read(key: key);
@@ -52,6 +66,29 @@ class TokenHandler {
     } catch (e) {
       _logger.e('Error loading token: $e');
       throw AppError.authenticationError();
+    }
+  }
+
+  /// Retrieves a token.
+  ///
+  /// This method loads a token from shared preferences. The token is identified
+  /// by the given key.
+  ///
+  /// Throws an [AppError] with an authentication error message if no token is
+  /// found in shared preferences.
+  static Future<String> loadTokenNoException(String key) async {
+    try {
+      final token = await _storage.read(key: key);
+      if (token == null) {
+        _logger.w('Token not found for key: $key');
+        return "";
+      }
+
+      _logger.i('Token successfully loaded for key: $key');
+      return token;
+    } catch (e) {
+      _logger.e('Error loading token: $e');
+      return "";
     }
   }
 }
