@@ -35,7 +35,7 @@ class StreamHandler {
   /// Takes [streamId] as a parameter.
   ///
   /// Returns a [Stream] instance that represents the stream of the course.
-  Future<Stream> fetchStream(Int64? streamId) async {
+  Future<Stream> fetchStream(Int64 streamId) async {
     _logger.i('Fetching stream');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -69,7 +69,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail stream.
-  Future<String> fetchThumbnailStreams(Int64? streamId) async {
+  Future<String> fetchThumbnailStreams(Int64 streamId) async {
     _logger.i('Fetching thumbnail stream');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -87,7 +87,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail VOD.
-  Future<String> fetchThumbnailVOD(Int64? streamId) async {
+  Future<String> fetchThumbnailVOD(Int64 streamId) async {
     _logger.i('Fetching thumbnail VOD');
     return _grpcHandler.callGrpcMethod(
       (client) async {
