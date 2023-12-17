@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -165,8 +165,7 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   Future<void> logout() async {
-    const storage = FlutterSecureStorage();
-    await storage.delete(key: 'jwt');
+    await TokenHandler.deleteToken('jwt');
     state = const UserState(); // Resets the state to its initial value
     _logger.i('Logged out user and cleared tokens.');
   }
