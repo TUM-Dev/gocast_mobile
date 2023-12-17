@@ -90,6 +90,46 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
+  Future<bool> pinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Pinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course pinned successfully');
+      } else {
+        _logger.e('Failed to pin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error pinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
+  Future<bool> unpinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Unpinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course unpinned successfully');
+      } else {
+        _logger.e('Failed to unpin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error unpinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
   Future<void> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings');
