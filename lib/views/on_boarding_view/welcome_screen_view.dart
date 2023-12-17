@@ -47,7 +47,7 @@ class WelcomeScreen extends ConsumerWidget {
               _buildContinueWithoutButton(context),
               const SizedBox(height: 12),
               _buildInternalAccountLink(context),
-              const SizedBox(height: 48)
+              const SizedBox(height: 48),
             ],
           ),
         ),
