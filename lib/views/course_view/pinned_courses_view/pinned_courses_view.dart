@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/course_view/components/pinned_course_view.dart';
-import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/pinned_courses_content_view.dart';
+import 'package:gocast_mobile/views/course_view/components/pinned_course_card.dart';
+import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_content_view.dart';
 
 class PinnedCourses extends ConsumerStatefulWidget {
   const PinnedCourses({super.key});

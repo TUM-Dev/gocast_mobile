@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/course_view/components/pinned_courses_list.dart';
-import 'package:gocast_mobile/views/course_view/components/pinned_course_view.dart';
+import 'package:gocast_mobile/views/course_view/components/pinned_course_list.dart';
+import 'package:gocast_mobile/views/course_view/components/pinned_course_card.dart';
 
 /// PinnedCoursesContentView
 ///

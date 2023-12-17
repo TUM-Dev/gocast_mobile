@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../base/networking/api/gocast/api_v2.pb.dart';
-
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 /// PinnedCourseCard
 ///
 /// A card widget representing a pinned course. It displays the course details,
