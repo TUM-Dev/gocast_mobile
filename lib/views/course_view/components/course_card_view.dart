@@ -67,11 +67,11 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
+            /*Positioned(
               bottom: 2, // Adjust as needed for the position
               left: 2, // Adjust as needed for the position
               child: _buildLive(), // Place the _buildLive widget here
-            ),
+            ),*/
           ],
         )
       ],
@@ -82,7 +82,7 @@ class CourseCard extends StatelessWidget {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
-      maxLines: 2,
+      maxLines: 3,
       style: const TextStyle(
         fontSize: 17,
         fontWeight: FontWeight.w600,
