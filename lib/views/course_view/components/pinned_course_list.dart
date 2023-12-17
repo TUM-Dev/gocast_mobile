@@ -41,19 +41,43 @@ class PinnedCourseList extends ConsumerWidget {
           },
         ),
       ],
-      child: pinnedCoursesCard.isEmpty
-          ? const Center(
-              child: Text(
-                'No pinned courses',
-                style: TextStyle(fontSize: 18),
+      child: ListView.builder(
+        itemCount: pinnedCoursesCard.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return RefreshIndicator(
+              onRefresh: onRefresh ?? () async {},
+              child: pinnedCoursesCard.isEmpty
+                  ? const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                        'No pinned courses',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  : ListView.builder(
+                itemCount: pinnedCoursesCard.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 0) {
+                    return const SizedBox.shrink();
+                  } else {
+                    return pinnedCoursesCard[index - 1];
+                  }
+                },
               ),
-            )
-          : ListView.builder(
-              itemCount: pinnedCoursesCard.length,
-              itemBuilder: (BuildContext context, int index) {
-                return pinnedCoursesCard[index];
-              },
-            ),
+            );
+          } else {
+            return pinnedCoursesCard[index - 1];
+          }
+        },
+      ),
     );
   }
 }
