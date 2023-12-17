@@ -8,6 +8,8 @@ import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_vie
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
+import 'list_courses_view/live_courses_view.dart';
+
 // current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -36,6 +38,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final isLoggedIn = ref.watch(userViewModelProvider).user != null;
     var userCourses = ref.watch(userViewModelProvider).userCourses;
     var publicCourses = ref.watch(userViewModelProvider).publicCourses;
+    var liveCourses = ref.watch(userViewModelProvider).liveCourses;
 
     return BaseView(
       title: 'GoCast',
@@ -60,16 +63,16 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
             children: [
               if (isLoggedIn)
                 CourseSection(
-                  sectionTitle: "Live now",
+                  sectionTitle: "Live Now",
                   onViewAll: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyCourses()),
+                    MaterialPageRoute(builder: (context) => const LiveCourses()),
                   ),
-                  courses: MockData.liveCourses,
+                  courses: MockData.liveCourses, //liveCourses,
                 ),
 
               CourseSection(
-                sectionTitle: "My courses",
+                sectionTitle: "My Courses",
                 onViewAll: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyCourses()),
@@ -78,7 +81,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
               ),
               //const SizedBox(height: 5), // Space between the sections
               CourseSection(
-                sectionTitle: "Public courses",
+                sectionTitle: "Public Courses",
                 onViewAll: () => Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -67,8 +67,9 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
             ),
-            /*Positioned(
-              bottom: 2, // Adjust as needed for the position
+
+/*            Positioned(
+              bottom: 0, // Already set to 2 in live component
               left: 2, // Adjust as needed for the position
               child: _buildLive(), // Place the _buildLive widget here
             ),*/
@@ -84,10 +85,10 @@ class CourseCard extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       maxLines: 3,
       style: const TextStyle(
-        fontSize: 17,
+        fontSize: 16,
         fontWeight: FontWeight.w600,
         color: Colors.black,
-        height: 1,
+        height: 0.9,
       ),
     );
   }
@@ -97,7 +98,7 @@ class CourseCard extends StatelessWidget {
       subtitle,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
-        fontSize: 16,
+        fontSize: 13,
         color: Colors.grey,
       ),
     );
@@ -126,6 +127,7 @@ class CourseCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             padding: const EdgeInsets.only(left: 4, right: 4),
+            margin: EdgeInsets.only(bottom: 2),
             child: //spacing between dot and course number
                 const Text(
               'Live',

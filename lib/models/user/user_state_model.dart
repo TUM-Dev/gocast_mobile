@@ -11,6 +11,7 @@ class UserState {
   final List<UserSetting>? userSettings;
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
+  final List<Course>? liveCourses;
   final AppError? error;
   final List<Course>? downloadedCourses;
 
@@ -22,6 +23,7 @@ class UserState {
     this.userSettings,
     this.userBookmarks,
     this.publicCourses,
+    this.liveCourses,
     this.error,
     this.downloadedCourses,
   });
@@ -34,6 +36,7 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
+    List<Course>? liveCourses,
     AppError? error,
     List<Course>? downloadedCourses,
   }) {
@@ -45,6 +48,7 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
+      liveCourses: publicCourses ?? this.liveCourses,
       error: error ?? this.error,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
@@ -58,6 +62,7 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
+    List<Course>? liveCourses,
     AppError? error,
     List<Course>? downloadedCourses,
   }) {
@@ -69,6 +74,7 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
+      liveCourses: publicCourses ?? this.liveCourses,
       error: null,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
