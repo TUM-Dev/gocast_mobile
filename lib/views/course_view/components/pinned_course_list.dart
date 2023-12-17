@@ -41,42 +41,39 @@ class PinnedCourseList extends ConsumerWidget {
           },
         ),
       ],
-      child: ListView.builder(
-        itemCount: pinnedCoursesCard.length + 1,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return RefreshIndicator(
-              onRefresh: onRefresh ?? () async {},
-              child: pinnedCoursesCard.isEmpty
-                  ? const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Text(
-                        'No pinned courses',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-                  : ListView.builder(
-                itemCount: pinnedCoursesCard.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return const SizedBox.shrink();
-                  } else {
-                    return pinnedCoursesCard[index - 1];
-                  }
-                },
-              ),
-            );
-          } else {
-            return pinnedCoursesCard[index - 1];
+      child: NotificationListener(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (scrollInfo is ScrollEndNotification && scrollInfo.metrics.extentBefore == 0.0) {
+            onRefresh?.call();
           }
+          return false;
         },
+        child: Container(
+          color: Colors.transparent,
+          child: ListView.builder(
+            itemCount: pinnedCoursesCard.isEmpty ? 1 : pinnedCoursesCard.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (pinnedCoursesCard.isEmpty) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          'No pinned courses',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return pinnedCoursesCard[index];
+              }
+            },
+          ),
+        ),
       ),
     );
   }
