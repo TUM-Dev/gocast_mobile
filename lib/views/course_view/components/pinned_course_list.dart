@@ -14,13 +14,11 @@ import 'package:gocast_mobile/views/course_view/components/pinned_course_card.da
 class PinnedCourseList extends ConsumerWidget {
   final String title;
   final List<PinnedCourseCard> pinnedCoursesCard;
-  final Future<void> Function()? onRefresh;
 
   const PinnedCourseList({
     super.key,
     required this.title,
     required this.pinnedCoursesCard,
-    this.onRefresh,
   });
 
   @override
