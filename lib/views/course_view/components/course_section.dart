@@ -6,6 +6,8 @@ import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/viewall_button_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 
+import 'course_text_card_view.dart';
+
 /// CourseSection
 ///
 /// A reusable stateless widget to display a specific course section.
@@ -79,9 +81,9 @@ class CourseSection extends StatelessWidget {
         children: [
           _buildSectionTitle(title, onViewAll),
           SizedBox(
-            height: 200,
+            height: 150,
             child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.vertical,
               itemCount: courses.length,
               itemBuilder: (BuildContext context, int index) {
                 /// Those are temporary values until we get the real data from the API
@@ -95,7 +97,7 @@ class CourseSection extends StatelessWidget {
                 imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
                 /// End of temporary values
-                return CourseCard(
+                return CourseCardText(
                   title: course.name,
                   subtitle: course.slug,
                   path: imagePath,
