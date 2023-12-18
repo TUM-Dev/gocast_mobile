@@ -33,16 +33,34 @@ class NotificationsScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                  bottom: 5.0,
+                  top: 30,
+                  left: 20,
+                  right: 20,
+                ),
                 child: Text(
                   key,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               ...notifications[key]!.map(
-                (notification) => ListTile(
-                  title: Text(notification),
-                  trailing: const Text('06:30'),
+                (notification) => Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 2.0, horizontal: 15),
+                  padding: const EdgeInsets.all(1.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // Light grey background color
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Optional: rounded corners
+                  ),
+                  child: ListTile(
+                    title: Text(notification),
+                    trailing: const Text('06:30'),
+                  ),
                 ),
               ),
             ],
