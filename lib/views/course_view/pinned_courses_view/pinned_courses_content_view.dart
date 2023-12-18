@@ -16,13 +16,11 @@ import 'package:gocast_mobile/views/course_view/components/pinned_course_card.da
 class PinnedCoursesContentView extends ConsumerWidget {
   final String title;
   final List<PinnedCourseCard> pinnedCourseCards;
-  final Future<void> Function()? onRefresh;
 
   const PinnedCoursesContentView({
     super.key,
     required this.title,
     required this.pinnedCourseCards,
-    this.onRefresh,
   });
 
   @override
@@ -30,7 +28,6 @@ class PinnedCoursesContentView extends ConsumerWidget {
     return PinnedCourseList(
       title: title,
       pinnedCoursesCard: pinnedCourseCards,
-      onRefresh: onRefresh,
     );
   }
 }

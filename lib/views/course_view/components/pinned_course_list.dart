@@ -41,13 +41,6 @@ class PinnedCourseList extends ConsumerWidget {
           },
         ),
       ],
-      child: NotificationListener(
-        onNotification: (ScrollNotification scrollInfo) {
-          if (scrollInfo is ScrollEndNotification && scrollInfo.metrics.extentBefore == 0.0) {
-            onRefresh?.call();
-          }
-          return false;
-        },
         child: Container(
           color: Colors.transparent,
           child: ListView.builder(
@@ -74,7 +67,7 @@ class PinnedCourseList extends ConsumerWidget {
             },
           ),
         ),
-      ),
+
     );
   }
 }
