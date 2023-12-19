@@ -12,11 +12,16 @@ class PinnedCourses extends ConsumerStatefulWidget {
 }
 
 class PinnedCoursesState extends ConsumerState<PinnedCourses> {
+  // Define the refresh method here
+  Future<void> _refreshPinnedCourses() async {
+    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+  }
+
   @override
   void initState() {
     super.initState();
     Future.microtask(
-      () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),
+          () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),
     );
   }
 
@@ -24,39 +29,27 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   Widget build(BuildContext context) {
     final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
 
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await ref.read(userViewModelProvider.notifier).fetchUserPinned();
-        },
-        child: userPinned.isNotEmpty
-            ? PinnedCoursesContentView(
-                title: "Pinned Courses",
-                pinnedCourseCards: userPinned.map((course) {
-                  final isPinned = userPinned.any(
-                    (pinnedCourse) => pinnedCourse.id == course.id,
-                  );
-                  return PinnedCourseCard(
-                    imageName: 'assets/images/course2.png',
-                    course: course,
-                    onTap: () {},
-                    isPinned: isPinned,
-                    onPinToggle: () {
-                      final viewModel =
-                          ref.read(userViewModelProvider.notifier);
-                      if (isPinned) {
-                        viewModel.unpinCourse(course.id);
-                      } else {
-                        viewModel.pinCourse(course.id);
-                      }
-                    },
-                  );
-                }).toList(),
-              )
-            : const PinnedCoursesContentView(
-                title: "Pinned Courses",
-                pinnedCourseCards: [],
-              ),
+    return RefreshIndicator(
+      onRefresh: _refreshPinnedCourses,
+      child: PinnedCoursesContentView(
+        title: "Pinned Courses",
+        pinnedCourseCards: userPinned.map((course) {
+          final isPinned = userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
+          return PinnedCourseCard(
+            imageName: 'assets/images/course2.png',
+            course: course,
+            onTap: () {},
+            isPinned: isPinned,
+            onPinToggle: () {
+              final viewModel = ref.read(userViewModelProvider.notifier);
+              if (isPinned) {
+                viewModel.unpinCourse(course.id);
+              } else {
+                viewModel.pinCourse(course.id);
+              }
+            },
+          );
+        }).toList(),
       ),
     );
   }

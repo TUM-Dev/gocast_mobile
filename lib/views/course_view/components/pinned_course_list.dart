@@ -14,13 +14,11 @@ import 'package:gocast_mobile/views/course_view/components/pinned_course_card.da
 class PinnedCourseList extends ConsumerWidget {
   final String title;
   final List<PinnedCourseCard> pinnedCoursesCard;
-  final Future<void> Function()? onRefresh;
 
   const PinnedCourseList({
     super.key,
     required this.title,
     required this.pinnedCoursesCard,
-    this.onRefresh,
   });
 
   @override
@@ -41,19 +39,33 @@ class PinnedCourseList extends ConsumerWidget {
           },
         ),
       ],
-      child: pinnedCoursesCard.isEmpty
-          ? const Center(
-              child: Text(
-                'No pinned courses',
-                style: TextStyle(fontSize: 18),
-              ),
-            )
-          : ListView.builder(
-              itemCount: pinnedCoursesCard.length,
-              itemBuilder: (BuildContext context, int index) {
+        child: Container(
+          color: Colors.transparent,
+          child: ListView.builder(
+            itemCount: pinnedCoursesCard.isEmpty ? 1 : pinnedCoursesCard.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (pinnedCoursesCard.isEmpty) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          'No pinned courses',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
                 return pinnedCoursesCard[index];
-              },
-            ),
+              }
+            },
+          ),
+        ),
+
     );
   }
 }
