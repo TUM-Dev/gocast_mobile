@@ -11,6 +11,7 @@ class UserState {
   final List<UserSetting>? userSettings;
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
+  final List<Stream>? courseStreams; // New property for course streams
   final AppError? error;
 
   const UserState({
@@ -21,6 +22,7 @@ class UserState {
     this.userSettings,
     this.userBookmarks,
     this.publicCourses,
+    this.courseStreams, //new
     this.error,
   });
 
@@ -32,6 +34,7 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
+    List<Stream>? courseStreams, // Include in copyWith
     AppError? error,
   }) {
     return UserState(
@@ -42,6 +45,8 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
+      courseStreams: courseStreams ?? this.courseStreams,
+      // Assign the new value
       error: error ?? this.error,
     );
   }
@@ -54,6 +59,7 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
+    List<Stream>? courseStreams, // New
     AppError? error,
   }) {
     return UserState(
@@ -64,6 +70,8 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
+      courseStreams: courseStreams ?? this.courseStreams,
+      // Assign the new value
       error: null,
     );
   }

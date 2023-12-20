@@ -5,6 +5,7 @@ import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
@@ -63,6 +64,20 @@ class UserViewModel extends StateNotifier<UserState> {
       state = state.copyWith(user: user, isLoading: false);
     } catch (e) {
       _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  /// Handles Fetching of a course streams.
+  Future<void> fetchCourseStreams(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Fetching course streams for course ID: $courseID');
+      var streams =
+          await StreamHandler(_grpcHandler).fetchCourseStreams(courseID);
+      state = state.copyWith(courseStreams: streams, isLoading: false);
+    } catch (e) {
+      _logger.e('Error fetching course streams: $e');
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
