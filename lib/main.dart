@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
+import 'package:gocast_mobile/utils/orientation_manager.dart';
 import 'package:gocast_mobile/utils/theme.dart';
 import 'package:gocast_mobile/views/course_view/courses_overview.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
@@ -33,7 +33,6 @@ class App extends ConsumerWidget {
           scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(content: Text('Error: ${userState.error!.message}')),
           );
-
           // Clear the error
           ref.read(userViewModelProvider.notifier).clearError();
         },
@@ -48,30 +47,12 @@ class App extends ConsumerWidget {
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
       builder: (context, child) {
-        _setPreferredOrientations(context);
+        OrientationManager.setPreferredOrientationsForDevice(context);
         return child!;
       },
       home: homeScreen,
       routes: _buildRoutes(),
     );
-  }
-
-  void _setPreferredOrientations(BuildContext context) {
-    if (MediaQuery.of(context).size.shortestSide < 600) {
-      // This is likely a phone
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    } else {
-      // This is likely a tablet
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    }
   }
 
   Widget _getHomeScreen(User? user) {
