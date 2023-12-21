@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_view.dart';
-import 'package:gocast_mobile/views/notifications_view/notifications_screen_view.dart';
-
 import 'package:gocast_mobile/views/course_view/courses_overview.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/downloaded_courses_view.dart';
 
