@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 /// Course card view
@@ -10,6 +12,8 @@ import 'package:flutter/material.dart';
 class CourseCardText extends StatelessWidget {
   final String title;
   final String subtitle;
+  final String identifier;
+  final String semester;
   final String path;
   final bool live;
 
@@ -17,9 +21,21 @@ class CourseCardText extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    required this.identifier,
+    required this.semester,
     required this.path,
     required this.live,
   });
+
+  static String _generateRandomLastStreamed() {
+    final Random random = Random();
+    List<String> options = [
+      'Monday, 23/10/2023, 13:45',
+      'NOW',
+    ];
+    final int randomIndex = random.nextInt(options.length);
+    return options[randomIndex];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +49,9 @@ class CourseCardText extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
           side: BorderSide(
-              color: Colors.grey[100]!, width: 1.0,), // Light grey outline
+            color: Colors.grey[100]!,
+            width: 1.0,
+          ), // Light grey outline
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
@@ -47,7 +65,8 @@ class CourseCardText extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _buildCourseSubtitle(),
-                    _buildCourseIsLive(),
+                    //_buildCourseIsLive(), //live or semester
+                    _buildLive(),
                   ],
                 ),
                 _buildCourseTitle(),
@@ -93,6 +112,29 @@ class CourseCardText extends StatelessWidget {
 
   Widget _buildCourseIsLive() {
     return true //live
+        ? Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.only(left: 4, right: 4),
+            margin: EdgeInsets.only(bottom: 2),
+            child: //spacing between dot and course number
+                const Text(
+              'Live',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          )
+        : _buildCourseSemester(); // Return an empty SizedBox if not live
+  }
+
+  Widget _buildLive() {
+    return true //live
+
         ? const Row(
             children: [
               Icon(
@@ -100,6 +142,7 @@ class CourseCardText extends StatelessWidget {
                 size: 10,
                 color: Colors.red,
               ),
+
               SizedBox(width: 5), // Add spacing between the dot and text
               Text(
                 'Live Now',
@@ -110,6 +153,28 @@ class CourseCardText extends StatelessWidget {
               ),
             ],
           )
-        : const SizedBox(); // Return an empty SizedBox if not live
+        : _buildCourseSemester(); // Return an empty SizedBox if not live
+  }
+
+  Widget _buildCourseSemester() {
+    return Text(
+      semester,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(
+        fontSize: 16,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget _buildLastStreamed() {
+    return Text(
+      "lastStreamed",
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(
+        fontSize: 16,
+        color: Colors.grey,
+      ),
+    );
   }
 }
