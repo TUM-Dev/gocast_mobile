@@ -29,7 +29,7 @@ class CourseCardText extends StatelessWidget {
       },
       child: Card(
         elevation: 4, // Adjust the elevation for the shadow effect (if desired)
-        shadowColor: Colors.grey.withOpacity(0.5), // Shadow color and opacity
+        shadowColor: Colors.black.withOpacity(0.5), // Shadow color and opacity
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
           side: BorderSide(
