@@ -12,7 +12,7 @@ class UserState {
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
   final List<FeatureNotification>? featureNotifications;
-  //final List<BannerAlerts>?  //TODO
+  final List<BannerAlert>? bannerAlerts;
   final AppError? error;
 
   const UserState({
@@ -24,6 +24,7 @@ class UserState {
     this.userBookmarks,
     this.publicCourses,
     this.featureNotifications,
+    this.bannerAlerts,
     this.error,
   });
 
@@ -36,6 +37,7 @@ class UserState {
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
     List<FeatureNotification>? featureNotifications,
+    List<BannerAlert>? bannerAlerts,
     AppError? error,
   }) {
     return UserState(
@@ -47,6 +49,7 @@ class UserState {
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
       featureNotifications: featureNotifications ?? this.featureNotifications,
+      bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
     );
   }
@@ -60,6 +63,7 @@ class UserState {
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
     List<FeatureNotification>? featureNotifications,
+    List<BannerAlert>? bannerAlerts,
     AppError? error,
   }) {
     return UserState(
@@ -71,6 +75,7 @@ class UserState {
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
       featureNotifications: featureNotifications ?? this.featureNotifications,
+      bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
     );
   }
