@@ -81,7 +81,7 @@ class CourseSection extends StatelessWidget {
         children: [
           _buildSectionTitle(title, onViewAll),
           SizedBox(
-            height: 150,
+            height: 200,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: courses.length,
@@ -97,9 +97,11 @@ class CourseSection extends StatelessWidget {
                 imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
                 /// End of temporary values
+                debugPrint('Course streams: ' + course.streams.toString());
+
                 return CourseCardText(
                   title: course.name,
-                  subtitle: course.slug,
+                  subtitle: course.tUMOnlineIdentifier,
                   path: imagePath,
                   live: course.streams.any((stream) => stream.liveNow),
                 );

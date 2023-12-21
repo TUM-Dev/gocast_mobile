@@ -40,7 +40,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final publicCourses = ref.watch(userViewModelProvider).publicCourses;
 
     return BaseView(
-      title: 'GoCast',
+      title: 'Courses',
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),

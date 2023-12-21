@@ -29,18 +29,26 @@ class CourseCardText extends StatelessWidget {
       },
       child: Card(
         child: Container(
+          color: Colors.white60,
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                _buildCourseSubtitle(),
+                _buildCourseIsLive(),
+              ]),
               _buildCourseTitle(),
-              _buildCourseSubtitle(),
-              _buildCourseIsLive(),
+              _buildLastLecture(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildLastLecture() {
+    return Text("Last Lecture: Thursday, 26/10/2023, 10:00");
   }
 
   Widget _buildCourseTitle() {
@@ -49,7 +57,7 @@ class CourseCardText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w700,
         color: Colors.black,
       ),
     );
@@ -67,7 +75,7 @@ class CourseCardText extends StatelessWidget {
   }
 
   Widget _buildCourseIsLive() {
-    return live
+    return true //live
         ? const Row(
             children: [
               Icon(
