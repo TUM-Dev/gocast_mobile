@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
-import 'package:gocast_mobile/views/components/custom_search_filter_top_nav_bar.dart';
 
 class PinnedCoursesBaseView extends StatelessWidget {
   final Widget child;
