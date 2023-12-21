@@ -81,7 +81,7 @@ class CourseSection extends StatelessWidget {
         children: [
           _buildSectionTitle(title, onViewAll),
           SizedBox(
-            height: 200,
+            height: 210, //TODO maybe render this dynamic? size of 2 cards
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: courses.length,

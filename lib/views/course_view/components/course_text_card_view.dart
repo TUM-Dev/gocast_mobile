@@ -28,19 +28,32 @@ class CourseCardText extends StatelessWidget {
         // TODO: Add navigation to the course details screen
       },
       child: Card(
-        child: Container(
-          color: Colors.white60,
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                _buildCourseSubtitle(),
-                _buildCourseIsLive(),
-              ]),
-              _buildCourseTitle(),
-              _buildLastLecture(),
-            ],
+        elevation: 4, // Adjust the elevation for the shadow effect (if desired)
+        shadowColor: Colors.grey.withOpacity(0.5), // Shadow color and opacity
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
+          side: BorderSide(
+              color: Colors.grey[100]!, width: 1.0,), // Light grey outline
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
+          child: Container(
+            color: Colors.grey[50],
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildCourseSubtitle(),
+                    _buildCourseIsLive(),
+                  ],
+                ),
+                _buildCourseTitle(),
+                _buildLastLecture(),
+              ],
+            ),
           ),
         ),
       ),
@@ -48,17 +61,21 @@ class CourseCardText extends StatelessWidget {
   }
 
   Widget _buildLastLecture() {
-    return Text("Last Lecture: Thursday, 26/10/2023, 10:00");
+    return const Text("Last Lecture: Thursday, 26/10/2023, 10:00");
   }
 
   Widget _buildCourseTitle() {
-    return Text(
-      title,
-      overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      // Adjust the values as needed
+      child: Text(
+        title,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: Colors.black,
+        ),
       ),
     );
   }
