@@ -2,9 +2,9 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
 
-/// Handles course-related data operations.
+/// Handles Notification-related data operations.
 ///
-/// This class is responsible for fetching and posting course-related data, such as fetching public courses and semesters.
+/// This class is responsible for fetching and posting notification-related data, such as fetching feature Notification and banner Alerts.
 class NotificationHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;

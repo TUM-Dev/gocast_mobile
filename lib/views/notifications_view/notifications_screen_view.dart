@@ -99,14 +99,14 @@ class NotificationsScreen extends ConsumerWidget {
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          final course = featureNotifications[index];
-          /*return CourseCard(
+          /*final course = featureNotifications[index];
+          return CourseCard(
             title: course.name,
             subtitle: course.slug,
             path: 'assets/images/course2.png',
             live: course.streams.any((stream) => stream.liveNow),
           );*/
-          return Text("This will be the feature notifications");
+          return const Text("This will be the feature notifications");
         },
         childCount: featureNotifications.length,
       ),
@@ -124,8 +124,7 @@ class NotificationsScreen extends ConsumerWidget {
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          final course = bannerAlerts[index];
-          return Text("This will be the  Banner Alerts");
+          return const Text("This will be the  Banner Alerts");
         },
         childCount: bannerAlerts.length,
       ),
