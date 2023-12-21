@@ -12,6 +12,7 @@ class UserState {
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
   final AppError? error;
+  final List<Course>? downloadedCourses;
 
   const UserState({
     this.isLoading = false,
@@ -22,6 +23,7 @@ class UserState {
     this.userBookmarks,
     this.publicCourses,
     this.error,
+    this.downloadedCourses,
   });
 
   UserState copyWith({
@@ -33,6 +35,7 @@ class UserState {
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
     AppError? error,
+    List<Course>? downloadedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -43,6 +46,7 @@ class UserState {
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
       error: error ?? this.error,
+      downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
   }
 
@@ -55,6 +59,7 @@ class UserState {
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
     AppError? error,
+    List<Course>? downloadedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -65,6 +70,7 @@ class UserState {
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
       error: null,
+      downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
   }
 }
