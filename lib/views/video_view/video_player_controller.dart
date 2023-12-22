@@ -14,7 +14,7 @@ class VideoPlayerControllerManager {
   }) {
     videoPlayerController = sourceType == VideoSourceType.asset
         ? VideoPlayerController.asset(videoSource)
-        : VideoPlayerController.network(videoSource);
+        : VideoPlayerController.networkUrl(Uri.parse(videoSource));
   }
 
   Future<void> initializePlayer() async {
@@ -23,7 +23,7 @@ class VideoPlayerControllerManager {
       videoPlayerController: videoPlayerController,
       aspectRatio: videoPlayerController.value.aspectRatio,
       autoPlay: false,
-      looping: true,
+      looping: false,
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.blue,
         handleColor: Colors.blueAccent,

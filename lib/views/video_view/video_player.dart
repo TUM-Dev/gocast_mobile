@@ -21,7 +21,6 @@ class VideoPlayerPage extends StatefulWidget {
 class VideoPlayerPageState extends State<VideoPlayerPage> {
   late VideoPlayerControllerManager _controllerManager;
   bool _isLoading = true;
-  late ValueNotifier<Orientation> _orientationNotifier;
 
   @override
   void initState() {
@@ -30,7 +29,6 @@ class VideoPlayerPageState extends State<VideoPlayerPage> {
       videoSource: widget.videoSource,
       sourceType: widget.sourceType,
     );
-    _orientationNotifier = ValueNotifier(Orientation.portrait);
     initializeVideoPlayer();
   }
 
@@ -42,7 +40,6 @@ class VideoPlayerPageState extends State<VideoPlayerPage> {
   @override
   void dispose() {
     _controllerManager.dispose();
-    _orientationNotifier.dispose();
     super.dispose();
   }
 
@@ -52,32 +49,16 @@ class VideoPlayerPageState extends State<VideoPlayerPage> {
       appBar: AppBar(title: Text(widget.title)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ValueListenableBuilder<Orientation>(
-              valueListenable: _orientationNotifier,
-              builder: (context, orientation, child) {
-                return orientation == Orientation.portrait
-                    ? _buildPortraitLayout()
-                    : _controllerManager.buildVideoPlayer();
-              },
-            ),
+          : _buildVideoLayout(),
     );
   }
 
-  Widget _buildPortraitLayout() {
+  Widget _buildVideoLayout() {
     return Column(
       children: <Widget>[
         Expanded(child: _controllerManager.buildVideoPlayer()),
         const Expanded(child: ChatView()),
       ],
     );
-  }
-
-  /// This method is called whenever the orientation of the device changes.
-  /// It updates the [_orientationNotifier] with the new orientation.
-  /// This is necessary to rebuild the UI when the orientation changes.
-  void _onOrientationChange() {
-    if (MediaQuery.of(context).orientation != _orientationNotifier.value) {
-      _orientationNotifier.value = MediaQuery.of(context).orientation;
-    }
   }
 }
