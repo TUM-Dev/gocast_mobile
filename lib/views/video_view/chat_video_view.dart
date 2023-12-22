@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/models/user/mockData.dart';
+import 'package:gocast_mobile/models/user/mock_data.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({super.key});
