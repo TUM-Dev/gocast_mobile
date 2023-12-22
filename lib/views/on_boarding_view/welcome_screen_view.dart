@@ -15,41 +15,83 @@ class WelcomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Getting screen size for responsive layout
+    final screenSize = MediaQuery.of(context).size;
+    final bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: AppPadding.screenPadding,
+          child: isPortrait
+              ? _buildPortraitLayout(context, ref, screenSize)
+              : _buildLandscapeLayout(context, ref, screenSize),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPortraitLayout(
+      BuildContext context, WidgetRef ref, Size screenSize) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Spacer(),
+        _buildLogo(screenSize),
+        SizedBox(height: screenSize.height * 0.03),
+        _buildWelcomeText(),
+        SizedBox(height: 8),
+        _buildOverviewText(),
+        Spacer(),
+        _buildLoginButton(context, ref),
+        SizedBox(height: 12),
+        _buildContinueWithoutButton(context),
+        SizedBox(height: 12),
+        _buildInternalAccountLink(context),
+        SizedBox(height: screenSize.height * 0.06),
+      ],
+    );
+  }
+
+  Widget _buildLandscapeLayout(
+      BuildContext context, WidgetRef ref, Size screenSize) {
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: screenSize.height),
+        child: IntrinsicHeight(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Spacer(),
-              Center(
-                // This centers the image horizontally and prevents stretching
-                child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(25), // Rounded corner radius
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: 200.0, // Set the width to 150 units
-                    height: 200.0, // Set the height to 150 units
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
+              _buildLogo(screenSize),
+              SizedBox(height: 24),
               _buildWelcomeText(),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               _buildOverviewText(),
-              const SizedBox(height: 48),
-              const Spacer(),
+              SizedBox(height: 48),
               _buildLoginButton(context, ref),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               _buildContinueWithoutButton(context),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               _buildInternalAccountLink(context),
-              const SizedBox(height: 48),
+              SizedBox(height: 48),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogo(Size screenSize) {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Image.asset(
+          'assets/images/logo.png',
+          width: screenSize.width * 0.5, // Responsive width
+          height: screenSize.width * 0.5, // Responsive height
         ),
       ),
     );
