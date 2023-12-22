@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/pinned_course_card.dart';
+import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_base_view.dart';
 
 /// PinnedCourseList
 ///
@@ -23,49 +23,22 @@ class PinnedCourseList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BaseView(
-      title: title,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            // Implement search functionality
-          },
-        ),
-        IconButton(
-          icon: const Icon(Icons.filter_list),
-          onPressed: () {
-            // Implement more options functionality
-          },
-        ),
-      ],
-        child: Container(
-          color: Colors.transparent,
-          child: ListView.builder(
-            itemCount: pinnedCoursesCard.isEmpty ? 1 : pinnedCoursesCard.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (pinnedCoursesCard.isEmpty) {
-                return const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Text(
-                          'No pinned courses',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return pinnedCoursesCard[index];
-              }
-            },
-          ),
-        ),
+    TextEditingController searchController = TextEditingController();
 
+    return PinnedCoursesBaseView(
+      searchController: searchController,
+      child: ListView.builder(
+        itemCount: pinnedCoursesCard.isEmpty ? 1 : pinnedCoursesCard.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (pinnedCoursesCard.isEmpty) {
+            return const Center(
+              child: Text('No pinned courses', style: TextStyle(fontSize: 14)),
+            );
+          } else {
+            return pinnedCoursesCard[index];
+          }
+        },
+      ), // Pass the search controller
     );
   }
 }
