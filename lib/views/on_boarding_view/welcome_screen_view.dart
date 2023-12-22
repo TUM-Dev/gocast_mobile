@@ -33,22 +33,22 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildPortraitLayout(
-      BuildContext context, WidgetRef ref, Size screenSize) {
+      BuildContext context, WidgetRef ref, Size screenSize,) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Spacer(),
+        const Spacer(),
         _buildLogo(screenSize),
         SizedBox(height: screenSize.height * 0.03),
         _buildWelcomeText(),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         _buildOverviewText(),
-        Spacer(),
+        const Spacer(),
         _buildLoginButton(context, ref),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         _buildContinueWithoutButton(context),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         _buildInternalAccountLink(context),
         SizedBox(height: screenSize.height * 0.06),
       ],
@@ -56,7 +56,7 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildLandscapeLayout(
-      BuildContext context, WidgetRef ref, Size screenSize) {
+      BuildContext context, WidgetRef ref, Size screenSize,) {
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: screenSize.height),
@@ -66,17 +66,17 @@ class WelcomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildLogo(screenSize),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               _buildWelcomeText(),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildOverviewText(),
-              SizedBox(height: 48),
+              const SizedBox(height: 48),
               _buildLoginButton(context, ref),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildContinueWithoutButton(context),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildInternalAccountLink(context),
-              SizedBox(height: 48),
+              const SizedBox(height: 48),
             ],
           ),
         ),
