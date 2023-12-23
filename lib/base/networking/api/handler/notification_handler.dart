@@ -1,5 +1,6 @@
-import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:logger/logger.dart';
+
 import 'grpc_handler.dart';
 
 /// Handles notification-related data operations.
@@ -41,6 +42,41 @@ class NotificationHandler {
           DeleteDeviceTokenRequest(deviceToken: deviceToken),
         );
         _logger.i('Device token deleted successfully');
+      },
+    );
+  }
+
+  /// Fetches featured notifications.
+  ///
+  /// This method sends a `getFeatureNotifications` gRPC call to fetch the featured notifications.
+  ///
+  /// returns a [List<Notification>] instance that represents the featured notifications.
+  Future<List<FeatureNotification>> fetchFeaturedNotifications() async {
+    _logger.i('Fetching featured notifications');
+    return _grpcHandler.callGrpcMethod(
+      (client) async {
+        final response = await client
+            .getFeatureNotifications(GetFeatureNotificationsRequest());
+        _logger.i('Featured notifications fetched successfully');
+        _logger.d('Featured notifications: ${response.featureNotifications}');
+        return response.featureNotifications;
+      },
+    );
+  }
+
+  /// Fetches Banner Alerts.
+  ///
+  /// This method sends a `getBannerAlerts` gRPC call to fetch the banner alerts.
+  ///
+  /// returns a [List<BannerAlert>] instance that represents the banner alerts.
+  Future<List<BannerAlert>> fetchBannerAlerts() async {
+    _logger.i('Fetching banner alerts');
+    return _grpcHandler.callGrpcMethod(
+      (client) async {
+        final response = await client.getBannerAlerts(GetBannerAlertsRequest());
+        _logger.i('Banner alerts fetched successfully');
+        _logger.d('Banner alerts: ${response.bannerAlerts}');
+        return response.bannerAlerts;
       },
     );
   }
