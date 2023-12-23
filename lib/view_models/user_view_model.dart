@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -90,6 +90,46 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
+  Future<bool> pinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Pinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course pinned successfully');
+      } else {
+        _logger.e('Failed to pin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error pinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
+  Future<bool> unpinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Unpinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course unpinned successfully');
+      } else {
+        _logger.e('Failed to unpin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error unpinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
   Future<void> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings');
@@ -125,9 +165,8 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   Future<void> logout() async {
-    const storage = FlutterSecureStorage();
-    await storage.delete(key: 'jwt');
-    await storage.delete(key: 'device_token');
+    await TokenHandler.deleteToken('jwt');
+    await TokenHandler.deleteToken('device_token');
     state = const UserState(); // Resets the state to its initial value
     _logger.i('Logged out user and cleared tokens.');
   }

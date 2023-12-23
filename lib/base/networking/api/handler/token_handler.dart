@@ -20,7 +20,9 @@ class TokenHandler {
   /// Throws an [AppError] with an authentication error message if no JWT token
   /// is found in the list of cookies.
   static Future<void> saveTokenFromCookies(
-      String key, List<Cookie> cookies) async {
+    String key,
+    List<Cookie> cookies,
+  ) async {
     for (var cookie in cookies) {
       if (cookie.name == key) {
         await _storage.write(key: key, value: cookie.value);
@@ -42,7 +44,7 @@ class TokenHandler {
   /// is found in the list of cookies.
   static Future<void> saveToken(String key, String value) async {
     await _storage.write(key: key, value: value);
-    _logger.i('Token saved to secure storage: ${value}');
+    _logger.i('Token saved to secure storage: $value');
     return;
   }
 
@@ -89,6 +91,23 @@ class TokenHandler {
     } catch (e) {
       _logger.e('Error loading token: $e');
       return "";
+    }
+  }
+
+  /// Deletes a JWT token.
+  ///
+  /// This method deletes a JWT token from shared preferences. The token is identified
+  /// by the given key.
+  ///
+  /// Throws an [AppError] with an authentication error message if no JWT token
+  /// is found in shared preferences.
+  static Future<void> deleteToken(String key) async {
+    try {
+      await _storage.delete(key: key);
+      _logger.i('Token successfully deleted for key: $key');
+    } catch (e) {
+      _logger.e('Error deleting token: $e');
+      throw AppError.authenticationError();
     }
   }
 }

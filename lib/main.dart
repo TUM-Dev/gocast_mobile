@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -12,7 +11,6 @@ import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
-import 'package:touch_indicator/touch_indicator.dart';
 
 import 'base/networking/api/gocast/api_v2.pb.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -78,10 +76,6 @@ class App extends ConsumerWidget {
       theme: appTheme,
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
-      builder: (context, child) {
-        _setPreferredOrientations(context);
-        return TouchIndicator(child: child!);
-      },
       home: homeScreen,
       routes: _buildRoutes(),
     );
@@ -148,34 +142,13 @@ class App extends ConsumerWidget {
   void _handleErrors(WidgetRef ref, UserState userState) {
     // Check for errors in userState and show a SnackBar if there are any
     if (userState.error != null) {
-      Future.microtask(
-        () {
-          scaffoldMessengerKey.currentState?.showSnackBar(
-            SnackBar(content: Text('Error: ${userState.error!.message}')),
-          );
-
-          // Clear the error
-          ref.read(userViewModelProvider.notifier).clearError();
-        },
-      );
-    }
-  }
-
-  void _setPreferredOrientations(BuildContext context) {
-    if (MediaQuery.of(context).size.shortestSide < 600) {
-      // This is likely a phone
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    } else {
-      // This is likely a tablet
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      Future.microtask(() {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(content: Text('Error: ${userState.error!.message}')),
+        );
+        // Clear the error
+        ref.read(userViewModelProvider.notifier).clearError();
+      });
     }
   }
 
