@@ -14,6 +14,7 @@ class UserState {
   final List<FeatureNotification>? featureNotifications;
   final List<BannerAlert>? bannerAlerts;
   final AppError? error;
+  final List<Course>? downloadedCourses;
 
   const UserState({
     this.isLoading = false,
@@ -26,6 +27,7 @@ class UserState {
     this.featureNotifications,
     this.bannerAlerts,
     this.error,
+    this.downloadedCourses,
   });
 
   UserState copyWith({
@@ -39,6 +41,7 @@ class UserState {
     List<FeatureNotification>? featureNotifications,
     List<BannerAlert>? bannerAlerts,
     AppError? error,
+    List<Course>? downloadedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -51,6 +54,7 @@ class UserState {
       featureNotifications: featureNotifications ?? this.featureNotifications,
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
+      downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
   }
 
@@ -65,6 +69,7 @@ class UserState {
     List<FeatureNotification>? featureNotifications,
     List<BannerAlert>? bannerAlerts,
     AppError? error,
+    List<Course>? downloadedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -77,6 +82,7 @@ class UserState {
       featureNotifications: featureNotifications ?? this.featureNotifications,
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
+      downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
   }
 }
