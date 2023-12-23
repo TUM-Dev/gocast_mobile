@@ -182,7 +182,7 @@ class UserViewModel extends StateNotifier<UserState> {
 
   Future<void> fetchBannerAlerts() async {
     try {
-      _logger.i('Fetching feature notifications');
+      _logger.i('Fetching banner alerts');
       var bannerAlerts =
           await NotificationHandler(_grpcHandler).fetchBannerAlerts();
       state = state.copyWith(bannerAlerts: bannerAlerts, isLoading: false);

@@ -31,8 +31,6 @@ class ModelGenerator {
   /// Generate a random user setting
   static UserSetting _generateRandomUserSetting(int index) {
     return UserSetting(
-      id: _uniqueId(),
-      userID: _uniqueId(),
       type: UserSettingType
           .values[_random.nextInt(UserSettingType.values.length)],
       value: 'Value$index',

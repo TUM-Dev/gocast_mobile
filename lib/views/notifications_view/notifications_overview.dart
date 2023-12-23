@@ -19,16 +19,8 @@ class MyNotificationsState extends ConsumerState<MyNotifications> {
   }
 
   void _fetchData() {
-    Future.delayed(Duration.zero, () async {
-      try {
-        await ref
-            .read(userViewModelProvider.notifier)
-            .fetchFeatureNotifications();
-        await ref.read(userViewModelProvider.notifier).fetchBannerAlerts();
-      } catch (e) {
-        // Handle errors if needed
-      }
-    });
+    ref.read(userViewModelProvider.notifier).fetchFeatureNotifications();
+    ref.read(userViewModelProvider.notifier).fetchBannerAlerts();
   }
 
   @override
