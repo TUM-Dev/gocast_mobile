@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomSearchFilterTopNavBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomSearchFilterTopNavBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final TextEditingController searchController;
   final VoidCallback? onBackButtonPressed;
   final VoidCallback? onFilterButtonPressed;
@@ -17,9 +18,10 @@ class CustomSearchFilterTopNavBar extends StatelessWidget implements PreferredSi
     return AppBar(
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
-        onPressed: onBackButtonPressed ?? () {
-          // TODO: Define back button functionality
-        },
+        onPressed: onBackButtonPressed ??
+            () {
+              // TODO: Define back button functionality
+            },
       ),
       title: Container(
         height: 40,
@@ -47,9 +49,10 @@ class CustomSearchFilterTopNavBar extends StatelessWidget implements PreferredSi
       actions: [
         IconButton(
           icon: const Icon(Icons.filter_list_rounded),
-          onPressed: onFilterButtonPressed ?? () {
-            // TODO: Define filter button functionality
-          },
+          onPressed: onFilterButtonPressed ??
+              () {
+                // TODO: Define filter button functionality
+              },
         ),
       ],
       titleSpacing: 0.0,

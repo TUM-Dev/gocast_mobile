@@ -21,7 +21,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   void initState() {
     super.initState();
     Future.microtask(
-          () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),
+      () => ref.read(userViewModelProvider.notifier).fetchUserPinned(),
     );
   }
 
@@ -34,7 +34,8 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       child: PinnedCoursesContentView(
         title: "Pinned Courses",
         pinnedCourseCards: userPinned.map((course) {
-          final isPinned = userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
+          final isPinned =
+              userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
           return PinnedCourseCard(
             imageName: 'assets/images/course2.png',
             course: course,

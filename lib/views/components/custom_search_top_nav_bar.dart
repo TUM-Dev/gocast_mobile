@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomSearchTopNavBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomSearchTopNavBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final TextEditingController searchController;
   final VoidCallback? onBackButtonPressed;
 
@@ -15,9 +16,10 @@ class CustomSearchTopNavBar extends StatelessWidget implements PreferredSizeWidg
     return AppBar(
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
-        onPressed: onBackButtonPressed ?? () {
-          // TODO: functionality will be implemented
-        },
+        onPressed: onBackButtonPressed ??
+            () {
+              // TODO: functionality will be implemented
+            },
       ),
       title: Container(
         height: 40,
