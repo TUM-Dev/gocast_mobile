@@ -116,8 +116,16 @@ class App extends ConsumerWidget {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint("New message arrived: ${message.data.entries.first}");
 
-      if (message.data['msg'] != null && message.data['sum'] != null) {
-        PushNotification notification = PushNotification.fromJson(message.data);
+      final msg = message.data['msg'];
+      final sum = message.data['sum'];
+
+      if (msg != null && sum != null) {
+        PushNotification notification = PushNotification(
+          body: msg,
+          title: sum,
+          receivedAt: DateTime.now(),
+          data: message.data,
+        );
         notificationViewModelNotifier.addNotification(notification);
         showDialog(
           context: navigatorKey.currentContext!,

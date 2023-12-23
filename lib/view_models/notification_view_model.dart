@@ -14,8 +14,15 @@ class NotificationViewModel extends StateNotifier<NotificationState> {
 
   NotificationViewModel(this._grpcHandler) : super(const NotificationState());
 
-  void addNotification(PushNotification notification) {
-    state.addPushNotification(notification);
+  addNotification(PushNotification notification) {
+    _logger.i('Adding push notification');
+    var pushNotifications = state.pushNotifications;
+
+    pushNotifications ??= [];
+    pushNotifications.add(notification);
+
+    state = state.copyWith(pushNotifications: pushNotifications);
+    _logger.w("PushNOtifications = ${pushNotifications.length}");
   }
 
   Future<void> postDeviceToken(String deviceToken) async {

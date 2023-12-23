@@ -1,40 +1,29 @@
+import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/models/notifications/push_notification.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   final String title;
+  final List<PushNotification> pushNotifications;
   final List<FeatureNotification> featureNotifications;
   final List<BannerAlert> bannerAlerts;
   final Future<void> Function() onRefresh;
 
-  NotificationsScreen({
+  const NotificationsScreen({
     super.key,
     required this.title,
+    required this.pushNotifications,
     required this.featureNotifications,
     required this.bannerAlerts,
     required this.onRefresh,
   });
 
-  final Map<String, List<String>> pushNotifications = {
-    'Today': [
-      'Lineare Algebra für Informatik is live now!',
-      'Functional Programming and verification is live now!',
-    ],
-    'Yesterday': [
-      'Lineare Algebra für Informatik is live now!',
-      'Functional Programming and verification is live now!',
-    ],
-    'November 25': [
-      'Lineare Algebra für Informatik is live now!',
-      'Functional Programming and verification is live now!',
-    ],
-    // Add more data here
-  };
-
+  // A basic functioning view that supports all notification related functions
+  // TODO: Needs to be adapted to figma design
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
@@ -42,28 +31,51 @@ class NotificationsScreen extends ConsumerWidget {
       actions: _buildAppBarActions(context, ref),
       child: RefreshIndicator(
         onRefresh: onRefresh,
-        color: Colors.blue,
-        // Indicator color
-        backgroundColor: Colors.white,
-        // Background color of the indicator
-        strokeWidth: 2.0,
-        // Thickness of the indicator circle
-        displacement: 20.0,
-        // How far to pull down to trigger refresh
-        child: CustomScrollView(
-          slivers: [
-            featureNotifications.isEmpty && bannerAlerts.isEmpty
-                ? SliverFillRemaining(
-                    child: _buildPlaceholder(),
-                  )
-                : SliverList(
-                    delegate: SliverChildListDelegate.fixed([
-                      _buildFeatureNotificationsListView(),
-                      _buildBannerAlertsListView(),
-                    ]),
-                  ),
-          ],
-        ),
+        child: (pushNotifications.isEmpty &&
+                featureNotifications.isEmpty &&
+                bannerAlerts.isEmpty)
+            ? _buildPlaceholder()
+            : ListView.separated(
+                itemCount: pushNotifications.length +
+                    featureNotifications.length +
+                    bannerAlerts.length +
+                    2, // Add 2 for separators
+                itemBuilder: (context, index) {
+                  if (index < pushNotifications.length) {
+                    return _buildPushNotificationWidget(index);
+                  } else if (index == pushNotifications.length ||
+                      index ==
+                          pushNotifications.length +
+                              featureNotifications.length +
+                              1) {
+                    return const Divider(
+                      color: Colors.grey,
+                    ); // This is the separator
+                  } else if (index <
+                      pushNotifications.length +
+                          featureNotifications.length +
+                          1) {
+                    int featureIndex = index - pushNotifications.length - 1;
+                    return ListTile(
+                      title: Text(featureNotifications[featureIndex].title),
+                      subtitle: Text(featureNotifications[featureIndex].body),
+                    );
+                  } else {
+                    int alertIndex = index -
+                        pushNotifications.length -
+                        featureNotifications.length -
+                        2;
+                    return ListTile(
+                      title: Text(bannerAlerts[alertIndex].text),
+                      subtitle: Text(
+                        'Starts at: ${bannerAlerts[alertIndex].startsAt}\nExpires at: ${bannerAlerts[alertIndex].expiresAt}',
+                      ),
+                    );
+                  }
+                },
+                separatorBuilder: (context, index) =>
+                    const Divider(color: Colors.grey), // This is the separator
+              ),
       ),
     );
   }
@@ -88,6 +100,7 @@ class NotificationsScreen extends ConsumerWidget {
     ];
   }
 
+/*
   Widget _buildFeatureNotificationsListView() {
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -127,6 +140,16 @@ class NotificationsScreen extends ConsumerWidget {
         },
         childCount: bannerAlerts.length,
       ),
+    );
+  }
+*/
+
+  Widget _buildPushNotificationWidget(int index) {
+    // Replace this with your actual widget building code for push notifications
+    return ListTile(
+      title: Text(pushNotifications[index].title),
+      subtitle: Text(pushNotifications[index].body),
+      trailing: Text(pushNotifications[index].receivedAt.toString()),
     );
   }
 }

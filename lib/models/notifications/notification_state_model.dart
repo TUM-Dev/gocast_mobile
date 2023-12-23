@@ -5,15 +5,15 @@ import 'package:gocast_mobile/models/notifications/push_notification.dart';
 
 @immutable
 class NotificationState {
-  final List<PushNotification>? pushNotifications;
   final bool isLoading;
+  final List<PushNotification>? pushNotifications;
   final List<FeatureNotification>? featureNotifications;
   final List<BannerAlert>? bannerAlerts;
   final AppError? error;
 
   const NotificationState({
-    this.pushNotifications,
     this.isLoading = false,
+    this.pushNotifications,
     this.featureNotifications,
     this.bannerAlerts,
     this.error,
@@ -49,9 +49,5 @@ class NotificationState {
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
     );
-  }
-
-  void addPushNotification(PushNotification notification) {
-    pushNotifications?.add(notification);
   }
 }
