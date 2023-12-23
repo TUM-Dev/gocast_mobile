@@ -33,7 +33,10 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildPortraitLayout(
-      BuildContext context, WidgetRef ref, Size screenSize,) {
+    BuildContext context,
+    WidgetRef ref,
+    Size screenSize,
+  ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,7 +59,10 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildLandscapeLayout(
-      BuildContext context, WidgetRef ref, Size screenSize,) {
+    BuildContext context,
+    WidgetRef ref,
+    Size screenSize,
+  ) {
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: screenSize.height),
