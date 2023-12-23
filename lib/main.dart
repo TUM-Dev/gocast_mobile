@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
+import 'package:gocast_mobile/models/notifications/notification_state_model.dart';
+import 'package:gocast_mobile/models/notifications/push_notification.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
@@ -62,12 +64,11 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(userViewModelProvider);
-    final notificationViewModel = ref.watch(notificationViewModelProvider);
 
     _handleErrors(ref, userState);
     // Push notifications available for logged in users only
     if (userState.user != null) {
-      _handlePushNotifications(notificationViewModel);
+      _handlePushNotifications(ref);
     }
     // Set the home screen based on the user's state
     final Widget homeScreen = _getHomeScreen(userState.user);
@@ -81,7 +82,7 @@ class App extends ConsumerWidget {
     );
   }
 
-  void _handlePushNotifications(NotificationViewModel notificationViewModel) {
+  void _handlePushNotifications(ref) {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     messaging.requestPermission(
       alert: true,
@@ -93,37 +94,40 @@ class App extends ConsumerWidget {
       sound: true,
     );
 
+    final notificationViewModelNotifier =
+        ref.read(notificationViewModelProvider.notifier);
+
     messaging.getToken().then((token) async {
       debugPrint('Device Token: $token');
       var storedToken = await TokenHandler.loadTokenNoException("device_token");
       if (token != null && token != storedToken) {
-        notificationViewModel.postDeviceToken(token);
+        notificationViewModelNotifier.postDeviceToken(token);
       }
     });
 
     messaging.onTokenRefresh.listen((token) async {
       var storedToken = await TokenHandler.loadTokenNoException("device_token");
       if (token != storedToken) {
-        notificationViewModel.postDeviceToken(token);
+        notificationViewModelNotifier.postDeviceToken(token);
       }
       debugPrint('Token refreshed: $token');
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint("New message arrived: ${message.data.entries.first}");
-      String? msg = message.data['msg'];
-      String? sum = message.data['sum'];
 
-      if (msg != null && sum != null) {
+      if (message.data['msg'] != null && message.data['sum'] != null) {
+        PushNotification notification = PushNotification.fromJson(message.data);
+        notificationViewModelNotifier.addNotification(notification);
         showDialog(
           context: navigatorKey.currentContext!,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(sum),
+              title: Text(notification.title),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Text(msg),
+                    Text(notification.body),
                   ],
                 ),
               ),

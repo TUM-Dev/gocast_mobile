@@ -19,22 +19,30 @@ class MyNotificationsState extends ConsumerState<MyNotifications> {
   }
 
   void _fetchData() {
-    ref.read(userViewModelProvider.notifier).fetchFeatureNotifications();
-    ref.read(userViewModelProvider.notifier).fetchBannerAlerts();
+    final notificationViewModel =
+        ref.read(notificationViewModelProvider.notifier);
+    notificationViewModel.fetchFeatureNotifications();
+    notificationViewModel.fetchBannerAlerts();
   }
 
   @override
   Widget build(BuildContext context) {
-    final featureNotifications =
-        ref.watch(userViewModelProvider).featureNotifications ?? [];
-    final bannerAlerts = ref.watch(userViewModelProvider).bannerAlerts ?? [];
+    final notificationState = ref.read(notificationViewModelProvider);
+
+    final featureNotifications = notificationState.featureNotifications ?? [];
+    final bannerAlerts = notificationState.bannerAlerts ?? [];
 
     return NotificationsScreen(
       title: 'Notifications',
       featureNotifications: featureNotifications,
       bannerAlerts: bannerAlerts,
       onRefresh: () async {
-        await ref.read(userViewModelProvider.notifier).fetchUserCourses();
+        await ref
+            .read(notificationViewModelProvider.notifier)
+            .fetchBannerAlerts();
+        await ref
+            .read(notificationViewModelProvider.notifier)
+            .fetchFeatureNotifications();
       },
     );
   }
