@@ -1,11 +1,10 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
 
-import 'grpc_handler.dart';
-
-/// Handles notification-related data operations.
+/// Handles Notification-related data operations.
 ///
-/// This class is responsible for fetching and posting notification-related data
+/// This class is responsible for fetching and posting notification-related data, such as fetching feature Notification and banner Alerts.
 class NotificationHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
@@ -50,15 +49,14 @@ class NotificationHandler {
   ///
   /// This method sends a `getFeatureNotifications` gRPC call to fetch the featured notifications.
   ///
-  /// returns a [List<Notification>] instance that represents the featured notifications.
-  Future<List<FeatureNotification>> fetchFeaturedNotifications() async {
-    _logger.i('Fetching featured notifications');
+  /// returns a [List<Notification>] instance that represents the feature notifications.
+  Future<List<FeatureNotification>> fetchFeatureNotifications() async {
+    _logger.i('Fetching feature notifications');
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client
             .getFeatureNotifications(GetFeatureNotificationsRequest());
-        _logger.i('Featured notifications fetched successfully');
-        _logger.d('Featured notifications: ${response.featureNotifications}');
+        _logger.d('Feature notifications: ${response.featureNotifications}');
         return response.featureNotifications;
       },
     );
@@ -74,7 +72,6 @@ class NotificationHandler {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.getBannerAlerts(GetBannerAlertsRequest());
-        _logger.i('Banner alerts fetched successfully');
         _logger.d('Banner alerts: ${response.bannerAlerts}');
         return response.bannerAlerts;
       },

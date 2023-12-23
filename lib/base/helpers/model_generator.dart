@@ -9,7 +9,7 @@ library;
 
 import 'dart:math';
 
-import '../networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 /// Deprecated: This class is no longer used in the application.
 ///
@@ -31,8 +31,6 @@ class ModelGenerator {
   /// Generate a random user setting
   static UserSetting _generateRandomUserSetting(int index) {
     return UserSetting(
-      id: _uniqueId(),
-      userID: _uniqueId(),
       type: UserSettingType
           .values[_random.nextInt(UserSettingType.values.length)],
       value: 'Value$index',
