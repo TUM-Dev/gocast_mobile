@@ -9,7 +9,7 @@ library;
 
 import 'dart:math';
 
-import '../networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 /// Deprecated: This class is no longer used in the application.
 ///

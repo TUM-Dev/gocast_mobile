@@ -11,6 +11,11 @@ class NotificationHandler {
 
   NotificationHandler(this._grpcHandler);
 
+  /// Fetches featured notifications.
+  ///
+  /// This method sends a `getFeatureNotifications` gRPC call to fetch the featured notifications.
+  ///
+  /// returns a [List<FeatureNotification>] instance that represents the featured notifications.
   Future<List<FeatureNotification>> fetchFeatureNotifications() async {
     _logger.i('Fetching public courses');
     return _grpcHandler.callGrpcMethod(
@@ -23,17 +28,19 @@ class NotificationHandler {
     );
   }
 
+  /// Fetches Banner Alerts.
+  ///
+  /// This method sends a `getBannerAlerts` gRPC call to fetch the banner alerts.
+  ///
+  /// returns a [List<BannerAlert>] instance that represents the banner alerts.
   Future<List<BannerAlert>> fetchBannerAlerts() async {
     _logger.i('Fetching public courses');
     return _grpcHandler.callGrpcMethod(
-          (client) async {
-        final response = await client
-            .getBannerAlerts(GetBannerAlertsRequest());
+      (client) async {
+        final response = await client.getBannerAlerts(GetBannerAlertsRequest());
         _logger.d('Public courses: ${response.bannerAlerts}');
         return response.bannerAlerts;
       },
     );
   }
-
-  //TODO push notifications
 }

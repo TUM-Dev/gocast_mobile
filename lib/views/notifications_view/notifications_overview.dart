@@ -21,7 +21,9 @@ class MyNotificationsState extends ConsumerState<MyNotifications> {
   void _fetchData() {
     Future.delayed(Duration.zero, () async {
       try {
-        await ref.read(userViewModelProvider.notifier).fetchFeatureNotifications();
+        await ref
+            .read(userViewModelProvider.notifier)
+            .fetchFeatureNotifications();
         await ref.read(userViewModelProvider.notifier).fetchBannerAlerts();
       } catch (e) {
         // Handle errors if needed
@@ -31,7 +33,8 @@ class MyNotificationsState extends ConsumerState<MyNotifications> {
 
   @override
   Widget build(BuildContext context) {
-    final featureNotifications = ref.watch(userViewModelProvider).featureNotifications ?? [];
+    final featureNotifications =
+        ref.watch(userViewModelProvider).featureNotifications ?? [];
     final bannerAlerts = ref.watch(userViewModelProvider).bannerAlerts ?? [];
 
     return NotificationsScreen(

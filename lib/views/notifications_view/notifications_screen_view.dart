@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-
-import '../../utils/constants.dart';
-import '../settings_view/settings_screen_view.dart';
+import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   final String title;

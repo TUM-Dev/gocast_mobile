@@ -4,8 +4,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/courses_overview.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/downloaded_courses_view.dart';
-
-import '../notifications_view/notifications_overview.dart';
+import 'package:gocast_mobile/views/notifications_view/notifications_overview.dart';
 
 // Assuming currentIndexProvider is defined in a global scope file:
 // final currentIndexProvider = StateProvider<int>((ref) => 0);
