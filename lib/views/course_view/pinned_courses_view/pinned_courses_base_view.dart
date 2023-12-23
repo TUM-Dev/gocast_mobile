@@ -19,6 +19,7 @@ class PinnedCoursesBaseView extends StatelessWidget {
     return Scaffold(
       appBar: CustomSearchTopNavBar(
         searchController: searchController,
+        title: 'Pinned Courses',
       ),
       body: child,
       bottomNavigationBar: const CustomBottomNavBar(),

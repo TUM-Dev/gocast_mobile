@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/viewall_button_view.dart';
+import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 
 /// CourseSection
