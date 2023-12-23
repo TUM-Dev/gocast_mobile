@@ -56,6 +56,8 @@ Future<void> initializeLocalNotifications() async {
   );
 }
 
+bool isPushNotificationListenerSet = false;
+
 class App extends ConsumerWidget {
   const App({super.key});
 
@@ -111,42 +113,45 @@ class App extends ConsumerWidget {
       debugPrint('Token refreshed: $token');
     });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      debugPrint("New message arrived: ${message.data.entries.first}");
+    if (!isPushNotificationListenerSet) {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        debugPrint("New message arrived: ${message.data.entries.first}");
 
-      final msg = message.data['msg'];
-      final sum = message.data['sum'];
+        final msg = message.data['msg'];
+        final sum = message.data['sum'];
 
-      if (msg != null && sum != null) {
-        PushNotification notification = PushNotification(
-          body: msg,
-          title: sum,
-          receivedAt: DateTime.now(),
-          data: message.data,
-        );
-        notificationViewModelNotifier.addNotification(notification);
-        showDialog(
-          context: navigatorKey.currentContext!,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(notification.title),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text(notification.body),
-                  ],
+        if (msg != null && sum != null) {
+          PushNotification notification = PushNotification(
+            body: msg,
+            title: sum,
+            receivedAt: DateTime.now(),
+            data: message.data,
+          );
+          notificationViewModelNotifier.addNotification(notification);
+          showDialog(
+            context: navigatorKey.currentContext!,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(notification.title),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(notification.body),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      }
-    });
+              );
+            },
+          );
+        }
+      });
 
-    // Handle incoming messages when the app is in the background but visible
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('TODO: A new onMessageOpenedApp event was published!');
-    });
+      // Handle incoming messages when the app is in the background but visible
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        debugPrint('TODO: A new onMessageOpenedApp event was published!');
+      });
+      isPushNotificationListenerSet = true;
+    }
   }
 
   void _handleErrors(WidgetRef ref, UserState userState) {
