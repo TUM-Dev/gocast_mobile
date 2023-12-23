@@ -83,14 +83,10 @@ class MockData {
     role: 4,
     settings: [
       UserSetting(
-        id: 1,
-        userID: 1,
         type: UserSettingType.PREFERRED_NAME,
         value: 'The Boss',
       ),
       UserSetting(
-        id: 2,
-        userID: 1,
         type: UserSettingType.GREETING,
         value: 'Moin',
       ),
