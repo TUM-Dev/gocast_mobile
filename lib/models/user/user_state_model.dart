@@ -11,8 +11,10 @@ class UserState {
   final List<UserSetting>? userSettings;
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
-  final List<Stream>? courseStreams; // New property for course streams
+  final List<FeatureNotification>? featureNotifications;
+  final List<BannerAlert>? bannerAlerts;
   final AppError? error;
+  final List<Course>? downloadedCourses;
 
   const UserState({
     this.isLoading = false,
@@ -22,8 +24,10 @@ class UserState {
     this.userSettings,
     this.userBookmarks,
     this.publicCourses,
-    this.courseStreams, //new
+    this.featureNotifications,
+    this.bannerAlerts,
     this.error,
+    this.downloadedCourses,
   });
 
   UserState copyWith({
@@ -34,8 +38,10 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
-    List<Stream>? courseStreams, // Include in copyWith
+    List<FeatureNotification>? featureNotifications,
+    List<BannerAlert>? bannerAlerts,
     AppError? error,
+    List<Course>? downloadedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -45,9 +51,10 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
-      courseStreams: courseStreams ?? this.courseStreams,
-      // Assign the new value
+      featureNotifications: featureNotifications ?? this.featureNotifications,
+      bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
+      downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
   }
 
@@ -59,8 +66,10 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
-    List<Stream>? courseStreams, // New
+    List<FeatureNotification>? featureNotifications,
+    List<BannerAlert>? bannerAlerts,
     AppError? error,
+    List<Course>? downloadedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -70,9 +79,10 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
-      courseStreams: courseStreams ?? this.courseStreams,
-      // Assign the new value
+      featureNotifications: featureNotifications ?? this.featureNotifications,
+      bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
+      downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
   }
 }
