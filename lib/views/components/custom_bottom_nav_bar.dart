@@ -64,9 +64,8 @@ class CustomBottomNavBar extends ConsumerWidget {
     int index,
     int currentIndex,
   ) {
- //   if (currentIndex == index) return;
+  //if (currentIndex == index) return;
     ref.read(currentIndexProvider.notifier).state = index;
-    print("Current index is now: $index");
 
   }
 /*
