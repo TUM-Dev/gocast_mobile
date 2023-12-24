@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/theme.dart';
-import 'package:gocast_mobile/views/components/navigation_tab.dart';
-import 'package:gocast_mobile/views/course_view/courses_overview.dart';
+import 'package:gocast_mobile/navigation_tab.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
@@ -58,7 +57,7 @@ class App extends ConsumerWidget {
     return {
       '/welcome': (context) => const WelcomeScreen(),
       '/login': (context) => const InternalLoginScreen(),
-      '/courses': (context) => const CourseOverview(),
+      '/navigationTab': (context) => const NavigationTab(),
       '/publiccourses': (context) => const PublicCourses(),
     };
   }
