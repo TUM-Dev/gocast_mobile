@@ -18,3 +18,5 @@ final videoViewModelProvider =
     StateNotifierProvider<StreamViewModel, StreamState>(
   (ref) => StreamViewModel(ref.watch(grpcHandlerProvider)),
 );
+
+final currentIndexProvider = StateProvider<int>((ref) => 0);

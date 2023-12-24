@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_view.dart';
-import 'package:gocast_mobile/views/course_view/courses_overview.dart';
-import 'package:gocast_mobile/views/course_view/downloaded_courses_view/downloaded_courses_view.dart';
-import 'package:gocast_mobile/views/notifications_view/notifications_overview.dart';
+import 'navigation_tab.dart';
 
-// Assuming currentIndexProvider is defined in a global scope file:
-// final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 class CustomBottomNavBar extends ConsumerWidget {
   const CustomBottomNavBar({super.key});
@@ -70,33 +65,19 @@ class CustomBottomNavBar extends ConsumerWidget {
     int index,
     int currentIndex,
   ) {
-    if (currentIndex == index) return;
-
+ //   if (currentIndex == index) return;
     ref.read(currentIndexProvider.notifier).state = index;
+    print("Current index is now: $index");
 
-    switch (index) {
-      case 0:
-        _navigateTo(context, const CourseOverview());
-        break;
-      case 1:
-        _navigateTo(context, const DownloadedCourses());
-        break;
-      case 2:
-        _navigateTo(context, const PinnedCourses());
-        break;
-      case 3:
-        _navigateTo(context, const MyNotifications());
-        break;
-    }
   }
-
+/*
   void _navigateTo(BuildContext context, Widget page) {
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => page),
       (Route<dynamic> route) => false,
     );
   }
-
+*/
   BottomNavigationBarItem _buildNavigationBarItem(
     IconData icon,
     String label,
