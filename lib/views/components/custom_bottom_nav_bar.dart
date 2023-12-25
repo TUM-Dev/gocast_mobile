@@ -64,18 +64,8 @@ class CustomBottomNavBar extends ConsumerWidget {
     int index,
     int currentIndex,
   ) {
-  //if (currentIndex == index) return;
     ref.read(currentIndexProvider.notifier).state = index;
-
   }
-/*
-  void _navigateTo(BuildContext context, Widget page) {
-    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => page),
-      (Route<dynamic> route) => false,
-    );
-  }
-*/
   BottomNavigationBarItem _buildNavigationBarItem(
     IconData icon,
     String label,

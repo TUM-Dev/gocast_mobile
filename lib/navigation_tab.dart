@@ -24,7 +24,6 @@ class NavigationTab extends ConsumerWidget {
           MyNotifications(),
         ],
       ),
-     // bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
