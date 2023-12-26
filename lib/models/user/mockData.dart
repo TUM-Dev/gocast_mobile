@@ -11,7 +11,9 @@ class MockData {
   static final List<Course> mockUserCourses = _mockUserCoursesDefault(3);
   static final List<Course> mockUserPinned = _mockPinCoursesDefault(2);
   static final List<Course> mockPublicCourses = _mockPublicCoursesDefault(5);
-  static final List<Course> liveCourses = _mockLiveCourses();
+  static final List<Course> liveCourses = mockCourses
+      .where((course) => course.streams.any((stream) => stream.liveNow))
+      .toList();
   static final List<Course> mockDownloadedCourses = _mockDownloadedCourses(2);
   static final List<String> messages = [
     'Hello, welcome to the lecture!',
@@ -64,16 +66,7 @@ class MockData {
       return List<Course>.from(mockCourses);
     }
     var shuffledCourses = List<Course>.from(mockUserCourses)..shuffle();
-    //TODO take only courses where >= 1 course stream is live
     return shuffledCourses.take(count).toList();
-  }
-
-  static List<Course> _mockLiveCourses() {
-    var shuffledCourses = List<Course>.from(mockUserCourses
-        .where((course) => course.streams.any((stream) => stream.liveNow))
-        .toList())
-      ..shuffle();
-    return shuffledCourses.toList();
   }
 
   static final User mockUser = User(
@@ -108,14 +101,13 @@ class MockData {
     // Constructing a slug
     //String courseSlug = '${topic.replaceAll(' ', '_')}_$format'.toLowerCase();
     //TODO this is no longer a "slug"
-    String courseSlug =
-        _courseNumbers[_random.nextInt(_courseNumbers.length)].toString();
+    String courseSlug = _courseNumbers[_random.nextInt(_courseNumbers.length)].toString();
 
     // Other attributes
     String playlistUrl =
         'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6';
     bool vodEnabled = _random.nextBool();
-    String cameraPresetPreferences = _random.nextBool() ? 'HD' : 'SD'; //TODO change this to the video length
+    String cameraPresetPreferences = _random.nextBool() ? 'HD' : 'SD';
     bool liveNow = false;
 
     return Course(
