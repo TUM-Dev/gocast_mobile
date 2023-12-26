@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-import 'package:gocast_mobile/views/course_view/downloaded_pinned_courses_view/content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_card_view.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
+import '../../video_view/video_player_controller.dart';
+import '../downloaded_courses_view/content_view.dart';
 
 /// DownloadsScreen
 ///
@@ -44,8 +45,9 @@ class DownloadedCourses extends ConsumerWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => VideoPlayerPage(
-                            videoAssetPath: "assets/reviewTrailer.mp4",
+                            videoSource: 'assets/sample.mp4',
                             title: videoTitle,
+                            sourceType: VideoSourceType.asset,
                           ),
                         ),
                       );

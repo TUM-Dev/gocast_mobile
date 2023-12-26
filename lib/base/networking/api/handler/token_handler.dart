@@ -32,11 +32,6 @@ class TokenHandler {
     throw AppError.authenticationError();
   }
 
-  static Future<void> deleteToken(String key) async {
-    await _storage.delete(key: key);
-    _logger.i('Token deleted from secure storage.');
-  }
-
   /// Retrieves a JWT token.
   ///
   /// This method loads a JWT token from shared preferences. The token is identified

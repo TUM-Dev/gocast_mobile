@@ -28,24 +28,36 @@ class CourseCard extends StatelessWidget {
         // TODO: Add navigation to the course details screen
       },
       child: Card(
-        child: Container(
-          width: MediaQuery.of(context).size.width *
-              0.4, // was 160, now it's 40% of the screen width
-          padding: const EdgeInsets.all(8.0),
-          color: Colors.white70,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildCourseSubtitle(),
-                  _buildLive(),
-                ],
-              ),
-              Expanded(child: _buildCourseImage()), // Wrapped with Expanded
-              _buildCourseTitle(),
-            ],
+        elevation: 2, // Adjust the elevation for the shadow effect (if desired)
+        shadowColor: Colors.grey.withOpacity(0.5), // Shadow
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
+          side: BorderSide(
+            color: Colors.grey[100]!,
+            width: 1.0,
+          ), // Light grey outline
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
+          child: Container(
+            width: MediaQuery.of(context).size.width *
+                0.4, // was 160, now it's 40% of the screen width
+            padding: const EdgeInsets.all(8.0),
+            color: Colors.white70,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildCourseSubtitle(),
+                    _buildLive(),
+                  ],
+                ),
+                Expanded(child: _buildCourseImage()), // Wrapped with Expanded
+                _buildCourseTitle(),
+              ],
+            ),
           ),
         ),
       ),
@@ -83,6 +95,7 @@ class CourseCard extends StatelessWidget {
       title,
       overflow: TextOverflow.ellipsis,
       maxLines: 3,
+      softWrap: true,
       style: const TextStyle(
         fontSize: 17,
         fontWeight: FontWeight.w600,
@@ -103,21 +116,6 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLiveDot() {
-    return live
-        ? const Row(
-            children: [
-              //spacing between dot and course number
-              Icon(
-                Icons.circle,
-                size: 15,
-                color: Colors.red,
-              ),
-            ],
-          )
-        : const SizedBox(); // Return an empty SizedBox if not live
-  }
-
   Widget _buildLive() {
     return live
         ? Container(
@@ -135,28 +133,6 @@ class CourseCard extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
-          )
-        : const SizedBox(); // Return an empty SizedBox if not live
-  }
-
-  Widget _buildCourseIsLive() {
-    return live
-        ? const Row(
-            children: [
-              Icon(
-                Icons.circle,
-                size: 10,
-                color: Colors.red,
-              ),
-              SizedBox(width: 5), // Add spacing between the dot and text
-              Text(
-                'Live Now',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
           )
         : const SizedBox(); // Return an empty SizedBox if not live
   }

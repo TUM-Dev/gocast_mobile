@@ -2,15 +2,21 @@ import 'dart:math';
 
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
+/// This class contains mock data for testing and development purposes.
+/// It is used to simulate the API responses.
+/// It is not used in production.
+/// It will be used for Testing, Demo and Development purposes only.
+///
+/// This class will be moved to testing folder in the Future.
 class MockData {
   static final _random = Random();
-  static const String mockEmail = 'maxTheBoss';
-  static const String mockPassword = 'qwertz';
+  static const String mockEmail = 'ge123abc';
+  static const String mockPassword = 'secure';
   static final List<UserSetting> mockUserSettings = mockUser.settings;
   static final List<Course> mockCourses = _defaultCourses();
   static final List<Course> mockUserCourses = _mockUserCoursesDefault(3);
   static final List<Course> mockUserPinned = _mockPinCoursesDefault(2);
-  static final List<Course> mockPublicCourses = _mockPublicCoursesDefault(5);
+  static final List<Course> mockPublicCourses = mockCourses;
   static final List<Course> liveCourses = mockCourses
       .where((course) => course.streams.any((stream) => stream.liveNow))
       .toList();
@@ -53,13 +59,13 @@ class MockData {
     return shuffledCourses.take(count).toList();
   }
 
-  static List<Course> _mockPublicCoursesDefault(int count) {
+  /* static List<Course> _mockPublicCoursesDefault(int count) {
     if (count >= mockCourses.length) {
       return List<Course>.from(mockCourses);
     }
     var shuffledCourses = List<Course>.from(mockCourses)..shuffle();
     return shuffledCourses.take(count).toList();
-  }
+  }*/
 
   static List<Course> _mockDownloadedCourses(int count) {
     if (count >= mockUserCourses.length) {
@@ -77,14 +83,10 @@ class MockData {
     role: 4,
     settings: [
       UserSetting(
-        id: 1,
-        userID: 1,
         type: UserSettingType.PREFERRED_NAME,
         value: 'The Boss',
       ),
       UserSetting(
-        id: 2,
-        userID: 1,
         type: UserSettingType.GREETING,
         value: 'Moin',
       ),
@@ -97,15 +99,14 @@ class MockData {
     String adjective = _adjectives[_random.nextInt(_adjectives.length)];
     String format = _formats[_random.nextInt(_formats.length)];
     String courseName = '$adjective $topic $format';
-
+    String prefix = _random.nextBool() ? 'IN0' : 'CIT0';
+    int number =
+        _random.nextInt(900) + 100; // Generates a number from 100 to 999
+    String courseSlug = '$prefix$number';
     // Constructing a slug
-    //String courseSlug = '${topic.replaceAll(' ', '_')}_$format'.toLowerCase();
-    //TODO this is no longer a "slug"
-    String courseSlug = _courseNumbers[_random.nextInt(_courseNumbers.length)].toString();
-
     // Other attributes
     String playlistUrl =
-        'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6';
+        'assets/sample.mp4'; // Replace with actual playlist URL'https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8'
     bool vodEnabled = _random.nextBool();
     String cameraPresetPreferences = _random.nextBool() ? 'HD' : 'SD';
     bool liveNow = false;
@@ -148,11 +149,11 @@ class MockData {
       streams: course.streams
           .map(
             (stream) => Stream(
-              name: stream.name,
-              playlistUrl: stream.playlistUrl,
-              liveNow: true,
-            ),
-          )
+          name: stream.name,
+          playlistUrl: stream.playlistUrl,
+          liveNow: true,
+        ),
+      )
           .toList(),
     );
   }
@@ -184,7 +185,6 @@ class MockData {
     'Tutorial',
   ];
 
-  //TODO separate endpoint or cut off title
   static const List<String> _courseNumbers = [
     'IN2023',
     'IN0009',
