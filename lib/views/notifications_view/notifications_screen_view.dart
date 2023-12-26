@@ -38,6 +38,7 @@ class NotificationsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
+      showLeading: false,
       title: title,
       actions: _buildAppBarActions(context, ref),
       child: RefreshIndicator(
