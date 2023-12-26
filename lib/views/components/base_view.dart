@@ -30,8 +30,8 @@ class BaseView extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.black,
-                ),
+              color: Colors.black,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

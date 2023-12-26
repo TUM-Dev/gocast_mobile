@@ -17,6 +17,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
     final isSearchActive = ref.watch(isSearchActiveProvider);
 
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: isSearchActive

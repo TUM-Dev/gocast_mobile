@@ -61,6 +61,7 @@ class DownloadedCourses extends ConsumerWidget {
                 }).toList(),
               )
             : BaseView(
+          showLeading: false,
                 title: '',
                 actions: [
                   IconButton(

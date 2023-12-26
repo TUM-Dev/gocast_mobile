@@ -9,9 +9,10 @@ import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+
+import '../utils/globals.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
@@ -33,7 +34,7 @@ class UserViewModel extends StateNotifier<UserState> {
 
       if (state.user != null) {
         _logger.i('Logged in user ${state.user} with basic auth');
-        navigatorKey.currentState?.pushNamed('/courses');
+        navigatorKey.currentState?.pushNamed('/navigationTab');
       }
       state = state.copyWith(isLoading: false);
     } catch (e) {

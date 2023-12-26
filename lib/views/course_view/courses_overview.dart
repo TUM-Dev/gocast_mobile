@@ -8,7 +8,6 @@ import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 // current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
-final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 class CourseOverview extends ConsumerStatefulWidget {
   const CourseOverview({super.key});
@@ -54,7 +53,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       child: RefreshIndicator(
         onRefresh: () async {
           final userViewModelNotifier =
-              ref.read(userViewModelProvider.notifier);
+          ref.read(userViewModelProvider.notifier);
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
         },
