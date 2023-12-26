@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CustomSearchTopNavBar extends ConsumerWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
-  final String title; // Title as a parameter
+  final String title;
 
   const CustomSearchTopNavBar({
     super.key,
@@ -16,50 +16,58 @@ class CustomSearchTopNavBar extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     final isSearchActive = ref.watch(isSearchActiveProvider);
 
-    return AppBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leading: isSearchActive
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-              onPressed: () =>
-                  ref.read(isSearchActiveProvider.notifier).state = false,
-            )
-          : null,
-      title: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: isSearchActive
-            ? _buildSearchField(ref)
-            : Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                // Adjust the padding for title positioning
-                child: Text(title, style: const TextStyle(color: Colors.black)),
-              ),
-      ),
-      actions: isSearchActive
-          ? null
-          : [
-              IconButton(
-                icon: const Icon(Icons.search, color: Colors.black),
+    return SafeArea(
+      child: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: isSearchActive
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
                 onPressed: () =>
-                    ref.read(isSearchActiveProvider.notifier).state = true,
-              ),
-              IconButton(
-                icon: const Icon(Icons.filter_list, color: Colors.black),
-                onPressed: () {
-                  // Implement filter action
-                },
-              ),
-            ],
-      titleSpacing: 0.0,
+                    ref.read(isSearchActiveProvider.notifier).state = false,
+              )
+            : null,
+        title: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: isSearchActive
+              ? _buildSearchField(ref)
+              : Padding(
+                  padding: const EdgeInsets.only(left: 90),
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Colors.black,
+                          ),
+                    ),
+                  ),
+                ),
+        ),
+        actions: isSearchActive
+            ? null
+            : [
+                IconButton(
+                  icon: const Icon(Icons.search, color: Colors.black),
+                  onPressed: () =>
+                      ref.read(isSearchActiveProvider.notifier).state = true,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.filter_list, color: Colors.black),
+                  onPressed: () {
+                    // Implement filter action
+                  },
+                ),
+              ],
+        titleSpacing: 0.0,
+      ),
     );
   }
 
   Widget _buildSearchField(WidgetRef ref) {
     return Container(
-      width: 300, // Adjust width as needed
-      height: 45,
+      width: 301,
+      height: 36,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -81,8 +89,11 @@ class CustomSearchTopNavBar extends ConsumerWidget
           hintStyle: TextStyle(
             color: Colors.grey[600],
             fontSize: 17,
+            fontWeight: FontWeight.normal,
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(vertical: 5),
+          hintMaxLines: 1,
+          alignLabelWithHint: true,
         ),
       ),
     );
