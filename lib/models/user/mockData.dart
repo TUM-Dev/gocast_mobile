@@ -184,13 +184,4 @@ class MockData {
     'Lab',
     'Tutorial',
   ];
-
-  static const List<String> _courseNumbers = [
-    'IN2023',
-    'IN0009',
-    'MA1037',
-    'CS3021',
-    'IN1009',
-    'MA2037',
-  ];
 }

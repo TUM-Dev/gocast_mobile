@@ -85,7 +85,7 @@ class CourseCard extends StatelessWidget {
               child: _buildLive(), // Place the _buildLive widget here
             ),*/
           ],
-        )
+        ),
       ],
     );
   }
