@@ -1,3 +1,4 @@
+import 'package:fixnum/src/int64.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
@@ -70,6 +71,7 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   /// Handles Fetching of a course streams.
+
   Future<void> fetchCourseStreams(int courseID) async {
     state = state.copyWith(isLoading: true);
     try {
@@ -80,6 +82,74 @@ class UserViewModel extends StateNotifier<UserState> {
     } catch (e) {
       _logger.e('Error fetching course streams: $e');
       state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchThumbnails() async {
+    List<String> fetchedThumbnails = [];
+    if (state.courseStreams == null) {
+      return;
+    } else {
+      for (var stream in state.courseStreams!) {
+        // Add null assertion here
+        try {
+          String thumbnail;
+          if (stream.liveNow) {
+            thumbnail = await fetchStreamThumbnail(stream.id);
+          } else {
+            thumbnail = await fetchVODThumbnail(stream.id);
+          }
+          fetchedThumbnails.add(thumbnail);
+        } catch (e) {
+          _logger.e('Error fetching thumbnail for stream ID ${stream.id}: $e');
+          fetchedThumbnails.add(
+              'assets/images/course1.png'); // Add a default thumbnail path in case of error
+        }
+      }
+
+      state = state.copyWith(thumbnails: fetchedThumbnails, isLoading: false);
+    }
+  }
+
+  /*
+  Future<List<Stream>> fetchCourseStreams(int courseID) async {
+    try {
+      _logger.i('Fetching course streams for course ID: $courseID');
+      var streams = await StreamHandler(_grpcHandler).fetchCourseStreams(courseID);
+      return streams; // Directly returning the fetched streams
+    } catch (e) {
+      _logger.e('Error fetching course streams: $e');
+      throw e; // Rethrow the exception for the caller to handle
+    }
+  }
+
+   */
+
+  /// Handles Fetching of a thumbnail for a live stream
+  Future<String> fetchStreamThumbnail(Int64 streamId) async {
+    try {
+      _logger.i('Fetching thumbnail VOD for stream ID: $streamId');
+      String thumbnailPath =
+          await StreamHandler(_grpcHandler).fetchThumbnailVOD(streamId);
+      _logger.d('Thumbnail VOD Path: $thumbnailPath');
+      return thumbnailPath;
+    } catch (e) {
+      _logger.e('Error fetching thumbnail VOD: $e');
+      throw e; // Or return a default path or handle the error as needed
+    }
+  }
+
+  /// Handles Fetching of a thumbnail for a not live vod
+  Future<String> fetchVODThumbnail(Int64 streamId) async {
+    try {
+      _logger.i('Fetching thumbnail VOD for stream ID: $streamId');
+      String thumbnailPath =
+          await StreamHandler(_grpcHandler).fetchThumbnailVOD(streamId);
+      _logger.d('Thumbnail VOD Path: $thumbnailPath');
+      return thumbnailPath;
+    } catch (e) {
+      _logger.e('Error fetching thumbnail VOD: $e');
+      throw e; // Or return a default path or handle the error as needed
     }
   }
 
