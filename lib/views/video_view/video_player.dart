@@ -3,13 +3,15 @@ import 'package:gocast_mobile/views/video_view/chat_video_view.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 
 class VideoPlayerPage extends StatefulWidget {
-  final String videoAssetPath;
+  final String videoSource;
+  final VideoSourceType sourceType;
   final String title;
 
   const VideoPlayerPage({
     super.key,
-    required this.videoAssetPath,
+    required this.videoSource,
     required this.title,
+    required this.sourceType,
   });
 
   @override
@@ -23,16 +25,16 @@ class VideoPlayerPageState extends State<VideoPlayerPage> {
   @override
   void initState() {
     super.initState();
-    _controllerManager =
-        VideoPlayerControllerManager(videoAssetPath: widget.videoAssetPath);
+    _controllerManager = VideoPlayerControllerManager(
+      videoSource: widget.videoSource,
+      sourceType: widget.sourceType,
+    );
     initializeVideoPlayer();
   }
 
   Future<void> initializeVideoPlayer() async {
     await _controllerManager.initializePlayer();
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() => _isLoading = false);
   }
 
   @override
@@ -47,32 +49,16 @@ class VideoPlayerPageState extends State<VideoPlayerPage> {
       appBar: AppBar(title: Text(widget.title)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : OrientationBuilder(
-              builder: (context, orientation) {
-                return orientation == Orientation.portrait
-                    ? _buildPortraitLayout()
-                    : _buildLandscapeLayout();
-              },
-            ),
+          : _buildVideoLayout(),
     );
   }
 
-  Widget _buildPortraitLayout() {
+  Widget _buildVideoLayout() {
     return Column(
       children: <Widget>[
-        Expanded(
-          flex: 5, // Adjust flex ratio to change the space allocation
-          child: _controllerManager.buildVideoPlayer(),
-        ),
-        const Expanded(
-          flex: 4, // Adjust flex ratio
-          child: ChatView(),
-        ),
+        Expanded(child: _controllerManager.buildVideoPlayer()),
+        const Expanded(child: ChatView()),
       ],
     );
-  }
-
-  Widget _buildLandscapeLayout() {
-    return _controllerManager.buildVideoPlayer();
   }
 }

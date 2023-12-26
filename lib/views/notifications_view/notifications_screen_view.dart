@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
+import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 class NotificationsScreen extends ConsumerWidget {
-  NotificationsScreen({super.key});
+  final String title;
+  final List<FeatureNotification> featureNotifications;
+  final List<BannerAlert> bannerAlerts;
+  final Future<void> Function() onRefresh;
 
-  final Map<String, List<String>> notifications = {
+  NotificationsScreen({
+    super.key,
+    required this.title,
+    required this.featureNotifications,
+    required this.bannerAlerts,
+    required this.onRefresh,
+  });
+
+  final Map<String, List<String>> pushNotifications = {
     'Today': [
       'Lineare Algebra für Informatik is live now!',
       'Functional Programming and verification is live now!',
@@ -24,52 +38,95 @@ class NotificationsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
-      title: 'Notifications',
-      /*title: Text('Notifications',
-              style: TextStyle(color: Colors.blue))
-          .toString(),*/
-      child: ListView.builder(
-        itemCount: notifications.keys.length,
-        itemBuilder: (context, index) {
-          String key = notifications.keys.elementAt(index);
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 8.0,
-                  top: 30,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Text(
-                  key,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
+      showLeading: false,
+      title: title,
+      actions: _buildAppBarActions(context, ref),
+      child: RefreshIndicator(
+        onRefresh: onRefresh,
+        color: Colors.blue,
+        // Indicator color
+        backgroundColor: Colors.white,
+        // Background color of the indicator
+        strokeWidth: 2.0,
+        // Thickness of the indicator circle
+        displacement: 20.0,
+        // How far to pull down to trigger refresh
+        child: CustomScrollView(
+          slivers: [
+            featureNotifications.isEmpty && bannerAlerts.isEmpty
+                ? SliverFillRemaining(
+                    child: _buildPlaceholder(),
+                  )
+                : SliverList(
+                    delegate: SliverChildListDelegate.fixed([
+                      _buildFeatureNotificationsListView(),
+                      _buildBannerAlertsListView(),
+                    ]),
                   ),
-                  //style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              ...notifications[key]!.map(
-                    (notification) => Container(
-                  margin:
-                  const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
-                  padding: const EdgeInsets.all(1.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200], // Light grey background color
-                    borderRadius:
-                    BorderRadius.circular(8.0), // Optional: rounded corners
-                  ),
-                  child: ListTile(
-                    title: Text(notification),
-                    trailing: const Text('06:30'),
-                  ),
-                ),
-              ),
-            ],
-          );
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding _buildPlaceholder() {
+    return const Padding(
+      padding: AppPadding.sectionPadding,
+      child: Center(child: Text('No Notifications found.')),
+    );
+  }
+
+  //TODO export functionality
+  List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.settings),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingsScreen()),
+        ),
+      ),
+    ];
+  }
+
+  Widget _buildFeatureNotificationsListView() {
+    return SliverGrid(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          /*final course = featureNotifications[index];
+          return CourseCard(
+            title: course.name,
+            subtitle: course.slug,
+            path: 'assets/images/course2.png',
+            live: course.streams.any((stream) => stream.liveNow),
+          );*/
+          return const Text("This will be the feature notifications");
         },
+        childCount: featureNotifications.length,
+      ),
+    );
+  }
+
+  //TODO do we need to check dates ourselves?
+  Widget _buildBannerAlertsListView() {
+    return SliverGrid(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return const Text("This will be the  Banner Alerts");
+        },
+        childCount: bannerAlerts.length,
       ),
     );
   }

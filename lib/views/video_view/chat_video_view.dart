@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/models/user/mockData.dart';
+import 'package:gocast_mobile/models/user/mock_data.dart';
 
+///This class is used to display the chat view in the video player page.
+///it is kind of temporary solution, we will replace it with the real chat view
+///when we have the chat feature ready.
 class ChatView extends StatelessWidget {
   const ChatView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 4,
-      child: Stack(
-        children: [
-          _buildChatList(),
-          _buildLiveChatOverlay(),
-        ],
-      ),
+    return Stack(
+      children: [
+        _buildChatList(),
+        _buildLiveChatOverlay(),
+      ],
     );
   }
 
@@ -99,6 +99,4 @@ class ChatView extends StatelessWidget {
       ),
     );
   }
-
-// Add methods for _buildChatList, _buildLiveChatOverlay here
 }

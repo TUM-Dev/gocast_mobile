@@ -8,10 +8,11 @@ import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:gocast_mobile/models/user/mockData.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
+import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+
+import '../utils/globals.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
@@ -27,24 +28,15 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isLoading: true);
     try {
       _logger.i('Logging in user with email: $email');
-      //await AuthHandler.basicAuth(email, password);
-      //await fetchUser();
-      if (email == MockData.mockEmail && password == MockData.mockPassword) {
-        state = state.copyWith(
-          user: MockData.mockUser,
-          isLoading: false,
-          userCourses: MockData.mockUserCourses,
-          userPinned: MockData.mockUserPinned,
-          userSettings: MockData.mockUserSettings,
-          publicCourses: MockData.mockPublicCourses,
-          downloadedCourses: MockData.mockDownloadedCourses,
-        );
-        _logger.i('Logged in user with basic auth');
-        navigatorKey.currentState?.pushNamed('/courses');
-      } else {
-        state = state.copyWith(isLoading: false);
-        throw AppError.authenticationError();
+      await AuthHandler.basicAuth(email, password);
+      await fetchUser();
+      _logger.i('Logged in user with basic auth');
+
+      if (state.user != null) {
+        _logger.i('Logged in user ${state.user} with basic auth');
+        navigatorKey.currentState?.pushNamed('/navigationTab');
       }
+      state = state.copyWith(isLoading: false);
     } catch (e) {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
@@ -100,6 +92,46 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
+  Future<bool> pinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Pinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course pinned successfully');
+      } else {
+        _logger.e('Failed to pin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error pinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
+  Future<bool> unpinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Unpinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course unpinned successfully');
+      } else {
+        _logger.e('Failed to unpin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error unpinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
   Future<void> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings');
@@ -130,6 +162,33 @@ class UserViewModel extends StateNotifier<UserState> {
       var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
       state = state.copyWith(publicCourses: courses, isLoading: false);
     } catch (e) {
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchFeatureNotifications() async {
+    try {
+      _logger.i('Fetching feature notifications');
+      var featureNotifications =
+          await NotificationHandler(_grpcHandler).fetchFeatureNotifications();
+      state = state.copyWith(
+        featureNotifications: featureNotifications,
+        isLoading: false,
+      );
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchBannerAlerts() async {
+    try {
+      _logger.i('Fetching banner alerts');
+      var bannerAlerts =
+          await NotificationHandler(_grpcHandler).fetchBannerAlerts();
+      state = state.copyWith(bannerAlerts: bannerAlerts, isLoading: false);
+    } catch (e) {
+      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }

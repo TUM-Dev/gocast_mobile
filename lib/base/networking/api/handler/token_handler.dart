@@ -59,4 +59,21 @@ class TokenHandler {
       throw AppError.authenticationError();
     }
   }
+
+  /// Deletes a JWT token.
+  ///
+  /// This method deletes a JWT token from shared preferences. The token is identified
+  /// by the given key.
+  ///
+  /// Throws an [AppError] with an authentication error message if no JWT token
+  /// is found in shared preferences.
+  static Future<void> deleteToken(String key) async {
+    try {
+      await _storage.delete(key: key);
+      _logger.i('Token successfully deleted for key: $key');
+    } catch (e) {
+      _logger.e('Error deleting token: $e');
+      throw AppError.authenticationError();
+    }
+  }
 }

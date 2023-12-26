@@ -1,17 +1,23 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/utils/theme.dart';
 import 'package:video_player/video_player.dart';
 
+enum VideoSourceType { asset, network }
+
 class VideoPlayerControllerManager {
-  final String videoAssetPath;
   late VideoPlayerController videoPlayerController;
   ChewieController? chewieController;
 
-  VideoPlayerControllerManager({required this.videoAssetPath});
+  VideoPlayerControllerManager({
+    required String videoSource,
+    VideoSourceType sourceType = VideoSourceType.asset,
+  }) {
+    videoPlayerController = sourceType == VideoSourceType.asset
+        ? VideoPlayerController.asset(videoSource)
+        : VideoPlayerController.networkUrl(Uri.parse(videoSource));
+  }
 
   Future<void> initializePlayer() async {
-    videoPlayerController = VideoPlayerController.asset(videoAssetPath);
     await videoPlayerController.initialize();
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
@@ -19,23 +25,21 @@ class VideoPlayerControllerManager {
       autoPlay: false,
       looping: false,
       materialProgressColors: ChewieProgressColors(
-        playedColor: AppColors.primaryColor, // TUM Dark Blue
-        handleColor: const Color(0xFF98C1D9), // TUM Light Blue
+        playedColor: Colors.blue,
+        handleColor: Colors.blueAccent,
         backgroundColor: Colors.white,
-        bufferedColor: const Color(0xFFDADADA),
+        bufferedColor: Colors.lightBlueAccent,
       ),
-      placeholder: Container(
-        color: AppColors.appBarBackgroundColor,
-      ),
+      placeholder: Container(color: Colors.black),
+      autoInitialize: true,
+      allowFullScreen: true,
+      fullScreenByDefault: false,
     );
   }
 
-  Widget buildVideoPlayer() {
-    if (chewieController == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    return Chewie(controller: chewieController!);
-  }
+  Widget buildVideoPlayer() => chewieController == null
+      ? const Center(child: CircularProgressIndicator())
+      : Chewie(controller: chewieController!);
 
   void dispose() {
     videoPlayerController.dispose();
