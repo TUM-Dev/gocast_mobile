@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/course_detail_view/stream_card.dart';
 
+import '../components/custom_search_top_nav_bar.dart';
+
 /// Course Detail View
 ///
 /// A widget representing the 'streams of a course' section of the app.
@@ -18,6 +20,7 @@ class CourseDetail extends ConsumerStatefulWidget {
 class _CourseDetailState extends ConsumerState<CourseDetail> {
   late Future<List<Stream>> courseStreams;
   late List<String> thumbnails;
+  final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -31,37 +34,63 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     final courseStreams = ref.watch(userViewModelProvider).courseStreams ?? [];
     final thumbnails = ref.watch(userViewModelProvider).thumbnails ?? [];
+
     return Scaffold(
+      appBar: CustomSearchTopNavBar(
+        searchController: searchController,
+        title: '',
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await ref.read(userViewModelProvider.notifier).fetchUserPinned();
         },
-        child: courseStreams.isNotEmpty
-            ? ListView.builder(
-                itemCount: courseStreams.length,
-                itemBuilder: (context, index) {
-                  final stream = courseStreams[index];
-                  final thumbnail = thumbnails.length > index
-                      ? thumbnails[index]
-                      : 'assets/images/course1.png'; // Fallback for default thumbnail
-                  return StreamCard(
-                    imageName: thumbnail, // Use corresponding thumbnail
-                    stream: stream,
-                    onTap: () {
-                      // Define your onTap functionality here
-                    },
-                  );
-                },
-              )
-            : Center(child: Text('No courses available')),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Course Details',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Expanded(
+              child: courseStreams.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: courseStreams.length,
+                      itemBuilder: (context, index) {
+                        final stream = courseStreams[index];
+                        var thumbnail = thumbnails.length > index
+                            ? thumbnails[index]
+                            : 'assets/images/course1.png';
+                        if (thumbnail == '/thumb-fallback.png') {
+                          thumbnail = 'assets/images/course1.png';
+                        }
+
+                        return StreamCard(
+                          imageName: thumbnail, // Use corresponding thumbnail
+                          stream: stream,
+                          onTap: () {
+                            // Define your onTap functionality here
+                          },
+                        );
+                      },
+                    )
+                  : Center(child: Text('No courses available')),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 /*
 class CourseDetail extends ConsumerWidget {
   const CourseDetail({super.key});
