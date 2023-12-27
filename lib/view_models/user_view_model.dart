@@ -1,4 +1,3 @@
-import 'package:fixnum/src/int64.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
@@ -6,7 +5,7 @@ import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
-import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
+
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
@@ -70,8 +69,8 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
+/*
   /// Handles Fetching of a course streams.
-
   Future<void> fetchCourseStreams(int courseID) async {
     state = state.copyWith(isLoading: true);
     try {
@@ -85,6 +84,7 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
+  /// handles fetching of all thumbnails live or not
   Future<void> fetchThumbnails() async {
     List<String> fetchedThumbnails = [];
     if (state.courseStreams == null) {
@@ -111,19 +111,6 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  /*
-  Future<List<Stream>> fetchCourseStreams(int courseID) async {
-    try {
-      _logger.i('Fetching course streams for course ID: $courseID');
-      var streams = await StreamHandler(_grpcHandler).fetchCourseStreams(courseID);
-      return streams; // Directly returning the fetched streams
-    } catch (e) {
-      _logger.e('Error fetching course streams: $e');
-      throw e; // Rethrow the exception for the caller to handle
-    }
-  }
-
-   */
 
   /// Handles Fetching of a thumbnail for a live stream
   Future<String> fetchStreamThumbnail(Int64 streamId) async {
@@ -152,6 +139,8 @@ class UserViewModel extends StateNotifier<UserState> {
       throw e; // Or return a default path or handle the error as needed
     }
   }
+
+ */
 
   Future<void> fetchUserCourses() async {
     state = state.copyWith(isLoading: true);

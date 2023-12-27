@@ -28,18 +28,18 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
   @override
   void initState() {
     super.initState();
-    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
     Future.microtask(() async {
-      await userViewModelNotifier.fetchCourseStreams(1);
-      await userViewModelNotifier.fetchThumbnails();
+      await videoViewModelNotifier.fetchCourseStreams(1);
+      await videoViewModelNotifier.fetchThumbnails();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final courseStreams = ref.watch(userViewModelProvider).courseStreams ?? [];
-    final thumbnails = ref.watch(userViewModelProvider).thumbnails ?? [];
+    final courseStreams = ref.watch(videoViewModelProvider).streams ?? [];
+    final thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
 
     return Scaffold(
       appBar: CustomSearchTopNavBar(

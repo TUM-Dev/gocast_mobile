@@ -15,8 +15,9 @@ class UserState {
   final List<BannerAlert>? bannerAlerts;
   final AppError? error;
   final List<Course>? downloadedCourses;
-  final List<Stream>? courseStreams; // New property for course streams
-  final List<String>? thumbnails; // New property for thumbnails
+
+  //final List<Stream>? courseStreams; // New property for course streams
+  //final List<String>? thumbnails; // New property for thumbnails
 
   const UserState({
     this.isLoading = false,
@@ -30,8 +31,8 @@ class UserState {
     this.bannerAlerts,
     this.error,
     this.downloadedCourses,
-    this.courseStreams, //new
-    this.thumbnails, //new
+    // this.courseStreams, //new
+    // this.thumbnails, //new
   });
 
   UserState copyWith({
@@ -46,8 +47,8 @@ class UserState {
     List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
-    List<Stream>? courseStreams, // Include in copyWith
-    List<String>? thumbnails, // New property for thumbnails
+    //List<Stream>? courseStreams, // Include in copyWith
+    //List<String>? thumbnails, // New property for thumbnails
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -61,9 +62,9 @@ class UserState {
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
-      courseStreams: courseStreams ?? this.courseStreams,
+      //courseStreams: courseStreams ?? this.courseStreams,
       // Assign the new value
-      thumbnails: thumbnails ?? this.thumbnails,
+      //thumbnails: thumbnails ?? this.thumbnails,
     );
   }
 
@@ -79,8 +80,8 @@ class UserState {
     List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
-    List<Stream>? courseStreams, // New
-    List<String>? thumbnails,
+    //List<Stream>? courseStreams, // New
+    //List<String>? thumbnails,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -94,7 +95,7 @@ class UserState {
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
-      thumbnails: thumbnails ?? this.thumbnails,
+      //thumbnails: thumbnails ?? this.thumbnails,
     );
   }
 }
