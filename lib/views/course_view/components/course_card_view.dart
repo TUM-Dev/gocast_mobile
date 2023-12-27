@@ -33,7 +33,7 @@ class CourseCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
           side: BorderSide(
-            color: Colors.grey[100]!,
+            color: Colors.grey[100] ?? Colors.grey,
             width: 1.0,
           ), // Light grey outline
         ),
