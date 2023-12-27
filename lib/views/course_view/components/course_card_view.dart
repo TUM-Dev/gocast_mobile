@@ -32,7 +32,7 @@ class CourseCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                const CourseDetail(), // Navigating to CourseDetail
+                CourseDetail(title: title), // Navigating to CourseDetail
           ),
         );
       },

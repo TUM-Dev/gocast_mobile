@@ -11,7 +11,9 @@ import '../components/custom_search_top_nav_bar.dart';
 /// It displays streams of a lecture and is accessible online
 
 class CourseDetail extends ConsumerStatefulWidget {
-  const CourseDetail({super.key});
+  final String title; // Add this line
+
+  const CourseDetail({super.key, required this.title}); // Modify this line
 
   @override
   _CourseDetailState createState() => _CourseDetailState();
@@ -21,6 +23,7 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
   late Future<List<Stream>> courseStreams;
   late List<String> thumbnails;
   final TextEditingController searchController = TextEditingController();
+  final String baseUrl = 'https://live.rbg.tum.de';
 
   @override
   void initState() {
@@ -41,7 +44,7 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
     return Scaffold(
       appBar: CustomSearchTopNavBar(
         searchController: searchController,
-        title: '',
+        title: ' ',
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -50,11 +53,11 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Course Details',
-                style: TextStyle(
+                widget.title,
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -68,9 +71,10 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
                         final stream = courseStreams[index];
                         var thumbnail = thumbnails.length > index
                             ? thumbnails[index]
-                            : 'assets/images/course1.png';
-                        if (thumbnail == '/thumb-fallback.png') {
-                          thumbnail = 'assets/images/course1.png';
+                            : '/thumb-fallback.png'; // Default thumbnail path
+                        // Prepend base URL for relative paths
+                        if (!thumbnail.startsWith('http')) {
+                          thumbnail = '$baseUrl$thumbnail';
                         }
 
                         return StreamCard(
@@ -82,7 +86,7 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
                         );
                       },
                     )
-                  : Center(child: Text('No courses available')),
+                  : const Center(child: Text('No courses available')),
             ),
           ],
         ),
@@ -91,115 +95,4 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
   }
 }
 
-/*
-class CourseDetail extends ConsumerWidget {
-  const CourseDetail({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ContentView(
-      title: 'Lineare Algebra für Informatik [MA0901]',
-      videoCards: [
-        VideoCard(
-          imageName: 'assets/images/course1.png',
-          title: 'complex numbers',
-          date: 'July 24, 2019',
-          duration: '02:00:00',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const VideoPlayerCard(
-                  videoUrl: "assets/reviewTrailer.mp4",
-                  title: "title",
-                  date: "date",
-                ),
-              ),
-            );
-          },
-        ),
-        // Add more VideoCard widgets as needed
-      ],
-    );
-  }
-}
-
- */
-
-/*
-
-    return ListView.builder(
-      padding: const EdgeInsets.all(20),
-      itemCount: courseStreams.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 50,
-          child: Center(child: Text('Entry')),
-        );
-      },
-    );
-
-     */
-
-// other imports as necessary
-/*
-
-class CourseDetail extends ConsumerStatefulWidget {
-  const CourseDetail({super.key});
-
-  @override
-  _CourseDetailState createState() => _CourseDetailState();
-}
-
-class _CourseDetailState extends ConsumerState<CourseDetail> {
-  late Future<List<Stream>> courseStreams;
-
-  @override
-  void initState() {
-    super.initState();
-    final userViewModel = ref.read(userViewModelProvider.notifier);
-    courseStreams = userViewModel.fetchCourseStreams(1);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {
-            courseStreams = ref.read(userViewModelProvider.notifier).fetchCourseStreams(1); // Refresh the course streams on pull to refresh
-          });
-        },
-        child: FutureBuilder<List<Stream>>(
-          future: courseStreams,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-              return DetailCoursesContentView(
-                title: "Course",
-                streamCards: snapshot.data!
-                    .map(
-                      (stream) => StreamCard(
-                    imageName: 'assets/images/course1.png', // Replace with your image path
-                    stream: stream,
-                    onTap: () {
-                      // Define your onTap functionality here
-                    },
-                  ),
-                )
-                    .toList(),
-              );
-            } else {
-              return Center(child: Text('No courses available'));
-            }
-          },
-        ),
-      ),
-    );
-  }
-}
-
- */
