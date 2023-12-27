@@ -11,13 +11,10 @@ import '../components/custom_search_top_nav_bar.dart';
 /// It displays streams of a lecture and is accessible online
 
 class CourseDetail extends ConsumerStatefulWidget {
-  final String title; // Add this line
+  final String title;
   final courseId;
 
-  const CourseDetail(
-      {super.key,
-      required this.title,
-      required this.courseId}); // Modify this line
+  const CourseDetail({super.key, required this.title, required this.courseId});
 
   @override
   _CourseDetailState createState() => _CourseDetailState();
