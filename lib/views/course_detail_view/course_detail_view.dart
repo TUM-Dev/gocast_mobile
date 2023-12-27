@@ -12,8 +12,12 @@ import '../components/custom_search_top_nav_bar.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title; // Add this line
+  final courseId;
 
-  const CourseDetail({super.key, required this.title}); // Modify this line
+  const CourseDetail(
+      {super.key,
+      required this.title,
+      required this.courseId}); // Modify this line
 
   @override
   _CourseDetailState createState() => _CourseDetailState();
@@ -31,7 +35,7 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
     Future.microtask(() async {
-      await videoViewModelNotifier.fetchCourseStreams(1);
+      await videoViewModelNotifier.fetchCourseStreams(widget.courseId);
       await videoViewModelNotifier.fetchThumbnails();
     });
   }

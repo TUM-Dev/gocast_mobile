@@ -100,6 +100,7 @@ class CourseSection extends StatelessWidget {
                   subtitle: course.slug,
                   path: imagePath,
                   live: course.streams.any((stream) => stream.liveNow),
+                  courseId: course.id,
                 );
               },
             ),

@@ -14,6 +14,7 @@ class CourseCard extends StatelessWidget {
   final String subtitle;
   final String path;
   final bool live;
+  final int courseId;
 
   const CourseCard({
     super.key,
@@ -21,6 +22,7 @@ class CourseCard extends StatelessWidget {
     required this.subtitle,
     required this.path,
     required this.live,
+    required this.courseId,
   });
 
   @override
@@ -31,8 +33,10 @@ class CourseCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                CourseDetail(title: title), // Navigating to CourseDetail
+            builder: (context) => CourseDetail(
+              title: title,
+              courseId: courseId,
+            ), // Navigating to CourseDetail
           ),
         );
       },
