@@ -106,36 +106,4 @@ class StreamViewModel extends StateNotifier<StreamState> {
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
-
-/*
-
-  Future<void> fetchStreamThumbnails(Int64 streamId) async {
-    _logger.i('Fetching stream thumbnails');
-    state = state.copyWith(isLoading: true);
-    try {
-      final streamThumbnails =
-      await StreamHandler(_grpcHandler).fetchThumbnailStreams(streamId);
-      state =
-          state.copyWith(streamThumbnails: streamThumbnails, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-  Future<void> fetchThumbnailVOD(Int64 streamId) async {
-    _logger.i('Fetching live now stream thumbnails');
-    state = state.copyWith(isLoading: true);
-    try {
-      final streamThumbnails =
-      await StreamHandler(_grpcHandler).fetchThumbnailVOD(streamId);
-      state =
-          state.copyWith(streamThumbnails: streamThumbnails, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-   */
 }

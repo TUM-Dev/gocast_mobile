@@ -31,8 +31,6 @@ class UserState {
     this.bannerAlerts,
     this.error,
     this.downloadedCourses,
-    // this.courseStreams, //new
-    // this.thumbnails, //new
   });
 
   UserState copyWith({
@@ -47,8 +45,6 @@ class UserState {
     List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
-    //List<Stream>? courseStreams, // Include in copyWith
-    //List<String>? thumbnails, // New property for thumbnails
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -62,9 +58,6 @@ class UserState {
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
-      //courseStreams: courseStreams ?? this.courseStreams,
-      // Assign the new value
-      //thumbnails: thumbnails ?? this.thumbnails,
     );
   }
 
@@ -80,8 +73,6 @@ class UserState {
     List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
-    //List<Stream>? courseStreams, // New
-    //List<String>? thumbnails,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -95,7 +86,6 @@ class UserState {
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
-      //thumbnails: thumbnails ?? this.thumbnails,
     );
   }
 }
