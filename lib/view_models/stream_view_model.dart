@@ -44,7 +44,8 @@ class StreamViewModel extends StateNotifier<StreamState> {
         } catch (e) {
           _logger.e('Error fetching thumbnail for stream ID ${stream.id}: $e');
           fetchedThumbnails.add(
-              'assets/images/course1.png'); // Add a default thumbnail path in case of error
+            '/thumb-fallback.png',
+          ); // Add a default thumbnail path in case of error
         }
       }
 
@@ -80,7 +81,33 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  /*
+
+
+  Future<void> fetchStream(Int64 streamId) async {
+    _logger.i('Fetching stream');
+    state = state.copyWith(isLoading: true);
+    try {
+      final stream = await StreamHandler(_grpcHandler).fetchStream(streamId);
+      state = state.copyWith(streams: [stream], isLoading: false);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchLiveNowStreams() async {
+    _logger.i('Fetching live now stream');
+    state = state.copyWith(isLoading: true);
+    try {
+      final streams = await StreamHandler(_grpcHandler).fetchLiveNowStreams();
+      state = state.copyWith(liveStreams: streams, isLoading: false);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+/*
 
   Future<void> fetchStreamThumbnails(Int64 streamId) async {
     _logger.i('Fetching stream thumbnails');
@@ -111,30 +138,4 @@ class StreamViewModel extends StateNotifier<StreamState> {
   }
 
    */
-
-  Future<void> fetchStream(Int64 streamId) async {
-    _logger.i('Fetching stream');
-    state = state.copyWith(isLoading: true);
-    try {
-      final stream = await StreamHandler(_grpcHandler).fetchStream(streamId);
-      state = state.copyWith(streams: [stream], isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-  Future<void> fetchLiveNowStreams() async {
-    _logger.i('Fetching live now stream');
-    state = state.copyWith(isLoading: true);
-    try {
-      final streams = await StreamHandler(_grpcHandler).fetchLiveNowStreams();
-      state = state.copyWith(liveStreams: streams, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-
 }
