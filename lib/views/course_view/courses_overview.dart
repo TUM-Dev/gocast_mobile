@@ -40,7 +40,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
 
     return BaseView(
       showLeading: false,
-      title: 'GoCast',
+      title: 'Courses',
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
@@ -62,7 +62,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
             children: [
               if (isLoggedIn)
                 CourseSection(
-                  sectionTitle: "Livenow",
+                  sectionTitle: "Live Now",
                   onViewAll: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MyCourses()),
