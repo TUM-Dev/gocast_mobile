@@ -32,9 +32,8 @@ class PinnedCourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      // or GestureDetector
-      onTap: onTap,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -72,7 +71,7 @@ class PinnedCourseCard extends StatelessWidget {
                   IconButton(
                     icon: Icon(
                       isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                      color: Colors.blue,
+                      color: Colors.blue[800],
                     ),
                     onPressed: onPinToggle,
                   ),
