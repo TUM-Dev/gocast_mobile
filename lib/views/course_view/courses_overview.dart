@@ -40,7 +40,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
 
     return BaseView(
       showLeading: false,
-      title: 'Courses',
+      title: 'GoCast',
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
