@@ -89,6 +89,7 @@ class CoursesScreen extends ConsumerWidget {
             subtitle: course.slug,
             path: 'assets/images/course2.png',
             live: course.streams.any((stream) => stream.liveNow),
+            courseId: course.id,
           );
         },
         childCount: courses.length,
