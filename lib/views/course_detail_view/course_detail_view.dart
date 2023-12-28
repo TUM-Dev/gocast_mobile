@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/course_detail_view/stream_card.dart';
-
-import '../components/custom_search_top_nav_bar.dart';
+import '../components/custom_search_top_nav_bar_back:button.dart';
 
 /// Course Detail View
 ///
@@ -43,9 +42,8 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
     final thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
 
     return Scaffold(
-      appBar: CustomSearchTopNavBar(
+      appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
-        title: ' ',
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -67,7 +65,8 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
             Expanded(
               child: courseStreams.isNotEmpty
                   ? ListView.builder(
-                      itemCount: courseStreams.length,
+                itemCount: courseStreams.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       itemBuilder: (context, index) {
                         final stream = courseStreams[index];
                         var thumbnail = thumbnails.length > index
@@ -78,15 +77,19 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
                           thumbnail = '$baseUrl$thumbnail';
                         }
 
-                        return StreamCard(
-                          imageName: thumbnail, // Use corresponding thumbnail
-                          stream: stream,
-                          onTap: () {
-                            // Define your onTap functionality here
-                          },
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          // Add margin between cards
+                          child: StreamCard(
+                            imageName: thumbnail,
+                            stream: stream,
+                            onTap: () {
+                              ///TODO: Define your onTap functionality here
+                            },
+                          ),
                         );
                       },
-                    )
+              )
                   : const Center(child: Text('No courses available')),
             ),
           ],

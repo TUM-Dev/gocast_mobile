@@ -43,7 +43,7 @@ class StreamCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          "${stream.description}",
+                          stream.description,
                           style: const TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey,

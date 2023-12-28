@@ -16,9 +16,6 @@ class UserState {
   final AppError? error;
   final List<Course>? downloadedCourses;
 
-  //final List<Stream>? courseStreams; // New property for course streams
-  //final List<String>? thumbnails; // New property for thumbnails
-
   const UserState({
     this.isLoading = false,
     this.user,
