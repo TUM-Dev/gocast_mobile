@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/course_detail_view/stream_card.dart';
-import '../components/custom_search_top_nav_bar_back:button.dart';
+import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 
 /// Course Detail View
 ///
 /// A widget representing the 'streams of a course' section of the app.
-/// It displays streams of a lecture and is accessible online
+/// It displays streams of a lecture and is accessible  only online.
+/// Parameters:
+///   [title] - The title of the course.
+///   [courseId] - The course ID of the course.
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
