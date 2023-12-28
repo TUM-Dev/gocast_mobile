@@ -7,14 +7,14 @@ class StreamState {
   final bool isLoading;
   final List<Stream>? streams;
   final List<Stream>? liveStreams;
-  final String? streamThumbnails; // Map of stream ID to thumbnail URL
+  final List<String>? thumbnails;
   final AppError? error;
 
   const StreamState({
     this.isLoading = false,
     this.streams,
     this.liveStreams,
-    this.streamThumbnails,
+    this.thumbnails,
     this.error,
   });
 
@@ -22,14 +22,14 @@ class StreamState {
     bool? isLoading,
     List<Stream>? streams,
     List<Stream>? liveStreams,
-    String? streamThumbnails,
+    List<String>? thumbnails,
     AppError? error,
   }) {
     return StreamState(
       isLoading: isLoading ?? this.isLoading,
       streams: streams ?? this.streams,
       liveStreams: liveStreams ?? this.liveStreams,
-      streamThumbnails: streamThumbnails ?? this.streamThumbnails,
+      thumbnails: thumbnails ?? this.thumbnails,
       error: error ?? this.error,
     );
   }
@@ -39,7 +39,7 @@ class StreamState {
       isLoading: isLoading,
       streams: streams,
       liveStreams: liveStreams,
-      streamThumbnails: streamThumbnails,
+      thumbnails: thumbnails,
       error: null,
     );
   }
