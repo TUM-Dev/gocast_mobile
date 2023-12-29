@@ -1,12 +1,12 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/video/stream_state_model.dart';
 import 'package:logger/logger.dart';
-import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 
 class StreamViewModel extends StateNotifier<StreamState> {
   final Logger _logger = Logger();
@@ -14,18 +14,16 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   StreamViewModel(this._grpcHandler) : super(const StreamState());
 
-  Future<List<Stream>> fetchCourseStreams(int courseID) async {
+  Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');
     state = state.copyWith(isLoading: true);
     try {
       final streams =
           await StreamHandler(_grpcHandler).fetchCourseStreams(courseID);
       state = state.copyWith(streams: streams, isLoading: false);
-      return streams;
     } catch (e) {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
-      return [];
     }
   }
 
@@ -102,6 +100,67 @@ class StreamViewModel extends StateNotifier<StreamState> {
     try {
       final streams = await StreamHandler(_grpcHandler).fetchLiveNowStreams();
       state = state.copyWith(liveStreams: streams, isLoading: false);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  void clearError() {
+    state = state.clearError();
+  }
+
+  void clearState() {
+    state = const StreamState();
+  }
+
+  void clearStreams() {
+    state = state.copyWith(streams: null);
+  }
+
+  void clearLiveStreams() {
+    state = state.copyWith(liveStreams: null);
+  }
+
+  void clearThumbnails() {
+    state = state.copyWith(thumbnails: null);
+  }
+
+  void clearAll() {
+    state = const StreamState();
+  }
+
+  Future<void> fetchProgress(Int64 streamId) async {
+    _logger.i('Fetching progress');
+    state = state.copyWith(isLoading: true);
+    try {
+      final progress =
+          await StreamHandler(_grpcHandler).fetchProgress(streamId);
+      state = state.copyWith(progress: progress, isLoading: false);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> updateProgress(Int64 streamId, Progress progress) async {
+    _logger.i('Updating progress');
+    state = state.copyWith(isLoading: true);
+    try {
+      await StreamHandler(_grpcHandler).putProgress(streamId, progress);
+      state = state.copyWith(isLoading: false, progress: progress);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> markAsWatched(Int64 streamId) async {
+    _logger.i('Marking stream as watched');
+    state = state.copyWith(isLoading: true);
+    try {
+      await StreamHandler(_grpcHandler).markAsWatched(streamId);
+      state = state.copyWith(isLoading: false, isWatched: true);
     } catch (e) {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);

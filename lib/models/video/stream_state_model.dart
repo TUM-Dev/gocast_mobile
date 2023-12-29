@@ -9,6 +9,8 @@ class StreamState {
   final List<Stream>? liveStreams;
   final List<String>? thumbnails;
   final AppError? error;
+  final Progress? progress;
+  final bool isWatched;
 
   const StreamState({
     this.isLoading = false,
@@ -16,6 +18,8 @@ class StreamState {
     this.liveStreams,
     this.thumbnails,
     this.error,
+    this.progress,
+    this.isWatched = false,
   });
 
   StreamState copyWith({
@@ -24,6 +28,8 @@ class StreamState {
     List<Stream>? liveStreams,
     List<String>? thumbnails,
     AppError? error,
+    Progress? progress,
+    bool? isWatched,
   }) {
     return StreamState(
       isLoading: isLoading ?? this.isLoading,
@@ -31,6 +37,8 @@ class StreamState {
       liveStreams: liveStreams ?? this.liveStreams,
       thumbnails: thumbnails ?? this.thumbnails,
       error: error ?? this.error,
+      progress: progress ?? this.progress,
+      isWatched: isWatched ?? this.isWatched,
     );
   }
 
@@ -40,6 +48,8 @@ class StreamState {
       streams: streams,
       liveStreams: liveStreams,
       thumbnails: thumbnails,
+      progress: progress,
+      isWatched: isWatched,
       error: null,
     );
   }

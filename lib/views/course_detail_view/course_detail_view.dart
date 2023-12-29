@@ -121,7 +121,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       child: StreamCard(
         imageName: thumbnail,
         stream: stream,
-        onTap: () => _handleStreamTap(context, scaffoldMessenger),
+        onTap: () => _handleStreamTap(context, scaffoldMessenger, stream),
       ),
     );
   }
@@ -141,9 +141,10 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   Future<void> _handleStreamTap(
     BuildContext context,
     ScaffoldMessengerState scaffoldMessenger,
+    Stream stream,
   ) async {
     try {
-      await _navigateToVideoPlayer(context);
+      await _navigateToVideoPlayer(context, stream);
     } catch (e) {
       _showErrorSnackBar(
         scaffoldMessenger,
@@ -153,20 +154,26 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Navigates to the video player page.
-  Future<void> _navigateToVideoPlayer(BuildContext context) async {
+  Future<void> _navigateToVideoPlayer(
+    BuildContext context,
+    Stream clickedStream,
+  ) async {
     await ref
         .read(videoViewModelProvider.notifier)
         .fetchCourseStreams(widget.courseId);
     if (!mounted) return;
 
-    var stream = ref.watch(videoViewModelProvider).streams?.firstOrNull;
+    var stream = ref
+        .watch(videoViewModelProvider)
+        .streams
+        ?.firstWhere((element) => element.id == clickedStream.id);
     if (stream != null) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => VideoPlayerPage(
             videoSource: stream.playlistUrl,
-            title: widget.title,
+            title: stream.name,
             sourceType: determineSourceType(stream.playlistUrl),
           ),
         ),
