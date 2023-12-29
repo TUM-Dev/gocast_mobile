@@ -11,7 +11,7 @@ class NotificationsScreen extends ConsumerWidget {
   final List<BannerAlert> bannerAlerts;
   final Future<void> Function() onRefresh;
 
-  NotificationsScreen({
+  const NotificationsScreen({
     super.key,
     required this.title,
     required this.featureNotifications,
