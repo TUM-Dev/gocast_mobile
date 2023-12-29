@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:gocast_mobile/views/course_detail_view/course_detail_view.dart';
+
 /// Course card view
 ///
 /// A reusable stateless widget to display a course card.
@@ -12,6 +14,7 @@ class CourseCard extends StatelessWidget {
   final String subtitle;
   final String path;
   final bool live;
+  final int courseId;
 
   const CourseCard({
     super.key,
@@ -19,6 +22,7 @@ class CourseCard extends StatelessWidget {
     required this.subtitle,
     required this.path,
     required this.live,
+    required this.courseId,
   });
 
   @override
@@ -26,6 +30,15 @@ class CourseCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         // TODO: Add navigation to the course details screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseDetail(
+              title: title,
+              courseId: courseId,
+            ), // Navigating to CourseDetail
+          ),
+        );
       },
       child: Card(
         elevation: 2, // Adjust the elevation for the shadow effect (if desired)
