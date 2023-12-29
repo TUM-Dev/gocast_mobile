@@ -18,8 +18,8 @@ class NavigationTab extends ConsumerWidget {
       body: IndexedStack(
         index: currentIndex,
         children: const [
-          Expanded(child: CourseOverview()),
-          Expanded(child: DownloadedCourses()),
+          CourseOverview(),
+          DownloadedCourses(),
           PinnedCourses(),
           MyNotifications(),
         ],
