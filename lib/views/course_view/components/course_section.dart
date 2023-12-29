@@ -100,6 +100,7 @@ class CourseSection extends StatelessWidget {
                   subtitle: course.tUMOnlineIdentifier,
                   path: imagePath,
                   live: course.streams.any((stream) => stream.liveNow),
+                  courseId: course.id,
                 );
               },
             ),
