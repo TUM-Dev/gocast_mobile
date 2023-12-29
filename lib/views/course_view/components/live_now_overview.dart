@@ -10,19 +10,18 @@ import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 // current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
 
-class CourseOverview extends ConsumerStatefulWidget {
-  const CourseOverview({super.key});
+class LiveNowOverview extends ConsumerStatefulWidget {
+  const LiveNowOverview({super.key});
 
   @override
-  CourseOverviewState createState() => CourseOverviewState();
+  LiveNowOverviewState createState() => LiveNowOverviewState();
 }
 
-class CourseOverviewState extends ConsumerState<CourseOverview> {
+class LiveNowOverviewState extends ConsumerState<LiveNowOverview> {
   @override
   void initState() {
     super.initState();
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
-    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
     Future.microtask(() {
       // Fetch user courses if the user is logged in
@@ -31,7 +30,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       }
       // Fetch public courses regardless of user's login status
       userViewModelNotifier.fetchPublicCourses();
-      videoViewModelNotifier.fetchLiveNowStreams();
     });
   }
 
@@ -40,11 +38,10 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final isLoggedIn = ref.watch(userViewModelProvider).user != null;
     final userCourses = ref.watch(userViewModelProvider).userCourses;
     final publicCourses = ref.watch(userViewModelProvider).publicCourses;
-    final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
 
     return BaseView(
       showLeading: false,
-      title: 'GoCast',
+      title: 'Courses',
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
@@ -57,22 +54,24 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       child: RefreshIndicator(
         onRefresh: () async {
           final userViewModelNotifier =
-              ref.read(userViewModelProvider.notifier);
+          ref.read(userViewModelProvider.notifier);
+          final videoViewModelNotifier =
+          ref.read(videoViewModelProvider.notifier);
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
+          await videoViewModelNotifier.fetchCourseStreams(1);
         },
         child: SingleChildScrollView(
           child: Column(
             children: [
               if (isLoggedIn)
                 LivenowSection(
-                  sectionTitle: "Livenow",
+                  sectionTitle: "Live Now",
                   onViewAll: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MyCourses()),
                   ),
                   courses: userCourses ?? [],
-                  streams: liveStreams ?? [],
                 ),
 
               CourseSection(
