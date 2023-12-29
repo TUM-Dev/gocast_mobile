@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
-
-/// Course Detail View
-///
-/// A widget representing the 'streams of a course' section of the app.
-/// It displays streams of a lecture and is accessible  only online.
-/// Parameters:
-///   [title] - The title of the course.
-///   [courseId] - The course ID of the course.
+import 'package:gocast_mobile/views/course_detail_view/stream_card.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
+import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
-  final courseId;
+  final int courseId;
 
   const CourseDetail({super.key, required this.title, required this.courseId});
 
   @override
-  _CourseDetailState createState() => _CourseDetailState();
+  CourseDetailState createState() => CourseDetailState();
 }
 
-class _CourseDetailState extends ConsumerState<CourseDetail> {
+class CourseDetailState extends ConsumerState<CourseDetail> {
   late Future<List<Stream>> courseStreams;
   late List<String> thumbnails;
   final TextEditingController searchController = TextEditingController();
@@ -31,8 +26,11 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
   @override
   void initState() {
     super.initState();
-    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
+    _initializeStreams();
+  }
 
+  void _initializeStreams() {
+    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
     Future.microtask(() async {
       await videoViewModelNotifier.fetchCourseStreams(widget.courseId);
       await videoViewModelNotifier.fetchThumbnails();
@@ -41,6 +39,7 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     final courseStreams = ref.watch(videoViewModelProvider).streams ?? [];
     final thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
 
@@ -49,57 +48,146 @@ class _CourseDetailState extends ConsumerState<CourseDetail> {
         searchController: searchController,
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          await ref.read(userViewModelProvider.notifier).fetchUserPinned();
-        },
+        onRefresh: () => _refreshPinnedUser(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                widget.title,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Expanded(
-              child: courseStreams.isNotEmpty
-                  ? ListView.builder(
-                itemCount: courseStreams.length,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      itemBuilder: (context, index) {
-                        final stream = courseStreams[index];
-                        var thumbnail = thumbnails.length > index
-                            ? thumbnails[index]
-                            : '/thumb-fallback.png'; // Default thumbnail path
-                        // Prepend base URL for relative paths
-                        if (!thumbnail.startsWith('http')) {
-                          thumbnail = '$baseUrl$thumbnail';
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          // Add margin between cards
-                          child: StreamCard(
-                            imageName: thumbnail,
-                            stream: stream,
-                            onTap: () {
-                              ///TODO: Define your onTap functionality here
-                            },
-                          ),
-                        );
-                      },
-              )
-                  : const Center(child: Text('No courses available')),
+            _courseTitle(widget.title),
+            _buildStreamList(
+              context,
+              courseStreams,
+              thumbnails,
+              scaffoldMessenger,
             ),
           ],
         ),
       ),
     );
   }
+
+  /// Fetches user pinned information.
+  Future<void> _refreshPinnedUser() async {
+    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+  }
+
+  /// Displays the course title.
+  Widget _courseTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  /// Builds the list of streams.
+  Widget _buildStreamList(
+    BuildContext context,
+    List<Stream> courseStreams,
+    List<String> thumbnails,
+    ScaffoldMessengerState scaffoldMessenger,
+  ) {
+    return Expanded(
+      child: courseStreams.isNotEmpty
+          ? ListView.builder(
+              itemCount: courseStreams.length,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              itemBuilder: (context, index) => _streamCardBuilder(
+                context,
+                index,
+                courseStreams,
+                thumbnails,
+                scaffoldMessenger,
+              ),
+            )
+          : const Center(child: Text('No courses available')),
+    );
+  }
+
+  /// Builds individual stream cards.
+  Widget _streamCardBuilder(
+    BuildContext context,
+    int index,
+    List<Stream> courseStreams,
+    List<String> thumbnails,
+    ScaffoldMessengerState scaffoldMessenger,
+  ) {
+    final stream = courseStreams[index];
+    var thumbnail = _getThumbnailUrl(index, thumbnails);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: StreamCard(
+        imageName: thumbnail,
+        stream: stream,
+        onTap: () => _handleStreamTap(context, scaffoldMessenger),
+      ),
+    );
+  }
+
+  /// Determines the thumbnail URL for a stream.
+  String _getThumbnailUrl(int index, List<String> thumbnails) {
+    var thumbnail = thumbnails.length > index
+        ? thumbnails[index]
+        : '/thumb-fallback.png'; // Default thumbnail path
+    if (!thumbnail.startsWith('http')) {
+      thumbnail = '$baseUrl$thumbnail';
+    }
+    return thumbnail;
+  }
+
+  /// Handles taps on stream cards.
+  Future<void> _handleStreamTap(
+    BuildContext context,
+    ScaffoldMessengerState scaffoldMessenger,
+  ) async {
+    try {
+      await _navigateToVideoPlayer(context);
+    } catch (e) {
+      _showErrorSnackBar(
+        scaffoldMessenger,
+        "Failed to load course streams: $e",
+      );
+    }
+  }
+
+  /// Navigates to the video player page.
+  Future<void> _navigateToVideoPlayer(BuildContext context) async {
+    await ref
+        .read(videoViewModelProvider.notifier)
+        .fetchCourseStreams(widget.courseId);
+    if (!mounted) return;
+
+    var stream = ref.watch(videoViewModelProvider).streams?.firstOrNull;
+    if (stream != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPlayerPage(
+            videoSource: stream.playlistUrl,
+            title: widget.title,
+            sourceType: determineSourceType(stream.playlistUrl),
+          ),
+        ),
+      );
+    }
+  }
+
+  /// Shows an error snackbar.
+  void _showErrorSnackBar(
+    ScaffoldMessengerState scaffoldMessenger,
+    String message,
+  ) {
+    if (!mounted) return;
+    scaffoldMessenger.showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  VideoSourceType determineSourceType(String videoSource) {
+    return videoSource.startsWith('http')
+        ? VideoSourceType.network
+        : VideoSourceType.asset;
+  }
 }
-
-
