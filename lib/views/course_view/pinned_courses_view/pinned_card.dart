@@ -45,7 +45,7 @@ class PinnedCourseCard extends StatelessWidget {
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2, // Adjust this as needed
                           ),
                           const SizedBox(height: 8.0),
                           Text(
