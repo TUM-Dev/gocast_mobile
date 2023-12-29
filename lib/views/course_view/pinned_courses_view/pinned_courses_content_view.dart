@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/course_view/components/pinned_course_list.dart';
-import 'package:gocast_mobile/views/course_view/components/pinned_course_card.dart';
+import 'package:gocast_mobile/utils/constants.dart';
+import 'package:gocast_mobile/views/components/base_view.dart';
+import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
+import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.dart';
 
 /// PinnedCoursesContentView
 ///
@@ -25,9 +27,33 @@ class PinnedCoursesContentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return PinnedCourseList(
-      title: title,
-      pinnedCoursesCard: pinnedCourseCards,
+    TextEditingController searchController = TextEditingController();
+
+    return BaseView(
+      customAppBar: CustomSearchTopNavBar(
+        searchController: searchController,
+        title: title,
+      ),
+      child: ListView.builder(
+        itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (pinnedCourseCards.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: AppPadding.sectionPadding,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 295.0),
+                    child: Text('No Pinned Courses'),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return pinnedCourseCards[index];
+          }
+        },
+      ),
     );
   }
 }
