@@ -5,7 +5,6 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
-import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
@@ -173,7 +172,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
         builder: (context) => VideoPlayerPage(
           videoSource: clickedStream.playlistUrl,
           title: clickedStream.name,
-          sourceType: determineSourceType(clickedStream.playlistUrl),
           streamId: clickedStream.id,
         ),
       ),
@@ -189,11 +187,5 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     scaffoldMessenger.showSnackBar(
       SnackBar(content: Text(message)),
     );
-  }
-
-  VideoSourceType determineSourceType(String videoSource) {
-    return videoSource.startsWith('http')
-        ? VideoSourceType.network
-        : VideoSourceType.asset;
   }
 }

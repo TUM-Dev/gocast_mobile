@@ -15,16 +15,22 @@ class VideoPlayerPage extends ConsumerStatefulWidget {
   final String title;
   final Int64 streamId;
 
-  const VideoPlayerPage({
+  VideoPlayerPage({
     super.key,
     required this.videoSource,
     required this.title,
-    required this.sourceType,
     required this.streamId,
-  });
+    VideoSourceType? sourceType,
+  }) : sourceType = sourceType ?? _determineSourceType(videoSource);
 
   @override
-  VideoPlayerPageState createState() => VideoPlayerPageState();
+  ConsumerState<VideoPlayerPage> createState() => VideoPlayerPageState();
+
+  static VideoSourceType _determineSourceType(String videoSource) {
+    return videoSource.startsWith('http')
+        ? VideoSourceType.network
+        : VideoSourceType.asset;
+  }
 }
 
 class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
