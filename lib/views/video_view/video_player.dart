@@ -1,27 +1,22 @@
 import 'dart:async';
 
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/video_view/chat_video_view.dart';
+import 'package:gocast_mobile/views/video_view/custom_video_control_bar.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
+import 'package:logger/logger.dart';
 
 class VideoPlayerPage extends ConsumerStatefulWidget {
-  final String videoSource;
-  final VideoSourceType sourceType;
-  final String title;
-  final Int64 streamId;
+  final Stream stream;
 
-  VideoPlayerPage({
+  const VideoPlayerPage({
     super.key,
-    required this.videoSource,
-    required this.title,
-    required this.streamId,
-    VideoSourceType? sourceType,
-  }) : sourceType = sourceType ?? _determineSourceType(videoSource);
+    required this.stream,
+  });
 
   @override
   ConsumerState<VideoPlayerPage> createState() => VideoPlayerPageState();
@@ -41,17 +36,40 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   @override
   void initState() {
     super.initState();
+    _initVideoPlayer();
+    _setupProgressListener();
+    _setupCompletionListener();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.stream.name)),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _buildVideoLayout(),
+    );
+  }
+
+  /// Initializes the video player.
+  /// It creates a new instance of `VideoPlayerControllerManager` and initializes it.
+  /// It also fetches the progress of the current stream and seeks to the last watched position.
+  /// If an error occurs, it sets the error in the current state.
+  void _initVideoPlayer() async {
     _controllerManager = VideoPlayerControllerManager(
-      videoSource: widget.videoSource,
-      sourceType: widget.sourceType,
+      videoSource: widget.stream.playlistUrl,
+      sourceType:
+          VideoPlayerPage._determineSourceType(widget.stream.playlistUrl),
     );
 
     Future.microtask(() async {
       try {
         await ref
             .read(videoViewModelProvider.notifier)
-            .fetchProgress(widget.streamId);
-
+            .fetchProgress(widget.stream.id);
+        ref
+            .read(videoViewModelProvider.notifier)
+            .setVideoSource(widget.stream.playlistUrl);
         Progress progress = ref.read(videoViewModelProvider).progress ??
             Progress(progress: 0.0);
         await _controllerManager.initializePlayer();
@@ -65,7 +83,6 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       } catch (error) {
         if (mounted) {
           setState(() => _isLoading = false);
-          // Update the error state outside of setState
           ref
               .read(videoViewModelProvider)
               .copyWith(error: AppError('Failed to load video', error));
@@ -76,11 +93,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         }
       }
     });
-
-    _setupProgressListener();
-    _setupCompletionListener();
   }
 
+  /// Disposes the video player.
   @override
   void dispose() {
     _controllerManager.dispose();
@@ -88,25 +103,24 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _buildVideoLayout(),
-    );
-  }
-
+  /// Builds the video layout.
   Widget _buildVideoLayout() {
     return Column(
       children: <Widget>[
         Expanded(child: _controllerManager.buildVideoPlayer()),
+        CustomVideoControlBar(
+          onMenuSelection: _handleMenuSelection,
+          onToggleChat: _toggleChat,
+          onOpenQuizzes: _openQuizzes,
+          currentStream: widget.stream,
+        ),
         const Expanded(child: ChatView()),
       ],
     );
   }
 
+  /// Sets up a timer to update the progress of the current stream.
+  /// It sends a `putProgress` gRPC call every 5 seconds.
   void _setupProgressListener() {
     _progressTimer =
         Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
@@ -117,15 +131,17 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
               _controllerManager.videoPlayerController.value.duration.inSeconds,
           watched: false,
           userID: 4, // replace with actual user ID
-          streamID: widget.streamId.toInt(),
+          streamID: widget.stream.id.toInt(),
         );
         await ref
             .read(videoViewModelProvider.notifier)
-            .updateProgress(widget.streamId, progress);
+            .updateProgress(widget.stream.id, progress);
       }
     });
   }
 
+  /// Sets up a listener to mark the current stream as watched when it finishes playing.
+  /// It sends a `markAsWatched` gRPC call when the video finishes playing.
   void _setupCompletionListener() {
     _controllerManager.videoPlayerController.addListener(() {
       if (_controllerManager.videoPlayerController.value.position ==
@@ -133,8 +149,55 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           _controllerManager.videoPlayerController.value.isPlaying) {
         ref
             .read(videoViewModelProvider.notifier)
-            .markAsWatched(widget.streamId);
+            .markAsWatched(widget.stream.id);
       }
     });
+  }
+
+  /// Switches between the different video sources.
+  /// It sends a `switchVideoSource` gRPC call to switch between the different video sources.
+  void _switchPlaylist(String newPlaylistUrl) async {
+    if (ref.read(videoViewModelProvider).videoSource == newPlaylistUrl) {
+      Logger().i("Already displaying $newPlaylistUrl");
+      return;
+    }
+    setState(() => _isLoading = true);
+    try {
+      ref
+          .read(videoViewModelProvider.notifier)
+          .switchVideoSource(newPlaylistUrl);
+      await _controllerManager.switchVideoSource(
+        newPlaylistUrl,
+        VideoSourceType.network,
+      );
+      setState(() => _isLoading = false);
+    } catch (error) {
+      setState(() => _isLoading = false);
+      ref
+          .read(videoViewModelProvider)
+          .copyWith(error: AppError('Failed to load video', error));
+    }
+  }
+
+  /// Handles menu selections.
+  /// It switches between the different video sources or downloads the video.
+  void _handleMenuSelection(String choice, Stream stream) {
+    if (choice == 'Download') {
+      // TODO: Implement download
+    } else if (choice == 'Combined view') {
+      _switchPlaylist(stream.playlistUrl);
+    } else if (choice == 'Camera view') {
+      _switchPlaylist(stream.playlistUrlCAM);
+    } else if (choice == 'Presentation view') {
+      _switchPlaylist(stream.playlistUrlPRES);
+    }
+  }
+
+  void _toggleChat() {
+    // TODO: Implement chat toggle
+  }
+
+  void _openQuizzes() {
+    // TODO: Implement quizzes
   }
 }

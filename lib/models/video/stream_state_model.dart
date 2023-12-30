@@ -58,4 +58,17 @@ class StreamState {
       error: null,
     );
   }
+
+  StreamState switchVideoSource(String videoSource) {
+    return StreamState(
+      isLoading: isLoading,
+      streams: streams,
+      liveStreams: liveStreams,
+      thumbnails: thumbnails,
+      progress: progress,
+      isWatched: isWatched,
+      videoSource: videoSource,
+      error: null,
+    );
+  }
 }

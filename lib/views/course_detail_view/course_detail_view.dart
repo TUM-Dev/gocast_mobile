@@ -170,9 +170,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       context,
       MaterialPageRoute(
         builder: (context) => VideoPlayerPage(
-          videoSource: clickedStream.playlistUrl,
-          title: clickedStream.name,
-          streamId: clickedStream.id,
+          stream: clickedStream,
         ),
       ),
     );

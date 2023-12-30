@@ -117,9 +117,10 @@ class StreamViewModel extends StateNotifier<StreamState> {
     } catch (e) {
       _logger.e(e);
       state = state.copyWith(
-          error: e as AppError,
-          isLoading: false,
-          progress: Progress(progress: 0.0),);
+        error: e as AppError,
+        isLoading: false,
+        progress: Progress(progress: 0.0),
+      );
     }
   }
 
@@ -145,6 +146,10 @@ class StreamViewModel extends StateNotifier<StreamState> {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
+  }
+
+  void setVideoSource(String videoSource) {
+    state = state.copyWith(videoSource: videoSource);
   }
 
   void clearState() {
@@ -173,5 +178,9 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   void resetStreams() {
     state = state.copyWith(streams: null);
+  }
+
+  void switchVideoSource(String newPlaylistUrl) {
+    state = state.switchVideoSource(newPlaylistUrl);
   }
 }
