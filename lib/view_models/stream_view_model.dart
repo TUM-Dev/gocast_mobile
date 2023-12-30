@@ -107,15 +107,12 @@ class StreamViewModel extends StateNotifier<StreamState> {
   }
 
   Future<void> fetchProgress(Int64 streamId) async {
-    _logger.i('Fetching progress');
     state = state.copyWith(isLoading: true);
     try {
       final progress =
           await StreamHandler(_grpcHandler).fetchProgress(streamId);
-      _logger.d('Progress: ${progress.progress}');
       state = state.copyWith(progress: progress, isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(
         error: e as AppError,
         isLoading: false,

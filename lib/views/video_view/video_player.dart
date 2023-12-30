@@ -61,7 +61,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       sourceType:
           VideoPlayerPage._determineSourceType(widget.stream.playlistUrl),
     );
-
+    setState(() => _isLoading = false);
     Future.microtask(() async {
       try {
         var viewModelNotifier = ref.read(videoViewModelProvider.notifier);
