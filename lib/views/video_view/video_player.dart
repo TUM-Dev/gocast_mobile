@@ -48,12 +48,13 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
     Future.microtask(() async {
       try {
-        await _controllerManager.initializePlayer();
         await ref
             .read(videoViewModelProvider.notifier)
             .fetchProgress(widget.streamId);
+
         Progress progress = ref.read(videoViewModelProvider).progress ??
             Progress(progress: 0.0);
+        await _controllerManager.initializePlayer();
         final position = Duration(
           seconds: (progress.progress *
                   _controllerManager
@@ -62,15 +63,20 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         );
         await _controllerManager.videoPlayerController.seekTo(position);
       } catch (error) {
-        throw AppError(
-          'Error initializing video player: $error',
-          error,
-        );
-      }
-      if (mounted) {
-        setState(() => _isLoading = false);
+        if (mounted) {
+          setState(() => _isLoading = false);
+          // Update the error state outside of setState
+          ref
+              .read(videoViewModelProvider)
+              .copyWith(error: AppError('Failed to load video', error));
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
       }
     });
+
     _setupProgressListener();
     _setupCompletionListener();
   }
@@ -78,7 +84,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   @override
   void dispose() {
     _controllerManager.dispose();
-    _progressTimer?.cancel(); // Cancel the timer on dispose
+    _progressTimer?.cancel();
     super.dispose();
   }
 

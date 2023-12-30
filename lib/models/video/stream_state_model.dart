@@ -11,6 +11,7 @@ class StreamState {
   final AppError? error;
   final Progress? progress;
   final bool isWatched;
+  final String? videoSource;
 
   const StreamState({
     this.isLoading = false,
@@ -20,6 +21,7 @@ class StreamState {
     this.error,
     this.progress,
     this.isWatched = false,
+    this.videoSource,
   });
 
   StreamState copyWith({
@@ -30,6 +32,7 @@ class StreamState {
     AppError? error,
     Progress? progress,
     bool? isWatched,
+    String? videoSource,
   }) {
     return StreamState(
       isLoading: isLoading ?? this.isLoading,
@@ -39,6 +42,7 @@ class StreamState {
       error: error ?? this.error,
       progress: progress ?? this.progress,
       isWatched: isWatched ?? this.isWatched,
+      videoSource: videoSource ?? this.videoSource,
     );
   }
 
@@ -50,6 +54,7 @@ class StreamState {
       thumbnails: thumbnails,
       progress: progress,
       isWatched: isWatched,
+      videoSource: videoSource,
       error: null,
     );
   }

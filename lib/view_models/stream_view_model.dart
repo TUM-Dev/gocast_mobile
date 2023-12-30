@@ -112,10 +112,14 @@ class StreamViewModel extends StateNotifier<StreamState> {
     try {
       final progress =
           await StreamHandler(_grpcHandler).fetchProgress(streamId);
+      _logger.d('Progress: ${progress.progress}');
       state = state.copyWith(progress: progress, isLoading: false);
     } catch (e) {
       _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
+      state = state.copyWith(
+          error: e as AppError,
+          isLoading: false,
+          progress: Progress(progress: 0.0),);
     }
   }
 
@@ -141,5 +145,33 @@ class StreamViewModel extends StateNotifier<StreamState> {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
+  }
+
+  void clearState() {
+    state = const StreamState();
+  }
+
+  void clearError() {
+    state = state.clearError();
+  }
+
+  void resetProgress() {
+    state = state.copyWith(progress: null);
+  }
+
+  void resetVideoSource() {
+    state = state.copyWith(videoSource: null);
+  }
+
+  void resetWatched() {
+    state = state.copyWith(isWatched: false);
+  }
+
+  void resetThumbnails() {
+    state = state.copyWith(thumbnails: null);
+  }
+
+  void resetStreams() {
+    state = state.copyWith(streams: null);
   }
 }

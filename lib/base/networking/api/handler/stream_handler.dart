@@ -107,14 +107,20 @@ class StreamHandler {
   /// Returns a [Progress] instance that represents the progress of the stream.
   Future<Progress> fetchProgress(Int64 streamId) async {
     _logger.i('Fetching progress');
-    return _grpcHandler.callGrpcMethod(
-      (client) async {
-        final response =
-            await client.getProgress(GetProgressRequest(streamID: streamId));
-        _logger.d('Progress: ${response.progress}');
-        return response.progress;
-      },
-    );
+    try {
+      return _grpcHandler.callGrpcMethod(
+        (client) async {
+          final response =
+              await client.getProgress(GetProgressRequest(streamID: streamId));
+
+          _logger.i('Progress: ${response.progress}');
+          return response.progress;
+        },
+      );
+    } catch (e) {
+      _logger.e('Progress not found, returning default value');
+      return Progress(progress: 0.0);
+    }
   }
 
   /// Updates the progress of a stream.
