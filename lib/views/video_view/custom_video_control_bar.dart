@@ -59,7 +59,7 @@ class CustomVideoControlBar extends StatelessWidget {
                 );
               }).toList();
             },
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             color: Colors.white,
             // White background
             shape: RoundedRectangleBorder(
