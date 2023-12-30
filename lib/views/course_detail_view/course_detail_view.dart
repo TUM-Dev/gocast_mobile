@@ -144,7 +144,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     Stream stream,
   ) async {
     try {
-      await _navigateToVideoPlayer(context, stream);
+      await _navigateToVideoPlayer(ref, context, stream);
     } catch (e) {
       _showErrorSnackBar(
         scaffoldMessenger,
@@ -155,30 +155,29 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
 
   /// Navigates to the video player page.
   Future<void> _navigateToVideoPlayer(
+    WidgetRef ref,
     BuildContext context,
     Stream clickedStream,
   ) async {
-    await ref
-        .read(videoViewModelProvider.notifier)
-        .fetchCourseStreams(widget.courseId);
-    if (!mounted) return;
-
-    var stream = ref
-        .watch(videoViewModelProvider)
-        .streams
-        ?.firstWhere((element) => element.id == clickedStream.id);
-    if (stream != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => VideoPlayerPage(
-            videoSource: stream.playlistUrl,
-            title: stream.name,
-            sourceType: determineSourceType(stream.playlistUrl),
-          ),
-        ),
-      );
+    // Fetch course streams only if not already fetched
+    final streams = ref.read(videoViewModelProvider).streams;
+    if (streams == null || streams.isEmpty) {
+      await ref
+          .read(videoViewModelProvider.notifier)
+          .fetchCourseStreams(widget.courseId);
+      if (!mounted) return;
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPlayerPage(
+          videoSource: clickedStream.playlistUrl,
+          title: clickedStream.name,
+          sourceType: determineSourceType(clickedStream.playlistUrl),
+          streamId: clickedStream.id,
+        ),
+      ),
+    );
   }
 
   /// Shows an error snackbar.

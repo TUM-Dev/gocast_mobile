@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/helpers/mock_data.dart';
@@ -44,6 +45,7 @@ class DownloadedCourses extends ConsumerWidget {
                         videoSource: 'assets/sample.mp4',
                         title: videoTitle,
                         sourceType: VideoSourceType.asset,
+                        streamId: Int64.ONE,
                       ),
                     ),
                   );

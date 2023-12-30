@@ -106,30 +106,6 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  void clearError() {
-    state = state.clearError();
-  }
-
-  void clearState() {
-    state = const StreamState();
-  }
-
-  void clearStreams() {
-    state = state.copyWith(streams: null);
-  }
-
-  void clearLiveStreams() {
-    state = state.copyWith(liveStreams: null);
-  }
-
-  void clearThumbnails() {
-    state = state.copyWith(thumbnails: null);
-  }
-
-  void clearAll() {
-    state = const StreamState();
-  }
-
   Future<void> fetchProgress(Int64 streamId) async {
     _logger.i('Fetching progress');
     state = state.copyWith(isLoading: true);
