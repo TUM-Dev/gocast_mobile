@@ -64,15 +64,13 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
     Future.microtask(() async {
       try {
-        await ref
-            .read(videoViewModelProvider.notifier)
-            .fetchProgress(widget.stream.id);
-        ref
-            .read(videoViewModelProvider.notifier)
-            .setVideoSource(widget.stream.playlistUrl);
+        var viewModelNotifier = ref.read(videoViewModelProvider.notifier);
+        await viewModelNotifier.fetchProgress(widget.stream.id);
+        viewModelNotifier.setVideoSource(widget.stream.playlistUrl);
         Progress progress = ref.read(videoViewModelProvider).progress ??
             Progress(progress: 0.0);
         await _controllerManager.initializePlayer();
+
         final position = Duration(
           seconds: (progress.progress *
                   _controllerManager
