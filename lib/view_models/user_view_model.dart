@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
@@ -12,6 +13,7 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/settings_handler.dart';
 
 import '../utils/globals.dart';
 
@@ -136,10 +138,28 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings');
-      var settings = await UserHandler(_grpcHandler).fetchUserSettings();
+      var settings = await SettingsHandler(_grpcHandler).fetchUserSettings();
       state = state.copyWith(userSettings: settings, isLoading: false);
     } catch (e) {
       _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> updateUserSettings(List<UserSettings> updatedSettings) async {
+    try {
+      _logger.i('Updating user settings');
+      bool success = await SettingsHandler(_grpcHandler)
+          .updateUserSettings(updatedSettings.cast<UserSetting>());
+      if (success) {
+        await fetchUserSettings();
+        _logger.i('User settings updated successfully');
+      } else {
+        _logger.e('Failed to update user settings');
+      }
+      state = state.copyWith(isLoading: false);
+    } catch (e) {
+      _logger.e('Error updating user settings: $e');
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
