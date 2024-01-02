@@ -18,6 +18,23 @@ class CustomVideoControlBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+
+    List<Map<String, IconData>> getMenuItems() {
+      List<Map<String, IconData>> items = [
+        {'Download': Icons.file_download}
+      ];
+      if (currentStream.hasPlaylistUrl()) {
+        items.add({'Combined view': Icons.layers});
+      }
+      if (currentStream.hasPlaylistUrlCAM()) {
+        items.add({'Camera view': Icons.camera_alt});
+      }
+      if (currentStream.hasPlaylistUrlPRES()) {
+        items.add({'Presentation view': Icons.present_to_all});
+      }
+      return items;
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: Row(
@@ -41,12 +58,7 @@ class CustomVideoControlBar extends StatelessWidget {
           PopupMenuButton<String>(
             onSelected: (choice) => onMenuSelection(choice, currentStream),
             itemBuilder: (BuildContext context) {
-              return <Map<String, IconData>>[
-                {'Download': Icons.file_download},
-                {'Combined view': Icons.layers},
-                {'Camera view': Icons.camera_alt},
-                {'Presentation view': Icons.present_to_all},
-              ].map((Map<String, IconData> choice) {
+              return getMenuItems().map((Map<String, IconData> choice) {
                 String text = choice.keys.first;
                 IconData icon = choice.values.first;
 
@@ -61,12 +73,11 @@ class CustomVideoControlBar extends StatelessWidget {
             },
             icon: const Icon(Icons.more_vert),
             color: Colors.white,
-            // White background
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
               side: BorderSide(color: Colors.grey.shade300),
             ),
-            elevation: isIOS ? 0 : 3.0, // Adjust elevation based on platform
+            elevation: isIOS ? 0 : 3.0,
           ),
         ],
       ),
