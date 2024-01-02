@@ -23,7 +23,6 @@ class NotificationsScreen extends ConsumerWidget {
   });
 
   // A basic functioning view that supports all notification related functions
-  // TODO: Needs to be adapted to figma design
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
@@ -32,50 +31,21 @@ class NotificationsScreen extends ConsumerWidget {
       actions: _buildAppBarActions(context, ref),
       child: RefreshIndicator(
         onRefresh: onRefresh,
-        child: (pushNotifications.isEmpty &&
+        child: pushNotifications.isEmpty &&
                 featureNotifications.isEmpty &&
-                bannerAlerts.isEmpty)
+                bannerAlerts.isEmpty
             ? _buildPlaceholder()
-            : ListView.separated(
-                itemCount: pushNotifications.length +
-                    featureNotifications.length +
-                    bannerAlerts.length +
-                    2, // Add 2 for separators
-                itemBuilder: (context, index) {
-                  if (index < pushNotifications.length) {
-                    return _buildPushNotificationWidget(index);
-                  } else if (index == pushNotifications.length ||
-                      index ==
-                          pushNotifications.length +
-                              featureNotifications.length +
-                              1) {
-                    return const Divider(
-                      color: Colors.grey,
-                    ); // This is the separator
-                  } else if (index <
-                      pushNotifications.length +
-                          featureNotifications.length +
-                          1) {
-                    int featureIndex = index - pushNotifications.length - 1;
-                    return ListTile(
-                      title: Text(featureNotifications[featureIndex].title),
-                      subtitle: Text(featureNotifications[featureIndex].body),
-                    );
-                  } else {
-                    int alertIndex = index -
-                        pushNotifications.length -
-                        featureNotifications.length -
-                        2;
-                    return ListTile(
-                      title: Text(bannerAlerts[alertIndex].text),
-                      subtitle: Text(
-                        'Starts at: ${bannerAlerts[alertIndex].startsAt}\nExpires at: ${bannerAlerts[alertIndex].expiresAt}',
-                      ),
-                    );
-                  }
-                },
-                separatorBuilder: (context, index) =>
-                    const Divider(color: Colors.grey), // This is the separator
+            : ListView(
+                children: [
+                  _buildSectionHeader('Banner Alerts'),
+                  for (var alert in bannerAlerts) _buildBannerAlert(alert),
+                  _buildSectionHeader('Feature Notifications'),
+                  for (var notification in featureNotifications)
+                    _buildFeatureNotification(notification),
+                  _buildSectionHeader('Push Notifications'),
+                  for (var notification in pushNotifications)
+                    _buildPushNotification(notification),
+                ],
               ),
       ),
     );
@@ -88,7 +58,6 @@ class NotificationsScreen extends ConsumerWidget {
     );
   }
 
-  //TODO export functionality
   List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
     return [
       IconButton(
@@ -101,56 +70,96 @@ class NotificationsScreen extends ConsumerWidget {
     ];
   }
 
-/*
-  Widget _buildFeatureNotificationsListView() {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          /*final course = featureNotifications[index];
-          return CourseCard(
-            title: course.name,
-            subtitle: course.slug,
-            path: 'assets/images/course2.png',
-            live: course.streams.any((stream) => stream.liveNow),
-          );*/
-          return const Text("This will be the feature notifications");
-        },
-        childCount: featureNotifications.length,
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+        ),
       ),
     );
   }
 
-  //TODO do we need to check dates ourselves?
-  Widget _buildBannerAlertsListView() {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return const Text("This will be the  Banner Alerts");
-        },
-        childCount: bannerAlerts.length,
+  Widget _buildPushNotification(PushNotification notification) {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading: const Icon(Icons.notifications_active, color: Colors.green),
+        title: Text(
+          notification.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              notification.body,
+              style: TextStyle(
+                color: Colors.grey[700],
+              ),
+            ),
+            Text(
+              'Received at: ${notification.receivedAt}',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 12.0,
+              ),
+            ),
+          ],
+        ),
+        // trailing: const Icon(Icons.arrow_forward_ios, size: 14.0),
       ),
     );
   }
-*/
 
-  Widget _buildPushNotificationWidget(int index) {
-    // Replace this with your actual widget building code for push notifications
-    return ListTile(
-      title: Text(pushNotifications[index].title),
-      subtitle: Text(pushNotifications[index].body),
-      trailing: Text(pushNotifications[index].receivedAt.toString()),
+  Widget _buildFeatureNotification(FeatureNotification notification) {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading:
+            const Icon(Icons.notifications_sharp, color: Colors.blueAccent),
+        title: Text(
+          notification.title.isEmpty ? "User notification" : notification.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+          ),
+        ),
+        subtitle: Text(
+          notification.body,
+          style: TextStyle(
+            color: Colors.grey[700],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBannerAlert(BannerAlert alert) {
+    return Card(
+      color: alert.warn ? Colors.redAccent : Colors.blueAccent,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: Text(
+          alert.text,
+          style: const TextStyle(color: Colors.white),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Start Date: ${alert.startsAt}\nEnd Date: ${alert.expiresAt}',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
