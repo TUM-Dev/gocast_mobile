@@ -1,4 +1,3 @@
-import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:logger/logger.dart';
 
 import 'grpc_handler.dart';

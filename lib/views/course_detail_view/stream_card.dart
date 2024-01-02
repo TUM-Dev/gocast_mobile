@@ -79,4 +79,3 @@ class StreamCard extends StatelessWidget {
     );
   }
 }
-
