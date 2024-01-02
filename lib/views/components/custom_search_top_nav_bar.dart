@@ -32,9 +32,11 @@ class CustomSearchTopNavBar extends ConsumerWidget
           duration: const Duration(milliseconds: 300),
           child: isSearchActive
               ? _buildSearchField(ref)
-              : Padding(
-                  padding: const EdgeInsets.only(left: 90),
-                  child: Center(
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    // Adjust left padding here
                     child: Text(
                       title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(

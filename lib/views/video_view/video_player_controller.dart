@@ -45,4 +45,25 @@ class VideoPlayerControllerManager {
     videoPlayerController.dispose();
     chewieController?.dispose();
   }
+
+  Future<void> switchVideoSource(
+    String newSource,
+    VideoSourceType sourceType,
+  ) async {
+    videoPlayerController.pause();
+    final oldPosition = videoPlayerController.value.position;
+
+    // Dispose old controller
+    videoPlayerController.dispose();
+    chewieController?.dispose();
+
+    // Create new controller
+    videoPlayerController = sourceType == VideoSourceType.asset
+        ? VideoPlayerController.asset(newSource)
+        : VideoPlayerController.networkUrl(Uri.parse(newSource));
+
+    // Initialize and seek to old position
+    await initializePlayer();
+    await videoPlayerController.seekTo(oldPosition);
+  }
 }

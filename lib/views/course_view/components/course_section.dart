@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
@@ -43,7 +44,7 @@ class CourseSection extends StatelessWidget {
             context: context,
             title: sectionTitle,
             onViewAll: onViewAll,
-            courses: courses ?? _defaultCourses(),
+            courses: courses ?? MockData.mockCourses,
           ),
         ],
       ),
@@ -193,135 +194,5 @@ class CourseSection extends StatelessWidget {
       default:
         return 'Discover Courses';
     }
-  }
-
-  List<Course> _defaultCourses() {
-    return [
-      Course(
-        name: 'PSY101',
-        slug: 'Introduction to Psychology',
-        //imagePath: AppImages.course1,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: true,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY102',
-        slug: 'Introduction to Mathematics',
-        //imagePath: AppImages.course2,
-        vODEnabled: false,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: true,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY103',
-        slug: 'Introduction to Chemistry',
-        //imagePath: AppImages.course2,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY104',
-        slug: 'Introduction to Biology',
-        //imagePath: AppImages.course2,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY105',
-        slug: 'Introduction to Physics',
-        //imagePath: AppImages.course2,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-    ];
   }
 }

@@ -14,12 +14,12 @@ import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 /// dynamically generates a horizontal list of courses. This widget can be
 /// reused for various course sections by providing different titles and
 /// course lists.
-class CoursesScreen extends ConsumerWidget {
+class CoursesList extends ConsumerWidget {
   final String title;
   final List<Course> courses;
   final Future<void> Function() onRefresh;
 
-  const CoursesScreen({
+  const CoursesList({
     super.key,
     required this.title,
     required this.courses,
@@ -29,18 +29,15 @@ class CoursesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
+      bottomNavigationBar: null,
       title: title,
       actions: _buildAppBarActions(context, ref),
       child: RefreshIndicator(
         onRefresh: onRefresh,
         color: Colors.blue,
-        // Indicator color
         backgroundColor: Colors.white,
-        // Background color of the indicator
         strokeWidth: 2.0,
-        // Thickness of the indicator circle
         displacement: 20.0,
-        // How far to pull down to trigger refresh
         child: CustomScrollView(
           slivers: [
             courses.isEmpty

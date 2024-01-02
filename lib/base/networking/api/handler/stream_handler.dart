@@ -98,4 +98,63 @@ class StreamHandler {
       },
     );
   }
+
+  /// Fetches the progress of a stream.
+  ///
+  /// This method sends a `getProgress` gRPC call to fetch the progress of a stream.
+  ///
+  /// Takes [streamId] as a parameter.
+  /// Returns a [Progress] instance that represents the progress of the stream.
+  Future<Progress> fetchProgress(Int64 streamId) async {
+    _logger.i('Fetching progress');
+    try {
+      return _grpcHandler.callGrpcMethod(
+        (client) async {
+          final response =
+              await client.getProgress(GetProgressRequest(streamID: streamId));
+
+          _logger.i('Progress: ${response.progress}');
+          return response.progress;
+        },
+      );
+    } catch (e) {
+      _logger.e('Progress not found, returning default value');
+      return Progress(progress: 0.0);
+    }
+  }
+
+  /// Updates the progress of a stream.
+  ///
+  /// This method sends a `putProgress` gRPC call to update the progress of a stream.
+  ///
+  /// Takes [streamId] and [progress] as parameters.
+  Future<void> putProgress(Int64 streamId, Progress progress) async {
+    _logger.i('Updating progress');
+    await _grpcHandler.callGrpcMethod(
+      (client) async {
+        await client.putProgress(
+          PutProgressRequest(
+            streamID: streamId,
+            progress: progress.progress,
+          ),
+        );
+        _logger.d('Progress updated');
+      },
+    );
+  }
+
+  /// Marks a stream as watched.
+  ///
+  /// This method sends a `markAsWatched` gRPC call to mark a stream as watched.
+  ///
+  /// Takes [streamId] as a parameter.
+  Future<void> markAsWatched(Int64 streamId) async {
+    _logger.i('Marking stream as watched');
+    await _grpcHandler.callGrpcMethod(
+      (client) async {
+        await client.markAsWatched(MarkAsWatchedRequest(streamID: streamId));
+        _logger.d('Stream marked as watched');
+      },
+    );
+  }
 }
