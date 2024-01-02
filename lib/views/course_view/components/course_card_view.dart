@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:gocast_mobile/views/course_detail_view/course_detail_view.dart';
 
 /// Course card view
@@ -29,14 +28,13 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Add navigation to the course details screen
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => CourseDetail(
               title: title,
               courseId: courseId,
-            ), // Navigating to CourseDetail
+            ),
           ),
         );
       },
