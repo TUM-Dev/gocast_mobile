@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:grpc/grpc.dart';

@@ -36,8 +36,9 @@ class AuthHandler {
         validateStatus: (status) {
           return status! < 500;
         },
-        receiveTimeout: const Duration(seconds: 5),
+          receiveTimeout: const Duration(seconds: 5),
       ),
+
     );
     dio.interceptors.add(CookieManager(cookieJar));
 

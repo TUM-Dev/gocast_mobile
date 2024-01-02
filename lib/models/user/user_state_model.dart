@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 
 @immutable
