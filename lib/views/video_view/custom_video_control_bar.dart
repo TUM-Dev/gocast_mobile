@@ -32,6 +32,12 @@ class CustomVideoControlBar extends StatelessWidget {
       if (currentStream.hasPlaylistUrlPRES()) {
         items.add({'Presentation view': Icons.present_to_all});
       }
+      if (currentStream.hasPlaylistUrlCAM() &&
+          currentStream.hasPlaylistUrlPRES()) {
+        items.add({
+          'Split view': Icons.vertical_split_sharp
+        }); // Using 'view_column' as an example icon for 'Split view'
+      }
       return items;
     }
 
