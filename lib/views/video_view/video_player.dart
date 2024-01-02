@@ -41,6 +41,16 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     _setupCompletionListener();
   }
 
+  /// Disposes the video player, completion listener and progress timer.
+  @override
+  void dispose() {
+    _controllerManager.videoPlayerController
+        .removeListener(_completionListener);
+    _controllerManager.dispose();
+    _progressTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +71,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       sourceType:
           VideoPlayerPage._determineSourceType(widget.stream.playlistUrl),
     );
-    setState(() => _isLoading = false);
+    _setLoadingState(true);
     Future.microtask(() async {
       try {
         var viewModelNotifier = ref.read(videoViewModelProvider.notifier);
@@ -69,6 +79,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         viewModelNotifier.setVideoSource(widget.stream.playlistUrl);
         Progress progress = ref.read(videoViewModelProvider).progress ??
             Progress(progress: 0.0);
+
+        if (!mounted) return;
+
         await _controllerManager.initializePlayer();
 
         final position = Duration(
@@ -77,28 +90,24 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
                       .videoPlayerController.value.duration.inSeconds)
               .round(),
         );
+
+        if (!mounted) return;
+
         await _controllerManager.videoPlayerController.seekTo(position);
+
+        _setLoadingState(false);
       } catch (error) {
         if (mounted) {
-          setState(() => _isLoading = false);
+          if (!mounted) return;
           ref
               .read(videoViewModelProvider)
               .copyWith(error: AppError('Failed to load video', error));
-        }
-      } finally {
-        if (mounted) {
-          setState(() => _isLoading = false);
+          _setLoadingState(
+            false,
+          ); // Set loading state to false even in case of error
         }
       }
     });
-  }
-
-  /// Disposes the video player.
-  @override
-  void dispose() {
-    _controllerManager.dispose();
-    _progressTimer?.cancel();
-    super.dispose();
   }
 
   /// Builds the video layout.
@@ -141,15 +150,16 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   /// Sets up a listener to mark the current stream as watched when it finishes playing.
   /// It sends a `markAsWatched` gRPC call when the video finishes playing.
   void _setupCompletionListener() {
-    _controllerManager.videoPlayerController.addListener(() {
-      if (_controllerManager.videoPlayerController.value.position ==
-              _controllerManager.videoPlayerController.value.duration &&
-          _controllerManager.videoPlayerController.value.isPlaying) {
-        ref
-            .read(videoViewModelProvider.notifier)
-            .markAsWatched(widget.stream.id);
-      }
-    });
+    _controllerManager.videoPlayerController.addListener(_completionListener);
+  }
+
+  // Extracted the listener function for easier removal in dispose
+  void _completionListener() {
+    if (_controllerManager.videoPlayerController.value.position ==
+            _controllerManager.videoPlayerController.value.duration &&
+        !_controllerManager.videoPlayerController.value.isPlaying) {
+      ref.read(videoViewModelProvider.notifier).markAsWatched(widget.stream.id);
+    }
   }
 
   /// Switches between the different video sources.
@@ -197,5 +207,14 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
   void _openQuizzes() {
     // TODO: Implement quizzes
+  }
+
+  // Simplified loading state management
+  void _setLoadingState(bool isLoading) {
+    if (mounted) {
+      setState(() {
+        _isLoading = isLoading;
+      });
+    }
   }
 }
