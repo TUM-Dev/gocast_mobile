@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/course_view/components/pinned_course_card.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_base_view.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 
 /// PinnedCourseList
 ///
@@ -32,13 +33,23 @@ class PinnedCourseList extends ConsumerWidget {
         itemBuilder: (BuildContext context, int index) {
           if (pinnedCoursesCard.isEmpty) {
             return const Center(
-              child: Text('No pinned courses', style: TextStyle(fontSize: 14)),
+              child: _noCourseInfoText,
             );
           } else {
             return pinnedCoursesCard[index];
           }
         },
-      ), // Pass the search controller
+      ),
     );
   }
 }
+
+const Widget _noCourseInfoText = Padding(
+  padding: AppPadding.sectionPadding,
+  child: Center(
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: 295.0),
+      child: Text('No Pinned Courses'),
+    ),
+  ),
+);

@@ -97,9 +97,10 @@ class CourseSection extends StatelessWidget {
                 /// End of temporary values
                 return CourseCard(
                   title: course.name,
-                  subtitle: course.slug,
+                  subtitle: course.tUMOnlineIdentifier,
                   path: imagePath,
                   live: course.streams.any((stream) => stream.liveNow),
+                  courseId: course.id,
                 );
               },
             ),

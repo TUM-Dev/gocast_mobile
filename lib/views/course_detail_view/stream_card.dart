@@ -1,39 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
-/// PinnedCourseCard
-///
-/// A card widget representing a pinned course. It displays the course details,
-/// including the course title, date, and duration. Users can toggle the pinned state
-/// by clicking the pin icon, and tapping the card navigates to the course content.
-///
-/// Parameters:
-///   [imageName] - The asset path or URL of the course image.
-///   [course] - The course model containing details such as title, date, and duration.
-///   [isPinned] - A boolean indicating whether the course is currently pinned.
-///   [onPinToggle] - A callback function triggered when the user toggles the pin icon.
-///   [onTap] - A callback function triggered when the user taps the card to view the course content.
-///
-class PinnedCourseCard extends StatelessWidget {
+class StreamCard extends StatelessWidget {
   final String imageName;
-  final Course course;
-  final bool isPinned;
-  final VoidCallback onPinToggle;
+  final Stream stream;
   final VoidCallback onTap;
 
-  const PinnedCourseCard({
+  const StreamCard({
     super.key,
     required this.imageName,
-    required this.course,
-    required this.isPinned,
+    required this.stream,
     required this.onTap,
-    required this.onPinToggle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return InkWell(
+      // Added InkWell for tap functionality
+      onTap: onTap,
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -50,7 +34,7 @@ class PinnedCourseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${course.name} - ${course.slug}',
+                          stream.name,
                           style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -59,7 +43,7 @@ class PinnedCourseCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          "${course.semester.year} ${course.semester.teachingTerm}",
+                          stream.description,
                           style: const TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey,
@@ -68,21 +52,22 @@ class PinnedCourseCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                      color: Colors.blue[800],
-                    ),
-                    onPressed: onPinToggle,
-                  ),
                 ],
               ),
             ),
             AspectRatio(
               aspectRatio: 16 / 9,
-              child: Image.asset(
+              child: Image.network(
+                // Changed from Image.asset to Image.network
                 imageName,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/images/default_image.png',
+                    // Fallback image in case of error
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
             const Padding(
@@ -94,3 +79,4 @@ class PinnedCourseCard extends StatelessWidget {
     );
   }
 }
+

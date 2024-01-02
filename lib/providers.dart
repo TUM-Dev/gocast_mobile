@@ -24,3 +24,5 @@ final notificationViewModelProvider =
     StateNotifierProvider<NotificationViewModel, NotificationState>(
   (ref) => NotificationViewModel(ref.watch(grpcHandlerProvider)),
 );
+
+final currentIndexProvider = StateProvider<int>((ref) => 0);
