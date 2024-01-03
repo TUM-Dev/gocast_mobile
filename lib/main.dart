@@ -70,11 +70,16 @@ class App extends ConsumerWidget {
     if (userState.user != null) {
       _handlePushNotifications(ref);
     }
+
+    final themeMode = ref.watch(themeModeProvider);
+
     // Set the home screen based on the user's state
     final Widget homeScreen = _getHomeScreen(userState.user);
 
     return MaterialApp(
-      theme: appTheme,
+      theme: appTheme, // Your light theme
+      darkTheme: darkAppTheme, // Define your dark theme
+      themeMode: themeMode, // Use the theme mode from the provider
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: homeScreen,
