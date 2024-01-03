@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/utils/theme.dart';
 import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
 
 class BaseView extends StatelessWidget {
@@ -21,17 +22,13 @@ class BaseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: customAppBar ??
           (title != null
               ? AppBar(
                   automaticallyImplyLeading: showLeading,
-                  title: Text(
-                    title!,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.black,
-                        ),
-                  ),
+                  title: Text(title!),
                   actions: actions,
                 )
               : null),

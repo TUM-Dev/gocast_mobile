@@ -27,6 +27,7 @@ class DarkAppColors {
   static const Color indicatorActiveColor = Colors.blue;
   static const Color linkTextColor = Colors.lightBlueAccent;
   static const Color inactiveColor = Color(0xFF757575);
+  static const Color tumBlue = Color(0xFF0065BD);
 }
 
 // Define a class for custom text styles
@@ -127,7 +128,7 @@ final ThemeData darkAppTheme = ThemeData(
     primary: DarkAppColors.primaryColor,
     secondary: DarkAppColors.indicatorActiveColor,
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     color: DarkAppColors.appBarBackgroundColor,
     iconTheme: IconThemeData(color: DarkAppColors.appBarIconColor),
     titleTextStyle: TextStyle(
@@ -136,7 +137,7 @@ final ThemeData darkAppTheme = ThemeData(
       fontWeight: FontWeight.bold,
     ),
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     titleMedium: DarkAppTextStyles.sectionTitle,
     displayLarge: DarkAppTextStyles.heading,
     bodyLarge: DarkAppTextStyles.body,
@@ -154,7 +155,7 @@ final ThemeData darkAppTheme = ThemeData(
       fontSize: 14,
       fontWeight: FontWeight.w500,
     ),
-    enabledBorder: OutlineInputBorder(
+    enabledBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF757575), width: 1.0),
     ),
     focusedBorder: OutlineInputBorder(

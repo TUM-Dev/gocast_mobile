@@ -139,11 +139,7 @@ class CourseSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, // Adjust color as per your theme
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const Spacer(),
               // This will push the title to the start of the Row
