@@ -21,17 +21,13 @@ class BaseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: customAppBar ??
           (title != null
               ? AppBar(
                   automaticallyImplyLeading: showLeading,
-                  title: Text(
-                    title!,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.black,
-                        ),
-                  ),
+                  title: Text(title!),
                   actions: actions,
                 )
               : null),
