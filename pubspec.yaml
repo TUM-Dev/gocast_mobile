@@ -26,10 +26,9 @@ dependencies:
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0
   video_player: ^2.8.1
-  touch_indicator: ^2.0.0
   firebase_core: ^2.24.2
-  firebase_messaging: ^14.7.8
-  flutter_local_notifications: ^16.2.0
+  firebase_messaging: ^14.7.9
+  flutter_local_notifications: ^16.3.0
   chewie: ^1.7.4
 
 
