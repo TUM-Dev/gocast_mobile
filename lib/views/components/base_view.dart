@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/utils/theme.dart';
 import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
 
 class BaseView extends StatelessWidget {

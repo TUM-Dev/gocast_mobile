@@ -124,7 +124,7 @@ final ThemeData appTheme = ThemeData(
 final ThemeData darkAppTheme = ThemeData(
   primaryColor: DarkAppColors.primaryColor,
   scaffoldBackgroundColor: DarkAppColors.appBarBackgroundColor,
-  colorScheme: ColorScheme.dark().copyWith(
+  colorScheme: const ColorScheme.dark().copyWith(
     primary: DarkAppColors.primaryColor,
     secondary: DarkAppColors.indicatorActiveColor,
   ),
@@ -158,7 +158,7 @@ final ThemeData darkAppTheme = ThemeData(
     enabledBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF757575), width: 1.0),
     ),
-    focusedBorder: OutlineInputBorder(
+    focusedBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: DarkAppColors.primaryColor, width: 2.0),
     ),
   ),
