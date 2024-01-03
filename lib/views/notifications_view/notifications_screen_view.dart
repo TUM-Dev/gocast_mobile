@@ -11,29 +11,13 @@ class NotificationsScreen extends ConsumerWidget {
   final List<BannerAlert> bannerAlerts;
   final Future<void> Function() onRefresh;
 
-  NotificationsScreen({
+  const NotificationsScreen({
     super.key,
     required this.title,
     required this.featureNotifications,
     required this.bannerAlerts,
     required this.onRefresh,
   });
-
-  final Map<String, List<String>> pushNotifications = {
-    'Today': [
-      'Lineare Algebra für Informatik is live now!',
-      'Functional Programming and verification is live now!',
-    ],
-    'Yesterday': [
-      'Lineare Algebra für Informatik is live now!',
-      'Functional Programming and verification is live now!',
-    ],
-    'November 25': [
-      'Lineare Algebra für Informatik is live now!',
-      'Functional Programming and verification is live now!',
-    ],
-    // Add more data here
-  };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,13 +28,9 @@ class NotificationsScreen extends ConsumerWidget {
       child: RefreshIndicator(
         onRefresh: onRefresh,
         color: Colors.blue,
-        // Indicator color
         backgroundColor: Colors.white,
-        // Background color of the indicator
         strokeWidth: 2.0,
-        // Thickness of the indicator circle
         displacement: 20.0,
-        // How far to pull down to trigger refresh
         child: CustomScrollView(
           slivers: [
             featureNotifications.isEmpty && bannerAlerts.isEmpty
