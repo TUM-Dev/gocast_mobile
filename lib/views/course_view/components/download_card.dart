@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:gocast_mobile/views/course_view/components/big_card.dart';
+
+class VideoCard extends BigCard {
+  final String title;
+  final String date;
+  final String duration;
+
+  const VideoCard({
+    super.key,
+    required super.imageName,
+    required this.title,
+    required this.date,
+    required this.duration,
+    required super.onTap,
+  });
+
+  @override
+  buildCardContent() {
+    List<Widget> children = [];
+    children.add(buildHeader(title, date));
+    children.add(buildImage());
+    return children;
+  }
+}

@@ -1,31 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
-enum CardType { pinnedCourse, video, stream }
 
 class BigCard extends StatelessWidget {
   final String imageName;
-  final String? title;
-  final String? date;
-  final String? duration;
-  final Course? course;
-  final Stream? stream;
-  final bool? isPinned;
-  final VoidCallback? onPinToggle;
-  final VoidCallback onTap;
-  final CardType cardType;
 
-  BigCard({
+  final VoidCallback onTap;
+
+  const BigCard({
     super.key,
-    required this.cardType,
     required this.imageName,
-    this.title,
-    this.date,
-    this.duration,
-    this.course,
-    this.stream,
-    this.isPinned,
-    this.onPinToggle,
     required this.onTap,
   });
 
@@ -39,13 +22,7 @@ class BigCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (cardType == CardType.pinnedCourse)
-              _buildHeader('${course?.name} - ${course?.slug}',
-                  "${course?.semester.year} ${course?.semester.teachingTerm}"),
-            if (cardType == CardType.video) _buildHeader(title!, date!),
-            if (cardType == CardType.stream)
-              _buildHeader(stream!.name, stream!.description),
-            cardType == CardType.stream ? _buildInternetImage() : _buildImage(),
+            ...buildCardContent(), // Call to the overridable method
             const Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
             ),
@@ -55,20 +32,26 @@ class BigCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(String courseNameAndSlug, String courseDetails) {
+  @protected
+  List<Widget> buildCardContent() {
+    // Default content or abstract if BigCard is abstract
+    return [];
+  }
+
+  @protected
+  Widget buildHeader(String courseNameAndSlug, String courseDetails) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildInfo(courseNameAndSlug, courseDetails),
-          if (cardType == CardType.pinnedCourse) _buildPinButton(),
+          buildInfo(courseNameAndSlug, courseDetails),
         ],
       ),
     );
   }
 
-  Widget _buildInfo(String courseNameAndSlug, String courseDetails) {
+  Widget buildInfo(String courseNameAndSlug, String courseDetails) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,17 +71,7 @@ class BigCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPinButton() {
-    return IconButton(
-      icon: Icon(
-        isPinned ?? false ? Icons.push_pin : Icons.push_pin_outlined,
-        color: Colors.blue[800],
-      ),
-      onPressed: onPinToggle,
-    );
-  }
-
-  Widget _buildInternetImage() {
+  Widget buildInternetImage() {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: Image.network(
@@ -114,7 +87,7 @@ class BigCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImage() {
+  Widget buildImage() {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: Image.asset(

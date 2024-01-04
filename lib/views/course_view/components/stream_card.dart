@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/views/course_view/components/big_card.dart';
+
+class StreamCard extends BigCard {
+  final Stream stream;
+
+  const StreamCard({
+    super.key,
+    required super.imageName,
+    required this.stream,
+    required super.onTap,
+  });
+
+  @override
+  buildCardContent() {
+    List<Widget> children = [];
+    children.add(buildHeader(stream.name, stream.description));
+    children.add(buildInternetImage());
+    return children;
+  }
+}
+
