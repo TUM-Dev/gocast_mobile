@@ -8,10 +8,12 @@ class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SettingsScreenState();
 }
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+class _SettingsScreenState
+    extends ConsumerState<SettingsScreen> {
   bool isDarkMode = false;
   bool isPushNotificationsEnabled = false;
   bool isDownloadOverWifiOnly = false;
@@ -29,6 +31,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       isDarkMode = themePreference == 'dark';
     });
   }
+
   Future<void> _saveThemePreference(String theme) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('themeMode', theme);
@@ -36,12 +39,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Update isDarkMode based on the provider
     final themeMode = ref.watch(themeModeProvider);
     isDarkMode = themeMode == ThemeMode.dark;
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: ListView(
+    bool isIpad = MediaQuery.of(context).size.width >= 600 ? true : false;
+
+    return Drawer(
+      width: isIpad
+          ? MediaQuery.of(context).size.width * 0.45
+          : MediaQuery.of(context).size.width,
+      child: ListView(
         children: [
           _buildProfileTile(),
           const Divider(),
@@ -160,7 +166,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ref.read(userViewModelProvider.notifier).logout();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-          (Route<dynamic> route) => false,
+              (Route<dynamic> route) => false,
         );
       },
     );
