@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
+import 'package:gocast_mobile/views/components/hamburger_base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
+import 'package:gocast_mobile/views/settings_view/ipad_settings_screen_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 // current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
@@ -38,7 +40,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final userCourses = ref.watch(userViewModelProvider).userCourses;
     final publicCourses = ref.watch(userViewModelProvider).publicCourses;
 
-    return BaseView(
+    return HamburgerBaseView(
       showLeading: false,
       title: 'GoCast',
       actions: [
@@ -53,7 +55,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       child: RefreshIndicator(
         onRefresh: () async {
           final userViewModelNotifier =
-          ref.read(userViewModelProvider.notifier);
+              ref.read(userViewModelProvider.notifier);
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
         },

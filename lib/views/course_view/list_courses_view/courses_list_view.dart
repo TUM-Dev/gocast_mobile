@@ -4,6 +4,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
+import 'package:gocast_mobile/views/settings_view/ipad_settings_screen_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 /// CoursesScreen
