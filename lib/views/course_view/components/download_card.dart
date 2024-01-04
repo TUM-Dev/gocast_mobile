@@ -16,10 +16,13 @@ class VideoCard extends BigCard {
   });
 
   @override
-  buildCardContent() {
-    List<Widget> children = [];
-    children.add(buildHeader(title, date));
-    children.add(buildImage());
-    return children;
+  List<Widget> buildCardContent() {
+    return [
+      buildHeader(
+        title: title,
+        subtitle: date,
+      ),
+      buildImage(),
+    ];
   }
 }

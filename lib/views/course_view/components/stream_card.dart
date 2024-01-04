@@ -13,11 +13,14 @@ class StreamCard extends BigCard {
   });
 
   @override
-  buildCardContent() {
-    List<Widget> children = [];
-    children.add(buildHeader(stream.name, stream.description));
-    children.add(buildInternetImage());
-    return children;
+  List<Widget> buildCardContent() {
+    return [
+      buildHeader(
+        title: stream.name,
+        subtitle: stream.description,
+      ),
+      buildInternetImage(),
+    ];
   }
 }
 

@@ -39,13 +39,31 @@ class BigCard extends StatelessWidget {
   }
 
   @protected
-  Widget buildHeader(String courseNameAndSlug, String courseDetails) {
+  Widget buildHeader({
+    required String title,
+    required String subtitle,
+    Widget? trailing,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          buildInfo(courseNameAndSlug, courseDetails),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: const TextStyle(
+                        fontSize: 16.0, fontWeight: FontWeight.bold),
+                    maxLines: 2),
+                const SizedBox(height: 8.0),
+                Text(subtitle,
+                    style: const TextStyle(fontSize: 14.0, color: Colors.grey)),
+              ],
+            ),
+          ),
+          if (trailing != null) trailing,
         ],
       ),
     );

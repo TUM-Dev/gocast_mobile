@@ -17,12 +17,15 @@ class PinnedCourseCard extends BigCard {
   });
 
   @override
-  buildCardContent() {
-    List<Widget> children = [];
-    children.add(buildHeader('${course.name} - ${course.slug}',
-        "${course.semester.year} ${course.semester.teachingTerm}"));
-    children.add(buildImage());
-    return children;
+  List<Widget> buildCardContent() {
+    return [
+      buildHeader(
+        title: '${course.name} - ${course.slug}',
+        subtitle: "${course.semester.year} ${course.semester.teachingTerm}",
+        trailing: _buildPinButton(),
+      ),
+      buildImage(),
+    ];
   }
 
   Widget _buildPinButton() {
@@ -35,17 +38,4 @@ class PinnedCourseCard extends BigCard {
     );
   }
 
-  @override
-  Widget buildHeader(String courseNameAndSlug, String courseDetails) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildInfo(courseNameAndSlug, courseDetails),
-          _buildPinButton(),
-        ],
-      ),
-    );
-  }
 }
