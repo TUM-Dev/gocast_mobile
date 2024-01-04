@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/course_detail_view/course_detail_view.dart';
-import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.dart';
+import 'package:gocast_mobile/views/course_view/components/big_card.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 
@@ -41,12 +41,13 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         pinnedCourseCards: userPinned.map((course) {
           final isPinned =
               userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
-          return PinnedCourseCard(
+          return BigCard(
             imageName: 'assets/images/course2.png',
             course: course,
             onTap: () => _handleCourseTap(course, context),
             isPinned: isPinned,
             onPinToggle: () => _togglePin(course, isPinned),
+            cardType: CardType.pinnedCourse,
           );
         }).toList(),
       ),

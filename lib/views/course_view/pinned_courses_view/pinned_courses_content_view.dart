@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
-import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.dart';
+import 'package:gocast_mobile/views/course_view/components/big_card.dart';
 
 /// PinnedCoursesContentView
 ///
@@ -17,7 +17,7 @@ import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.
 ///
 class PinnedCoursesContentView extends ConsumerWidget {
   final String title;
-  final List<PinnedCourseCard> pinnedCourseCards;
+  final List<BigCard> pinnedCourseCards;
 
   const PinnedCoursesContentView({
     super.key,
