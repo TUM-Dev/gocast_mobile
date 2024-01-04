@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
-import 'package:gocast_mobile/views/course_view/components/baseCard.dart';
+import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 
 /// PinnedCoursesContentView
 ///

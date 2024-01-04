@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/views/course_view/components/baseCard.dart';
+import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 
 class PinnedCourseCard extends BaseCard {
   final Course course;
