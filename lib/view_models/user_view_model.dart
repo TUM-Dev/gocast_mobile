@@ -154,8 +154,8 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   Future<void> updateUserSettings(List<UserSetting> updatedSettings) async {
+    _logger.i('Updating user settings..');
     try {
-      _logger.i('Updating user settings..');
       final request = PatchUserSettingsRequest()
         ..userSettings.addAll(updatedSettings);
 
@@ -164,6 +164,7 @@ class UserViewModel extends StateNotifier<UserState> {
           await client.patchUserSettings(request);
         },
       );
+      state = state.copyWith(userSettings: updatedSettings);
       _logger.i('User settings updated successfully');
     } catch (e) {
       _logger.e('Error updating user settings: $e');
