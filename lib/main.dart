@@ -25,7 +25,7 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(userViewModelProvider);
-
+    final themeMode = ref.watch(themeModeProvider);
     // Check for errors in userState and show a SnackBar if any
     if (userState.error != null) {
       Future.microtask(() {
@@ -41,7 +41,9 @@ class App extends ConsumerWidget {
     final Widget homeScreen = _getHomeScreen(userState.user);
 
     return MaterialApp(
-      theme: appTheme,
+      theme: appTheme, // Your light theme
+      darkTheme: darkAppTheme, // Define your dark theme
+      themeMode: themeMode, // Use the theme mode from the provider
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: homeScreen,

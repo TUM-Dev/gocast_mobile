@@ -23,7 +23,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
         elevation: 0,
         leading: isSearchActive
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                icon:  Icon(Icons.arrow_back_ios, color:Theme.of(context).iconTheme.color,),
                 onPressed: () =>
                     ref.read(isSearchActiveProvider.notifier).state = false,
               )
@@ -32,14 +32,13 @@ class CustomSearchTopNavBar extends ConsumerWidget
           duration: const Duration(milliseconds: 300),
           child: isSearchActive
               ? _buildSearchField(ref)
-              : Padding(
-                  padding: const EdgeInsets.only(left: 90),
-                  child: Center(
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    // Adjust left padding here
                     child: Text(
                       title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.black,
-                          ),
                     ),
                   ),
                 ),
@@ -48,12 +47,12 @@ class CustomSearchTopNavBar extends ConsumerWidget
             ? null
             : [
                 IconButton(
-                  icon: const Icon(Icons.search, color: Colors.black),
+                  icon:  Icon(Icons.search, color: Theme.of(context).iconTheme.color,),
                   onPressed: () =>
                       ref.read(isSearchActiveProvider.notifier).state = true,
                 ),
                 IconButton(
-                  icon: const Icon(Icons.filter_list, color: Colors.black),
+                  icon:  Icon(Icons.filter_list,color: Theme.of(context).iconTheme.color,),
                   onPressed: () {
                     // Implement filter action
                   },

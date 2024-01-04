@@ -5,7 +5,7 @@ class VideoCard extends StatelessWidget {
   final String title;
   final String date;
   final String duration;
-  final VoidCallback onTap; // Add this line
+  final VoidCallback onTap;
 
   const VideoCard({
     super.key,
@@ -13,7 +13,7 @@ class VideoCard extends StatelessWidget {
     required this.title,
     required this.date,
     required this.duration,
-    required this.onTap, // Add this line
+    required this.onTap,
   });
 
   @override
