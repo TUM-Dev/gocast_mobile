@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/views/course_view/components/big_card.dart';
+import 'package:gocast_mobile/views/course_view/components/baseCard.dart';
 
-class PinnedCourseCard extends BigCard {
+class PinnedCourseCard extends BaseCard {
   final Course course;
   final bool isPinned;
   final VoidCallback onPinToggle;
@@ -20,7 +20,7 @@ class PinnedCourseCard extends BigCard {
   List<Widget> buildCardContent() {
     return [
       buildHeader(
-        title: '${course.name} - ${course.slug}',
+        title: '${course.name} - ${course.tUMOnlineIdentifier}',
         subtitle: "${course.semester.year} ${course.semester.teachingTerm}",
         trailing: _buildPinButton(),
       ),

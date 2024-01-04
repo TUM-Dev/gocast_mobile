@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 
-class BigCard extends StatelessWidget {
+class BaseCard extends StatelessWidget {
   final String imageName;
 
   final VoidCallback onTap;
 
-  const BigCard({
+  const BaseCard({
     super.key,
     required this.imageName,
     required this.onTap,
@@ -53,13 +53,19 @@ class BigCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontSize: 16.0, fontWeight: FontWeight.bold),
-                    maxLines: 2),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                ),
                 const SizedBox(height: 8.0),
-                Text(subtitle,
-                    style: const TextStyle(fontSize: 14.0, color: Colors.grey)),
+                Text(
+                  subtitle,
+                  style: const TextStyle(fontSize: 14.0, color: Colors.grey),
+                ),
               ],
             ),
           ),

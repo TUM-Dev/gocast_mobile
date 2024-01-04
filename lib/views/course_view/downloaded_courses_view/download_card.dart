@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/views/course_view/components/big_card.dart';
+import 'package:gocast_mobile/views/course_view/components/baseCard.dart';
 
-class VideoCard extends BigCard {
+class VideoCard extends BaseCard {
   final String title;
   final String date;
   final String duration;

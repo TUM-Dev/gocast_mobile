@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
-import 'package:gocast_mobile/views/course_view/components/stream_card.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {

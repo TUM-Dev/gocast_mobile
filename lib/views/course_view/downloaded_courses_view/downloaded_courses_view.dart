@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-import 'package:gocast_mobile/views/course_view/components/download_card.dart';
+import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
 
 /// DownloadsScreen
