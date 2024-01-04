@@ -94,15 +94,6 @@ class _SettingsScreenState
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Settings'),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () => Navigator.pop(context),
-      ),
-    );
-  }
 
   ListTile _buildProfileTile() {
     return ListTile(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/views/components/custom_bottom_nav_bar.dart';
+import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 class BaseView extends StatelessWidget {
   final Widget child;
@@ -8,6 +9,7 @@ class BaseView extends StatelessWidget {
   final bool showLeading;
   final PreferredSizeWidget? customAppBar;
   final Widget? bottomNavigationBar;
+  final Widget? settingsHamburgerMenu;
 
   const BaseView({
     super.key,
@@ -17,21 +19,35 @@ class BaseView extends StatelessWidget {
     this.showLeading = true,
     this.customAppBar,
     this.bottomNavigationBar = const CustomBottomNavBar(),
+    this.settingsHamburgerMenu = const SettingsScreen(),
   });
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false; //const BoxConstraints().maxWidth >= 600 ? true : false;
+    debugPrint("Width: ${MediaQuery.of(context).size.width}");
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: customAppBar ??
           (title != null
               ? AppBar(
-                  automaticallyImplyLeading: showLeading,
-                  title: Text(title!),
-                  actions: actions,
-                )
+            automaticallyImplyLeading: showLeading,
+            title: Text(title!),
+            actions: isTablet
+                ? [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  scaffoldKey.currentState?.openEndDrawer();
+                },
+              ),
+            ] : actions,
+          )
               : null),
       body: child,
+      endDrawer: isTablet ? settingsHamburgerMenu : null,
       bottomNavigationBar: bottomNavigationBar,
     );
   }
