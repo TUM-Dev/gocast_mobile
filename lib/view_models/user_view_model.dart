@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -13,7 +15,6 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
-import 'package:gocast_mobile/base/networking/api/handler/settings_handler.dart';
 
 import '../utils/globals.dart';
 
@@ -137,30 +138,35 @@ class UserViewModel extends StateNotifier<UserState> {
 
   Future<void> fetchUserSettings() async {
     try {
-      _logger.i('Fetching user settings');
-      var settings = await SettingsHandler(_grpcHandler).fetchUserSettings();
-      state = state.copyWith(userSettings: settings, isLoading: false);
+      _logger.i('Fetching user settings..');
+      final response = await _grpcHandler.callGrpcMethod(
+        (client) async {
+          final response =
+              await client.getUserSettings(GetUserSettingsRequest());
+          return response.userSettings;
+        },
+      );
+      _logger.i('User settings fetched successfully');
+      state = state.copyWith(userSettings: response);
     } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
+      _logger.e('Error fetching user settings: $e');
     }
   }
 
-  Future<void> updateUserSettings(List<UserSettings> updatedSettings) async {
+  Future<void> updateUserSettings(List<UserSetting> updatedSettings) async {
     try {
-      _logger.i('Updating user settings');
-      bool success = await SettingsHandler(_grpcHandler)
-          .updateUserSettings(updatedSettings.cast<UserSetting>());
-      if (success) {
-        await fetchUserSettings();
-        _logger.i('User settings updated successfully');
-      } else {
-        _logger.e('Failed to update user settings');
-      }
-      state = state.copyWith(isLoading: false);
+      _logger.i('Updating user settings..');
+      final request = PatchUserSettingsRequest()
+        ..userSettings.addAll(updatedSettings);
+
+      await _grpcHandler.callGrpcMethod(
+        (client) async {
+          await client.patchUserSettings(request);
+        },
+      );
+      _logger.i('User settings updated successfully');
     } catch (e) {
       _logger.e('Error updating user settings: $e');
-      state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
 
