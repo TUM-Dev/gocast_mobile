@@ -8,12 +8,10 @@ class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SettingsScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState
-    extends ConsumerState<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool isDarkMode = false;
   bool isPushNotificationsEnabled = false;
   bool isDownloadOverWifiOnly = false;
@@ -41,59 +39,73 @@ class _SettingsScreenState
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeModeProvider);
     isDarkMode = themeMode == ThemeMode.dark;
-    bool isIpad = MediaQuery.of(context).size.width >= 600 ? true : false;
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
 
-    return Drawer(
-      width: isIpad
-          ? MediaQuery.of(context).size.width * 0.45
-          : MediaQuery.of(context).size.width,
-      child: ListView(
-        children: [
-          _buildProfileTile(),
-          const Divider(),
-          _buildSectionTitle('Account Settings'),
-          _buildEditableListTile('Edit profile', () {
-            // TODO: Navigate to edit profile screen
-          }),
-          _buildSwitchListTile(
-            title: 'Push notifications',
-            value: isPushNotificationsEnabled,
-            onChanged: (value) =>
-                setState(() => isPushNotificationsEnabled = value),
-          ),
-          _buildSwitchListTile(
-            title: 'Dark mode',
-            value: isDarkMode,
-            onChanged: (value) {
-              setState(() => isDarkMode = value);
-              ref.read(themeModeProvider.notifier).state =
-              value ? ThemeMode.dark : ThemeMode.light;
-              _saveThemePreference(value ? 'dark' : 'light');
-            },
-          ),
-          _buildSwitchListTile(
-            title: 'Download Over Wi-Fi only',
-            value: isDownloadOverWifiOnly,
-            onChanged: (value) =>
-                setState(() => isDownloadOverWifiOnly = value),
-          ),
-          _buildLogoutTile(context),
-          const Divider(),
-          _buildSectionTitle('More'),
-          _buildNavigableListTile('About us', () {
-            // TODO: Navigate to about us screen
-          }),
-          _buildNavigableListTile('Privacy policy', () {
-            // TODO: Navigate to privacy policy screen
-          }),
-          _buildNavigableListTile('Terms and conditions', () {
-            // TODO: Navigate to terms and conditions screen
-          }),
-        ],
-      ),
+    if (!isTablet) {
+      return Scaffold(
+          appBar: _buildAppBar(context), body: _buildSettingsOverview());
+    } else {
+      return Drawer(
+          width: MediaQuery.of(context).size.width * 0.45,
+          child: _buildSettingsOverview());
+    }
+  }
+
+  ListView _buildSettingsOverview() {
+    return ListView(
+      children: [
+        _buildProfileTile(),
+        const Divider(),
+        _buildSectionTitle('Account Settings'),
+        _buildEditableListTile('Edit profile', () {
+          // TODO: Navigate to edit profile screen
+        }),
+        _buildSwitchListTile(
+          title: 'Push notifications',
+          value: isPushNotificationsEnabled,
+          onChanged: (value) =>
+              setState(() => isPushNotificationsEnabled = value),
+        ),
+        _buildSwitchListTile(
+          title: 'Dark mode',
+          value: isDarkMode,
+          onChanged: (value) {
+            setState(() => isDarkMode = value);
+            ref.read(themeModeProvider.notifier).state =
+                value ? ThemeMode.dark : ThemeMode.light;
+            _saveThemePreference(value ? 'dark' : 'light');
+          },
+        ),
+        _buildSwitchListTile(
+          title: 'Download Over Wi-Fi only',
+          value: isDownloadOverWifiOnly,
+          onChanged: (value) => setState(() => isDownloadOverWifiOnly = value),
+        ),
+        _buildLogoutTile(context),
+        const Divider(),
+        _buildSectionTitle('More'),
+        _buildNavigableListTile('About us', () {
+          // TODO: Navigate to about us screen
+        }),
+        _buildNavigableListTile('Privacy policy', () {
+          // TODO: Navigate to privacy policy screen
+        }),
+        _buildNavigableListTile('Terms and conditions', () {
+          // TODO: Navigate to terms and conditions screen
+        }),
+      ],
     );
   }
 
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text('Settings'),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => Navigator.pop(context),
+      ),
+    );
+  }
 
   ListTile _buildProfileTile() {
     return ListTile(
@@ -157,7 +169,7 @@ class _SettingsScreenState
         ref.read(userViewModelProvider.notifier).logout();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-              (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
         );
       },
     );
