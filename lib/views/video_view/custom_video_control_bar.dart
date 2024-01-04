@@ -21,7 +21,7 @@ class CustomVideoControlBar extends StatelessWidget {
 
     List<Map<String, IconData>> getMenuItems() {
       List<Map<String, IconData>> items = [
-        {'Download': Icons.file_download}
+        {'Download': Icons.file_download},
       ];
       if (currentStream.hasPlaylistUrl()) {
         items.add({'Combined view': Icons.layers});
@@ -35,7 +35,7 @@ class CustomVideoControlBar extends StatelessWidget {
       if (currentStream.hasPlaylistUrlCAM() &&
           currentStream.hasPlaylistUrlPRES()) {
         items.add({
-          'Split view': Icons.vertical_split_sharp
+          'Split view': Icons.vertical_split_sharp,
         }); // Using 'view_column' as an example icon for 'Split view'
       }
       return items;

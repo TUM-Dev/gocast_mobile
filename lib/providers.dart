@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -20,3 +21,7 @@ final videoViewModelProvider =
 );
 
 final currentIndexProvider = StateProvider<int>((ref) => 0);
+
+final themeModeProvider = StateProvider<ThemeMode>((ref) {
+    return ThemeMode.system; // Default to system theme
+});
