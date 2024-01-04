@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -16,7 +17,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool isDownloadOverWifiOnly = false;
 
   @override
+  void initState() {
+    super.initState();
+    _loadThemePreference();
+  }
+
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themePreference = prefs.getString('themeMode') ?? 'light';
+    setState(() {
+      isDarkMode = themePreference == 'dark';
+    });
+  }
+  Future<void> _saveThemePreference(String theme) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('themeMode', theme);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Update isDarkMode based on the provider
+    final themeMode = ref.watch(themeModeProvider);
+    isDarkMode = themeMode == ThemeMode.dark;
     return Scaffold(
       appBar: _buildAppBar(context),
       body: ListView(
@@ -36,7 +58,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           _buildSwitchListTile(
             title: 'Dark mode',
             value: isDarkMode,
-            onChanged: (value) => setState(() => isDarkMode = value),
+            onChanged: (value) {
+              setState(() => isDarkMode = value);
+              ref.read(themeModeProvider.notifier).state =
+              value ? ThemeMode.dark : ThemeMode.light;
+              _saveThemePreference(value ? 'dark' : 'light');
+            },
           ),
           _buildSwitchListTile(
             title: 'Download Over Wi-Fi only',

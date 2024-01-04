@@ -5,12 +5,15 @@ import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
+
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
+import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+
+import '../utils/globals.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
@@ -32,7 +35,7 @@ class UserViewModel extends StateNotifier<UserState> {
 
       if (state.user != null) {
         _logger.i('Logged in user ${state.user} with basic auth');
-        navigatorKey.currentState?.pushNamed('/courses');
+        navigatorKey.currentState?.pushNamed('/navigationTab');
       }
       state = state.copyWith(isLoading: false);
     } catch (e) {
@@ -160,6 +163,33 @@ class UserViewModel extends StateNotifier<UserState> {
       var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
       state = state.copyWith(publicCourses: courses, isLoading: false);
     } catch (e) {
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchFeatureNotifications() async {
+    try {
+      _logger.i('Fetching feature notifications');
+      var featureNotifications =
+          await NotificationHandler(_grpcHandler).fetchFeatureNotifications();
+      state = state.copyWith(
+        featureNotifications: featureNotifications,
+        isLoading: false,
+      );
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchBannerAlerts() async {
+    try {
+      _logger.i('Fetching banner alerts');
+      var bannerAlerts =
+          await NotificationHandler(_grpcHandler).fetchBannerAlerts();
+      state = state.copyWith(bannerAlerts: bannerAlerts, isLoading: false);
+    } catch (e) {
+      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }

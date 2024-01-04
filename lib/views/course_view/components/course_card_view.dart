@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/views/course_detail_view/course_detail_view.dart';
 
 /// Course card view
 ///
@@ -12,6 +13,7 @@ class CourseCard extends StatelessWidget {
   final String subtitle;
   final String path;
   final bool live;
+  final int courseId;
 
   const CourseCard({
     super.key,
@@ -19,28 +21,54 @@ class CourseCard extends StatelessWidget {
     required this.subtitle,
     required this.path,
     required this.live,
+    required this.courseId,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Add navigation to the course details screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseDetail(
+              title: title,
+              courseId: courseId,
+            ),
+          ),
+        );
       },
       child: Card(
-        child: Container(
-          width: MediaQuery.of(context).size.width *
-              0.4, // was 160, now it's 40% of the screen width
-          padding: const EdgeInsets.all(8.0),
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _buildCourseImage()), // Wrapped with Expanded
-              _buildCourseTitle(),
-              _buildCourseSubtitle(),
-              _buildCourseIsLive(),
-            ],
+        elevation: 2, // Adjust the elevation for the shadow effect (if desired)
+        shadowColor: Colors.grey.withOpacity(0.5), // Shadow
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
+          side: BorderSide(
+            color: Colors.grey[100] ?? Colors.grey,
+            width: 1.0,
+          ), // Light grey outline
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
+          child: Container(
+            width: MediaQuery.of(context).size.width *
+                0.4, // was 160, now it's 40% of the screen width
+            padding: const EdgeInsets.all(8.0),
+            color: Colors.white70,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildCourseSubtitle(),
+                    _buildCourseIsLive(),
+                  ],
+                ),
+                Expanded(child: _buildCourseImage()), // Wrapped with Expanded
+                _buildCourseTitle(),
+              ],
+            ),
           ),
         ),
       ),
@@ -48,15 +76,19 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
-    return AspectRatio(
-      aspectRatio: 10 / 7,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: Image.asset(
-          path,
-          fit: BoxFit.cover,
+    return Stack(
+      children: [
+        AspectRatio(
+          aspectRatio: 10 / 7,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.asset(
+              path,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -64,10 +96,13 @@ class CourseCard extends StatelessWidget {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
+      maxLines: 3,
+      softWrap: true,
       style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontSize: 17,
+        fontWeight: FontWeight.w600,
         color: Colors.black,
+        height: 1,
       ),
     );
   }
@@ -85,22 +120,21 @@ class CourseCard extends StatelessWidget {
 
   Widget _buildCourseIsLive() {
     return live
-        ? const Row(
-            children: [
-              Icon(
-                Icons.circle,
-                size: 10,
-                color: Colors.red,
+        ? Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.only(left: 4, right: 4),
+            child: //spacing between dot and course number
+                const Text(
+              'Live',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
               ),
-              SizedBox(width: 5), // Add spacing between the dot and text
-              Text(
-                'Live Now',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+            ),
           )
         : const SizedBox(); // Return an empty SizedBox if not live
   }

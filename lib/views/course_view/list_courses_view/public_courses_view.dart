@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
-
-import '../components/courses_screen.dart';
+import 'package:gocast_mobile/views/course_view/list_courses_view/courses_list_view.dart';
 
 class PublicCourses extends ConsumerStatefulWidget {
   const PublicCourses({super.key});
@@ -24,7 +23,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
   Widget build(BuildContext context) {
     final publicCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
 
-    return CoursesScreen(
+    return CoursesList(
       title: 'Public Courses',
       courses: publicCourses,
       onRefresh: () async {

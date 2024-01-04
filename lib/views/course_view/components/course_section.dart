@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/viewall_button_view.dart';
+import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 
 import 'course_text_card_view.dart';
@@ -45,7 +46,7 @@ class CourseSection extends StatelessWidget {
             context: context,
             title: sectionTitle,
             onViewAll: onViewAll,
-            courses: courses ?? _defaultCourses(),
+            courses: courses ?? MockData.mockCourses,
           ),
         ],
       ),
@@ -79,7 +80,7 @@ class CourseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(title, onViewAll),
+          _buildSectionTitle(context, title, onViewAll),
           SizedBox(
             height: 210, //TODO maybe render this dynamic? size of 2 cards
             child: ListView.builder(
@@ -116,17 +117,14 @@ class CourseSection extends StatelessWidget {
     );
   }
 
-  Row _buildSectionTitle(String title, VoidCallback onViewAll) {
+  Row _buildSectionTitle(
+      BuildContext context, String title, VoidCallback onViewAll) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         ViewAllButton(onViewAll: onViewAll),
       ],
@@ -144,11 +142,7 @@ class CourseSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, // Adjust color as per your theme
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const Spacer(),
               // This will push the title to the start of the Row
@@ -199,135 +193,5 @@ class CourseSection extends StatelessWidget {
       default:
         return 'Discover Courses';
     }
-  }
-
-  List<Course> _defaultCourses() {
-    return [
-      Course(
-        name: 'PSY101',
-        slug: 'Introduction to Psychology',
-        //imagePath: AppImages.course1,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: true,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY102',
-        slug: 'Introduction to Mathematics',
-        //imagePath: AppImages.course2,
-        vODEnabled: false,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: true,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY103',
-        slug: 'Introduction to Chemistry',
-        //imagePath: AppImages.course2,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY104',
-        slug: 'Introduction to Biology',
-        //imagePath: AppImages.course2,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-      Course(
-        name: 'PSY105',
-        slug: 'Introduction to Physics',
-        //imagePath: AppImages.course2,
-        vODEnabled: true,
-        cameraPresetPreferences: 'HD',
-        semester: Semester(
-          year: 2021,
-          teachingTerm: 'Fall',
-        ),
-        streams: [
-          Stream(
-            name: 'Lecture',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-          Stream(
-            name: 'Tutorial',
-            playlistUrl:
-                'https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6',
-            liveNow: false,
-          ),
-        ],
-      ),
-    ];
   }
 }
