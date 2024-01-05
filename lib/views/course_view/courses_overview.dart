@@ -53,44 +53,50 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       child: RefreshIndicator(
         onRefresh: () async {
           final userViewModelNotifier =
-          ref.read(userViewModelProvider.notifier);
+              ref.read(userViewModelProvider.notifier);
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
         },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (isLoggedIn)
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.0), // Set the color to gray
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                if (isLoggedIn)
+                  CourseSection(
+                    sectionTitle: "Live Now",
+                    onViewAll: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyCourses()),
+                    ),
+                    courses: userCourses ?? [],
+                  ),
+
                 CourseSection(
-                  sectionTitle: "Live Now",
+                  sectionTitle: "My courses",
                   onViewAll: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MyCourses()),
                   ),
                   courses: userCourses ?? [],
                 ),
-
-              CourseSection(
-                sectionTitle: "My courses",
-                onViewAll: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyCourses()),
-                ),
-                courses: userCourses ?? [],
-              ),
-              //const SizedBox(height: 5), // Space between the sections
-              CourseSection(
-                sectionTitle: "Public courses",
-                onViewAll: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PublicCourses(),
+                //const SizedBox(height: 5), // Space between the sections
+                CourseSection(
+                  sectionTitle: "Public courses",
+                  onViewAll: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PublicCourses(),
+                    ),
                   ),
+                  courses: publicCourses ?? [],
                 ),
-                courses: publicCourses ?? [],
-              ),
-              // Add other sections or content as needed
-            ],
+                // Add other sections or content as needed
+              ],
+            ),
           ),
         ),
       ),

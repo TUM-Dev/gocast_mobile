@@ -5,7 +5,6 @@ import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
-import 'package:gocast_mobile/views/course_view/components/course_card_view.dart';
 
 import 'course_text_card_view.dart';
 
@@ -81,35 +80,41 @@ class CourseSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionTitle(context, title, onViewAll),
-          SizedBox(
-            height: 210, //TODO maybe render this dynamic? size of 2 cards
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: courses.length,
-              itemBuilder: (BuildContext context, int index) {
-                /// Those are temporary values until we get the real data from the API
-                final Random random = Random();
-                final course = courses[index];
-                String imagePath;
-                List<String> imagePaths = [
-                  AppImages.course1,
-                  AppImages.course2,
-                ];
-                imagePath = imagePaths[random.nextInt(imagePaths.length)];
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 300),
+            child: FractionallySizedBox(
+              widthFactor: 1.0,
+              child: ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: courses.length,
+                itemBuilder: (BuildContext context, int index) {
+                  /// Those are temporary values until we get the real data from the API
+                  final Random random = Random();
+                  final course = courses[index];
+                  String imagePath;
+                  List<String> imagePaths = [
+                    AppImages.course1,
+                    AppImages.course2,
+                  ];
+                  imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
-                /// End of temporary values
-                debugPrint('Course streams: ' + course.streams.toString());
+                  /// End of temporary values
+                  debugPrint('Course streams: ${course.streams}');
 
-                return CourseCardText(
-                  title: course.name,
-                  subtitle: course.tUMOnlineIdentifier,
-                  path: imagePath,
-                  live: course.streams.any((stream) => stream.liveNow),
-                  identifier: '',
-                  semester: course.semester.teachingTerm +
-                      course.semester.year.toString(),
-                );
-              },
+                  return CourseCardText(
+                    title: course.name,
+                    subtitle: course.tUMOnlineIdentifier,
+                    path: imagePath,
+                    live: course.streams.any((stream) => stream.liveNow),
+                    identifier: '',
+                    semester: course.semester.teachingTerm +
+                        course.semester.year.toString(),
+                    courseId: course.id,
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -118,7 +123,7 @@ class CourseSection extends StatelessWidget {
   }
 
   Row _buildSectionTitle(
-      BuildContext context, String title, VoidCallback onViewAll) {
+      BuildContext context, String title, VoidCallback onViewAll,) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

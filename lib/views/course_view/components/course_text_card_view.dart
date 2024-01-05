@@ -25,17 +25,8 @@ class CourseCardText extends StatelessWidget {
     required this.semester,
     required this.path,
     required this.live,
+    required int courseId,
   });
-
-  static String _generateRandomLastStreamed() {
-    final Random random = Random();
-    List<String> options = [
-      'Monday, 23/10/2023, 13:45',
-      'NOW',
-    ];
-    final int randomIndex = random.nextInt(options.length);
-    return options[randomIndex];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,33 +35,35 @@ class CourseCardText extends StatelessWidget {
         // TODO: Add navigation to the course details screen
       },
       child: Card(
-        elevation: 4, // Adjust the elevation for the shadow effect (if desired)
-        shadowColor: Colors.black.withOpacity(0.5), // Shadow color and opacity
+        elevation: 1,
+        shadowColor: Colors.grey.withOpacity(1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
           side: BorderSide(
-            color: Colors.grey[100]!,
+            color: Colors.grey.withOpacity(0.1),
             width: 1.0,
-          ), // Light grey outline
+          ),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
           child: Container(
-            color: Colors.grey[50],
+            color: Colors.white, //Colors.blue.withOpacity(0.01), //Colors.grey[50],
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildCourseSubtitle(),
-                    //_buildCourseIsLive(), //live or semester
-                    _buildLive(),
-                  ],
+                _buildCourseImage(),
+                const SizedBox(width: 10),
+                Expanded(
+                  //to prevent title overflow
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCourseSubtitle(),
+                      _buildCourseTitle(),
+                      _buildLastLecture(),
+                    ],
+                  ),
                 ),
-                _buildCourseTitle(),
-                _buildLastLecture(),
               ],
             ),
           ),
@@ -79,21 +72,40 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
+  Widget _buildCourseImage() {
+    return ClipOval(
+      child: Image.asset(
+        path,
+        fit: BoxFit.cover,
+        width: 50, // set your desired width
+        height: 50, // set your desired height
+      ),
+    );
+  }
+
   Widget _buildLastLecture() {
-    return const Text("Last Lecture: Thursday, 26/10/2023, 10:00");
+    //return const Text("Last Lecture: Thursday, 26/10/2023, 10:00");
+    return Text(
+      'Last Lecture: Thursday, 26/10/2023, 10:00',
+      style: TextStyle(
+        color: Colors.grey[600],
+        fontSize: 12.0,
+      ),
+    );
   }
 
   Widget _buildCourseTitle() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      // Adjust the values as needed
+      padding: const EdgeInsets.only(top: 8, bottom: 2),
       child: Text(
         title,
         overflow: TextOverflow.ellipsis,
+        maxLines: 2,
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 16, //17,
           fontWeight: FontWeight.w700,
           color: Colors.black,
+          height: 0.9,
         ),
       ),
     );
@@ -104,21 +116,22 @@ class CourseCardText extends StatelessWidget {
       subtitle,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
-        fontSize: 16,
+        fontSize: 14,
         color: Colors.grey,
+        height: 0.9,
       ),
     );
   }
 
   Widget _buildCourseIsLive() {
-    return true //live
+    return false //live
         ? Container(
             decoration: BoxDecoration(
               color: Colors.red,
               borderRadius: BorderRadius.circular(8),
             ),
             padding: const EdgeInsets.only(left: 4, right: 4),
-            margin: EdgeInsets.only(bottom: 2),
+            margin: const EdgeInsets.only(bottom: 2),
             child: //spacing between dot and course number
                 const Text(
               'Live',
@@ -132,9 +145,28 @@ class CourseCardText extends StatelessWidget {
         : _buildCourseSemester(); // Return an empty SizedBox if not live
   }
 
-  Widget _buildLive() {
-    return true //live
+  Widget _buildTumIDColor() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      padding: const EdgeInsets.only(left: 4, right: 4),
+      margin: const EdgeInsets.only(bottom: 2),
+      child: //spacing between dot and course number
+          Text(
+        subtitle,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
 
+  Widget _buildLive() {
+    return false //live
         ? const Row(
             children: [
               Icon(
@@ -168,10 +200,10 @@ class CourseCardText extends StatelessWidget {
   }
 
   Widget _buildLastStreamed() {
-    return Text(
+    return const Text(
       "lastStreamed",
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 16,
         color: Colors.grey,
       ),
