@@ -50,21 +50,6 @@ class LiveNowCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseImage() {
-    return SizedBox(
-      height: 80,
-      child: AspectRatio(
-        aspectRatio: 2 / 1,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            imageName,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildCourseTitle() {
     return Text(

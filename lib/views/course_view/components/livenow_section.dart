@@ -3,10 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/livenow_card_view.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
-import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 
 /// CourseSection
 ///
@@ -26,13 +24,11 @@ import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 class LivenowSection extends StatelessWidget {
   final String sectionTitle;
   final List<Course>? courses;
-  final VoidCallback onViewAll;
   final List<Stream> streams;
 
   const LivenowSection({
     super.key,
     required this.sectionTitle,
-    required this.onViewAll,
     this.courses,
     List<Stream>? streams, // Changed to nullable List<Stream>
   }) : streams = streams ?? const [];
@@ -46,7 +42,6 @@ class LivenowSection extends StatelessWidget {
           _buildCourseSectionOrMessage(
             context: context,
             title: sectionTitle,
-            onViewAll: onViewAll,
             courses: courses ?? _defaultCourses(),
           ),
         ],
@@ -57,14 +52,12 @@ class LivenowSection extends StatelessWidget {
   Widget _buildCourseSectionOrMessage({
     required BuildContext context,
     required String title,
-    required VoidCallback onViewAll,
     required List<Course> courses,
   }) {
     return courses.isNotEmpty
         ? _buildCourseSection(
             context: context,
             title: title,
-            onViewAll: onViewAll,
             courses: courses,
           )
         : _buildNoCoursesMessage(context, title);
@@ -73,7 +66,6 @@ class LivenowSection extends StatelessWidget {
   Widget _buildCourseSection({
     required BuildContext context,
     required String title,
-    required VoidCallback onViewAll,
     required List<Course> courses,
   }) {
     return Padding(
@@ -81,7 +73,7 @@ class LivenowSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(title, onViewAll),
+          _buildSectionTitle(title),
           SizedBox(
             height: 160,
             child: ListView.builder(
@@ -109,7 +101,6 @@ class LivenowSection extends StatelessWidget {
                   courseTitle: course.name,
                   courseTumID: course.tUMOnlineIdentifier,
                   onTap: () {
-                    String videoTitle = course.name;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -129,7 +120,7 @@ class LivenowSection extends StatelessWidget {
     );
   }
 
-  Row _buildSectionTitle(String title, VoidCallback onViewAll) {
+  Row _buildSectionTitle(String title) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -141,7 +132,6 @@ class LivenowSection extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        ViewAllButton(onViewAll: onViewAll),
       ],
     );
   }

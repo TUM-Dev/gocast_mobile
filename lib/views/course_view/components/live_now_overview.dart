@@ -54,9 +54,9 @@ class LiveNowOverviewState extends ConsumerState<LiveNowOverview> {
       child: RefreshIndicator(
         onRefresh: () async {
           final userViewModelNotifier =
-          ref.read(userViewModelProvider.notifier);
+              ref.read(userViewModelProvider.notifier);
           final videoViewModelNotifier =
-          ref.read(videoViewModelProvider.notifier);
+              ref.read(videoViewModelProvider.notifier);
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
           await videoViewModelNotifier.fetchCourseStreams(1);
@@ -67,10 +67,6 @@ class LiveNowOverviewState extends ConsumerState<LiveNowOverview> {
               if (isLoggedIn)
                 LivenowSection(
                   sectionTitle: "Live Now",
-                  onViewAll: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyCourses()),
-                  ),
                   courses: userCourses ?? [],
                 ),
 
