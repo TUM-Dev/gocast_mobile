@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 
-class VideoCard extends BaseCard {
-  final String title;
-  final String date;
-  final String duration;
+class StreamCard extends BaseCard {
+  final Stream stream;
 
-  const VideoCard({
+  const StreamCard({
     super.key,
     required super.imageName,
-    required this.title,
-    required this.date,
-    required this.duration,
+    required this.stream,
     required super.onTap,
   });
 
@@ -19,10 +16,11 @@ class VideoCard extends BaseCard {
   List<Widget> buildCardContent() {
     return [
       buildHeader(
-        title: title,
-        subtitle: date,
+        title: stream.name,
+        subtitle: stream.description,
       ),
-      buildImage(),
+      buildInternetImage(),
     ];
   }
 }
+
