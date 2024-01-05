@@ -115,9 +115,7 @@ class LivenowSection extends StatelessWidget {
                       MaterialPageRoute(
                         //TODO - chat is enabled in live mode
                         builder: (context) => VideoPlayerPage(
-                          videoSource: 'assets/sample.mp4',
-                          title: videoTitle,
-                          sourceType: VideoSourceType.asset,
+                          stream: stream,
                         ),
                       ),
                     );

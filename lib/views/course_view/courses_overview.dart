@@ -65,7 +65,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
           child: Column(
             children: [
               if (isLoggedIn)
-                CourseSection(
+                LivenowSection(
                   sectionTitle: "Live Now",
                   onViewAll: () => Navigator.push(
                     context,
