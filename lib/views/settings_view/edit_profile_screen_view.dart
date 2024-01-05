@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  final Function(String) updatePreferredName;
+
+  const EditProfileScreen({super.key, required this.updatePreferredName});
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController preferredNameController = TextEditingController();
+  final TextEditingController preferredNameController = TextEditingController();
   String infoText = '';
+  bool isError = false;
+
+  @override
+  void dispose() {
+    preferredNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,43 +26,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         title: const Text('Edit Profile'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Preferred Name',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: preferredNameController,
+              decoration: const InputDecoration(
+                hintText: 'Enter your preferred name',
+                border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 8), // Add padding
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 0,
-                vertical: 8,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: TextField(
-                controller: preferredNameController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your preferred name',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16), // Add padding
+            const SizedBox(height: 16),
             const Row(
               children: [
                 Text(
                   'You can change this once ',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(color: Colors.grey),
                 ),
                 Text(
                   'every three months.',
@@ -73,11 +68,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               onPressed: () {
-                //TODO: Save the preferred name and update infoText.
-                String preferredName = preferredNameController.text;
-                setState(() {
-                  infoText = 'Preferred name saved: $preferredName';
-                });
+                if (preferredNameController.text.isNotEmpty) {
+                  String preferredName = preferredNameController.text;
+                  widget.updatePreferredName(preferredName);
+                  setState(() {
+                    infoText = 'Preferred name saved: $preferredName';
+                    isError = false;
+                  });
+                } else {
+                  setState(() {
+                    infoText = 'Please enter a preferred name';
+                    isError = true;
+                  });
+                }
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
@@ -87,8 +90,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SizedBox(height: 16),
             Text(
               infoText,
-              style: const TextStyle(
-                color: Colors.green,
+              style: TextStyle(
+                color: isError ? Colors.red : Colors.green,
               ),
             ),
           ],
