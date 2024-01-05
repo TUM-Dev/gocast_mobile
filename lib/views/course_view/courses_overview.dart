@@ -70,7 +70,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     onViewAll: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyCourses()),
+                          builder: (context) => const MyCourses(),),
                     ),
                     courses: userCourses ?? [],
                   ),

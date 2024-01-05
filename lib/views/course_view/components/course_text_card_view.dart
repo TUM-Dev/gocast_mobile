@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -123,90 +122,8 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseIsLive() {
-    return false //live
-        ? Container(
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.only(left: 4, right: 4),
-            margin: const EdgeInsets.only(bottom: 2),
-            child: //spacing between dot and course number
-                const Text(
-              'Live',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
-            ),
-          )
-        : _buildCourseSemester(); // Return an empty SizedBox if not live
-  }
 
-  Widget _buildTumIDColor() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      padding: const EdgeInsets.only(left: 4, right: 4),
-      margin: const EdgeInsets.only(bottom: 2),
-      child: //spacing between dot and course number
-          Text(
-        subtitle,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-          fontSize: 12,
-        ),
-      ),
-    );
-  }
 
-  Widget _buildLive() {
-    return false //live
-        ? const Row(
-            children: [
-              Icon(
-                Icons.circle,
-                size: 10,
-                color: Colors.red,
-              ),
 
-              SizedBox(width: 5), // Add spacing between the dot and text
-              Text(
-                'Live Now',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          )
-        : _buildCourseSemester(); // Return an empty SizedBox if not live
-  }
 
-  Widget _buildCourseSemester() {
-    return Text(
-      semester,
-      overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
-      ),
-    );
-  }
-
-  Widget _buildLastStreamed() {
-    return const Text(
-      "lastStreamed",
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
-      ),
-    );
-  }
 }
