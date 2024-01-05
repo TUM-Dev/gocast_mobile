@@ -5,7 +5,6 @@ import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
-
 import 'course_text_card_view.dart';
 
 /// CourseSection
