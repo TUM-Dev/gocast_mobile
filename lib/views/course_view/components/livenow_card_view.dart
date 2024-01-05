@@ -21,11 +21,23 @@ class LiveNowCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            child: Column(
+        elevation: 2, // Adjust the elevation for the shadow effect (if desired)
+        shadowColor: Colors.grey.withOpacity(0.5), // Shadow
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
+          side: BorderSide(
+            color: Colors.grey[100] ?? Colors.grey,
+            width: 1.0,
+          ), // Light grey outline
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
+          child: Container(
+            width: MediaQuery.of(context).size.width *
+                0.4, // was 160, now it's 40% of the screen width
+            padding: const EdgeInsets.all(8.0),
+            color: Colors.white54,
+            child:  Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
