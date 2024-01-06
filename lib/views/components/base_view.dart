@@ -25,26 +25,26 @@ class BaseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false; //const BoxConstraints().maxWidth >= 600 ? true : false;
-    debugPrint("Width: ${MediaQuery.of(context).size.width}");
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
 
     return Scaffold(
       key: scaffoldKey,
       appBar: customAppBar ??
           (title != null
               ? AppBar(
-            automaticallyImplyLeading: showLeading,
-            title: Text(title!),
-            actions: isTablet
-                ? [
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  scaffoldKey.currentState?.openEndDrawer();
-                },
-              ),
-            ] : actions,
-          )
+                  automaticallyImplyLeading: showLeading,
+                  title: Text(title!),
+                  actions: isTablet
+                      ? [
+                          IconButton(
+                            icon: const Icon(Icons.settings),
+                            onPressed: () {
+                              scaffoldKey.currentState?.openEndDrawer();
+                            },
+                          ),
+                        ]
+                      : actions,
+                )
               : null),
       body: child,
       endDrawer: isTablet ? settingsHamburgerMenu : null,

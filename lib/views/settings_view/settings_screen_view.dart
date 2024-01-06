@@ -43,11 +43,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     if (!isTablet) {
       return Scaffold(
-          appBar: _buildAppBar(context), body: _buildSettingsOverview());
+        appBar: _buildAppBar(context),
+        body: _buildSettingsOverview(),
+      );
     } else {
       return Drawer(
-          width: MediaQuery.of(context).size.width * 0.45,
-          child: _buildSettingsOverview());
+        width: MediaQuery.of(context).size.width * 0.45,
+        child: _buildSettingsOverview(),
+      );
     }
   }
 
