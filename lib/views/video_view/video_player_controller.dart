@@ -1,5 +1,7 @@
 import 'package:chewie/chewie.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:video_player/video_player.dart';
 
 enum VideoSourceType { asset, network }
@@ -7,33 +9,191 @@ enum VideoSourceType { asset, network }
 class VideoPlayerControllerManager {
   late VideoPlayerController videoPlayerController;
   ChewieController? chewieController;
+  final Function(String, Stream)? onMenuSelection;
+  final Stream currentStream;
 
   VideoPlayerControllerManager({
-    required String videoSource,
-    VideoSourceType sourceType = VideoSourceType.asset,
+    this.onMenuSelection,
+    required this.currentStream,
   }) {
-    videoPlayerController = sourceType == VideoSourceType.asset
-        ? VideoPlayerController.asset(videoSource)
-        : VideoPlayerController.networkUrl(Uri.parse(videoSource));
+    videoPlayerController =
+        _createVideoPlayerController(currentStream.playlistUrl);
+  }
+
+  VideoPlayerController _createVideoPlayerController(String source) {
+    VideoSourceType sourceType = _determineSourceType(source);
+    return sourceType == VideoSourceType.asset
+        ? VideoPlayerController.asset(source)
+        : VideoPlayerController.networkUrl(Uri.parse(source));
+  }
+
+  VideoSourceType _determineSourceType(String videoSource) {
+    return videoSource.startsWith('http')
+        ? VideoSourceType.network
+        : VideoSourceType.asset;
   }
 
   Future<void> initializePlayer() async {
     await videoPlayerController.initialize();
-    chewieController = ChewieController(
+    chewieController = _createChewieController();
+  }
+
+  ChewieController _createChewieController() {
+    return ChewieController(
       videoPlayerController: videoPlayerController,
       aspectRatio: videoPlayerController.value.aspectRatio,
-      autoPlay: false,
+      autoPlay: true,
       looping: false,
-      materialProgressColors: ChewieProgressColors(
-        playedColor: Colors.blue,
-        handleColor: Colors.blueAccent,
-        backgroundColor: Colors.white,
-        bufferedColor: Colors.lightBlueAccent,
-      ),
+      additionalOptions: (context) => _getAdditionalOptions(),
+      optionsBuilder: (context, additionalOptions) async {
+        await _showOptionsDialog(context, additionalOptions);
+      },
+      cupertinoProgressColors: _getCupertinoProgressColors(),
+      materialProgressColors: _getMaterialProgressColors(),
       placeholder: Container(color: Colors.black),
       autoInitialize: true,
       allowFullScreen: true,
       fullScreenByDefault: false,
+    );
+  }
+
+  List<OptionItem> _getAdditionalOptions() {
+    List<OptionItem> items = [];
+    if (currentStream.hasPlaylistUrl()) {
+      items.add(
+        OptionItem(
+          onTap: () => onMenuSelection?.call('Combined view', currentStream),
+          iconData: Icons.layers,
+          title: "Combined view",
+        ),
+      );
+    }
+    if (currentStream.hasPlaylistUrlCAM()) {
+      items.add(
+        OptionItem(
+          onTap: () => onMenuSelection?.call('Camera view', currentStream),
+          iconData: Icons.camera_alt,
+          title: "Camera view",
+        ),
+      );
+    }
+    if (currentStream.hasPlaylistUrlPRES()) {
+      items.add(
+        OptionItem(
+          onTap: () =>
+              onMenuSelection?.call('Presentation view', currentStream),
+          iconData: Icons.present_to_all,
+          title: "Presentation view",
+        ),
+      );
+    }
+    if (currentStream.hasPlaylistUrlCAM() &&
+        currentStream.hasPlaylistUrlPRES()) {
+      items.add(
+        OptionItem(
+          onTap: () => onMenuSelection?.call('Split view', currentStream),
+          iconData: Icons.vertical_split_sharp,
+          title: "Split view",
+        ),
+      );
+    }
+    return items;
+  }
+
+  Future<void> _showOptionsDialog(
+    BuildContext context,
+    List<OptionItem> additionalOptions,
+  ) async {
+    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    final optionsWidgets =
+        _buildOptionWidgets(context, additionalOptions, isIOS);
+
+    if (isIOS) {
+      await showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => CupertinoActionSheet(
+          actions: optionsWidgets,
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+        ),
+      );
+    } else {
+      await showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) => SafeArea(
+          child: ListView(shrinkWrap: true, children: optionsWidgets),
+        ),
+      );
+    }
+  }
+
+  List<Widget> _buildOptionWidgets(
+    BuildContext context,
+    List<OptionItem> options,
+    bool isIOS,
+  ) {
+    return options.map((option) {
+      return isIOS
+          ? CupertinoActionSheetAction(
+              child: _buildOptionRow(option),
+              onPressed: () {
+                option.onTap?.call();
+                Navigator.pop(context);
+              },
+            )
+          : ListTile(
+              leading: Icon(option.iconData),
+              title: Text(option.title),
+              onTap: () {
+                option.onTap?.call();
+                Navigator.pop(context);
+              },
+            );
+    }).toList();
+  }
+
+  Row _buildOptionRow(OptionItem option) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Icon(
+          option.iconData,
+          color: Colors.black87,
+          size: 20,
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Text(
+            option.title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  ChewieProgressColors _getCupertinoProgressColors() {
+    return ChewieProgressColors(
+      playedColor: Colors.blue,
+      handleColor: Colors.blueAccent,
+      backgroundColor: Colors.grey,
+      bufferedColor: Colors.lightBlueAccent,
+    );
+  }
+
+  ChewieProgressColors _getMaterialProgressColors() {
+    return ChewieProgressColors(
+      playedColor: Colors.blue,
+      handleColor: Colors.blueAccent,
+      backgroundColor: Colors.grey,
+      bufferedColor: Colors.lightBlueAccent,
     );
   }
 
@@ -50,20 +210,28 @@ class VideoPlayerControllerManager {
     String newSource,
     VideoSourceType sourceType,
   ) async {
-    videoPlayerController.pause();
-    final oldPosition = videoPlayerController.value.position;
+    await _pauseAndDisposeCurrentPlayer();
+    await _initializeNewVideoSource(newSource, sourceType);
+  }
 
-    // Dispose old controller
+  Future<void> _pauseAndDisposeCurrentPlayer() async {
+    await videoPlayerController.pause();
     videoPlayerController.dispose();
     chewieController?.dispose();
+  }
 
-    // Create new controller
-    videoPlayerController = sourceType == VideoSourceType.asset
-        ? VideoPlayerController.asset(newSource)
-        : VideoPlayerController.networkUrl(Uri.parse(newSource));
-
-    // Initialize and seek to old position
+  Future<void> _initializeNewVideoSource(
+    String newSource,
+    VideoSourceType sourceType,
+  ) async {
+    final oldPosition = videoPlayerController.value.position;
+    videoPlayerController = _createVideoPlayerController(newSource);
     await initializePlayer();
     await videoPlayerController.seekTo(oldPosition);
+    if (videoPlayerController.value.isPlaying) {
+      await videoPlayerController.play();
+    } else {
+      await videoPlayerController.pause();
+    }
   }
 }

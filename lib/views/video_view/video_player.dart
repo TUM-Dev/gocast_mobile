@@ -21,29 +21,25 @@ class VideoPlayerPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<VideoPlayerPage> createState() => VideoPlayerPageState();
-
-  static VideoSourceType _determineSourceType(String videoSource) {
-    return videoSource.startsWith('http')
-        ? VideoSourceType.network
-        : VideoSourceType.asset;
-  }
 }
 
 class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   late VideoPlayerControllerManager _controllerManager;
+  late VideoPlayerHandlers _videoPlayerHandlers;
+
   Timer? _progressTimer;
 
   Widget _buildVideoLayout() {
-    final VideoPlayerHandlers videoPlayerHandlers = VideoPlayerHandlers(
+    _videoPlayerHandlers = VideoPlayerHandlers(
       switchPlaylist: _switchPlaylist,
     );
     return Column(
       children: <Widget>[
         Expanded(child: _controllerManager.buildVideoPlayer()),
         CustomVideoControlBar(
-          onMenuSelection: videoPlayerHandlers.handleMenuSelection,
-          onToggleChat: videoPlayerHandlers.handleToggleChat,
-          onOpenQuizzes: videoPlayerHandlers.handleOpenQuizzes,
+          onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
+          onToggleChat: _videoPlayerHandlers.handleToggleChat,
+          onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
           currentStream: widget.stream,
         ),
         const Expanded(child: ChatView()),
@@ -54,8 +50,14 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   @override
   void initState() {
     super.initState();
+    _videoPlayerHandlers = VideoPlayerHandlers(
+      switchPlaylist: _switchPlaylist,
+    );
     _initializeControllerManager();
     Future.microtask(() {
+      ref
+          .read(videoViewModelProvider.notifier)
+          .switchVideoSource(widget.stream.playlistUrl);
       _initVideoPlayer();
       _setupProgressListener();
     });
@@ -87,9 +89,8 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 // Initialize the controller manager.
   void _initializeControllerManager() {
     _controllerManager = VideoPlayerControllerManager(
-      videoSource: widget.stream.playlistUrl,
-      sourceType:
-          VideoPlayerPage._determineSourceType(widget.stream.playlistUrl),
+      currentStream: widget.stream,
+      onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
     );
   }
 
@@ -186,6 +187,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       Logger().i("Already displaying $newPlaylistUrl");
       return;
     }
+    Logger().i("Switching to $newPlaylistUrl");
     _setLoadingState(true);
     try {
       ref
