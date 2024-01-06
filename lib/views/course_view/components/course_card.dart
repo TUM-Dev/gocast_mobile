@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/views/course_detail_view/course_detail_view.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 
 /// Course card view
 ///
