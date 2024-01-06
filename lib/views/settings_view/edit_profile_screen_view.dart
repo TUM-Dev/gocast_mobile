@@ -6,10 +6,10 @@ class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key, required this.updatePreferredName});
 
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
+  EditProfileScreenState createState() => EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController preferredNameController = TextEditingController();
   String infoText = '';
   bool isError = false;
