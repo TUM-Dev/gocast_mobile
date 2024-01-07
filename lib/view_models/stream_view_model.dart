@@ -55,48 +55,34 @@ class StreamViewModel extends StateNotifier<StreamState> {
       state = state.copyWith(isLoading: false);
     }
   }
-
-  String extractVideoIdFromFileName(String fileName) {
-    final regex = RegExp(r'video_(\d+)\.mp4');
-    final match = regex.firstMatch(fileName);
-
-    if (match != null && match.groupCount >= 1) {
-      return match.group(1)!; // Extracted video ID as a string
-    }
-
-    return ''; // Return an empty string if no match is found
-  }
-
   Future<void> fetchDownloadVideos() async {
+    state = state.copyWith(isLoading: true);
+
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final files = directory.listSync();
-      final downloadedVideos = <int, String>{};
+      final files = Directory(directory.path).listSync(); // List all files in the storage directory
+      final downloadedVideoPaths = <int, String>{};
 
       for (final file in files) {
-        if (file is File) {
-          final fileName = file.path.split('/').last; // Get the file name from the path
-          final videoIdString = extractVideoIdFromFileName(fileName);
+        if (file is File && file.path.endsWith('.mp4')) {
+          final fileName = file.uri.pathSegments.last; // Get the file name
+          final videoIdStr = fileName.split('_').last.split('.').first;
+          final videoId = int.tryParse(videoIdStr);
 
-          if (videoIdString.isNotEmpty) {
-            final videoId = int.tryParse(videoIdString);
-            if (videoId != null) {
-              downloadedVideos[videoId] = file.path;
-            }
+          if (videoId != null) {
+            downloadedVideoPaths[videoId] = file.path;
+            _logger.d('Found downloaded video with ID $videoId at: ${file.path}'); // Debug statement
           }
         }
       }
 
-      // Update your state with the downloaded videos
-      state = state.copyWith(
-        downloadedVideos: downloadedVideos,
-      );
-
+      state = state.copyWith(isLoading: false, downloadedVideos: downloadedVideoPaths);
+      _logger.d('Downloaded videos: ${downloadedVideoPaths.keys}'); // Debug statement
     } catch (e) {
-      _logger.e("Error fetching downloaded videos: $e");
+      _logger.e('Error fetching downloaded videos: $e');
+      state = state.copyWith(isLoading: false);
     }
   }
-
 
   Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');
