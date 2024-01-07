@@ -14,7 +14,7 @@ class AppConfig {
     if (Platform.isAndroid) {
       return 'http://10.0.2.2:8081/api';
     } else if (Platform.isIOS) {
-      return 'http://localhost:8081/api';
+      return 'http://172.20.10.4:8081/api';
     }
     throw UnsupportedError('Unsupported platform');
   }
@@ -29,7 +29,7 @@ class AppConfig {
 
   // gRPC routes
   static String get grpcHost {
-    return Platform.isAndroid ? '10.0.2.2' : 'localhost';
+    return Platform.isAndroid ? '10.0.2.2' : '172.20.10.4';
   }
 
   static const int grpcPort = 12544;

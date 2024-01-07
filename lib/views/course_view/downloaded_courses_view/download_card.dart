@@ -8,10 +8,10 @@ class VideoCard extends BaseCard {
 
   const VideoCard({
     super.key,
-    required super.imageName,
     required this.title,
     required this.date,
     required this.duration,
+    required super.imageName,
     required super.onTap,
   });
 

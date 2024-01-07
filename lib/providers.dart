@@ -25,3 +25,4 @@ final currentIndexProvider = StateProvider<int>((ref) => 0);
 final themeModeProvider = StateProvider<ThemeMode>((ref) {
     return ThemeMode.system; // Default to system theme
 });
+

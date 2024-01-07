@@ -7,12 +7,84 @@ import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/video/stream_state_model.dart';
 import 'package:logger/logger.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:dio/dio.dart';
 
 class StreamViewModel extends StateNotifier<StreamState> {
   final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   StreamViewModel(this._grpcHandler) : super(const StreamState());
+
+  Future<String> downloadVideo(String videoUrl, String fileName) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/$fileName';
+      Dio dio = Dio();
+      await dio.download(videoUrl, filePath);
+      _logger.d('Downloaded video to: $filePath'); // Debug statement
+
+      // Debug statement to check if downloads are being updated
+      state = state.copyWith(
+        downloadedVideos: Map.from(state.downloadedVideos)
+          ..[state.streams?.first.id.toInt() ?? -1] = filePath,
+      );
+
+      return filePath;
+    } catch (e) {
+      _logger.e("Error downloading video: $e");
+      return '';
+    }
+  }
+
+  Future<void> handleDownloadForStream(String videoUrl, Stream stream) async {
+    state = state.copyWith(isLoading: true);
+    String localPath = await downloadVideo(videoUrl, "downloaded_stream_${stream.id.toInt()}.mp4");
+
+    if (localPath.isNotEmpty) {
+      state = state.copyWith(
+          downloadedVideos: Map.from(state.downloadedVideos)..[stream.id.toInt()] = localPath,
+          isLoading: false,
+      );
+      _logger.d('Downloaded video for stream ID ${stream.id} to: $localPath'); // Debug statement
+
+      // Debug statement to check if downloads are being updated
+      _logger.d('Updated downloaded videos: ${state.downloadedVideos}');
+    } else {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> fetchDownloadVideos() async {
+    state = state.copyWith(isLoading: true);
+
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final files = Directory(directory.path).listSync(); // List all files in the storage directory
+      final downloadedVideoPaths = <int, String>{};
+
+      for (final file in files) {
+        if (file is File && file.path.endsWith('.mp4')) {
+          final fileName = file.uri.pathSegments.last; // Get the file name
+          final videoIdStr = fileName.split('_').last.split('.').first;
+          final videoId = int.tryParse(videoIdStr);
+
+          if (videoId != null) {
+            downloadedVideoPaths[videoId] = file.path;
+            _logger.d('Found downloaded video with ID $videoId at: ${file.path}'); // Debug statement
+          }
+        }
+      }
+
+      state = state.copyWith(isLoading: false, downloadedVideos: downloadedVideoPaths);
+      _logger.d('Downloaded videos: ${downloadedVideoPaths.keys}'); // Debug statement
+    } catch (e) {
+      _logger.e('Error fetching downloaded videos: $e');
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
 
   Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');

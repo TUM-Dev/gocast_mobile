@@ -33,6 +33,28 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   bool _isLoading = true;
   Timer? _progressTimer; // Define a Timer for progress updates
 
+  void _downloadVideo(Stream stream) {
+    // Define the URL of the video to download
+    const String videoUrl = "https://file-examples.com/storage/fe8b1dec51659ab4797741c/2017/04/file_example_MP4_480_1_5MG.mp4";
+    const String fileName = "downloaded_video.mp4";
+
+    // Call the download function from the StreamViewModel
+    ref.read(videoViewModelProvider.notifier)
+        .downloadVideo(videoUrl, fileName)
+        .then((localPath) {
+      if (localPath.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Download completed: $localPath')),
+
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Download failed')),
+        );
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -191,6 +213,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   /// It switches between the different video sources or downloads the video.
   void _handleMenuSelection(String choice, Stream stream) {
     if (choice == 'Download') {
+      _downloadVideo(stream);
       // TODO: Implement download
     } else if (choice == 'Combined view') {
       _switchPlaylist(stream.playlistUrl);
