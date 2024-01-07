@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
+import 'package:gocast_mobile/views/settings_view/preferred_greeting_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gocast_mobile/views/settings_view/edit_profile_screen_view.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/views/settings_view/custom_playback_speed_view.dart';
 import 'package:gocast_mobile/views/settings_view/playback_speed_picker_view.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
+import 'package:gocast_mobile/views/settings_view/custom_playback_speed_view.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -32,13 +33,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   void initState() {
     super.initState();
     ref.read(userViewModelProvider.notifier).fetchUserSettings();
-    _loadThemePreference();
-    _loadNotificationPreference();
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    _loadThemePreference(prefs);
+    _loadNotificationPreference(prefs);
     _loadUserSettings();
   }
 
-  Future<void> _loadThemePreference() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future<void> _loadThemePreference(SharedPreferences prefs) async {
     final themePreference = prefs.getString('themeMode') ?? 'light';
     setState(() {
       isDarkMode = themePreference == 'dark';
@@ -50,8 +55,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await prefs.setString('themeMode', theme);
   }
 
-  Future<void> _loadNotificationPreference() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future<void> _loadNotificationPreference(SharedPreferences prefs) async {
     final notificationPreference = prefs.getBool('notifications') ?? true;
     setState(() {
       isPushNotificationsEnabled = notificationPreference;
@@ -123,16 +127,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _buildProfileTile(userState),
               const Divider(),
               _buildSectionTitle('Account Settings'),
-              _buildEditableListTile('Edit profile', () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => EditProfileScreen(
-                      updatePreferredName: _updatePreferredNameAPI,
+              _buildEditableListTile('Edit profile', () async {
+                bool isAuthenticated =
+                    await showAuthenticationErrorCard(context, ref);
+                if (isAuthenticated && mounted) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => EditProfileScreen(
+                        updatePreferredName: _updatePreferredNameAPI,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               }),
-              _buildPreferredGreetingTile(),
+              const PreferredGreetingView(),
               _buildSwitchListTile(
                 title: 'Push notifications',
                 value: isPushNotificationsEnabled,
@@ -189,39 +197,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  ListTile _buildPreferredGreetingTile() {
-    return ListTile(
-      title: const Text('Preferred Greeting'),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildGreetingRadioOption('Servus'),
-          _buildGreetingRadioOption('Moin'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGreetingRadioOption(String greeting) {
-    return Row(
-      children: [
-        Radio<String>(
-          value: greeting,
-          groupValue: preferredGreeting,
-          onChanged: (String? newValue) {
-            if (newValue != null && newValue != preferredGreeting) {
-              setState(() {
-                preferredGreeting = newValue;
-              });
-              _updatePreferredGreetingAPI(newValue);
-            }
-          },
-        ),
-        Text(greeting),
-      ],
-    );
-  }
-
   ListTile _buildPlaybackSpeedsTile() {
     return ListTile(
       title: const Text('Playback Speeds'),
@@ -265,19 +240,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
   }
 
-  void _updatePreferredGreetingAPI(String greeting) async {
-    bool isAuthenticated = await showAuthenticationErrorCard(_scaffoldKey, ref);
-    if (isAuthenticated) {
-      ref.read(userViewModelProvider.notifier).updateUserSettings([
-        UserSetting(type: UserSettingType.GREETING, value: greeting),
-      ]).then((_) {
-        ref.read(userViewModelProvider.notifier).fetchUserSettings();
-      });
-    }
-  }
-
   void _updatePlaybackSpeedsAPI(List<double> speeds) async {
-    bool isAuthenticated = await showAuthenticationErrorCard(_scaffoldKey, ref);
+    bool isAuthenticated = await showAuthenticationErrorCard(context, ref);
     if (isAuthenticated) {
       List<Map<String, dynamic>> speedsList = speeds
           .map(
@@ -347,19 +311,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return ListTile(
       title: Text(title),
       trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: () async {
-        bool isAuthenticated =
-            await showAuthenticationErrorCard(_scaffoldKey, ref);
-        if (isAuthenticated && mounted) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => EditProfileScreen(
-                updatePreferredName: _updatePreferredNameAPI,
-              ),
-            ),
-          );
-        }
-      },
+      onTap: onTap,
     );
   }
 
