@@ -7,12 +7,15 @@ import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
 
+import '../../video_view/local_video_player.dart';
+
 class DownloadedCourses extends ConsumerWidget {
-  const DownloadedCourses({Key? key});
+  const DownloadedCourses({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final downloadedVideos = ref.watch(videoViewModelProvider).downloadedVideos;
+
 
     //print('Number of downloaded videos: ${downloadedVideos.length}');
 
@@ -35,14 +38,11 @@ class DownloadedCourses extends ConsumerWidget {
           date: 'Video Date', // Replace with the appropriate date
           onTap: () {
             // Handle video tap, you can use videoId and localPath here
-            //print('Video tapped: $videoId');
-            //print('Local path: $localPath');
-          /*  Navigator.of(context).push(
+            Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => VideoPlayerPage(localPath: localPath),
+                builder: (context) => LocalVideoPlayerPage(localPath: localPath),
               ),
             );
-          */
           },
         );
       }).toList(),

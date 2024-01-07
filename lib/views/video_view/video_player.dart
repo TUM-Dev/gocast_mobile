@@ -35,12 +35,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
   void _downloadVideo(Stream stream) {
     // Define the URL of the video to download
-    const String videoUrl = "https://file-examples.com/storage/fe8b1dec51659ab4797741c/2017/04/file_example_MP4_480_1_5MG.mp4";
+    //const String videoUrl = "https://file-examples.com/storage/fecb005e46659ad09951b7e/2017/04/file_example_MP4_480_1_5MG.mp4";
     const String fileName = "downloaded_video.mp4";
 
     // Call the download function from the StreamViewModel
     ref.read(videoViewModelProvider.notifier)
-        .downloadVideo(videoUrl, fileName)
+        .downloadVideo("videoUrl", fileName)
         .then((localPath) {
       if (localPath.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -214,6 +214,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   void _handleMenuSelection(String choice, Stream stream) {
     if (choice == 'Download') {
       _downloadVideo(stream);
+
       // TODO: Implement download
     } else if (choice == 'Combined view') {
       _switchPlaylist(stream.playlistUrl);

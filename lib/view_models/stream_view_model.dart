@@ -18,6 +18,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
   StreamViewModel(this._grpcHandler) : super(const StreamState());
 
   Future<String> downloadVideo(String videoUrl, String fileName) async {
+    videoUrl ="https://file-examples.com/storage/fe1969b06c659adea9a1b55/2017/04/file_example_MP4_480_1_5MG.mp4";
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -55,33 +56,44 @@ class StreamViewModel extends StateNotifier<StreamState> {
       state = state.copyWith(isLoading: false);
     }
   }
+  String extractVideoIdFromFileName(String fileName) {
+    final regex = RegExp(r'video_(\d+)\.mp4');
+    final match = regex.firstMatch(fileName);
+
+    if (match != null && match.groupCount >= 1) {
+      return match.group(1)!; // Extracted video ID as a string
+    }
+
+    return ''; // Return an empty string if no match is found
+  }
 
   Future<void> fetchDownloadVideos() async {
-    state = state.copyWith(isLoading: true);
-
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final files = Directory(directory.path).listSync(); // List all files in the storage directory
-      final downloadedVideoPaths = <int, String>{};
+      final files = directory.listSync();
+      final downloadedVideos = <int, String>{};
 
       for (final file in files) {
-        if (file is File && file.path.endsWith('.mp4')) {
-          final fileName = file.uri.pathSegments.last; // Get the file name
-          final videoIdStr = fileName.split('_').last.split('.').first;
-          final videoId = int.tryParse(videoIdStr);
+        if (file is File) {
+          final fileName = file.path.split('/').last; // Get the file name from the path
+          final videoIdString = extractVideoIdFromFileName(fileName);
 
-          if (videoId != null) {
-            downloadedVideoPaths[videoId] = file.path;
-            _logger.d('Found downloaded video with ID $videoId at: ${file.path}'); // Debug statement
+          if (videoIdString.isNotEmpty) {
+            final videoId = int.tryParse(videoIdString);
+            if (videoId != null) {
+              downloadedVideos[videoId] = file.path;
+            }
           }
         }
       }
 
-      state = state.copyWith(isLoading: false, downloadedVideos: downloadedVideoPaths);
-      _logger.d('Downloaded videos: ${downloadedVideoPaths.keys}'); // Debug statement
+      // Update your state with the downloaded videos
+      state = state.copyWith(
+        downloadedVideos: downloadedVideos,
+      );
+
     } catch (e) {
-      _logger.e('Error fetching downloaded videos: $e');
-      state = state.copyWith(isLoading: false);
+      _logger.e("Error fetching downloaded videos: $e");
     }
   }
 
