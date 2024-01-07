@@ -21,7 +21,6 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   bool isDarkMode = false;
   bool isPushNotificationsEnabled = false;
   bool isDownloadOverWifiOnly = false;
@@ -133,9 +132,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 if (isAuthenticated && mounted) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => EditProfileScreen(
-                        updatePreferredName: _updatePreferredNameAPI,
-                      ),
+                      builder: (context) => const EditProfileScreen(),
                     ),
                   );
                 }
@@ -231,37 +228,37 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     _updatePlaybackSpeedsAPI(selectedPlaybackSpeeds);
   }
 
-  void _updatePreferredNameAPI(String name) {
-    ref.read(userViewModelProvider.notifier).updateUserSettings([
-      UserSetting(type: UserSettingType.PREFERRED_NAME, value: name),
-    ]).then((_) {
-      // Fetch all settings again to ensure the state is up-to-date
-      ref.read(userViewModelProvider.notifier).fetchUserSettings();
-    });
-  }
-
   void _updatePlaybackSpeedsAPI(List<double> speeds) async {
-    bool isAuthenticated = await showAuthenticationErrorCard(context, ref);
+    bool isAuthenticated =
+        await showAuthenticationErrorCard(_scaffoldKey.currentContext!, ref);
     if (isAuthenticated) {
-      List<Map<String, dynamic>> speedsList = speeds
-          .map(
-            (speed) => {
-              "speed": speed,
-              "enabled": true,
-            },
-          )
-          .toList();
+      // Fetch current user settings
+      var currentUserSettings =
+          ref.read(userViewModelProvider).userSettings ?? [];
 
+      // Prepare the updated playback speeds setting
+      List<Map<String, dynamic>> speedsList =
+          speeds.map((speed) => {"speed": speed, "enabled": true}).toList();
       final String speedsJson = jsonEncode(speedsList);
-
-      final UserSetting playbackSpeedSetting = UserSetting(
+      final UserSetting updatedPlaybackSpeedSetting = UserSetting(
         type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
         value: speedsJson,
       );
 
+      // Replace the existing playback speeds setting with the updated one
+      final updatedUserSettings = currentUserSettings
+          .where(
+            (setting) => setting.type != UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+          )
+          .toList()
+        ..add(updatedPlaybackSpeedSetting);
+
+      // Update user settings with the modified list
       ref
           .read(userViewModelProvider.notifier)
-          .updateUserSettings([playbackSpeedSetting]).then((_) {
+          .updateUserSettings(updatedUserSettings)
+          .then((_) {
+        // Fetch updated settings
         ref.read(userViewModelProvider.notifier).fetchUserSettings();
       });
     }

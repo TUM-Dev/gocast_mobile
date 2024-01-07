@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
-class EditProfileScreen extends StatefulWidget {
-  final Function(String) updatePreferredName;
-
-  const EditProfileScreen({super.key, required this.updatePreferredName});
+class EditProfileScreen extends ConsumerStatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
   EditProfileScreenState createState() => EditProfileScreenState();
 }
 
-class EditProfileScreenState extends State<EditProfileScreen> {
+class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final TextEditingController preferredNameController = TextEditingController();
   String infoText = '';
   bool isError = false;
@@ -44,21 +45,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Row(
-              children: [
-                Text(
-                  'You can change this once ',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  'every three months.',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            const Text(
+              'You can change this once every three months.',
+              style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
@@ -69,12 +58,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               ),
               onPressed: () {
                 if (preferredNameController.text.isNotEmpty) {
-                  String preferredName = preferredNameController.text;
-                  widget.updatePreferredName(preferredName);
-                  setState(() {
-                    infoText = 'Preferred name saved: $preferredName';
-                    isError = false;
-                  });
+                  _updatePreferredName(preferredNameController.text);
                 } else {
                   setState(() {
                     infoText = 'Please enter a preferred name';
@@ -98,5 +82,23 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  void _updatePreferredName(String name) async {
+    try {
+      await ref.read(userViewModelProvider.notifier).updateUserSettings([
+        UserSetting(type: UserSettingType.PREFERRED_NAME, value: name),
+      ]);
+      await ref.read(userViewModelProvider.notifier).fetchUserSettings();
+      setState(() {
+        infoText = 'Preferred name saved: $name';
+        isError = false;
+      });
+    } catch (e) {
+      setState(() {
+        infoText = 'Error updating preferred name';
+        isError = true;
+      });
+    }
   }
 }

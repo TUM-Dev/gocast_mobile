@@ -30,8 +30,12 @@ class PreferredGreetingView extends ConsumerWidget {
     );
   }
 
-  Widget _buildGreetingRadioOption(BuildContext context, WidgetRef ref,
-      String greeting, String currentGreeting) {
+  Widget _buildGreetingRadioOption(
+    BuildContext context,
+    WidgetRef ref,
+    String greeting,
+    String currentGreeting,
+  ) {
     return Row(
       children: [
         Radio<String>(
@@ -49,12 +53,26 @@ class PreferredGreetingView extends ConsumerWidget {
   }
 
   Future<void> _updatePreferredGreeting(
-      BuildContext context, WidgetRef ref, String newGreeting) async {
+    BuildContext context,
+    WidgetRef ref,
+    String newGreeting,
+  ) async {
     if (await showAuthenticationErrorCard(context, ref)) {
-      await ref.read(userViewModelProvider.notifier).updateUserSettings([
-        UserSetting(type: UserSettingType.GREETING, value: newGreeting),
-      ]);
-      await ref.read(userViewModelProvider.notifier).fetchUserSettings();
+      var userSettings = List<UserSetting>.from(
+        ref.read(userViewModelProvider).userSettings ?? [],
+      );
+      var greetingSetting = userSettings.firstWhere(
+        (setting) => setting.type == UserSettingType.GREETING,
+        orElse: () =>
+            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
+      );
+      greetingSetting.value = newGreeting;
+      if (!userSettings.contains(greetingSetting)) {
+        userSettings.add(greetingSetting);
+      }
+      await ref
+          .read(userViewModelProvider.notifier)
+          .updateUserSettings(userSettings);
     }
   }
 }
