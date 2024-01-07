@@ -18,7 +18,6 @@ class StreamViewModel extends StateNotifier<StreamState> {
   StreamViewModel(this._grpcHandler) : super(const StreamState());
 
   Future<String> downloadVideo(String videoUrl, String fileName) async {
-    videoUrl ="https://file-examples.com/storage/fe1969b06c659adea9a1b55/2017/04/file_example_MP4_480_1_5MG.mp4";
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -56,6 +55,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
       state = state.copyWith(isLoading: false);
     }
   }
+
   String extractVideoIdFromFileName(String fileName) {
     final regex = RegExp(r'video_(\d+)\.mp4');
     final match = regex.firstMatch(fileName);
