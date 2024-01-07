@@ -26,6 +26,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool isDownloadOverWifiOnly = false;
   String preferredGreeting = 'Servus';
   List<double> selectedPlaybackSpeeds = [];
+  List<double> customPlaybackSpeeds = [];
 
   @override
   void initState() {
@@ -78,16 +79,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
       try {
         List<dynamic> speedsList = jsonDecode(playbackSpeedSetting.value);
-        selectedPlaybackSpeeds = speedsList
-            .where((item) => item is Map && item['enabled'] == true)
-            .map((item) => item['speed'] as double)
-            .toList();
+        selectedPlaybackSpeeds.clear(); // Clear the existing list
+        customPlaybackSpeeds.clear(); // Clear custom speeds
+
+        for (var item in speedsList) {
+          if (item is Map && item['enabled'] == true) {
+            double speed = item['speed'] as double;
+            selectedPlaybackSpeeds.add(speed); // Add all enabled speeds
+            if (!getDefaultSpeeds().contains(speed)) {
+              customPlaybackSpeeds.add(speed); // Add to custom if not default
+            }
+          }
+        }
       } catch (e) {
         if (kDebugMode) {
           print('Error parsing playback speeds: $e');
         }
       }
     }
+  }
+
+  List<double> getDefaultSpeeds() {
+    List<double> defaultSpeeds = [];
+    for (int i = 0; i < 14; i++) {
+      defaultSpeeds.add((i + 1) * 0.25);
+    }
+    return defaultSpeeds;
   }
 
   @override
