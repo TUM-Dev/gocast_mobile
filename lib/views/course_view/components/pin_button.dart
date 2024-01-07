@@ -21,7 +21,7 @@ class PinButton extends ConsumerWidget {
         return IconButton(
           icon: Icon(
             isInitiallyPinned ? Icons.push_pin : Icons.push_pin_outlined,
-            color: Colors.blue[800],
+            color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () async {
             final viewModel = ref.read(userViewModelProvider.notifier);
