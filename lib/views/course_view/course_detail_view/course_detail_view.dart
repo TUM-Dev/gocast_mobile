@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
+import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 
@@ -69,13 +70,29 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
   }
 
-  /// Displays the course title.
+  // In _courseTitle method of CourseDetailState
   Widget _courseTitle(String title) {
+    bool isPinned = _checkPinStatus();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          PinButton(
+            courseId: widget.courseId,
+            isInitiallyPinned: isPinned,
+            onPinStatusChanged: () => setState(() {}),
+          ),
+        ],
       ),
     );
   }
@@ -185,5 +202,16 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     scaffoldMessenger.showSnackBar(
       SnackBar(content: Text(message)),
     );
+  }
+  
+  bool _checkPinStatus() {
+    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    // Iterate over the userPinned list and check if courseId matches
+    for (var course in userPinned) {
+      if (course.id == widget.courseId) {
+        return true; // Course is pinned
+      }
+    }
+    return false; // Course is not pinned
   }
 }
