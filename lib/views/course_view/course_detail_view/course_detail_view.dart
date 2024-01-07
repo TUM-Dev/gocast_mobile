@@ -69,13 +69,25 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
   }
 
-  /// Displays the course title.
+  /// Displays the course title with a pin button.
   Widget _courseTitle(String title) {
+    bool isPinned = _checkPinStatus();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          _buildPinButton(isPinned),
+        ],
       ),
     );
   }
@@ -185,5 +197,35 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     scaffoldMessenger.showSnackBar(
       SnackBar(content: Text(message)),
     );
+  }
+
+  Widget _buildPinButton(bool isPinned) {
+    return IconButton(
+      icon: Icon(
+        isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+        color: Colors.blue[800],
+      ),
+      onPressed: () => _togglePin(widget.courseId, isPinned),
+    );
+  }
+
+  Future<void> _togglePin(int courseId, bool isPinned) async {
+    final viewModel = ref.read(userViewModelProvider.notifier);
+    if (isPinned) {
+      await viewModel.unpinCourse(courseId);
+    } else {
+      await viewModel.pinCourse(courseId);
+    }
+  }
+
+  bool _checkPinStatus() {
+    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    // Iterate over the userPinned list and check if courseId matches
+    for (var course in userPinned) {
+      if (course.id == widget.courseId) {
+        return true; // Course is pinned
+      }
+    }
+    return false; // Course is not pinned
   }
 }
