@@ -79,7 +79,6 @@ class CourseSection extends StatelessWidget {
             ? _buildCourseSection(
                 context: context,
                 title: title,
-                onViewAll: onViewAll,
                 courses: courses,
                 streams: streams,
               )
@@ -89,7 +88,7 @@ class CourseSection extends StatelessWidget {
   Widget _buildCourseSection({
     required BuildContext context,
     required String title,
-    required VoidCallback onViewAll,
+    VoidCallback? onViewAll,
     required List<Course> courses,
     List<Stream>? streams,
   }) {
@@ -162,7 +161,7 @@ class CourseSection extends StatelessWidget {
   Row _buildSectionTitle(
     BuildContext context,
     String title,
-    VoidCallback onViewAll,
+    VoidCallback? onViewAll,
   ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,7 +170,7 @@ class CourseSection extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        ViewAllButton(onViewAll: onViewAll),
+        onViewAll != null ? ViewAllButton(onViewAll: onViewAll) : const SizedBox(),
       ],
     );
   }
