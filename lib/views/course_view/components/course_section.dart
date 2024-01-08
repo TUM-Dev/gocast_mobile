@@ -100,10 +100,10 @@ class CourseSection extends StatelessWidget {
         children: [
           _buildSectionTitle(context, title, onViewAll),
           SizedBox(
-            height: 200,
+            height: streams != null ? 90 : 200, //TODO make this fit livestreams too
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: courses.length,
+              itemCount: streams != null ? streams.length : courses.length,
               itemBuilder: (BuildContext context, int index) {
                 /// Those are temporary values until we get the real data from the API
                 final Random random = Random();
@@ -114,6 +114,7 @@ class CourseSection extends StatelessWidget {
                 ];
                 imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
+                /// End of temporary values
                 if (streams != null) {
                   final stream = streams[index];
                   final course = courses
@@ -124,14 +125,14 @@ class CourseSection extends StatelessWidget {
                     subtitle: course.name,
                     tumID: course.tUMOnlineIdentifier,
                     path: imagePath,
-                    live: true, //stream.liveNow,
-                    //TODO BUG why is this not always true
+                    live: true,
+                    //stream.liveNow, TODO BUG why is this not always true
                     courseId: course.id,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          //TODO - chat is enabled in live mode
+                          //TODO - is chat enabled in live mode
                           builder: (context) => VideoPlayerPage(
                             stream: stream,
                           ),
@@ -142,7 +143,6 @@ class CourseSection extends StatelessWidget {
                 } else {
                   final course = courses[index];
 
-                  /// End of temporary values
                   return CourseCard(
                     title: course.name,
                     tumID: course.tUMOnlineIdentifier,

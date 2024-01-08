@@ -70,6 +70,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                   isCourseSection: false,
                   onViewAll: () => Navigator.push(
                     context,
+                    //TODO remove viewAll or add a LiveStreams page
                     MaterialPageRoute(builder: (context) => const MyCourses()),
                   ),
                   courses: userCourses ?? [],
@@ -85,7 +86,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 ),
                 courses: userCourses ?? [],
               ),
-              //const SizedBox(height: 5), // Space between the sections
+
               CourseSection(
                 sectionTitle: "Public courses",
                 isCourseSection: true,
