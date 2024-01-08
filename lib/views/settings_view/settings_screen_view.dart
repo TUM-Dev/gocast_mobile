@@ -108,65 +108,73 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeModeProvider);
-    isDarkMode = themeMode == ThemeMode.dark;
-    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+    var isDarkMode = themeMode == ThemeMode.dark;
 
-    if (!isTablet) {
-      return Scaffold(
-        appBar: _buildAppBar(context),
-        body: _buildSettingsOverview(),
-      );
-    } else {
-      return Drawer(
-        width: MediaQuery.of(context).size.width * 0.45,
-        child: _buildSettingsOverview(),
-      );
-    }
-  }
-
-  ListView _buildSettingsOverview() {
-    return ListView(
-      children: [
-        _buildProfileTile(),
-        const Divider(),
-        _buildSectionTitle('Account Settings'),
-        _buildEditableListTile('Edit profile', () {
-          // TODO: Navigate to edit profile screen
-        }),
-        _buildSwitchListTile(
-          title: 'Push notifications',
-          value: isPushNotificationsEnabled,
-          onChanged: (value) =>
-              setState(() => isPushNotificationsEnabled = value),
-        ),
-        _buildSwitchListTile(
-          title: 'Dark mode',
-          value: isDarkMode,
-          onChanged: (value) {
-            setState(() => isDarkMode = value);
-            ref.read(themeModeProvider.notifier).state =
-                value ? ThemeMode.dark : ThemeMode.light;
-            _saveThemePreference(value ? 'dark' : 'light');
-          },
-        ),
-        _buildSwitchListTile(
-          title: 'Download Over Wi-Fi only',
-          value: isDownloadOverWifiOnly,
-          onChanged: (value) => setState(() => isDownloadOverWifiOnly = value),
-        ),
-        _buildLogoutTile(context),
-        const Divider(),
-        _buildSectionTitle('More'),
-        _buildNavigableListTile('About us', () {
-          // TODO: Navigate to about us screen
-        }),
-        _buildNavigableListTile('Privacy policy', () {
-          // TODO: Navigate to privacy policy screen
-        }),
-        _buildNavigableListTile('Terms and conditions', () {
-          // TODO: Navigate to terms and conditions screen
-        }),
-      ],
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: _buildAppBar(context),
+      body: Consumer(
+        builder: (context, watch, _) {
+          final userState = ref.watch(userViewModelProvider);
+          return ListView(
+            children: [
+              _buildProfileTile(userState),
+              const Divider(),
+              _buildSectionTitle('Account Settings'),
+              _buildEditableListTile('Edit profile', () async {
+                bool isAuthenticated =
+                    await showAuthenticationErrorCard(context, ref);
+                if (isAuthenticated && mounted) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfileScreen(),
+                    ),
+                  );
+                }
+              }),
+              const PreferredGreetingView(),
+              _buildSwitchListTile(
+                title: 'Push notifications',
+                value: isPushNotificationsEnabled,
+                onChanged: (value) {
+                  setState(() => isPushNotificationsEnabled = value);
+                  _saveNotificationPreference(value);
+                },
+              ),
+              _buildSwitchListTile(
+                title: 'Dark mode',
+                value: isDarkMode,
+                onChanged: (value) {
+                  setState(() => isDarkMode = value);
+                  ref.read(themeModeProvider.notifier).state =
+                      value ? ThemeMode.dark : ThemeMode.light;
+                  _saveThemePreference(value ? 'dark' : 'light');
+                },
+              ),
+              _buildSwitchListTile(
+                title: 'Download Over Wi-Fi only',
+                value: isDownloadOverWifiOnly,
+                onChanged: (value) =>
+                    setState(() => isDownloadOverWifiOnly = value),
+              ),
+              _buildSectionTitle('Video Playback Speed'),
+              const PlaybackSpeedSettings(),
+              _buildLogoutTile(context),
+              const Divider(),
+              _buildSectionTitle('More'),
+              _buildNavigableListTile('About us', () {
+                // TODO: Navigate to about us screen
+              }),
+              _buildNavigableListTile('Privacy policy', () {
+                // TODO: Navigate to privacy policy screen
+              }),
+              _buildNavigableListTile('Terms and conditions', () {
+                // TODO: Navigate to terms and conditions screen
+              }),
+            ],
+          );
+        },
+      ),
     );
   }
 
