@@ -82,6 +82,8 @@ class GrpcHandler {
         return AppError.forbidden();
       case StatusCode.notFound:
         return AppError.notFound();
+      case StatusCode.alreadyExists:
+        return AppError.conflictError();
       case StatusCode.internal:
         return AppError.internalServerError();
       case StatusCode.unimplemented:

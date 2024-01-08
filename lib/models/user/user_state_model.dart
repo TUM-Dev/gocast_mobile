@@ -11,8 +11,6 @@ class UserState {
   final List<UserSetting>? userSettings;
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
-  final List<FeatureNotification>? featureNotifications;
-  final List<BannerAlert>? bannerAlerts;
   final AppError? error;
   final List<Course>? downloadedCourses;
 
@@ -24,8 +22,6 @@ class UserState {
     this.userSettings,
     this.userBookmarks,
     this.publicCourses,
-    this.featureNotifications,
-    this.bannerAlerts,
     this.error,
     this.downloadedCourses,
   });
@@ -38,8 +34,6 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
-    List<FeatureNotification>? featureNotifications,
-    List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
   }) {
@@ -51,8 +45,6 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
-      featureNotifications: featureNotifications ?? this.featureNotifications,
-      bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );
@@ -66,8 +58,6 @@ class UserState {
     List<UserSetting>? userSettings,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
-    List<FeatureNotification>? featureNotifications,
-    List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
   }) {
@@ -79,8 +69,6 @@ class UserState {
       userSettings: userSettings ?? this.userSettings,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
-      featureNotifications: featureNotifications ?? this.featureNotifications,
-      bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: null,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
     );

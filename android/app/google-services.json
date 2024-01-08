@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1098592064630",
+    "project_id": "ipraktikum-v1",
+    "storage_bucket": "ipraktikum-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098592064630:android:fa116290547c8adf03fb57",
+        "android_client_info": {
+          "package_name": "de.tum.gocast"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCbpYL8mGCkRD0CZG7bv5WmaNZP67Yxto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,5 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:logger/logger.dart';
-
 import 'grpc_handler.dart';
 
 class PinnedHandler {
