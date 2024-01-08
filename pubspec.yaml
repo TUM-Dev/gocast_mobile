@@ -25,7 +25,7 @@ dependencies:
   protobuf: ^3.1.0
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0
-  video_player: ^2.8.1
+  video_player: ^2.8.2
   chewie: ^1.7.4
 
 

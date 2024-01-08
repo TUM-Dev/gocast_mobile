@@ -22,22 +22,9 @@ class CustomVideoControlBar extends StatelessWidget {
     List<Map<String, IconData>> getMenuItems() {
       List<Map<String, IconData>> items = [
         {'Download': Icons.file_download},
+        {'Share': Icons.share},
+        {'Pin Course': Icons.push_pin_outlined},
       ];
-      if (currentStream.hasPlaylistUrl()) {
-        items.add({'Combined view': Icons.layers});
-      }
-      if (currentStream.hasPlaylistUrlCAM()) {
-        items.add({'Camera view': Icons.camera_alt});
-      }
-      if (currentStream.hasPlaylistUrlPRES()) {
-        items.add({'Presentation view': Icons.present_to_all});
-      }
-      if (currentStream.hasPlaylistUrlCAM() &&
-          currentStream.hasPlaylistUrlPRES()) {
-        items.add({
-          'Split view': Icons.vertical_split_sharp,
-        }); // Using 'view_column' as an example icon for 'Split view'
-      }
       return items;
     }
 
