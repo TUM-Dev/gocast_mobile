@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/course_view/components/base_card.dart';
+import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 
 class PinnedCourseCard extends BaseCard {
   final Course course;
@@ -22,20 +23,14 @@ class PinnedCourseCard extends BaseCard {
       buildHeader(
         title: '${course.name} - ${course.tUMOnlineIdentifier}',
         subtitle: "${course.semester.year} ${course.semester.teachingTerm}",
-        trailing: _buildPinButton(),
+        trailing: PinButton(
+          // Use PinButton
+          courseId: course.id,
+          isInitiallyPinned: isPinned,
+          onPinStatusChanged: onPinToggle,
+        ),
       ),
       buildImage(),
     ];
   }
-
-  Widget _buildPinButton() {
-    return IconButton(
-      icon: Icon(
-        isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-        color: Colors.blue[800],
-      ),
-      onPressed: onPinToggle,
-    );
-  }
-
 }
