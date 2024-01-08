@@ -26,6 +26,11 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double cardWidth = MediaQuery.of(context).size.width * 0.4;
+
+    if (MediaQuery.of(context).size.shortestSide >= 600) {
+      cardWidth = MediaQuery.of(context).size.width * 0.2;
+    }
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -51,8 +56,8 @@ class CourseCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
           child: Container(
-            width: MediaQuery.of(context).size.width *
-                0.4, // was 160, now it's 40% of the screen width
+
+            width: cardWidth, // was 160, now it's 40% of the screen width
             padding: const EdgeInsets.all(8.0),
             color: Colors.white70,
             child: Column(
