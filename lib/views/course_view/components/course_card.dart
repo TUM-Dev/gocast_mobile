@@ -140,8 +140,8 @@ class CourseCard extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
       style: const TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
+        fontSize: 14,
+        //height: 1,
       ),
     );
   }

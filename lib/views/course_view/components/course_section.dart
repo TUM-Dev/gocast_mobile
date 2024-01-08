@@ -99,7 +99,7 @@ class CourseSection extends StatelessWidget {
         children: [
           _buildSectionTitle(context, title, onViewAll),
           SizedBox(
-            height: streams != null ? 90 : 200, //TODO make this fit livestreams too
+            height: streams != null ? 85 : 200, //TODO make this fit livestreams too
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: streams != null ? streams.length : courses.length,
