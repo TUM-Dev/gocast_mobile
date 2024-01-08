@@ -102,11 +102,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   static List<double> getDefaultSpeeds() {
-    List<double> defaultSpeeds = [];
-    for (int i = 0; i < 14; i++) {
-      defaultSpeeds.add((i + 1) * 0.25);
-    }
-    return defaultSpeeds;
+    return List<double>.generate(14, (i) => (i + 1) * 0.25);
   }
 
   @override
