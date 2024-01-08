@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
+import 'package:gocast_mobile/views/settings_view/playback_speed_settings_view.dart';
 import 'package:gocast_mobile/views/settings_view/preferred_greeting_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gocast_mobile/views/settings_view/edit_profile_screen_view.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/views/settings_view/playback_speed_picker_view.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
-import 'package:gocast_mobile/views/settings_view/custom_playback_speed_view.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -102,7 +101,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  List<double> getDefaultSpeeds() {
+  static List<double> getDefaultSpeeds() {
     List<double> defaultSpeeds = [];
     for (int i = 0; i < 14; i++) {
       defaultSpeeds.add((i + 1) * 0.25);
@@ -163,8 +162,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     setState(() => isDownloadOverWifiOnly = value),
               ),
               _buildSectionTitle('Video Playback Speed'),
-              _buildPlaybackSpeedsTile(),
-              _buildCustomPlaybackSpeedsTile(context),
+              const PlaybackSpeedSettings(),
               _buildLogoutTile(context),
               const Divider(),
               _buildSectionTitle('More'),
@@ -194,76 +192,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  ListTile _buildPlaybackSpeedsTile() {
-    return ListTile(
-      title: const Text('Playback Speeds'),
-      trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: () => showPlaybackSpeedsPicker(
-        context,
-        selectedPlaybackSpeeds,
-        _updateSelectedSpeeds,
-      ),
-    );
-  }
-
-  ListTile _buildCustomPlaybackSpeedsTile(BuildContext context) {
-    return ListTile(
-      title: const Text('Add Custom Playback Speed'),
-      onTap: () {
-        showAddCustomSpeedDialog(context, (double customSpeed) {
-          _updateSelectedSpeeds(customSpeed, true);
-        });
-      },
-    );
-  }
-
-  void _updateSelectedSpeeds(double speed, bool? newValue) {
-    setState(() {
-      if (newValue == true && !selectedPlaybackSpeeds.contains(speed)) {
-        selectedPlaybackSpeeds.add(speed);
-      } else if (newValue == false) {
-        selectedPlaybackSpeeds.remove(speed);
-      }
-    });
-    _updatePlaybackSpeedsAPI(selectedPlaybackSpeeds);
-  }
-
-  void _updatePlaybackSpeedsAPI(List<double> speeds) async {
-    bool isAuthenticated =
-        await showAuthenticationErrorCard(_scaffoldKey.currentContext!, ref);
-    if (isAuthenticated) {
-      // Fetch current user settings
-      var currentUserSettings =
-          ref.read(userViewModelProvider).userSettings ?? [];
-
-      // Prepare the updated playback speeds setting
-      List<Map<String, dynamic>> speedsList =
-          speeds.map((speed) => {"speed": speed, "enabled": true}).toList();
-      final String speedsJson = jsonEncode(speedsList);
-      final UserSetting updatedPlaybackSpeedSetting = UserSetting(
-        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-        value: speedsJson,
-      );
-
-      // Replace the existing playback speeds setting with the updated one
-      final updatedUserSettings = currentUserSettings
-          .where(
-            (setting) => setting.type != UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-          )
-          .toList()
-        ..add(updatedPlaybackSpeedSetting);
-
-      // Update user settings with the modified list
-      ref
-          .read(userViewModelProvider.notifier)
-          .updateUserSettings(updatedUserSettings)
-          .then((_) {
-        // Fetch updated settings
-        ref.read(userViewModelProvider.notifier).fetchUserSettings();
-      });
-    }
-  }
-
   ListTile _buildProfileTile(userState) {
     // Extract settings from userState
     final preferredNameSetting = userState.userSettings?.firstWhere(
@@ -290,16 +218,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  Padding _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(8.0),
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }
