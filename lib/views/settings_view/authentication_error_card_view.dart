@@ -14,6 +14,10 @@ Future<bool> showAuthenticationErrorCard(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text('Authentication Required'),
           content: const Text('Please log in to access this feature.'),
           actions: <Widget>[
