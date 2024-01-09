@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:logger/logger.dart';
 
@@ -64,5 +66,26 @@ class SettingsHandler {
       _logger.e('Error updating user settings: $e');
       rethrow;
     }
+  }
+
+  Future<void> updatePreferredName(String name) async {
+    UserSetting nameSetting =
+        UserSetting(type: UserSettingType.PREFERRED_NAME, value: name);
+    await updateUserSettings([nameSetting]);
+  }
+
+  Future<void> updatePreferredGreeting(String greeting) async {
+    UserSetting greetingSetting =
+        UserSetting(type: UserSettingType.GREETING, value: greeting);
+    await updateUserSettings([greetingSetting]);
+  }
+
+  Future<void> updatePlaybackSpeeds(List<double> speeds) async {
+    List<Map<String, dynamic>> speedsList =
+        speeds.map((speed) => {"speed": speed, "enabled": true}).toList();
+    String speedsJson = jsonEncode(speedsList);
+    UserSetting playbackSpeedSetting = UserSetting(
+        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS, value: speedsJson);
+    await updateUserSettings([playbackSpeedSetting]);
   }
 }
