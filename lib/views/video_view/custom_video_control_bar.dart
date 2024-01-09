@@ -75,7 +75,7 @@ class CustomVideoControlBar extends StatelessWidget {
                   value: text,
                   child: ListTile(
                     leading: Icon(icon, color: themeData.iconTheme.color),
-                    title: Text(text, style: TextStyle(color: themeData.textTheme.subtitle1?.color)),
+                    title: Text(text, style: TextStyle(color: themeData.textTheme.titleMedium?.color)),
                   ),
                 );
               }).toList();
