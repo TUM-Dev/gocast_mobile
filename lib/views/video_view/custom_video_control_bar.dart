@@ -18,7 +18,6 @@ class CustomVideoControlBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
 
     List<Map<String, IconData>> getMenuItems() {
       List<Map<String, IconData>> items = [
