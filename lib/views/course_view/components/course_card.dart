@@ -27,6 +27,7 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double cardWidth = MediaQuery.of(context).size.width * 0.4;
+    ThemeData themeData = Theme.of(context);
 
     if (MediaQuery.of(context).size.shortestSide >= 600) {
       cardWidth = MediaQuery.of(context).size.width * 0.2;
@@ -44,34 +45,34 @@ class CourseCard extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: 2, // Adjust the elevation for the shadow effect (if desired)
-        shadowColor: Colors.grey.withOpacity(0.5), // Shadow
+        elevation: 2,
+        shadowColor: themeData.shadowColor.withOpacity(0.5),
+        color: themeData.cardTheme.color, // Use card color from theme
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
+          borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
-            color: Colors.grey[100] ?? Colors.grey,
+            color: themeData.dividerColor,
             width: 1.0,
-          ), // Light grey outline
+          ),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
+          borderRadius: BorderRadius.circular(8.0),
           child: Container(
-
-            width: cardWidth, // was 160, now it's 40% of the screen width
+            width: cardWidth,
             padding: const EdgeInsets.all(8.0),
-            color: Colors.white70,
+            color: themeData.cardColor, // Apply card color from theme
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildCourseSubtitle(),
+                    _buildCourseSubtitle(themeData.textTheme),
                     _buildCourseIsLive(),
                   ],
                 ),
-                Expanded(child: _buildCourseImage()), // Wrapped with Expanded
-                _buildCourseTitle(),
+                Expanded(child: _buildCourseImage()),
+                _buildCourseTitle(themeData.textTheme),
               ],
             ),
           ),
@@ -97,31 +98,28 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseTitle() {
+  Widget _buildCourseTitle(TextTheme textTheme) {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
       maxLines: 3,
       softWrap: true,
-      style: const TextStyle(
+      style: textTheme.titleMedium?.copyWith(
         fontSize: 17,
         fontWeight: FontWeight.w600,
-        color: Colors.black,
         height: 1,
-      ),
+      ) ?? const TextStyle(),
     );
   }
 
-  Widget _buildCourseSubtitle() {
+  Widget _buildCourseSubtitle(TextTheme textTheme) {
     return Text(
       subtitle,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
-      ),
+      style: textTheme.titleSmall ?? const TextStyle(),
     );
   }
+
 
   Widget _buildCourseIsLive() {
     return live
