@@ -157,14 +157,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,
-    required WidgetRef ref, // Add this line
+    required WidgetRef ref,
   }) {
     return ListTile(
       title: Text(title),
       trailing: Switch(
         value: value,
         onChanged: onChanged,
-        inactiveTrackColor: Colors.grey,
+        inactiveTrackColor: Theme.of(context).colorScheme.background,
       ),
       onTap: () => onChanged(!value),
     );
@@ -172,9 +172,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   ListTile _buildLogoutTile(BuildContext context) {
     return ListTile(
-      title: const Text(
+      title: Text(
         'Log out',
-        style: TextStyle(color: Colors.red),
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
       onTap: () {
         ref.read(userViewModelProvider.notifier).logout();

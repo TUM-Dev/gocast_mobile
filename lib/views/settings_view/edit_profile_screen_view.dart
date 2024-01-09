@@ -45,9 +45,11 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             ),
             const SizedBox(height: 16),
             RichText(
-              text: const TextSpan(
-                style: TextStyle(color: Colors.grey), // Default text style
-                children: [
+              text: TextSpan(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.scrim.withOpacity(0.50),
+                ),
+                children: const [
                   TextSpan(text: 'You can change this '),
                   TextSpan(
                     text: 'once every three months.',
@@ -85,7 +87,9 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             Text(
               infoText,
               style: TextStyle(
-                color: isError ? Colors.red : Colors.green,
+                color: isError
+                    ? Theme.of(context).colorScheme.error
+                    : Theme.of(context).colorScheme.secondary,
               ),
             ),
           ],

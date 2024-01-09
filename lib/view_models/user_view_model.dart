@@ -37,6 +37,7 @@ class UserViewModel extends StateNotifier<UserState> {
       _logger.i('Logging in user with email: $email');
       await AuthHandler.basicAuth(email, password);
       await fetchUser();
+      await fetchUserSettings();
       _logger.i('Logged in user with basic auth');
 
       if (state.user != null) {
@@ -238,7 +239,6 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isLoading: isLoading);
   }
 
-  // Function to load user preferences
   Future<void> loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     await loadThemePreference(prefs);
@@ -246,7 +246,6 @@ class UserViewModel extends StateNotifier<UserState> {
     await fetchUserSettings();
   }
 
-  // Function to load theme preference
   Future<void> loadThemePreference(SharedPreferences prefs) async {
     final themePreference = prefs.getString('themeMode') ?? 'light';
     state = state.copyWith(isDarkMode: themePreference == 'dark');
@@ -256,10 +255,8 @@ class UserViewModel extends StateNotifier<UserState> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('themeMode', theme);
 
-    // Update state
     state = state.copyWith(isDarkMode: theme == 'dark');
 
-    // Update themeModeProvider
     ref.read(themeModeProvider.notifier).state =
         theme == 'dark' ? ThemeMode.dark : ThemeMode.light;
   }
@@ -320,8 +317,8 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  List<double> parsePlaybackSpeeds() {
-    final playbackSpeedSetting = state.userSettings?.firstWhere(
+  List<double> parsePlaybackSpeeds(List<UserSetting>? userSettings) {
+    final playbackSpeedSetting = userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
       orElse: () => UserSetting(value: jsonEncode([])),
     );
@@ -334,10 +331,44 @@ class UserViewModel extends StateNotifier<UserState> {
             .map((item) => double.parse(item['speed'].toString()))
             .toList();
       } catch (e) {
-        _logger.e('Error parsing playback speeds: $e');
         return [];
       }
     }
     return [];
+  }
+
+  Future<void> updateSelectedSpeeds(double speed, bool isSelected) async {
+    var currentUserSettings = List<UserSetting>.from(state.userSettings ?? []);
+
+    var playbackSpeedSettingIndex = currentUserSettings.indexWhere(
+      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+    );
+
+    UserSetting playbackSpeedSetting;
+    if (playbackSpeedSettingIndex != -1) {
+      playbackSpeedSetting = currentUserSettings[playbackSpeedSettingIndex];
+    } else {
+      playbackSpeedSetting = UserSetting(
+        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+        value: jsonEncode([]),
+      );
+      currentUserSettings.add(playbackSpeedSetting);
+      playbackSpeedSettingIndex = currentUserSettings.length - 1;
+    }
+
+    List<double> updatedSpeeds = parsePlaybackSpeeds([playbackSpeedSetting]);
+    if (isSelected && !updatedSpeeds.contains(speed)) {
+      updatedSpeeds.add(speed);
+    } else if (!isSelected) {
+      updatedSpeeds.remove(speed);
+    }
+
+    List<Map<String, dynamic>> speedsList = updatedSpeeds
+        .map((speed) => {"speed": speed, "enabled": true})
+        .toList();
+    playbackSpeedSetting.value = jsonEncode(speedsList);
+    currentUserSettings[playbackSpeedSettingIndex] = playbackSpeedSetting;
+
+    await updateUserSettings(currentUserSettings);
   }
 }

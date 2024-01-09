@@ -36,6 +36,8 @@ class PreferredGreetingView extends ConsumerWidget {
     String greeting,
     String currentGreeting,
   ) {
+    bool isSelected = greeting == currentGreeting;
+
     return Row(
       children: [
         Radio<String>(
@@ -53,7 +55,14 @@ class PreferredGreetingView extends ConsumerWidget {
             }
           },
         ),
-        Text(greeting),
+        Text(
+          greeting,
+          style: TextStyle(
+            fontSize: isSelected ? 15 : 13,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            color: isSelected ? Theme.of(context).colorScheme.primary : null,
+          ),
+        ),
       ],
     );
   }
