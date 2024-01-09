@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 
 Future<bool> showAuthenticationErrorCard(
-    BuildContext context, WidgetRef ref) async {
+  BuildContext context,
+  WidgetRef ref,
+) async {
   final userState = ref.read(userViewModelProvider);
   bool isAuthenticated = userState.user != null;
 

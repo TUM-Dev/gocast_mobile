@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,9 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../providers.dart';
 import '../utils/globals.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
@@ -233,5 +236,108 @@ class UserViewModel extends StateNotifier<UserState> {
 
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
+  }
+
+  // Function to load user preferences
+  Future<void> loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await loadThemePreference(prefs);
+    await loadNotificationPreference(prefs);
+    await fetchUserSettings();
+  }
+
+  // Function to load theme preference
+  Future<void> loadThemePreference(SharedPreferences prefs) async {
+    final themePreference = prefs.getString('themeMode') ?? 'light';
+    state = state.copyWith(isDarkMode: themePreference == 'dark');
+  }
+
+  Future<void> saveThemePreference(String theme, WidgetRef ref) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('themeMode', theme);
+
+    // Update state
+    state = state.copyWith(isDarkMode: theme == 'dark');
+
+    // Update themeModeProvider
+    ref.read(themeModeProvider.notifier).state =
+        theme == 'dark' ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  Future<void> loadNotificationPreference(SharedPreferences prefs) async {
+    final notificationPreference = prefs.getBool('notifications') ?? true;
+    state = state.copyWith(isPushNotificationsEnabled: notificationPreference);
+  }
+
+  Future<void> saveNotificationPreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('notifications', value);
+    state = state.copyWith(isPushNotificationsEnabled: value);
+  }
+
+  Future<void> saveDownloadWifiOnlyPreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('downloadWifiOnly', value);
+    state = state.copyWith(isDownloadWithWifiOnly: value);
+  }
+
+  static List<double> getDefaultSpeeds() {
+    return List<double>.generate(14, (i) => (i + 1) * 0.25);
+  }
+
+  Future<bool> updatePreferredGreeting(String newGreeting) async {
+    try {
+      var userSettings = List<UserSetting>.from(state.userSettings ?? []);
+      var greetingSetting = userSettings.firstWhere(
+        (setting) => setting.type == UserSettingType.GREETING,
+        orElse: () =>
+            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
+      );
+      greetingSetting.value = newGreeting;
+
+      if (!userSettings.contains(greetingSetting)) {
+        userSettings.add(greetingSetting);
+      }
+
+      await updateUserSettings(userSettings);
+      return true;
+    } catch (e) {
+      _logger.e('Error updating greeting: $e');
+      return false;
+    }
+  }
+
+  Future<bool> updatePreferredName(String newName) async {
+    try {
+      var newSetting =
+          UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName);
+      await updateUserSettings([newSetting]);
+      await fetchUserSettings();
+      return true;
+    } catch (e) {
+      _logger.e('Error updating preferred name: $e');
+      return false;
+    }
+  }
+
+  List<double> parsePlaybackSpeeds() {
+    final playbackSpeedSetting = state.userSettings?.firstWhere(
+      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+      orElse: () => UserSetting(value: jsonEncode([])),
+    );
+
+    if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
+      try {
+        final List<dynamic> speedsJson = jsonDecode(playbackSpeedSetting.value);
+        return speedsJson
+            .where((item) => item['enabled'] == true)
+            .map((item) => double.parse(item['speed'].toString()))
+            .toList();
+      } catch (e) {
+        _logger.e('Error parsing playback speeds: $e');
+        return [];
+      }
+    }
+    return [];
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -45,9 +44,20 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'You can change this once every three months.',
-              style: TextStyle(color: Colors.grey),
+            RichText(
+              text: const TextSpan(
+                style: TextStyle(color: Colors.grey), // Default text style
+                children: [
+                  TextSpan(text: 'You can change this '),
+                  TextSpan(
+                    text: 'once every three months.',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
@@ -85,16 +95,15 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   void _updatePreferredName(String name) async {
-    try {
-      await ref.read(userViewModelProvider.notifier).updateUserSettings([
-        UserSetting(type: UserSettingType.PREFERRED_NAME, value: name),
-      ]);
-      await ref.read(userViewModelProvider.notifier).fetchUserSettings();
+    bool success = await ref
+        .read(userViewModelProvider.notifier)
+        .updatePreferredName(name);
+    if (success) {
       setState(() {
         infoText = 'Preferred name saved: $name';
         isError = false;
       });
-    } catch (e) {
+    } else {
       setState(() {
         infoText = 'Error updating preferred name';
         isError = true;

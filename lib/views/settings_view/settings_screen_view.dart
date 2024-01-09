@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:gocast_mobile/views/settings_view/playback_speed_settings_view.dart';
 import 'package:gocast_mobile/views/settings_view/preferred_greeting_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gocast_mobile/views/settings_view/edit_profile_screen_view.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
@@ -20,102 +17,22 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool isDarkMode = false;
-  bool isPushNotificationsEnabled = false;
-  bool isDownloadOverWifiOnly = false;
-  String preferredGreeting = 'Servus';
-  List<double> selectedPlaybackSpeeds = [];
-  List<double> customPlaybackSpeeds = [];
 
   @override
   void initState() {
     super.initState();
-    ref.read(userViewModelProvider.notifier).fetchUserSettings();
-    _loadPreferences();
-  }
-
-  Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    _loadThemePreference(prefs);
-    _loadNotificationPreference(prefs);
-    _loadUserSettings();
-  }
-
-  Future<void> _loadThemePreference(SharedPreferences prefs) async {
-    final themePreference = prefs.getString('themeMode') ?? 'light';
-    setState(() {
-      isDarkMode = themePreference == 'dark';
-    });
-  }
-
-  Future<void> _saveThemePreference(String theme) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('themeMode', theme);
-  }
-
-  Future<void> _loadNotificationPreference(SharedPreferences prefs) async {
-    final notificationPreference = prefs.getBool('notifications') ?? true;
-    setState(() {
-      isPushNotificationsEnabled = notificationPreference;
-    });
-  }
-
-  Future<void> _saveNotificationPreference(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notifications', value);
-  }
-
-  void _loadUserSettings() {
-    final userState = ref.read(userViewModelProvider);
-    final greetingSetting = userState.userSettings?.firstWhere(
-      (setting) => setting.type == UserSettingType.GREETING,
-      orElse: () => UserSetting(value: 'Default Greeting'),
-    );
-    preferredGreeting = greetingSetting?.value ?? 'Default Greeting';
-
-    final playbackSpeedSetting = userState.userSettings?.firstWhere(
-      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-      orElse: () => UserSetting(value: jsonEncode([])),
-    );
-
-    if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
-      try {
-        List<dynamic> speedsList = jsonDecode(playbackSpeedSetting.value);
-        selectedPlaybackSpeeds.clear(); // Clear the existing list
-        customPlaybackSpeeds.clear(); // Clear custom speeds
-
-        for (var item in speedsList) {
-          if (item is Map && item['enabled'] == true) {
-            double speed = item['speed'] as double;
-            selectedPlaybackSpeeds.add(speed); // Add all enabled speeds
-            if (!getDefaultSpeeds().contains(speed)) {
-              customPlaybackSpeeds.add(speed); // Add to custom if not default
-            }
-          }
-        }
-      } catch (e) {
-        if (kDebugMode) {
-          print('Error parsing playback speeds: $e');
-        }
-      }
-    }
-  }
-
-  static List<double> getDefaultSpeeds() {
-    return List<double>.generate(14, (i) => (i + 1) * 0.25);
+    ref.read(userViewModelProvider.notifier).loadPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeModeProvider);
-    var isDarkMode = themeMode == ThemeMode.dark;
+    final userState = ref.watch(userViewModelProvider);
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: _buildAppBar(context),
       body: Consumer(
         builder: (context, watch, _) {
-          final userState = ref.watch(userViewModelProvider);
           return ListView(
             children: [
               _buildProfileTile(userState),
@@ -135,27 +52,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const PreferredGreetingView(),
               _buildSwitchListTile(
                 title: 'Push notifications',
-                value: isPushNotificationsEnabled,
+                value: userState.isPushNotificationsEnabled,
                 onChanged: (value) {
-                  setState(() => isPushNotificationsEnabled = value);
-                  _saveNotificationPreference(value);
+                  ref
+                      .read(userViewModelProvider.notifier)
+                      .saveNotificationPreference(value);
                 },
+                ref: ref,
               ),
               _buildSwitchListTile(
                 title: 'Dark mode',
-                value: isDarkMode,
+                value: userState.isDarkMode,
                 onChanged: (value) {
-                  setState(() => isDarkMode = value);
-                  ref.read(themeModeProvider.notifier).state =
-                      value ? ThemeMode.dark : ThemeMode.light;
-                  _saveThemePreference(value ? 'dark' : 'light');
+                  ref
+                      .read(userViewModelProvider.notifier)
+                      .saveThemePreference(value ? 'dark' : 'light', ref);
                 },
+                ref: ref,
               ),
               _buildSwitchListTile(
                 title: 'Download Over Wi-Fi only',
-                value: isDownloadOverWifiOnly,
-                onChanged: (value) =>
-                    setState(() => isDownloadOverWifiOnly = value),
+                value: userState.isDownloadWithWifiOnly,
+                onChanged: (value) {
+                  ref
+                      .read(userViewModelProvider.notifier)
+                      .saveDownloadWifiOnlyPreference(value);
+                },
+                ref: ref,
               ),
               _buildSectionTitle('Video Playback Speed'),
               const PlaybackSpeedSettings(),
@@ -189,12 +112,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   ListTile _buildProfileTile(userState) {
-    // Extract settings from userState
     final preferredNameSetting = userState.userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.PREFERRED_NAME,
       orElse: () => UserSetting(value: ''),
     );
-
     final preferredName = preferredNameSetting?.value ?? '';
     final userName = userState.user?.name ?? 'Guest';
 
@@ -236,6 +157,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,
+    required WidgetRef ref, // Add this line
   }) {
     return ListTile(
       title: Text(title),

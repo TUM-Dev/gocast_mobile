@@ -15,6 +15,9 @@ class UserState {
   final List<BannerAlert>? bannerAlerts;
   final AppError? error;
   final List<Course>? downloadedCourses;
+  final bool isDarkMode;
+  final bool isPushNotificationsEnabled;
+  final bool isDownloadWithWifiOnly;
 
   const UserState({
     this.isLoading = false,
@@ -28,6 +31,9 @@ class UserState {
     this.bannerAlerts,
     this.error,
     this.downloadedCourses,
+    this.isDarkMode = false,
+    this.isPushNotificationsEnabled = true,
+    this.isDownloadWithWifiOnly = true,
   });
 
   UserState copyWith({
@@ -42,6 +48,9 @@ class UserState {
     List<BannerAlert>? bannerAlerts,
     AppError? error,
     List<Course>? downloadedCourses,
+    bool? isDarkMode,
+    bool? isPushNotificationsEnabled,
+    bool? isDownloadWithWifiOnly,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -55,6 +64,11 @@ class UserState {
       bannerAlerts: bannerAlerts ?? this.bannerAlerts,
       error: error ?? this.error,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+      isPushNotificationsEnabled:
+          isPushNotificationsEnabled ?? this.isPushNotificationsEnabled,
+      isDownloadWithWifiOnly:
+          isDownloadWithWifiOnly ?? this.isDownloadWithWifiOnly,
     );
   }
 

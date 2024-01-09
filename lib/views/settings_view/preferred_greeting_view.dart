@@ -43,36 +43,18 @@ class PreferredGreetingView extends ConsumerWidget {
           groupValue: currentGreeting,
           onChanged: (String? newValue) async {
             if (newValue != null) {
-              await _updatePreferredGreeting(context, ref, newValue);
+              bool isAuthenticated =
+                  await showAuthenticationErrorCard(context, ref);
+              if (isAuthenticated) {
+                await ref
+                    .read(userViewModelProvider.notifier)
+                    .updatePreferredGreeting(newValue);
+              }
             }
           },
         ),
         Text(greeting),
       ],
     );
-  }
-
-  Future<void> _updatePreferredGreeting(
-    BuildContext context,
-    WidgetRef ref,
-    String newGreeting,
-  ) async {
-    if (await showAuthenticationErrorCard(context, ref)) {
-      var userSettings = List<UserSetting>.from(
-        ref.read(userViewModelProvider).userSettings ?? [],
-      );
-      var greetingSetting = userSettings.firstWhere(
-        (setting) => setting.type == UserSettingType.GREETING,
-        orElse: () =>
-            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
-      );
-      greetingSetting.value = newGreeting;
-      if (!userSettings.contains(greetingSetting)) {
-        userSettings.add(greetingSetting);
-      }
-      await ref
-          .read(userViewModelProvider.notifier)
-          .updateUserSettings(userSettings);
-    }
   }
 }
