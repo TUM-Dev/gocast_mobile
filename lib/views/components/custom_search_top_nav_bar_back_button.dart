@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/views/components/filter_popup_menu_button.dart';
 
 class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
     implements PreferredSizeWidget {
@@ -23,10 +24,11 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
         ),
         title: _buildSearchField(),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.filter_list, color: Colors.black),
-            onPressed: () {
-              ///TODO: Implement filter action
+          FilterPopupMenuButton(
+            filterOptions: const ['Newest First', 'Oldest First'],
+            // Add your filter options here
+            onFilterSelected: (String choice) {
+              // Implement what happens when a filter is selected
             },
           ),
         ],

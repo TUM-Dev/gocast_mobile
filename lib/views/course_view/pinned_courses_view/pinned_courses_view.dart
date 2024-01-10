@@ -56,7 +56,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
           return course.name.toLowerCase().contains(searchInput) ||
               course.slug.toLowerCase().contains(searchInput);
         }).toList();
-        print('Filtered Courses Count: ${searchCourses.length}');
       }
     });
   }
