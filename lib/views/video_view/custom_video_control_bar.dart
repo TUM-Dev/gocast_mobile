@@ -17,7 +17,7 @@ class CustomVideoControlBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    ThemeData themeData = Theme.of(context);
 
     List<Map<String, IconData>> getMenuItems() {
       List<Map<String, IconData>> items = [
@@ -51,10 +51,12 @@ class CustomVideoControlBar extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.messenger_outline_outlined),
+                color: themeData.iconTheme.color,
                 onPressed: onToggleChat,
               ),
               IconButton(
                 icon: const Icon(Icons.quiz_outlined),
+                color: themeData.iconTheme.color,
                 onPressed: onOpenQuizzes,
               ),
             ],
@@ -71,19 +73,19 @@ class CustomVideoControlBar extends StatelessWidget {
                 return PopupMenuItem<String>(
                   value: text,
                   child: ListTile(
-                    leading: Icon(icon),
-                    title: Text(text),
+                    leading: Icon(icon, color: themeData.iconTheme.color),
+                    title: Text(text, style: TextStyle(color: themeData.textTheme.titleMedium?.color)),
                   ),
                 );
               }).toList();
             },
-            icon: const Icon(Icons.more_vert),
-            color: Colors.white,
+            icon: Icon(Icons.more_vert, color: themeData.iconTheme.color),
+            color: themeData.popupMenuTheme.color,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side: BorderSide(color: Colors.grey.shade300),
+              side: BorderSide(color: themeData.dividerColor),
             ),
-            elevation: isIOS ? 0 : 3.0,
+            elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0 : 3.0,
           ),
         ],
       ),
