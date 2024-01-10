@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
+
 import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 
 /// PinnedCoursesContentView
@@ -27,13 +27,8 @@ class PinnedCoursesContentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    TextEditingController searchController = TextEditingController();
 
     return BaseView(
-      customAppBar: CustomSearchTopNavBar(
-        searchController: searchController,
-        title: title,
-      ),
       child: ListView.builder(
         itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
         itemBuilder: (BuildContext context, int index) {
