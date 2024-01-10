@@ -12,11 +12,11 @@ void showAddCustomSpeedDialog(
       errorMessage = '';
     } else {
       double? parsedValue = double.tryParse(value);
-      if (parsedValue != null && parsedValue > 0) {
+      if (parsedValue != null && parsedValue >= 0.25 && parsedValue <= 4.0) {
         customSpeed = parsedValue;
         errorMessage = '';
       } else {
-        errorMessage = 'Please enter a positive number';
+        errorMessage = 'Please enter a number between\n0.25 and 4.0';
       }
     }
   }
@@ -58,7 +58,9 @@ void showAddCustomSpeedDialog(
                 },
               ),
               TextButton(
-                onPressed: errorMessage.isEmpty && customSpeed > 0
+                onPressed: errorMessage.isEmpty &&
+                        customSpeed >= 0.25 &&
+                        customSpeed <= 4.0
                     ? () {
                         Navigator.of(context).pop();
                         onSpeedAdded(customSpeed);
