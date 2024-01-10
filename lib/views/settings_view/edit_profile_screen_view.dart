@@ -15,9 +15,20 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   bool isError = false;
 
   @override
+  void initState() {
+    super.initState();
+    preferredNameController.addListener(_updateCharacterCount);
+  }
+
+  @override
   void dispose() {
+    preferredNameController.removeListener(_updateCharacterCount);
     preferredNameController.dispose();
     super.dispose();
+  }
+
+  void _updateCharacterCount() {
+    setState(() {});
   }
 
   @override
@@ -38,9 +49,11 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: preferredNameController,
-              decoration: const InputDecoration(
+              maxLength: 50,
+              decoration: InputDecoration(
                 hintText: 'Enter your preferred name',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                counterText: '${preferredNameController.text.length}/50',
               ),
             ),
             const SizedBox(height: 16),
