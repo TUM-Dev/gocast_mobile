@@ -22,40 +22,70 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   late List<String> thumbnails;
   final TextEditingController searchController = TextEditingController();
   final String baseUrl = 'https://live.rbg.tum.de';
+  late List<Stream> searchCourseStreams;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _initializeStreams();
+    searchController.addListener(_searchCourses);
   }
 
+  // set the thumbnails streams and search results
   void _initializeStreams() {
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
     Future.microtask(() async {
       await videoViewModelNotifier.fetchCourseStreams(widget.courseId);
       await videoViewModelNotifier.fetchThumbnails();
+      if (mounted) {
+        setState(() {
+          searchCourseStreams = ref.read(videoViewModelProvider).streams ?? [];
+          isLoading = false; // Set isLoading to false here
+        });
+      }
+    });
+  }
+
+  void _searchCourses() {
+    final searchInput = searchController.text.toLowerCase();
+    final courseStreams = ref.read(videoViewModelProvider).streams ?? [];
+
+    setState(() {
+      if (searchInput.isEmpty) {
+        searchCourseStreams = courseStreams;
+      } else {
+        searchCourseStreams = courseStreams.where((stream) {
+          return stream.name.toLowerCase().contains(searchInput) ||
+              stream.description.toLowerCase().contains(searchInput);
+        }).toList();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final courseStreams = ref.watch(videoViewModelProvider).streams ?? [];
     final thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
-
+    if (isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: Text(widget.title)),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
       ),
       body: RefreshIndicator(
-        onRefresh: () => _refreshPinnedUser(),
+        onRefresh: () => _refreshStreams(widget.courseId),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _courseTitle(widget.title),
             _buildStreamList(
               context,
-              courseStreams,
+              searchCourseStreams,
               thumbnails,
               scaffoldMessenger,
             ),
@@ -66,8 +96,10 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Fetches user pinned information.
-  Future<void> _refreshPinnedUser() async {
-    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+  Future<void> _refreshStreams(int courseID) async {
+    await ref
+        .read(videoViewModelProvider.notifier)
+        .fetchCourseStreams(courseID);
   }
 
   // In _courseTitle method of CourseDetailState
@@ -203,7 +235,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       SnackBar(content: Text(message)),
     );
   }
-  
+
   bool _checkPinStatus() {
     final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     // Iterate over the userPinned list and check if courseId matches
