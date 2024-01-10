@@ -41,6 +41,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       if (mounted) {
         setState(() {
           searchCourseStreams = ref.read(videoViewModelProvider).streams ?? [];
+          thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
           isLoading = false; // Set isLoading to false here
         });
       }
@@ -66,7 +67,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   @override
   Widget build(BuildContext context) {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
