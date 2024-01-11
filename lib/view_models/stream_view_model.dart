@@ -83,6 +83,35 @@ class StreamViewModel extends StateNotifier<StreamState> {
       state = state.copyWith(isLoading: false);
     }
   }
+  Future<void> deleteDownload(int videoId) async {
+    _logger.i('Deleting downloaded video with ID: $videoId');
+    state = state.copyWith(isLoading: true);
+
+    try {
+      String? filePath = state.downloadedVideos[videoId];
+      if (filePath != null && filePath.isNotEmpty) {
+        final file = File(filePath);
+        if (await file.exists()) {
+          await file.delete();
+          _logger.d('Deleted video file at: $filePath');
+
+          // Update the state by removing the video from the downloadedVideos map
+          var updatedDownloads = Map<int, String>.from(state.downloadedVideos);
+          updatedDownloads.remove(videoId);
+          state = state.copyWith(downloadedVideos: updatedDownloads);
+        } else {
+          _logger.w('File not found: $filePath');
+        }
+      } else {
+        _logger.w('No file path found for video ID: $videoId');
+      }
+    } catch (e) {
+      _logger.e('Error deleting video with ID $videoId: $e');
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
 
   Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');

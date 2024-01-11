@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,19 @@ import '../../video_view/local_video_player.dart';
 
 class DownloadedCourses extends ConsumerWidget {
   const DownloadedCourses({super.key});
+
+  Future<void> _deleteVideoFile(String localPath, int videoId, WidgetRef ref) async {
+    try {
+      final file = File(localPath);
+      if (await file.exists()) {
+        await file.delete();
+        ref.read(videoViewModelProvider.notifier).deleteDownload(videoId); // Update this line according to your state management
+        // Optionally, show a success message to the user
+      }
+    } catch (e) {
+      // Handle errors, e.g., show an error message
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,6 +57,11 @@ class DownloadedCourses extends ConsumerWidget {
                 builder: (context) => LocalVideoPlayerPage(localPath: localPath),
               ),
             );
+          },
+          onDelete: () async {
+            // Implement deletion logic here
+            await _deleteVideoFile(localPath, videoId, ref);
+            // For example, delete the video file and update the state
           },
         );
       }).toList(),
