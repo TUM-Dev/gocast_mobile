@@ -37,6 +37,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
+        sortCourses();
         setState(() {
           searchCourses = ref.read(userViewModelProvider).userPinned ?? [];
           isLoading = false; // Set isLoading to false here
@@ -62,13 +63,29 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   void sortCourses() {
-    final pinnedCourses = ref.read(userViewModelProvider).userPinned ?? [];
-    setState(() {
-      if (isNewestFirst) {
-        searchCourses = List.from(pinnedCourses.reversed);
-      } else {
-        searchCourses = List.from(pinnedCourses);
+    List<Course> pinnedCourses =
+        ref.read(userViewModelProvider).userPinned ?? [];
+
+    pinnedCourses.sort((a, b) {
+      // Compare by year first
+      int yearComparison = a.semester.year.compareTo(b.semester.year);
+      if (yearComparison != 0) {
+        // If 'isNewestFirst' is true, reverse the year comparison
+        return isNewestFirst ? -yearComparison : yearComparison;
       }
+
+      // If years are equal, 'W' (Winter) should be considered more recent than 'S' (Summer)
+      if (a.semester.teachingTerm == b.semester.teachingTerm) {
+        return 0;
+      }
+      int termComparison = a.semester.teachingTerm == 'W' ? -1 : 1;
+
+      // Reverse the term comparison if 'isNewestFirst' is true
+      return isNewestFirst ? -termComparison : termComparison;
+    });
+
+    setState(() {
+      searchCourses = pinnedCourses;
     });
   }
 
