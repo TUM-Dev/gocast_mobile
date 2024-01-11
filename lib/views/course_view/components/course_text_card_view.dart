@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 /// titles, subtitles and paths.
 class CourseCardText extends StatelessWidget {
   final String title;
-  final String subtitle;
+  final String tumID;
   final String identifier;
   final String semester;
   final String path;
@@ -19,7 +19,7 @@ class CourseCardText extends StatelessWidget {
   const CourseCardText({
     super.key,
     required this.title,
-    required this.subtitle,
+    required this.tumID,
     required this.identifier,
     required this.semester,
     required this.path,
@@ -112,7 +112,7 @@ class CourseCardText extends StatelessWidget {
 
   Widget _buildCourseSubtitle() {
     return Text(
-      subtitle,
+      tumID,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontSize: 14,

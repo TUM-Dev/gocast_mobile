@@ -21,11 +21,14 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   void initState() {
     super.initState();
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
     Future.microtask(() {
       // Fetch user courses if the user is logged in
       if (ref.read(userViewModelProvider).user != null) {
         userViewModelNotifier.fetchUserCourses();
+        videoViewModelNotifier
+            .fetchLiveNowStreams(); //TODO is this only when logged it?
       }
       // Fetch public courses regardless of user's login status
       userViewModelNotifier.fetchPublicCourses();
@@ -37,6 +40,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final isLoggedIn = ref.watch(userViewModelProvider).user != null;
     final userCourses = ref.watch(userViewModelProvider).userCourses;
     final publicCourses = ref.watch(userViewModelProvider).publicCourses;
+    final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
 
     return BaseView(
       showLeading: false,
@@ -70,22 +74,35 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     onViewAll: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyCourses(),),
+                        builder: (context) => const MyCourses(),
+                      ),
                     ),
                     courses: userCourses ?? [],
+                    isCourseSection: false,
                   ),
-
+                CourseSection(
+                  sectionTitle: "Live Now",
+                  isCourseSection: false,
+                  onViewAll: () => Navigator.push(
+                    context,
+                    //TODO remove viewAll or add a LiveStreams page
+                    MaterialPageRoute(builder: (context) => const MyCourses()),
+                  ),
+                  courses: userCourses ?? [],
+                  streams: liveStreams ?? [],
+                ),
                 CourseSection(
                   sectionTitle: "My courses",
+                  isCourseSection: true,
                   onViewAll: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MyCourses()),
                   ),
                   courses: userCourses ?? [],
                 ),
-                //const SizedBox(height: 5), // Space between the sections
                 CourseSection(
                   sectionTitle: "Public courses",
+                  isCourseSection: true,
                   onViewAll: () => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -93,8 +110,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     ),
                   ),
                   courses: publicCourses ?? [],
+                  // Add other sections or content as needed
                 ),
-                // Add other sections or content as needed
               ],
             ),
           ),

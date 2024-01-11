@@ -83,7 +83,7 @@ class CoursesList extends ConsumerWidget {
           final course = courses[index];
           return CourseCardText(
             title: course.name,
-            subtitle: course.slug,
+            tumID: course.tUMOnlineIdentifier,
             path: 'assets/images/course2.png',
             live: course.streams.any((stream) => stream.liveNow),
             courseId: course.id,
