@@ -26,7 +26,8 @@ import 'package:gocast_mobile/views/video_view/video_player.dart';
 /// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
-  final bool isCourseSection; //display courses or livestreams
+  final int
+      sectionKind; //0 for livestreams, 1 cor mycourses, 2 for puliccourses
   final List<Course>? courses;
   final List<Stream>? streams;
   final VoidCallback onViewAll;
@@ -34,7 +35,7 @@ class CourseSection extends StatelessWidget {
   const CourseSection({
     super.key,
     required this.sectionTitle,
-    required this.isCourseSection,
+    required this.sectionKind,
     this.streams,
     required this.onViewAll,
     this.courses,
@@ -49,7 +50,7 @@ class CourseSection extends StatelessWidget {
           _buildCourseSectionOrMessage(
             context: context,
             title: sectionTitle,
-            isCourseSection: isCourseSection,
+            sectionKind: sectionKind,
             onViewAll: onViewAll,
             courses: courses ?? MockData.mockCourses,
             streams: streams ?? [], //TODO add mock streams
@@ -62,28 +63,32 @@ class CourseSection extends StatelessWidget {
   Widget _buildCourseSectionOrMessage({
     required BuildContext context,
     required String title,
-    required bool isCourseSection,
+    required int sectionKind,
     required VoidCallback onViewAll,
     required List<Course> courses,
     required List<Stream> streams,
   }) {
-    return isCourseSection
-        ? (courses.isNotEmpty
-            ? _buildCourseSection(
-                context: context,
-                title: title,
-                onViewAll: onViewAll,
-                courses: courses,
-              )
-            : _buildNoCoursesMessage(context, title))
-        : (streams.isNotEmpty
-            ? _buildCourseSection(
-                context: context,
-                title: title,
-                courses: courses,
-                streams: streams,
-              )
-            : _buildNoCoursesMessage(context, title));
+    if (sectionKind == 0) {
+      return (streams.isNotEmpty
+          ? _buildCourseSection(
+              context: context,
+              title: title,
+              courses: courses,
+              streams: streams,
+              sectionKind: 0,
+            )
+          : _buildNoCoursesMessage(context, title));
+    } else  {
+      return (courses.isNotEmpty
+          ? _buildCourseSection(
+              context: context,
+              title: title,
+              onViewAll: onViewAll,
+              courses: courses,
+              sectionKind: sectionKind,
+            )
+          : _buildNoCoursesMessage(context, title));
+    }
   }
 
   Widget _buildCourseSection({
@@ -92,14 +97,15 @@ class CourseSection extends StatelessWidget {
     VoidCallback? onViewAll,
     required List<Course> courses,
     List<Stream>? streams,
+    required int sectionKind,
   }) {
-    if (streams == null) {
-      return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle(context, title, onViewAll),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionTitle(context, title, onViewAll),
+          if (sectionKind == 1)
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 300),
               child: FractionallySizedBox(
@@ -136,77 +142,69 @@ class CourseSection extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSectionTitle(context, title, onViewAll),
-              SizedBox(
-                height: streams != null ? 85 : 200,
-                //TODO make this fit livestreams too
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: streams != null ? streams.length : courses.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    /// Those are temporary values until we get the real data from the API
-                    final Random random = Random();
-                    String imagePath;
-                    List<String> imagePaths = [
-                      AppImages.course1,
-                      AppImages.course2,
-                    ];
-                    imagePath = imagePaths[random.nextInt(imagePaths.length)];
+            )
+           else if (sectionKind == 0)
+            SizedBox(
+              height: streams != null ? 85 : 200,
+              //TODO make this fit livestreams too
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: streams != null ? streams.length : courses.length,
+                itemBuilder: (BuildContext context, int index) {
+                  /// Those are temporary values until we get the real data from the API
+                  final Random random = Random();
+                  String imagePath;
+                  List<String> imagePaths = [
+                    AppImages.course1,
+                    AppImages.course2,
+                  ];
+                  imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
-                    /// End of temporary values
-                    if (streams != null) {
-                      final stream = streams[index];
-                      final course = courses
-                          .where((course) => course.id == stream.courseID)
-                          .first;
-                      return CourseCard(
-                        title: stream.name,
-                        subtitle: course.name,
-                        tumID: course.tUMOnlineIdentifier,
-                        path: imagePath,
-                        live: true,
-                        //stream.liveNow, TODO BUG why is this not always true
-                        courseId: course.id,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              //TODO - is chat enabled in live mode
-                              builder: (context) => VideoPlayerPage(
-                                stream: stream,
-                              ),
+                  /// End of temporary values
+                  if (streams != null) {
+                    final stream = streams[index];
+                    final course = courses
+                        .where((course) => course.id == stream.courseID)
+                        .first;
+                    return CourseCard(
+                      title: stream.name,
+                      subtitle: course.name,
+                      tumID: course.tUMOnlineIdentifier,
+                      path: imagePath,
+                      live: true,
+                      //stream.liveNow, TODO BUG why is this not always true
+                      courseId: course.id,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            //TODO - is chat enabled in live mode
+                            builder: (context) => VideoPlayerPage(
+                              stream: stream,
                             ),
-                          );
-                        },
-                      );
-                    } else {
-                      final course = courses[index];
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    final course = courses[index];
 
-                      return CourseCard(
-                        title: course.name,
-                        tumID: course.tUMOnlineIdentifier,
-                        path: imagePath,
-                        live: course.streams.any((stream) => stream.liveNow),
-                        courseId: course.id,
-                      );
-                    }
-                  },
-                ),
+                    return CourseCard(
+                      title: course.name,
+                      tumID: course.tUMOnlineIdentifier,
+                      path: imagePath,
+                      live: course.streams.any((stream) => stream.liveNow),
+                      courseId: course.id,
+                    );
+                  }
+                },
               ),
-            ],
-          ));
-    }
-    ;
+            )
+          else
+            const SizedBox(),
+        ],
+      ),
+    );
   }
 
   Row _buildSectionTitle(
