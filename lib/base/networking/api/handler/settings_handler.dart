@@ -68,24 +68,87 @@ class SettingsHandler {
     }
   }
 
-  Future<void> updatePreferredName(String name) async {
-    UserSetting nameSetting =
-        UserSetting(type: UserSettingType.PREFERRED_NAME, value: name);
-    await updateUserSettings([nameSetting]);
+  /// Parses playback speeds from the user settings.
+  List<double> parsePlaybackSpeeds(List<UserSetting>? userSettings) {
+    final playbackSpeedSetting = userSettings?.firstWhere(
+      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+      orElse: () => UserSetting(value: jsonEncode([])),
+    );
+
+    if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
+      try {
+        final List<dynamic> speedsJson = jsonDecode(playbackSpeedSetting.value);
+        return speedsJson
+            .where((item) => item['enabled'] == true)
+            .map((item) => double.parse(item['speed'].toString()))
+            .toList();
+      } catch (e) {
+        _logger.e('Error parsing playback speeds: $e');
+        return [];
+      }
+    }
+    return [];
   }
 
-  Future<void> updatePreferredGreeting(String greeting) async {
-    UserSetting greetingSetting =
-        UserSetting(type: UserSettingType.GREETING, value: greeting);
-    await updateUserSettings([greetingSetting]);
+  /// Updates the preferred greeting in user settings.
+  Future<bool> updatePreferredGreeting(
+      String newGreeting, List<UserSetting> currentSettings) async {
+    try {
+      var greetingSetting = currentSettings.firstWhere(
+        (setting) => setting.type == UserSettingType.GREETING,
+        orElse: () =>
+            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
+      );
+      greetingSetting.value = newGreeting;
+
+      if (!currentSettings.contains(greetingSetting)) {
+        currentSettings.add(greetingSetting);
+      }
+      await updateUserSettings(currentSettings);
+      return true;
+    } catch (e) {
+      _logger.e('Error updating greeting: $e');
+      return false;
+    }
   }
 
-  Future<void> updatePlaybackSpeeds(List<double> speeds) async {
-    List<Map<String, dynamic>> speedsList =
-        speeds.map((speed) => {"speed": speed, "enabled": true}).toList();
-    String speedsJson = jsonEncode(speedsList);
-    UserSetting playbackSpeedSetting = UserSetting(
-        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS, value: speedsJson);
-    await updateUserSettings([playbackSpeedSetting]);
+  /// Updates the preferred name in user settings.
+  Future<bool> updatePreferredName(
+      String newName, List<UserSetting> currentSettings) async {
+    try {
+      var newSetting =
+          UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName);
+      await updateUserSettings([newSetting]);
+      return true;
+    } catch (e) {
+      _logger.e('Error updating preferred name: $e');
+      return false;
+    }
+  }
+
+  /// Updates the selected speeds in user settings.
+  Future<void> updateSelectedSpeeds(
+      double speed, bool isSelected, List<UserSetting> currentSettings) async {
+    var playbackSpeedSetting = currentSettings.firstWhere(
+      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+      orElse: () => UserSetting(
+        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+        value: jsonEncode([]),
+      ),
+    );
+
+    List<double> updatedSpeeds = parsePlaybackSpeeds([playbackSpeedSetting]);
+    if (isSelected && !updatedSpeeds.contains(speed)) {
+      updatedSpeeds.add(speed);
+    } else if (!isSelected) {
+      updatedSpeeds.remove(speed);
+    }
+
+    List<Map<String, dynamic>> speedsList = updatedSpeeds
+        .map((speed) => {"speed": speed, "enabled": true})
+        .toList();
+    playbackSpeedSetting.value = jsonEncode(speedsList);
+
+    await updateUserSettings(currentSettings);
   }
 }

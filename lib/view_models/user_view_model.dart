@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +8,7 @@ import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/settings_handler.dart';
 
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
@@ -143,15 +143,10 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings..');
-      final response = await _grpcHandler.callGrpcMethod(
-        (client) async {
-          final response =
-              await client.getUserSettings(GetUserSettingsRequest());
-          return response.userSettings;
-        },
-      );
+      final userSettings =
+          await SettingsHandler(_grpcHandler).fetchUserSettings();
+      state = state.copyWith(userSettings: userSettings);
       _logger.i('User settings fetched successfully');
-      state = state.copyWith(userSettings: response);
     } catch (e) {
       _logger.e('Error fetching user settings: $e');
     }
@@ -160,16 +155,14 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> updateUserSettings(List<UserSetting> updatedSettings) async {
     _logger.i('Updating user settings..');
     try {
-      final request = PatchUserSettingsRequest()
-        ..userSettings.addAll(updatedSettings);
-
-      await _grpcHandler.callGrpcMethod(
-        (client) async {
-          await client.patchUserSettings(request);
-        },
-      );
-      state = state.copyWith(userSettings: updatedSettings);
-      _logger.i('User settings updated successfully');
+      final success = await SettingsHandler(_grpcHandler)
+          .updateUserSettings(updatedSettings);
+      if (success) {
+        state = state.copyWith(userSettings: updatedSettings);
+        _logger.i('User settings updated successfully');
+      } else {
+        _logger.e('Failed to update user settings');
+      }
     } catch (e) {
       _logger.e('Error updating user settings: $e');
     }
@@ -278,37 +271,25 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isDownloadWithWifiOnly: value);
   }
 
+  // This static method can stay within UserViewModel as it doesn't interact with the API
   static List<double> getDefaultSpeeds() {
     return List<double>.generate(14, (i) => (i + 1) * 0.25);
   }
 
-  Future<bool> updatePreferredGreeting(String newGreeting) async {
+  Future<void> updatePreferredGreeting(String newGreeting) async {
     try {
-      var userSettings = List<UserSetting>.from(state.userSettings ?? []);
-      var greetingSetting = userSettings.firstWhere(
-        (setting) => setting.type == UserSettingType.GREETING,
-        orElse: () =>
-            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
-      );
-      greetingSetting.value = newGreeting;
-
-      if (!userSettings.contains(greetingSetting)) {
-        userSettings.add(greetingSetting);
-      }
-
-      await updateUserSettings(userSettings);
-      return true;
+      await SettingsHandler(_grpcHandler)
+          .updatePreferredGreeting(newGreeting, state.userSettings ?? []);
+      await fetchUserSettings();
     } catch (e) {
       _logger.e('Error updating greeting: $e');
-      return false;
     }
   }
 
   Future<bool> updatePreferredName(String newName) async {
     try {
-      var newSetting =
-          UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName);
-      await updateUserSettings([newSetting]);
+      await SettingsHandler(_grpcHandler)
+          .updatePreferredName(newName, state.userSettings ?? []);
       await fetchUserSettings();
       return true;
     } catch (e) {
@@ -317,58 +298,14 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  List<double> parsePlaybackSpeeds(List<UserSetting>? userSettings) {
-    final playbackSpeedSetting = userSettings?.firstWhere(
-      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-      orElse: () => UserSetting(value: jsonEncode([])),
-    );
-
-    if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
-      try {
-        final List<dynamic> speedsJson = jsonDecode(playbackSpeedSetting.value);
-        return speedsJson
-            .where((item) => item['enabled'] == true)
-            .map((item) => double.parse(item['speed'].toString()))
-            .toList();
-      } catch (e) {
-        return [];
-      }
-    }
-    return [];
+  Future<void> updateSelectedSpeeds(double speed, bool isSelected) async {
+    await SettingsHandler(_grpcHandler)
+        .updateSelectedSpeeds(speed, isSelected, state.userSettings ?? []);
+    await fetchUserSettings();
   }
 
-  Future<void> updateSelectedSpeeds(double speed, bool isSelected) async {
-    var currentUserSettings = List<UserSetting>.from(state.userSettings ?? []);
-
-    var playbackSpeedSettingIndex = currentUserSettings.indexWhere(
-      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-    );
-
-    UserSetting playbackSpeedSetting;
-    if (playbackSpeedSettingIndex != -1) {
-      playbackSpeedSetting = currentUserSettings[playbackSpeedSettingIndex];
-    } else {
-      playbackSpeedSetting = UserSetting(
-        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-        value: jsonEncode([]),
-      );
-      currentUserSettings.add(playbackSpeedSetting);
-      playbackSpeedSettingIndex = currentUserSettings.length - 1;
-    }
-
-    List<double> updatedSpeeds = parsePlaybackSpeeds([playbackSpeedSetting]);
-    if (isSelected && !updatedSpeeds.contains(speed)) {
-      updatedSpeeds.add(speed);
-    } else if (!isSelected) {
-      updatedSpeeds.remove(speed);
-    }
-
-    List<Map<String, dynamic>> speedsList = updatedSpeeds
-        .map((speed) => {"speed": speed, "enabled": true})
-        .toList();
-    playbackSpeedSetting.value = jsonEncode(speedsList);
-    currentUserSettings[playbackSpeedSettingIndex] = playbackSpeedSetting;
-
-    await updateUserSettings(currentUserSettings);
+  List<double> parsePlaybackSpeeds() {
+    return SettingsHandler(_grpcHandler)
+        .parsePlaybackSpeeds(state.userSettings);
   }
 }

@@ -71,8 +71,6 @@ class PlaybackSpeedSettings extends ConsumerWidget {
     List<UserSetting>? userSettings,
     WidgetRef ref,
   ) {
-    return ref
-        .read(userViewModelProvider.notifier)
-        .parsePlaybackSpeeds(userSettings);
+    return ref.read(userViewModelProvider.notifier).parsePlaybackSpeeds();
   }
 }

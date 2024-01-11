@@ -81,16 +81,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              onPressed: () {
-                if (preferredNameController.text.isNotEmpty) {
-                  _updatePreferredName(preferredNameController.text);
-                } else {
-                  setState(() {
-                    infoText = 'Please enter a preferred name';
-                    isError = true;
-                  });
-                }
-              },
+              onPressed: () => _onSaveButtonPressed(),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 child: Text('Save'),
@@ -111,18 +102,36 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     );
   }
 
-  void _updatePreferredName(String name) async {
-    bool success = await ref
-        .read(userViewModelProvider.notifier)
-        .updatePreferredName(name);
-    if (success) {
-      setState(() {
-        infoText = 'Preferred name saved: $name';
-        isError = false;
-      });
+  void _onSaveButtonPressed() {
+    if (preferredNameController.text.isNotEmpty) {
+      _updatePreferredName(preferredNameController.text);
     } else {
       setState(() {
-        infoText = 'Error updating preferred name';
+        infoText = 'Please enter a preferred name';
+        isError = true;
+      });
+    }
+  }
+
+  Future<void> _updatePreferredName(String name) async {
+    try {
+      bool success = await ref
+          .read(userViewModelProvider.notifier)
+          .updatePreferredName(name);
+      if (success) {
+        setState(() {
+          infoText = 'Preferred name saved: $name';
+          isError = false;
+        });
+      } else {
+        setState(() {
+          infoText = 'Error updating preferred name';
+          isError = true;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        infoText = 'An error occurred';
         isError = true;
       });
     }
