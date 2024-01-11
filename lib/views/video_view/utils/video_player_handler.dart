@@ -8,9 +8,6 @@ class VideoPlayerHandlers {
   });
 
   void handleMenuSelection(String choice, Stream stream) {
-    if (choice == 'Download') {
-      // TODO: Implement download
-    } else {
       String? playlistUrl;
       switch (choice) {
         case 'Combined view':
@@ -26,7 +23,6 @@ class VideoPlayerHandlers {
       if (playlistUrl != null) {
         switchPlaylist(playlistUrl);
       }
-    }
   }
 
   void handleToggleChat() {

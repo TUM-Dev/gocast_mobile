@@ -22,10 +22,10 @@ class CustomVideoControlBar extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
 
-    List<Map<String, IconData>> getMenuItems(bool isPinned) {
+    List<Map<String, IconData>> getMenuItems(bool isPinned, bool isDownloaded) {
       List<Map<String, IconData>> items = [
         {'Pin Course': isPinned ? Icons.push_pin : Icons.push_pin_outlined},
-        {'Download': Icons.file_download},
+        {'Download': isDownloaded ? Icons.download_done_outlined : Icons.download_outlined},
       ];
       return items;
     }
@@ -65,7 +65,7 @@ class CustomVideoControlBar extends StatelessWidget {
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  return getMenuItems(isPinned).map((Map<String, IconData> choice) {
+                  return getMenuItems(isPinned, false).map((Map<String, IconData> choice) {
                     String text = choice.keys.first;
                     IconData icon = choice.values.first;
 
