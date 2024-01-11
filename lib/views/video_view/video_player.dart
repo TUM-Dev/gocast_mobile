@@ -28,10 +28,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   late VideoPlayerHandlers _videoPlayerHandlers;
 
   Timer? _progressTimer;
+  bool _isChatVisible = false;
 
   Widget _buildVideoLayout() {
     _videoPlayerHandlers = VideoPlayerHandlers(
       switchPlaylist: _switchPlaylist,
+      onToggleChat: _handleToggleChat,
     );
     return Column(
       children: <Widget>[
@@ -41,8 +43,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           onToggleChat: _videoPlayerHandlers.handleToggleChat,
           onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
           currentStream: widget.stream,
+          isChatVisible: _isChatVisible,
         ),
-        const Expanded(child: ChatView()),
+         Expanded(child: ChatView(isActive: _isChatVisible)),
       ],
     );
   }
@@ -52,6 +55,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     super.initState();
     _videoPlayerHandlers = VideoPlayerHandlers(
       switchPlaylist: _switchPlaylist,
+      onToggleChat: _handleToggleChat,
     );
     _initializeControllerManager();
     Future.microtask(() {
@@ -210,6 +214,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   void _setLoadingState(bool isLoading) {
     setState(() {
       ref.read(videoViewModelProvider).copyWith(isLoading: isLoading);
+    });
+  }
+
+  void _handleToggleChat() {
+    setState(() {
+      _isChatVisible = !_isChatVisible; // Toggle chat visibility
     });
   }
 }

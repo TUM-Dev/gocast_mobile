@@ -9,6 +9,7 @@ class CustomVideoControlBar extends StatelessWidget {
   final VoidCallback onToggleChat;
   final VoidCallback onOpenQuizzes;
   final Stream currentStream;
+  final bool isChatVisible;
 
   const CustomVideoControlBar({
     super.key,
@@ -16,6 +17,7 @@ class CustomVideoControlBar extends StatelessWidget {
     required this.onToggleChat,
     required this.onOpenQuizzes,
     required this.currentStream,
+    this.isChatVisible = true,
   });
 
   @override
@@ -43,7 +45,7 @@ class CustomVideoControlBar extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.messenger_outline_outlined),
+                    icon: isChatVisible ? Icon(Icons.chat_bubble, color: themeData.primaryColor) : const Icon(Icons.chat_bubble_outline),
                     color: themeData.iconTheme.color,
                     onPressed: onToggleChat,
                   ),
