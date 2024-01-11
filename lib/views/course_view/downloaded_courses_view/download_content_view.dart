@@ -22,6 +22,8 @@ class DownloadCoursesContentView extends ConsumerWidget {
     this.onRefresh,
   });
 
+  //TODO implement filter and search functions in download view
+  void _handleSortOptionSelected(String choice) {}
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController searchController = TextEditingController();
@@ -30,6 +32,8 @@ class DownloadCoursesContentView extends ConsumerWidget {
       customAppBar: CustomSearchTopNavBar(
         searchController: searchController,
         title: title,
+        onSortOptionSelected: _handleSortOptionSelected,
+        filterOptions: const ['Newest First', 'Oldest First'],
       ),
       showLeading: false,
       child: RefreshIndicator(

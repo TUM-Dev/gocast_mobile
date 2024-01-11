@@ -19,6 +19,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   late List<Course> searchCourses;
   bool isLoading = true;
   final TextEditingController searchController = TextEditingController();
+  bool isNewestFirst = false;
 
   Future<void> _refreshPinnedCourses() async {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
@@ -60,13 +61,33 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     });
   }
 
+  void sortCourses() {
+    final pinnedCourses = ref.read(userViewModelProvider).userPinned ?? [];
+    setState(() {
+      if (isNewestFirst) {
+        searchCourses = List.from(pinnedCourses.reversed);
+      } else {
+        searchCourses = List.from(pinnedCourses);
+      }
+    });
+  }
+
+  void _handleSortOptionSelected(String choice) {
+    setState(() {
+      isNewestFirst = (choice == 'Newest First');
+      sortCourses(); // Call sortStreams to reorder the streams based on the new setting
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBar(
         searchController: searchController,
+        onSortOptionSelected: _handleSortOptionSelected,
         title: "Pinned Courses",
+        filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
       ),
       body: RefreshIndicator(
         onRefresh: _refreshPinnedCourses,

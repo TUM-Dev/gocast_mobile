@@ -6,11 +6,13 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
   final Function(String) onSortOptionSelected;
+  final List<String> filterOptions;
 
   const CustomSearchTopNavBarWithBackButton({
     super.key,
     required this.searchController,
     required this.onSortOptionSelected,
+    required this.filterOptions,
   });
 
   @override
@@ -27,7 +29,7 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
         title: _buildSearchField(),
         actions: [
           FilterPopupMenuButton(
-            filterOptions: const ['Newest First', 'Oldest First'],
+            filterOptions: filterOptions,
             // Add your filter options here
             onFilterSelected: (String choice) {
               onSortOptionSelected(choice);

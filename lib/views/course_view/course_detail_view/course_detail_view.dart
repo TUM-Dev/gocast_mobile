@@ -40,6 +40,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       await videoViewModelNotifier.fetchCourseStreams(widget.courseId);
       await videoViewModelNotifier.fetchThumbnails();
       if (mounted) {
+        sortStreams();
         setState(() {
           searchCourseStreams = ref.read(videoViewModelProvider).streams ?? [];
           thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
@@ -51,12 +52,19 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
 
   void sortStreams() {
     final courseStreams = ref.read(videoViewModelProvider).streams ?? [];
+
+    courseStreams.sort((a, b) {
+      // Convert Timestamp to DateTime
+      DateTime startA = a.start.toDateTime();
+      DateTime startB = b.start.toDateTime();
+
+      return isNewestFirst
+          ? startB.compareTo(startA)
+          : startA.compareTo(startB);
+    });
+
     setState(() {
-      if (isNewestFirst) {
-        searchCourseStreams = List.from(courseStreams.reversed);
-      } else {
-        searchCourseStreams = List.from(courseStreams);
-      }
+      searchCourseStreams = courseStreams;
     });
   }
 
@@ -96,6 +104,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
         onSortOptionSelected: _handleSortOptionSelected,
+        filterOptions: const ['Newest First', 'Oldest First'],
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshStreams(widget.courseId),

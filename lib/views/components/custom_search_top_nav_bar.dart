@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/views/components/Filter_Popup_Menu_Button.dart';
 
 class CustomSearchTopNavBar extends ConsumerWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
   final String title;
+  final Function(String) onSortOptionSelected;
+  final List<String> filterOptions;
 
   const CustomSearchTopNavBar({
     super.key,
     required this.searchController,
     required this.title,
+    required this.onSortOptionSelected,
+    required this.filterOptions,
   });
 
   @override
@@ -51,10 +56,12 @@ class CustomSearchTopNavBar extends ConsumerWidget
                   onPressed: () =>
                       ref.read(isSearchActiveProvider.notifier).state = true,
                 ),
-                IconButton(
-                  icon:  Icon(Icons.filter_list,color: Theme.of(context).iconTheme.color,),
-                  onPressed: () {
-                    // Implement filter action
+                FilterPopupMenuButton(
+                  filterOptions: filterOptions,
+                  // Add your filter options here
+                  onFilterSelected: (String choice) {
+                    onSortOptionSelected(choice);
+                    // Implement what happens when a filter is selected
                   },
                 ),
               ],
