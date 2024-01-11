@@ -95,6 +95,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     _controllerManager = VideoPlayerControllerManager(
       currentStream: widget.stream,
       onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
+      ref: ref,
     );
   }
 

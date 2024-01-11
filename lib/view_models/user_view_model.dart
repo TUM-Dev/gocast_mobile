@@ -321,4 +321,9 @@ class UserViewModel extends StateNotifier<UserState> {
     }
     return false;
   }
+
+  List<UserSetting>? getUserSettings() {
+    return state.userSettings;
+  }
+
 }

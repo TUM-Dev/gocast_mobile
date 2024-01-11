@@ -1,7 +1,9 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:video_player/video_player.dart';
 
 enum VideoSourceType { asset, network }
@@ -11,10 +13,12 @@ class VideoPlayerControllerManager {
   ChewieController? chewieController;
   final Function(String, Stream)? onMenuSelection;
   final Stream currentStream;
+  final WidgetRef ref;
 
   VideoPlayerControllerManager({
     this.onMenuSelection,
     required this.currentStream,
+    required this.ref,
   }) {
     videoPlayerController =
         _createVideoPlayerController(currentStream.playlistUrl);
@@ -39,6 +43,7 @@ class VideoPlayerControllerManager {
   }
 
   ChewieController _createChewieController() {
+    List<double> playbackSpeeds = _getPlaybackSpeeds();
     return ChewieController(
       videoPlayerController: videoPlayerController,
       aspectRatio: videoPlayerController.value.aspectRatio,
@@ -54,6 +59,7 @@ class VideoPlayerControllerManager {
       autoInitialize: true,
       allowFullScreen: true,
       fullScreenByDefault: false,
+      playbackSpeeds: playbackSpeeds.isEmpty ? [0.25, 0.5,0.75, 1, 1.25, 1.5, 1.75, 2] : playbackSpeeds,
     );
   }
 
@@ -233,5 +239,10 @@ class VideoPlayerControllerManager {
     } else {
       await videoPlayerController.pause();
     }
+  }
+
+  List<double> _getPlaybackSpeeds() {
+    final userViewModel = ref.read(userViewModelProvider.notifier);
+    return userViewModel.parsePlaybackSpeeds();
   }
 }
