@@ -14,7 +14,7 @@ mkdir -p proto/gocast
 
 # Download the api_v2.proto file
 # TODO: Replace with actual proto file on dev branch once api/v2 is implemented
-curl -o proto/gocast/api_v2.proto https://raw.githubusercontent.com/TUM-Dev/gocast/IPraktikum-36-user-endpoints/api_v2/api_v2.proto
+curl -o proto/gocast/api_v2.proto https://raw.githubusercontent.com/TUM-Dev/gocast/IPraktikum-dev/api_v2/api_v2.proto
 
 # Run the protoc command to generate Dart gRPC code
 protoc --dart_out=grpc:lib/base/networking/api -I./proto google/protobuf/timestamp.proto google/protobuf/empty.proto proto/gocast/api_v2.proto
