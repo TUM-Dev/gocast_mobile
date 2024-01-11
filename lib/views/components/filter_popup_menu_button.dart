@@ -15,7 +15,7 @@ class FilterPopupMenuButton extends StatefulWidget {
 }
 
 class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
-  String selectedFilterOption = '';
+  String selectedFilterOption = 'Oldest First';
 
   @override
   Widget build(BuildContext context) {

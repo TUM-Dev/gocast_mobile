@@ -5,10 +5,12 @@ import 'package:gocast_mobile/views/components/filter_popup_menu_button.dart';
 class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
+  final Function(String) onSortOptionSelected;
 
   const CustomSearchTopNavBarWithBackButton({
     super.key,
     required this.searchController,
+    required this.onSortOptionSelected,
   });
 
   @override
@@ -28,6 +30,7 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
             filterOptions: const ['Newest First', 'Oldest First'],
             // Add your filter options here
             onFilterSelected: (String choice) {
+              onSortOptionSelected(choice);
               // Implement what happens when a filter is selected
             },
           ),

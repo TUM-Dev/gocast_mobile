@@ -24,6 +24,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   final String baseUrl = 'https://live.rbg.tum.de';
   late List<Stream> searchCourseStreams;
   bool isLoading = true;
+  bool isNewestFirst = false;
 
   @override
   void initState() {
@@ -45,6 +46,24 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
           isLoading = false; // Set isLoading to false here
         });
       }
+    });
+  }
+
+  void sortStreams() {
+    final courseStreams = ref.read(videoViewModelProvider).streams ?? [];
+    setState(() {
+      if (isNewestFirst) {
+        searchCourseStreams = List.from(courseStreams.reversed);
+      } else {
+        searchCourseStreams = List.from(courseStreams);
+      }
+    });
+  }
+
+  void _handleSortOptionSelected(String choice) {
+    setState(() {
+      isNewestFirst = (choice == 'Newest First');
+      sortStreams(); // Call sortStreams to reorder the streams based on the new setting
     });
   }
 
@@ -76,6 +95,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
+        onSortOptionSelected: _handleSortOptionSelected,
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshStreams(widget.courseId),
