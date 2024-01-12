@@ -110,9 +110,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
       ),
       body: CoursesList(
         title: 'Public Courses',
-        courses: displayedPublicCourses.isEmpty
-            ? allPublicCourses
-            : displayedPublicCourses,
+        courses: displayedPublicCourses,
         onRefresh: () async {
           await ref.read(userViewModelProvider.notifier).fetchPublicCourses();
         },
