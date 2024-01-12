@@ -6,8 +6,9 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
 
-import '../../video_view/local_video_player.dart';
 
 class DownloadedCourses extends ConsumerWidget {
   const DownloadedCourses({super.key});
@@ -26,9 +27,6 @@ class DownloadedCourses extends ConsumerWidget {
         final int videoId = entry.key;
         final String localPath = entry.value;
 
-        //print('Video ID: $videoId');
-       // print('Local Path: $localPath');
-
         return VideoCard(
           duration:
           "${Random().nextInt(2).toString().padLeft(2, '0')}:${Random().nextInt(59).toString().padLeft(2, '0')}:${Random().nextInt(60).toString().padLeft(2, '0')}",
@@ -40,7 +38,11 @@ class DownloadedCourses extends ConsumerWidget {
             // Handle video tap, you can use videoId and localPath here
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => LocalVideoPlayerPage(localPath: localPath),
+                builder: (context) => VideoPlayerPage(stream:
+                Stream(
+                  playlistUrl: localPath,
+                  name: 'Video $videoId',
+                ))
               ),
             );
           },
