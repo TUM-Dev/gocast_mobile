@@ -191,6 +191,17 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
+  Future<void> fetchSemesters() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Fetching Semesters');
+      var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
+      state = state.copyWith(semesters: semesters, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
   Future<void> fetchFeatureNotifications() async {
     try {
       _logger.i('Fetching feature notifications');

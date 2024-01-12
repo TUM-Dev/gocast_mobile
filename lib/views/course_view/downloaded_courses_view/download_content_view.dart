@@ -34,6 +34,7 @@ class DownloadCoursesContentView extends ConsumerWidget {
         title: title,
         onSortOptionSelected: _handleSortOptionSelected,
         filterOptions: const ['Newest First', 'Oldest First'],
+        onSemesterSelected: _handleSortOptionSelected,
       ),
       showLeading: false,
       child: RefreshIndicator(

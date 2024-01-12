@@ -8,6 +8,8 @@ class CustomSearchTopNavBar extends ConsumerWidget
   final String title;
   final Function(String) onSortOptionSelected;
   final List<String> filterOptions;
+  final Function(String)? onSemesterSelected;
+  final List<String>? semesters;
 
   const CustomSearchTopNavBar({
     super.key,
@@ -15,6 +17,8 @@ class CustomSearchTopNavBar extends ConsumerWidget
     required this.title,
     required this.onSortOptionSelected,
     required this.filterOptions,
+    required this.onSemesterSelected,
+    this.semesters,
   });
 
   @override
@@ -63,6 +67,8 @@ class CustomSearchTopNavBar extends ConsumerWidget
                     onSortOptionSelected(choice);
                     // Implement what happens when a filter is selected
                   },
+                  onSemesterSelected: onSemesterSelected,
+                  semesters: semesters,
                 ),
               ],
         titleSpacing: 0.0,
