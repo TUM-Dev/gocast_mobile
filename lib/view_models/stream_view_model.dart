@@ -18,19 +18,19 @@ class StreamViewModel extends StateNotifier<StreamState> {
   StreamViewModel(this._grpcHandler) : super(const StreamState());
 
   Future<String> downloadVideo(String videoUrl, String fileName) async {
+    _logger.i('Downloading video from: $videoUrl');
     try {
       final directory = await getApplicationDocumentsDirectory();
+      _logger.d('Download directory: ${directory.path}');
       final filePath = '${directory.path}/$fileName';
+      _logger.d('File path: $filePath');
       Dio dio = Dio();
-      await dio.download(videoUrl, filePath);
-      _logger.d('Downloaded video to: $filePath'); // Debug statement
-
-      // Debug statement to check if downloads are being updated
+      dio.download(videoUrl, filePath);
+      _logger.d('Downloaded video to: $filePath');
       state = state.copyWith(
         downloadedVideos: Map.from(state.downloadedVideos)
           ..[state.streams?.first.id.toInt() ?? -1] = filePath,
       );
-
       return filePath;
     } catch (e) {
       _logger.e("Error downloading video: $e");
@@ -38,23 +38,22 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> handleDownloadForStream(String videoUrl, Stream stream) async {
+  Future<void> handleDownloadForStream(Stream stream) async {
     state = state.copyWith(isLoading: true);
-    String localPath = await downloadVideo(videoUrl, "downloaded_stream_${stream.id.toInt()}.mp4");
-
+    String localPath = await downloadVideo(stream.playlistUrl, "downloaded_stream_${stream.id.toInt()}.mp4");
     if (localPath.isNotEmpty) {
       state = state.copyWith(
           downloadedVideos: Map.from(state.downloadedVideos)..[stream.id.toInt()] = localPath,
           isLoading: false,
       );
-      _logger.d('Downloaded video for stream ID ${stream.id} to: $localPath'); // Debug statement
-
-      // Debug statement to check if downloads are being updated
+      _logger.d('Downloaded video for stream ID ${stream.id} to: $localPath');
       _logger.d('Updated downloaded videos: ${state.downloadedVideos}');
     } else {
       state = state.copyWith(isLoading: false);
     }
   }
+
+
   Future<void> fetchDownloadVideos() async {
     state = state.copyWith(isLoading: true);
 
@@ -278,5 +277,11 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   void switchVideoSource(String newPlaylistUrl) {
     state = state.switchVideoSource(newPlaylistUrl);
+  }
+
+  isVideoDownloaded(int id) {
+    _logger.d('Checking if video is downloaded: $id');
+    _logger.d('Downloaded videos: ${state.downloadedVideos}');
+    return state.downloadedVideos.containsKey(id);
   }
 }

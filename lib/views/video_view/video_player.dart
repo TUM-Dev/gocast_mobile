@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
@@ -39,37 +40,15 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       children: <Widget>[
         Expanded(child: _controllerManager.buildVideoPlayer()),
         CustomVideoControlBar(
-          onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
           onToggleChat: _videoPlayerHandlers.handleToggleChat,
           onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
+          onDownloadVideo: _handleDownloadVideo,
         ),
          Expanded(child: ChatView(isActive: _isChatVisible)),
       ],
     );
-  }
-
-  void _downloadVideo(Stream stream) {
-    // Define the URL of the video to download
-     const videoUrl ="https://file-examples.com/storage/fe263d406665a032b95b05e/2017/04/file_example_MP4_480_1_5MG.mp4";
-     const String fileName = "downloaded_video.mp4";
-
-    // Call the download function from the StreamViewModel
-    ref.read(videoViewModelProvider.notifier)
-        .downloadVideo(videoUrl, fileName)
-        .then((localPath) {
-      if (localPath.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Download completed: $localPath')),
-
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Download failed')),
-        );
-      }
-    });
   }
 
   @override
@@ -245,4 +224,21 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       _isChatVisible = !_isChatVisible; // Toggle chat visibility
     });
   }
+
+  void _handleDownloadVideo(Stream stream) {
+    ref.read(videoViewModelProvider.notifier)
+        .downloadVideo(MockData.mockVideoURL, stream.name)
+        .then((localPath) {
+      if (localPath.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Download completed: $localPath')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Download failed')),
+        );
+      }
+    });
+  }
+
 }

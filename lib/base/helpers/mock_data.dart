@@ -27,6 +27,7 @@ class MockData {
     'Sure, let me elaborate on that.',
     'I have a question about the homework, do we calculate this using the formula from the lecture?',
   ];
+  static const mockVideoURL ="https://ia800304.us.archive.org/28/items/TheGoat/The_Goat_512kb.mp4";
 
   static List<Course> _defaultCourses() {
     // Generate courses without considering liveNow status

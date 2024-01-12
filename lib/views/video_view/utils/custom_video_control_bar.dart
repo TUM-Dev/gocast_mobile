@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 class CustomVideoControlBar extends StatelessWidget {
-  final Function(String, Stream) onMenuSelection;
+  final Function(Stream stream) onDownloadVideo;
   final VoidCallback onToggleChat;
   final VoidCallback onOpenQuizzes;
   final Stream currentStream;
@@ -13,11 +13,11 @@ class CustomVideoControlBar extends StatelessWidget {
 
   const CustomVideoControlBar({
     super.key,
-    required this.onMenuSelection,
+    required this.onDownloadVideo,
     required this.onToggleChat,
     required this.onOpenQuizzes,
     required this.currentStream,
-    this.isChatVisible = true,
+    this.isChatVisible = false,
   });
 
   @override
@@ -36,6 +36,8 @@ class CustomVideoControlBar extends StatelessWidget {
       builder: (context, ref, child) {
         final userViewModel = ref.read(userViewModelProvider.notifier);
         final isPinned = userViewModel.isCoursePinned(currentStream.courseID);
+        final videoViewModel = ref.read(videoViewModelProvider.notifier);
+        final isDownloaded = videoViewModel.isVideoDownloaded(currentStream.id.toInt());
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -62,12 +64,12 @@ class CustomVideoControlBar extends StatelessWidget {
                     isPinned
                         ? await ref.read(userViewModelProvider.notifier).unpinCourse(currentStream.courseID)
                         : await ref.read(userViewModelProvider.notifier).pinCourse(currentStream.courseID);
-                  } else {
-                    onMenuSelection(choice, currentStream);
+                  } else if (choice == 'Download') {
+                      await onDownloadVideo(currentStream);
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  return getMenuItems(isPinned, false).map((Map<String, IconData> choice) {
+                  return getMenuItems(isPinned, isDownloaded).map((Map<String, IconData> choice) {
                     String text = choice.keys.first;
                     IconData icon = choice.values.first;
 
