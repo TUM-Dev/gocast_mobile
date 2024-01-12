@@ -63,16 +63,24 @@ class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
         return Container(
           padding: const EdgeInsets.all(16),
           child: Wrap(
-            children: widget.semesters?.map((semester) {
-                  return ListTile(
-                    title: Text(semester),
-                    trailing: selectedSemester == semester
-                        ? Icon(Icons.check)
-                        : null, // Checkmark
-                    onTap: () => _selectSemester(semester, context),
-                  );
-                }).toList() ??
-                [],
+            children: [
+              ListTile(
+                title: const Text('All'),
+                trailing: selectedSemester == null || selectedSemester == 'All'
+                    ? const Icon(Icons.check)
+                    : null, // Checkmark for 'All'
+                onTap: () => _selectSemester('All', context),
+              ),
+              ...?widget.semesters?.map((semester) {
+                return ListTile(
+                  title: Text(semester),
+                  trailing: selectedSemester == semester
+                      ? const Icon(Icons.check)
+                      : null, // Checkmark
+                  onTap: () => _selectSemester(semester, context),
+                );
+              }).toList(),
+            ],
           ),
         );
       },

@@ -22,11 +22,26 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   bool isNewestFirst = false;
   String selectedSemester = 'All';
 
-  void onSemesterSelected(String semester) {
-    setState(() {
-      selectedSemester = semester;
-    });
-    // Perform additional actions based on the selected semester
+  void filterCoursesBySemester(String selectedSemester) {
+    List<Course> pinnedCourses =
+        ref.read(userViewModelProvider).userPinned ?? [];
+    if (selectedSemester == 'All') {
+      setState(() {
+        searchCourses = pinnedCourses;
+      });
+    } else {
+      var parts =
+          selectedSemester.split(' - '); // Assuming the format is "year - term"
+      var year = int.parse(parts[0]);
+      var term = parts[1];
+
+      setState(() {
+        searchCourses = pinnedCourses.where((course) {
+          return course.semester.year == year &&
+              course.semester.teachingTerm == term;
+        }).toList();
+      });
+    }
   }
 
   Future<void> _refreshPinnedCourses() async {
@@ -97,8 +112,8 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     });
   }
 
-  List<String> convertAndSortSemesters(
-      List<Semester> semesters, bool isNewestFirst) {
+  List<String> convertAndSortSemesters(List<Semester> semesters,
+      bool isNewestFirst,) {
     // Clone the list to avoid modifying the original
     List<Semester> sortedSemesters = List<Semester>.from(semesters);
 
@@ -143,7 +158,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         onSortOptionSelected: _handleSortOptionSelected,
         title: "Pinned Courses",
         filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
-        onSemesterSelected: onSemesterSelected,
+        onSemesterSelected: filterCoursesBySemester,
         semesters: convertAndSortSemesters(semesters, true),
       ),
       body: RefreshIndicator(
