@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/base_view.dart';
+import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
+
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
-import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 /// CoursesScreen
 ///
@@ -18,8 +18,9 @@ class CoursesList extends ConsumerWidget {
   final String title;
   final List<Course> courses;
   final Future<void> Function() onRefresh;
+  final TextEditingController searchController = TextEditingController();
 
-  const CoursesList({
+  CoursesList({
     super.key,
     required this.title,
     required this.courses,
@@ -28,11 +29,18 @@ class CoursesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BaseView(
-      bottomNavigationBar: null,
-      title: title,
-      actions: _buildAppBarActions(context, ref),
-      child: RefreshIndicator(
+    return Scaffold(
+      appBar: CustomSearchTopNavBarWithBackButton(
+        searchController: searchController,
+        onSortOptionSelected: (String choice) {
+          // Implement your logic for handling sort option selection
+        },
+        filterOptions: [
+          'Option 1',
+          'Option 2'
+        ], // Replace with your actual filter options
+      ),
+      body: RefreshIndicator(
         onRefresh: onRefresh,
         color: Colors.blue,
         backgroundColor: Colors.white,
@@ -40,27 +48,23 @@ class CoursesList extends ConsumerWidget {
         displacement: 20.0,
         child: CustomScrollView(
           slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
             courses.isEmpty
-                ? SliverFillRemaining(
-                    child: _buildPlaceholder(),
-                  )
+                ? SliverFillRemaining(child: _buildPlaceholder())
                 : _buildCourseListView(),
           ],
         ),
       ),
     );
-  }
-
-  List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.settings),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SettingsScreen()),
-        ),
-      ),
-    ];
   }
 
   Padding _buildPlaceholder() {

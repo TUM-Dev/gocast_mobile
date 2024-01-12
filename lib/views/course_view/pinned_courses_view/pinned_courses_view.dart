@@ -16,18 +16,19 @@ class PinnedCourses extends ConsumerStatefulWidget {
 }
 
 class PinnedCoursesState extends ConsumerState<PinnedCourses> {
-  late List<Course> searchCourses;
+  late List<Course> displayedCourses;
+  late List<Course> allPinnedCourses;
   bool isLoading = true;
   final TextEditingController searchController = TextEditingController();
   bool isNewestFirst = false;
   String selectedSemester = 'All';
+  late List<Course> temp;
+  bool isSearchInitialized = false;
 
   void filterCoursesBySemester(String selectedSemester) {
-    List<Course> pinnedCourses =
-        ref.read(userViewModelProvider).userPinned ?? [];
     if (selectedSemester == 'All') {
       setState(() {
-        searchCourses = pinnedCourses;
+        displayedCourses = allPinnedCourses;
       });
     } else {
       var parts =
@@ -36,7 +37,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       var term = parts[1];
 
       setState(() {
-        searchCourses = pinnedCourses.where((course) {
+        displayedCourses = allPinnedCourses.where((course) {
           return course.semester.year == year &&
               course.semester.teachingTerm == term;
         }).toList();
@@ -60,24 +61,29 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
-        sortCourses();
         setState(() {
-          searchCourses = ref.read(userViewModelProvider).userPinned ?? [];
+          allPinnedCourses = ref.read(userViewModelProvider).userPinned ?? [];
+          displayedCourses = allPinnedCourses;
           isLoading = false; // Set isLoading to false here
         });
+        sortCourses();
       }
     });
   }
 
   void _searchCourses() {
     final searchInput = searchController.text.toLowerCase();
-    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    if (!isSearchInitialized) {
+      temp = List.from(displayedCourses);
+      isSearchInitialized = true;
+    }
 
     setState(() {
       if (searchInput.isEmpty) {
-        searchCourses = userPinned;
+        displayedCourses = temp;
+        isSearchInitialized = false;
       } else {
-        searchCourses = userPinned.where((course) {
+        displayedCourses = displayedCourses.where((course) {
           return course.name.toLowerCase().contains(searchInput) ||
               course.slug.toLowerCase().contains(searchInput);
         }).toList();
@@ -86,10 +92,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   void sortCourses() {
-    List<Course> pinnedCourses =
-        ref.read(userViewModelProvider).userPinned ?? [];
-
-    pinnedCourses.sort((a, b) {
+    displayedCourses.sort((a, b) {
       // Compare by year first
       int yearComparison = a.semester.year.compareTo(b.semester.year);
       if (yearComparison != 0) {
@@ -105,10 +108,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
       // Reverse the term comparison if 'isNewestFirst' is true
       return isNewestFirst ? -termComparison : termComparison;
-    });
-
-    setState(() {
-      searchCourses = pinnedCourses;
     });
   }
 
@@ -150,7 +149,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
   @override
   Widget build(BuildContext context) {
-    // final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     final semesters = ref.watch(userViewModelProvider).semesters ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBar(
@@ -169,8 +167,8 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         displacement: 20.0,
         child: PinnedCoursesContentView(
           title: "Pinned Courses",
-          pinnedCourseCards: searchCourses.map((course) {
-            final isPinned = searchCourses
+          pinnedCourseCards: displayedCourses.map((course) {
+            final isPinned = displayedCourses
                 .any((pinnedCourse) => pinnedCourse.id == course.id);
             return PinnedCourseCard(
               imageName: 'assets/images/course2.png',

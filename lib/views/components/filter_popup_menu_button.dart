@@ -79,7 +79,7 @@ class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
                       : null, // Checkmark
                   onTap: () => _selectSemester(semester, context),
                 );
-              }).toList(),
+              }),
             ],
           ),
         );

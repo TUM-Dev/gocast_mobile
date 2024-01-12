@@ -32,6 +32,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
         elevation: 0,
         leading: isSearchActive
             ? IconButton(
+                // TODO: when the the back arrow is pressed the setting of semester and the newest/oldest is set again
                 icon:  Icon(Icons.arrow_back_ios, color:Theme.of(context).iconTheme.color,),
                 onPressed: () =>
                     ref.read(isSearchActiveProvider.notifier).state = false,
@@ -62,10 +63,8 @@ class CustomSearchTopNavBar extends ConsumerWidget
                 ),
                 FilterPopupMenuButton(
                   filterOptions: filterOptions,
-                  // Add your filter options here
                   onFilterSelected: (String choice) {
                     onSortOptionSelected(choice);
-                    // Implement what happens when a filter is selected
                   },
                   onSemesterSelected: onSemesterSelected,
                   semesters: semesters,
