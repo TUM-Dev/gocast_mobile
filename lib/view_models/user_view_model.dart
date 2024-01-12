@@ -14,12 +14,13 @@ import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../providers.dart';
-import '../utils/globals.dart';
+
 
 
 class UserViewModel extends StateNotifier<UserState> {
@@ -311,4 +312,21 @@ class UserViewModel extends StateNotifier<UserState> {
     return SettingsHandler(_grpcHandler)
         .parsePlaybackSpeeds(state.userSettings);
   }
+
+  isCoursePinned(int id) {
+    if (state.userPinned == null) {
+      return false;
+    }
+    for (var course in state.userPinned!) {
+      if (course.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<UserSetting>? getUserSettings() {
+    return state.userSettings;
+  }
+
 }

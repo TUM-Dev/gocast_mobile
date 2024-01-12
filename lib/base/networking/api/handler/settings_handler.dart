@@ -92,7 +92,7 @@ class SettingsHandler {
 
   /// Updates the preferred greeting in user settings.
   Future<bool> updatePreferredGreeting(
-      String newGreeting, List<UserSetting> currentSettings) async {
+      String newGreeting, List<UserSetting> currentSettings,) async {
     try {
       var greetingSetting = currentSettings.firstWhere(
         (setting) => setting.type == UserSettingType.GREETING,
@@ -114,7 +114,7 @@ class SettingsHandler {
 
   /// Updates the preferred name in user settings.
   Future<bool> updatePreferredName(
-      String newName, List<UserSetting> currentSettings) async {
+      String newName, List<UserSetting> currentSettings,) async {
     try {
       var newSetting =
           UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName);
@@ -130,25 +130,24 @@ class SettingsHandler {
   Future<void> updateSelectedSpeeds(
       double speed, bool isSelected, List<UserSetting> currentSettings) async {
     var playbackSpeedSetting = currentSettings.firstWhere(
-      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+          (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
       orElse: () => UserSetting(
         type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
-        value: jsonEncode([]),
+        value: jsonEncode([{"speed": 1.0, "enabled": true}]),
       ),
     );
-
-    List<double> updatedSpeeds = parsePlaybackSpeeds([playbackSpeedSetting]);
-    if (isSelected && !updatedSpeeds.contains(speed)) {
-      updatedSpeeds.add(speed);
-    } else if (!isSelected) {
-      updatedSpeeds.remove(speed);
+    var speeds = (jsonDecode(playbackSpeedSetting.value) as List)
+        .map((e) => e["speed"])
+        .toSet();
+    isSelected ? speeds.add(speed) : speeds.remove(speed);
+    speeds.add(1.0); // Ensure default speed is always included
+    playbackSpeedSetting.value = jsonEncode(
+      speeds.map((s) => {"speed": s, "enabled": true}).toList(),
+    );
+    if (!currentSettings.contains(playbackSpeedSetting)) {
+      currentSettings.add(playbackSpeedSetting);
     }
-
-    List<Map<String, dynamic>> speedsList = updatedSpeeds
-        .map((speed) => {"speed": speed, "enabled": true})
-        .toList();
-    playbackSpeedSetting.value = jsonEncode(speedsList);
-
     await updateUserSettings(currentSettings);
   }
+
 }
