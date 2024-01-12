@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 
@@ -18,7 +17,6 @@ class CoursesList extends ConsumerWidget {
   final String title;
   final List<Course> courses;
   final Future<void> Function() onRefresh;
-  final TextEditingController searchController = TextEditingController();
 
   CoursesList({
     super.key,
@@ -30,16 +28,6 @@ class CoursesList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CustomSearchTopNavBarWithBackButton(
-        searchController: searchController,
-        onSortOptionSelected: (String choice) {
-          // Implement your logic for handling sort option selection
-        },
-        filterOptions: [
-          'Option 1',
-          'Option 2'
-        ], // Replace with your actual filter options
-      ),
       body: RefreshIndicator(
         onRefresh: onRefresh,
         color: Colors.blue,
@@ -54,7 +42,9 @@ class CoursesList extends ConsumerWidget {
                 child: Text(
                   title,
                   style: const TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

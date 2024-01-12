@@ -16,8 +16,8 @@ class PinnedCourses extends ConsumerStatefulWidget {
 }
 
 class PinnedCoursesState extends ConsumerState<PinnedCourses> {
-  late List<Course> displayedCourses;
-  late List<Course> allPinnedCourses;
+  late List<Course> displayedCourses = [];
+  late List<Course> allPinnedCourses = [];
   bool isLoading = true;
   final TextEditingController searchController = TextEditingController();
   bool isNewestFirst = false;

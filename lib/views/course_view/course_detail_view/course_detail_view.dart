@@ -22,7 +22,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   late List<String> thumbnails;
   final TextEditingController searchController = TextEditingController();
   final String baseUrl = 'https://live.rbg.tum.de';
-  late List<Stream> searchCourseStreams;
+  late List<Stream> searchCourseStreams = [];
   bool isLoading = true;
   bool isNewestFirst = false;
 
