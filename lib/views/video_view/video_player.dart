@@ -5,8 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/video_view/chat_video_view.dart';
-import 'package:gocast_mobile/views/video_view/custom_video_control_bar.dart';
+import 'package:gocast_mobile/views/chat_view/chat_video_view.dart';
+import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.dart';
+import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 import 'package:logger/logger.dart';
 
@@ -20,32 +21,54 @@ class VideoPlayerPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<VideoPlayerPage> createState() => VideoPlayerPageState();
-
-  static VideoSourceType _determineSourceType(String videoSource) {
-    return videoSource.startsWith('http')
-        ? VideoSourceType.network
-        : VideoSourceType.asset;
-  }
 }
 
 class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   late VideoPlayerControllerManager _controllerManager;
-  bool _isLoading = true;
-  Timer? _progressTimer; // Define a Timer for progress updates
+  late VideoPlayerHandlers _videoPlayerHandlers;
+
+  Timer? _progressTimer;
+  bool _isChatVisible = false;
+
+  Widget _buildVideoLayout() {
+    _videoPlayerHandlers = VideoPlayerHandlers(
+      switchPlaylist: _switchPlaylist,
+      onToggleChat: _handleToggleChat,
+    );
+    return Column(
+      children: <Widget>[
+        Expanded(child: _controllerManager.buildVideoPlayer()),
+        CustomVideoControlBar(
+          onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
+          onToggleChat: _videoPlayerHandlers.handleToggleChat,
+          onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
+          currentStream: widget.stream,
+          isChatVisible: _isChatVisible,
+        ),
+         Expanded(child: ChatView(isActive: _isChatVisible)),
+      ],
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    _initVideoPlayer();
-    _setupProgressListener();
-    _setupCompletionListener();
+    _videoPlayerHandlers = VideoPlayerHandlers(
+      switchPlaylist: _switchPlaylist,
+      onToggleChat: _handleToggleChat,
+    );
+    _initializeControllerManager();
+    Future.microtask(() {
+      ref
+          .read(videoViewModelProvider.notifier)
+          .switchVideoSource(widget.stream.playlistUrl);
+      _initVideoPlayer();
+      _setupProgressListener();
+    });
   }
 
-  /// Disposes the video player, completion listener and progress timer.
   @override
   void dispose() {
-    _controllerManager.videoPlayerController
-        .removeListener(_completionListener);
     _controllerManager.dispose();
     _progressTimer?.cancel();
     super.dispose();
@@ -55,121 +78,122 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.stream.name)),
-      body: _isLoading
+      body: ref.read(videoViewModelProvider).isLoading
           ? const Center(child: CircularProgressIndicator())
           : _buildVideoLayout(),
     );
   }
 
-  /// Initializes the video player.
-  /// It creates a new instance of `VideoPlayerControllerManager` and initializes it.
-  /// It also fetches the progress of the current stream and seeks to the last watched position.
-  /// If an error occurs, it sets the error in the current state.
-  void _initVideoPlayer() async {
+// Initialize the video player.
+  Future<void> _initVideoPlayer() async {
+    await _setProgress();
+    await _initializeAndSeekPlayer();
+  }
+
+// Initialize the controller manager.
+  void _initializeControllerManager() {
     _controllerManager = VideoPlayerControllerManager(
-      videoSource: widget.stream.playlistUrl,
-      sourceType:
-          VideoPlayerPage._determineSourceType(widget.stream.playlistUrl),
-    );
-    _setLoadingState(true);
-    Future.microtask(() async {
-      try {
-        var viewModelNotifier = ref.read(videoViewModelProvider.notifier);
-        await viewModelNotifier.fetchProgress(widget.stream.id);
-        viewModelNotifier.setVideoSource(widget.stream.playlistUrl);
-        Progress progress = ref.read(videoViewModelProvider).progress ??
-            Progress(progress: 0.0);
-
-        if (!mounted) return;
-
-        await _controllerManager.initializePlayer();
-
-        final position = Duration(
-          seconds: (progress.progress *
-                  _controllerManager
-                      .videoPlayerController.value.duration.inSeconds)
-              .round(),
-        );
-
-        if (!mounted) return;
-
-        await _controllerManager.videoPlayerController.seekTo(position);
-
-        _setLoadingState(false);
-      } catch (error) {
-        if (mounted) {
-          if (!mounted) return;
-          ref
-              .read(videoViewModelProvider)
-              .copyWith(error: AppError('Failed to load video', error));
-          _setLoadingState(
-            false,
-          ); // Set loading state to false even in case of error
-        }
-      }
-    });
-  }
-
-  /// Builds the video layout.
-  Widget _buildVideoLayout() {
-    return Column(
-      children: <Widget>[
-        Expanded(child: _controllerManager.buildVideoPlayer()),
-        CustomVideoControlBar(
-          onMenuSelection: _handleMenuSelection,
-          onToggleChat: _toggleChat,
-          onOpenQuizzes: _openQuizzes,
-          currentStream: widget.stream,
-        ),
-        const Expanded(child: ChatView()),
-      ],
+      currentStream: widget.stream,
+      onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
+      ref: ref,
     );
   }
 
-  /// Sets up a timer to update the progress of the current stream.
-  /// It sends a `putProgress` gRPC call every 5 seconds.
-  void _setupProgressListener() {
-    _progressTimer =
-        Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
-      if (_controllerManager.videoPlayerController.value.isPlaying) {
-        var position = _controllerManager.videoPlayerController.value.position;
-        var progress = Progress(
-          progress: position.inSeconds /
-              _controllerManager.videoPlayerController.value.duration.inSeconds,
-          watched: false,
-          userID: 4, // replace with actual user ID
-          streamID: widget.stream.id.toInt(),
-        );
-        await ref
-            .read(videoViewModelProvider.notifier)
-            .updateProgress(widget.stream.id, progress);
-      }
-    });
+  Future<void> _setProgress() async {
+    await ref
+        .read(videoViewModelProvider.notifier)
+        .fetchProgress(widget.stream.id);
   }
 
-  /// Sets up a listener to mark the current stream as watched when it finishes playing.
-  /// It sends a `markAsWatched` gRPC call when the video finishes playing.
-  void _setupCompletionListener() {
-    _controllerManager.videoPlayerController.addListener(_completionListener);
-  }
-
-  // Extracted the listener function for easier removal in dispose
-  void _completionListener() {
-    if (_controllerManager.videoPlayerController.value.position ==
-            _controllerManager.videoPlayerController.value.duration &&
-        !_controllerManager.videoPlayerController.value.isPlaying) {
-      ref.read(videoViewModelProvider.notifier).markAsWatched(widget.stream.id);
+// Initialize the video player and seek to the last progress.
+  Future<void> _initializeAndSeekPlayer() async {
+    if (!mounted) return;
+    try {
+      await _controllerManager.initializePlayer();
+      _setLoadingState(false);
+      await _seekToLastProgress();
+    } catch (error) {
+      _handleError(error, 'Failed to initialize video player');
     }
   }
 
-  /// Switches between the different video sources.
-  /// It sends a `switchVideoSource` gRPC call to switch between the different video sources.
+// Seek to the last progress.
+  Future<void> _seekToLastProgress() async {
+    Progress progress =
+        ref.read(videoViewModelProvider).progress ?? Progress(progress: 0.0);
+    final position = Duration(
+      seconds: (progress.progress *
+              _controllerManager.videoPlayerController.value.duration.inSeconds)
+          .round(),
+    );
+    await _controllerManager.videoPlayerController.seekTo(position);
+  }
+
+// Handle errors and update the UI accordingly.
+  void _handleError(Object error, String errorMessage) {
+    if (mounted) {
+      ref
+          .read(videoViewModelProvider)
+          .copyWith(error: AppError(errorMessage, error));
+      _setLoadingState(false);
+    }
+  }
+
+  void _setupProgressListener() {
+    _progressTimer =
+        Timer.periodic(const Duration(seconds: 5), _progressUpdateCallback);
+  }
+
+  void _progressUpdateCallback(Timer timer) async {
+    if (!_isPlayerInitialized()) return;
+    if (_controllerManager.videoPlayerController.value.isPlaying) {
+      final position = _getCurrentPosition();
+      final progress = _calculateProgress(position);
+      await _updateProgress(progress);
+      if (_shouldMarkAsWatched(progress)) {
+        await _markStreamAsWatched();
+      }
+    }
+  }
+
+  bool _isPlayerInitialized() {
+    return _controllerManager.videoPlayerController.value.isInitialized;
+  }
+
+  Duration _getCurrentPosition() {
+    return _controllerManager.videoPlayerController.value.position;
+  }
+
+  double _calculateProgress(Duration position) {
+    final duration = _controllerManager.videoPlayerController.value.duration;
+    return position.inSeconds / duration.inSeconds;
+  }
+
+  Future<void> _updateProgress(double progress) {
+    var progressData = Progress(progress: progress);
+    return ref
+        .read(videoViewModelProvider.notifier)
+        .updateProgress(widget.stream.id, progressData);
+  }
+
+  bool _shouldMarkAsWatched(double progress) {
+    const watchedThreshold = 0.9; // 80%
+    return progress >= watchedThreshold;
+  }
+
+  Future<void> _markStreamAsWatched() {
+    return ref
+        .read(videoViewModelProvider.notifier)
+        .markAsWatched(widget.stream.id);
+  }
+
   void _switchPlaylist(String newPlaylistUrl) async {
     if (ref.read(videoViewModelProvider).videoSource == newPlaylistUrl) {
       Logger().i("Already displaying $newPlaylistUrl");
       return;
     }
-    setState(() => _isLoading = true);
+    Logger().i("Switching to $newPlaylistUrl");
+    _setLoadingState(true);
     try {
       ref
           .read(videoViewModelProvider.notifier)
@@ -178,43 +202,25 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         newPlaylistUrl,
         VideoSourceType.network,
       );
-      setState(() => _isLoading = false);
+      _setLoadingState(false);
     } catch (error) {
-      setState(() => _isLoading = false);
+      _setLoadingState(false);
       ref
           .read(videoViewModelProvider)
           .copyWith(error: AppError('Failed to load video', error));
     }
   }
 
-  /// Handles menu selections.
-  /// It switches between the different video sources or downloads the video.
-  void _handleMenuSelection(String choice, Stream stream) {
-    if (choice == 'Download') {
-      // TODO: Implement download
-    } else if (choice == 'Combined view') {
-      _switchPlaylist(stream.playlistUrl);
-    } else if (choice == 'Camera view') {
-      _switchPlaylist(stream.playlistUrlCAM);
-    } else if (choice == 'Presentation view') {
-      _switchPlaylist(stream.playlistUrlPRES);
-    }
-  }
-
-  void _toggleChat() {
-    // TODO: Implement chat toggle
-  }
-
-  void _openQuizzes() {
-    // TODO: Implement quizzes
-  }
-
   // Simplified loading state management
   void _setLoadingState(bool isLoading) {
-    if (mounted) {
-      setState(() {
-        _isLoading = isLoading;
-      });
-    }
+    setState(() {
+      ref.read(videoViewModelProvider).copyWith(isLoading: isLoading);
+    });
+  }
+
+  void _handleToggleChat() {
+    setState(() {
+      _isChatVisible = !_isChatVisible; // Toggle chat visibility
+    });
   }
 }
