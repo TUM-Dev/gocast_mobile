@@ -50,9 +50,6 @@ class VideoPlayerControllerManager {
       autoPlay: true,
       looping: false,
       additionalOptions: (context) => _getAdditionalOptions(),
-      optionsBuilder: (context, additionalOptions) async {
-        await _showOptionsDialog(context, additionalOptions);
-      },
       cupertinoProgressColors: _getCupertinoProgressColors(),
       materialProgressColors: _getMaterialProgressColors(),
       placeholder: Container(color: Colors.black),
@@ -104,85 +101,6 @@ class VideoPlayerControllerManager {
       );
     }
     return items;
-  }
-
-  Future<void> _showOptionsDialog(
-    BuildContext context,
-    List<OptionItem> additionalOptions,
-  ) async {
-    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    final optionsWidgets =
-        _buildOptionWidgets(context, additionalOptions, isIOS);
-
-    if (isIOS) {
-      await showCupertinoModalPopup<void>(
-        context: context,
-        builder: (BuildContext context) => CupertinoActionSheet(
-          actions: optionsWidgets,
-          cancelButton: CupertinoActionSheetAction(
-            isDefaultAction: true,
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-        ),
-      );
-    } else {
-      await showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) => SafeArea(
-          child: ListView(shrinkWrap: true, children: optionsWidgets),
-        ),
-      );
-    }
-  }
-
-  List<Widget> _buildOptionWidgets(
-    BuildContext context,
-    List<OptionItem> options,
-    bool isIOS,
-  ) {
-    return options.map((option) {
-      return isIOS
-          ? CupertinoActionSheetAction(
-              child: _buildOptionRow(option),
-              onPressed: () {
-                option.onTap?.call();
-                Navigator.pop(context);
-              },
-            )
-          : ListTile(
-              leading: Icon(option.iconData),
-              title: Text(option.title),
-              onTap: () {
-                option.onTap?.call();
-                Navigator.pop(context);
-              },
-            );
-    }).toList();
-  }
-
-  Row _buildOptionRow(OptionItem option) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Icon(
-          option.iconData,
-          color: Colors.black87,
-          size: 20,
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text(
-            option.title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87,
-            ),
-          ),
-        ),
-      ],
-    );
   }
 
   ChewieProgressColors _getCupertinoProgressColors() {
