@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
@@ -24,26 +25,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   String selectedSemester = 'All';
   late List<Course> temp;
   bool isSearchInitialized = false;
-
-  void filterCoursesBySemester(String selectedSemester) {
-    if (selectedSemester == 'All') {
-      setState(() {
-        displayedCourses = allPinnedCourses;
-      });
-    } else {
-      var parts =
-          selectedSemester.split(' - '); // Assuming the format is "year - term"
-      var year = int.parse(parts[0]);
-      var term = parts[1];
-
-      setState(() {
-        displayedCourses = allPinnedCourses.where((course) {
-          return course.semester.year == year &&
-              course.semester.teachingTerm == term;
-        }).toList();
-      });
-    }
-  }
 
   Future<void> _refreshPinnedCourses() async {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
@@ -71,6 +52,26 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     });
   }
 
+  void filterCoursesBySemester(String selectedSemester) {
+    setState(() {
+      displayedCourses = CourseUtils.filterCoursesBySemester(
+          allPinnedCourses, selectedSemester);
+    });
+  }
+
+  void sortCourses() {
+    setState(() {
+      CourseUtils.sortCourses(displayedCourses, isNewestFirst);
+    });
+  }
+
+  void _handleSortOptionSelected(String choice) {
+    setState(() {
+      isNewestFirst = (choice == 'Newest First');
+      sortCourses(); // Call sortStreams to reorder the streams based on the new setting
+    });
+  }
+
   void _searchCourses() {
     final searchInput = searchController.text.toLowerCase();
     if (!isSearchInitialized) {
@@ -91,62 +92,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     });
   }
 
-  void sortCourses() {
-    displayedCourses.sort((a, b) {
-      // Compare by year first
-      int yearComparison = a.semester.year.compareTo(b.semester.year);
-      if (yearComparison != 0) {
-        // If 'isNewestFirst' is true, reverse the year comparison
-        return isNewestFirst ? -yearComparison : yearComparison;
-      }
-
-      // If years are equal, 'W' (Winter) should be considered more recent than 'S' (Summer)
-      if (a.semester.teachingTerm == b.semester.teachingTerm) {
-        return 0;
-      }
-      int termComparison = a.semester.teachingTerm == 'W' ? -1 : 1;
-
-      // Reverse the term comparison if 'isNewestFirst' is true
-      return isNewestFirst ? -termComparison : termComparison;
-    });
-  }
-
-  List<String> convertAndSortSemesters(List<Semester> semesters,
-      bool isNewestFirst,) {
-    // Clone the list to avoid modifying the original
-    List<Semester> sortedSemesters = List<Semester>.from(semesters);
-
-    sortedSemesters.sort((a, b) {
-      // Compare by year first
-      int yearComparison = a.year.compareTo(b.year);
-      if (yearComparison != 0) {
-        // If 'isNewestFirst' is true, reverse the year comparison
-        return isNewestFirst ? -yearComparison : yearComparison;
-      }
-
-      // If years are equal, 'W' (Winter) should be considered more recent than 'S' (Summer)
-      if (a.teachingTerm == b.teachingTerm) {
-        return 0;
-      }
-      int termComparison = a.teachingTerm == 'W' ? -1 : 1;
-
-      // Reverse the term comparison if 'isNewestFirst' is true
-      return isNewestFirst ? -termComparison : termComparison;
-    });
-
-    // Convert sorted semesters to string format "year - teachingTerm"
-    return sortedSemesters
-        .map((semester) => "${semester.year} - ${semester.teachingTerm}")
-        .toList();
-  }
-
-  void _handleSortOptionSelected(String choice) {
-    setState(() {
-      isNewestFirst = (choice == 'Newest First');
-      sortCourses(); // Call sortStreams to reorder the streams based on the new setting
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final semesters = ref.watch(userViewModelProvider).semesters ?? [];
@@ -157,7 +102,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         title: "Pinned Courses",
         filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
         onSemesterSelected: filterCoursesBySemester,
-        semesters: convertAndSortSemesters(semesters, true),
+        semesters: CourseUtils.convertAndSortSemesters(semesters, true),
       ),
       body: RefreshIndicator(
         onRefresh: _refreshPinnedCourses,

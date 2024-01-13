@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/courses_list_view.dart';
 
@@ -45,57 +46,6 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
     });
   }
 
-  void filterCoursesBySemester(String selectedSemester) {
-    if (selectedSemester == 'All') {
-      setState(() {
-        displayedPublicCourses = allPublicCourses;
-      });
-    } else {
-      var parts =
-          selectedSemester.split(' - '); // Assuming the format is "year - term"
-      var year = int.parse(parts[0]);
-      var term = parts[1];
-
-      setState(() {
-        displayedPublicCourses = allPublicCourses.where((course) {
-          return course.semester.year == year &&
-              course.semester.teachingTerm == term;
-        }).toList();
-      });
-    }
-  }
-
-  List<String> convertAndSortSemesters(
-    List<Semester> semesters,
-    bool isNewestFirst,
-  ) {
-    // Clone the list to avoid modifying the original
-    List<Semester> sortedSemesters = List<Semester>.from(semesters);
-
-    sortedSemesters.sort((a, b) {
-      // Compare by year first
-      int yearComparison = a.year.compareTo(b.year);
-      if (yearComparison != 0) {
-        // If 'isNewestFirst' is true, reverse the year comparison
-        return isNewestFirst ? -yearComparison : yearComparison;
-      }
-
-      // If years are equal, 'W' (Winter) should be considered more recent than 'S' (Summer)
-      if (a.teachingTerm == b.teachingTerm) {
-        return 0;
-      }
-      int termComparison = a.teachingTerm == 'W' ? -1 : 1;
-
-      // Reverse the term comparison if 'isNewestFirst' is true
-      return isNewestFirst ? -termComparison : termComparison;
-    });
-
-    // Convert sorted semesters to string format "year - teachingTerm"
-    return sortedSemesters
-        .map((semester) => "${semester.year} - ${semester.teachingTerm}")
-        .toList();
-  }
-
   void _handleSortOptionSelected(String choice) {
     setState(() {
       isNewestFirst = (choice == 'Newest First');
@@ -103,29 +53,21 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
     });
   }
 
+  void filterCoursesBySemester(String selectedSemester) {
+    setState(() {
+      displayedPublicCourses = CourseUtils.filterCoursesBySemester(
+          allPublicCourses, selectedSemester);
+    });
+  }
+
   void sortCourses() {
-    displayedPublicCourses.sort((a, b) {
-      // Compare by year first
-      int yearComparison = a.semester.year.compareTo(b.semester.year);
-      if (yearComparison != 0) {
-        // If 'isNewestFirst' is true, reverse the year comparison
-        return isNewestFirst ? -yearComparison : yearComparison;
-      }
-
-      // If years are equal, 'W' (Winter) should be considered more recent than 'S' (Summer)
-      if (a.semester.teachingTerm == b.semester.teachingTerm) {
-        return 0;
-      }
-      int termComparison = a.semester.teachingTerm == 'W' ? -1 : 1;
-
-      // Reverse the term comparison if 'isNewestFirst' is true
-      return isNewestFirst ? -termComparison : termComparison;
+    setState(() {
+      CourseUtils.sortCourses(displayedPublicCourses, isNewestFirst);
     });
   }
 
   void _searchCourses() {
     final searchInput = searchController.text.toLowerCase();
-
     if (!isSearchInitialized) {
       temp = List.from(displayedPublicCourses);
       isSearchInitialized = true;
@@ -133,22 +75,13 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
 
     setState(() {
       if (searchInput.isEmpty) {
-        displayedPublicCourses =
-            allPublicCourses; // Reset to the full list when search is cleared
+        displayedPublicCourses = temp;
         isSearchInitialized = false;
       } else {
-        var filteredCourses = allPublicCourses.where((course) {
+        displayedPublicCourses = displayedPublicCourses.where((course) {
           return course.name.toLowerCase().contains(searchInput) ||
               course.slug.toLowerCase().contains(searchInput);
         }).toList();
-
-        // Check if the search yields no results and show placeholder in that case
-        if (filteredCourses.isEmpty) {
-          displayedPublicCourses =
-              []; // This will trigger the placeholder in CoursesList
-        } else {
-          displayedPublicCourses = filteredCourses;
-        }
       }
     });
   }
@@ -162,8 +95,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
         onSortOptionSelected: _handleSortOptionSelected,
         filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
         onSemesterSelected: filterCoursesBySemester,
-        semesters: convertAndSortSemesters(
-            semesters, true), // Replace with actual filter options
+        semesters: CourseUtils.convertAndSortSemesters(semesters, true),
       ),
       body: CoursesList(
         title: 'Public Courses',

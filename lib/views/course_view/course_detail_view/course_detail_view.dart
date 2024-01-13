@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
@@ -52,19 +53,10 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
 
   void sortStreams() {
     final courseStreams = ref.read(videoViewModelProvider).streams ?? [];
-
-    courseStreams.sort((a, b) {
-      // Convert Timestamp to DateTime
-      DateTime startA = a.start.toDateTime();
-      DateTime startB = b.start.toDateTime();
-
-      return isNewestFirst
-          ? startB.compareTo(startA)
-          : startA.compareTo(startB);
-    });
+    final sortedStreams = CourseUtils.sortStreams(courseStreams, isNewestFirst);
 
     setState(() {
-      searchCourseStreams = courseStreams;
+      searchCourseStreams = sortedStreams;
     });
   }
 
