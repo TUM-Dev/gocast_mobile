@@ -24,141 +24,141 @@ class APIClient extends $grpc.Client {
   static final _$getUser = $grpc.ClientMethod<$0.GetUserRequest, $0.GetUserResponse>(
       '/protobuf.API/getUser',
       ($0.GetUserRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserResponse.fromBuffer(value),);
   static final _$getUserCourses = $grpc.ClientMethod<$0.GetUserCoursesRequest, $0.GetUserCoursesResponse>(
       '/protobuf.API/getUserCourses',
       ($0.GetUserCoursesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserCoursesResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserCoursesResponse.fromBuffer(value),);
   static final _$getUserPinned = $grpc.ClientMethod<$0.GetUserPinnedRequest, $0.GetUserPinnedResponse>(
       '/protobuf.API/getUserPinned',
       ($0.GetUserPinnedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserPinnedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserPinnedResponse.fromBuffer(value),);
   static final _$postUserPinned = $grpc.ClientMethod<$0.PostPinnedRequest, $0.PostPinnedResponse>(
       '/protobuf.API/postUserPinned',
       ($0.PostPinnedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PostPinnedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PostPinnedResponse.fromBuffer(value),);
   static final _$deleteUserPinned = $grpc.ClientMethod<$0.DeletePinnedRequest, $0.DeletePinnedResponse>(
       '/protobuf.API/deleteUserPinned',
       ($0.DeletePinnedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.DeletePinnedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.DeletePinnedResponse.fromBuffer(value),);
   static final _$getUserAdminCourses = $grpc.ClientMethod<$0.GetUserAdminRequest, $0.GetUserAdminResponse>(
       '/protobuf.API/getUserAdminCourses',
       ($0.GetUserAdminRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserAdminResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserAdminResponse.fromBuffer(value),);
   static final _$getUserSettings = $grpc.ClientMethod<$0.GetUserSettingsRequest, $0.GetUserSettingsResponse>(
       '/protobuf.API/getUserSettings',
       ($0.GetUserSettingsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUserSettingsResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetUserSettingsResponse.fromBuffer(value),);
   static final _$patchUserSettings = $grpc.ClientMethod<$0.PatchUserSettingsRequest, $0.PatchUserSettingsResponse>(
       '/protobuf.API/patchUserSettings',
       ($0.PatchUserSettingsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PatchUserSettingsResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PatchUserSettingsResponse.fromBuffer(value),);
   static final _$getUserBookmarks = $grpc.ClientMethod<$0.GetBookmarksRequest, $0.GetBookmarksResponse>(
       '/protobuf.API/getUserBookmarks',
       ($0.GetBookmarksRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetBookmarksResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetBookmarksResponse.fromBuffer(value),);
   static final _$putUserBookmark = $grpc.ClientMethod<$0.PutBookmarkRequest, $0.PutBookmarkResponse>(
       '/protobuf.API/putUserBookmark',
       ($0.PutBookmarkRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PutBookmarkResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PutBookmarkResponse.fromBuffer(value),);
   static final _$patchUserBookmark = $grpc.ClientMethod<$0.PatchBookmarkRequest, $0.PatchBookmarkResponse>(
       '/protobuf.API/patchUserBookmark',
       ($0.PatchBookmarkRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PatchBookmarkResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PatchBookmarkResponse.fromBuffer(value),);
   static final _$deleteUserBookmark = $grpc.ClientMethod<$0.DeleteBookmarkRequest, $0.DeleteBookmarkResponse>(
       '/protobuf.API/deleteUserBookmark',
       ($0.DeleteBookmarkRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.DeleteBookmarkResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.DeleteBookmarkResponse.fromBuffer(value),);
   static final _$getBannerAlerts = $grpc.ClientMethod<$0.GetBannerAlertsRequest, $0.GetBannerAlertsResponse>(
       '/protobuf.API/getBannerAlerts',
       ($0.GetBannerAlertsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetBannerAlertsResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetBannerAlertsResponse.fromBuffer(value),);
   static final _$getFeatureNotifications = $grpc.ClientMethod<$0.GetFeatureNotificationsRequest, $0.GetFeatureNotificationsResponse>(
       '/protobuf.API/getFeatureNotifications',
       ($0.GetFeatureNotificationsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetFeatureNotificationsResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetFeatureNotificationsResponse.fromBuffer(value),);
   static final _$postDeviceToken = $grpc.ClientMethod<$0.PostDeviceTokenRequest, $0.PostDeviceTokenResponse>(
       '/protobuf.API/postDeviceToken',
       ($0.PostDeviceTokenRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PostDeviceTokenResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PostDeviceTokenResponse.fromBuffer(value),);
   static final _$deleteDeviceToken = $grpc.ClientMethod<$0.DeleteDeviceTokenRequest, $0.DeleteDeviceTokenResponse>(
       '/protobuf.API/deleteDeviceToken',
       ($0.DeleteDeviceTokenRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.DeleteDeviceTokenResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.DeleteDeviceTokenResponse.fromBuffer(value),);
   static final _$getPublicCourses = $grpc.ClientMethod<$0.GetPublicCoursesRequest, $0.GetPublicCoursesResponse>(
       '/protobuf.API/getPublicCourses',
       ($0.GetPublicCoursesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetPublicCoursesResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetPublicCoursesResponse.fromBuffer(value),);
   static final _$getSemesters = $grpc.ClientMethod<$0.GetSemestersRequest, $0.GetSemestersResponse>(
       '/protobuf.API/getSemesters',
       ($0.GetSemestersRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetSemestersResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetSemestersResponse.fromBuffer(value),);
   static final _$getCourseStreams = $grpc.ClientMethod<$0.GetCourseStreamsRequest, $0.GetCourseStreamsResponse>(
       '/protobuf.API/getCourseStreams',
       ($0.GetCourseStreamsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetCourseStreamsResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetCourseStreamsResponse.fromBuffer(value),);
   static final _$getStream = $grpc.ClientMethod<$0.GetStreamRequest, $0.GetStreamResponse>(
       '/protobuf.API/GetStream',
       ($0.GetStreamRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetStreamResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetStreamResponse.fromBuffer(value),);
   static final _$getNowLive = $grpc.ClientMethod<$0.GetNowLiveRequest, $0.GetNowLiveResponse>(
       '/protobuf.API/GetNowLive',
       ($0.GetNowLiveRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetNowLiveResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetNowLiveResponse.fromBuffer(value),);
   static final _$getThumbsVOD = $grpc.ClientMethod<$0.GetThumbsVODRequest, $0.GetThumbsVODResponse>(
       '/protobuf.API/getThumbsVOD',
       ($0.GetThumbsVODRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetThumbsVODResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetThumbsVODResponse.fromBuffer(value),);
   static final _$getThumbsLive = $grpc.ClientMethod<$0.GetThumbsLiveRequest, $0.GetThumbsLiveResponse>(
       '/protobuf.API/getThumbsLive',
       ($0.GetThumbsLiveRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetThumbsLiveResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetThumbsLiveResponse.fromBuffer(value),);
   static final _$getProgress = $grpc.ClientMethod<$0.GetProgressRequest, $0.GetProgressResponse>(
       '/protobuf.API/getProgress',
       ($0.GetProgressRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetProgressResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetProgressResponse.fromBuffer(value),);
   static final _$putProgress = $grpc.ClientMethod<$0.PutProgressRequest, $0.PutProgressResponse>(
       '/protobuf.API/putProgress',
       ($0.PutProgressRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PutProgressResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PutProgressResponse.fromBuffer(value),);
   static final _$markAsWatched = $grpc.ClientMethod<$0.MarkAsWatchedRequest, $0.MarkAsWatchedResponse>(
       '/protobuf.API/markAsWatched',
       ($0.MarkAsWatchedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.MarkAsWatchedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.MarkAsWatchedResponse.fromBuffer(value),);
   static final _$getChatMessages = $grpc.ClientMethod<$0.GetChatMessagesRequest, $0.GetChatMessagesResponse>(
       '/protobuf.API/getChatMessages',
       ($0.GetChatMessagesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetChatMessagesResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.GetChatMessagesResponse.fromBuffer(value),);
   static final _$postChatMessage = $grpc.ClientMethod<$0.PostChatMessageRequest, $0.PostChatMessageResponse>(
       '/protobuf.API/postChatMessage',
       ($0.PostChatMessageRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PostChatMessageResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PostChatMessageResponse.fromBuffer(value),);
   static final _$postChatReaction = $grpc.ClientMethod<$0.PostChatReactionRequest, $0.PostChatReactionResponse>(
       '/protobuf.API/postChatReaction',
       ($0.PostChatReactionRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PostChatReactionResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PostChatReactionResponse.fromBuffer(value),);
   static final _$deleteChatReaction = $grpc.ClientMethod<$0.DeleteChatReactionRequest, $0.DeleteChatReactionResponse>(
       '/protobuf.API/deleteChatReaction',
       ($0.DeleteChatReactionRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.DeleteChatReactionResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.DeleteChatReactionResponse.fromBuffer(value),);
   static final _$postChatReply = $grpc.ClientMethod<$0.PostChatReplyRequest, $0.PostChatReplyResponse>(
       '/protobuf.API/postChatReply',
       ($0.PostChatReplyRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.PostChatReplyResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.PostChatReplyResponse.fromBuffer(value),);
   static final _$markChatMessageAsResolved = $grpc.ClientMethod<$0.MarkChatMessageAsResolvedRequest, $0.MarkChatMessageAsResolvedResponse>(
       '/protobuf.API/markChatMessageAsResolved',
       ($0.MarkChatMessageAsResolvedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.MarkChatMessageAsResolvedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.MarkChatMessageAsResolvedResponse.fromBuffer(value),);
   static final _$markChatMessageAsUnresolved = $grpc.ClientMethod<$0.MarkChatMessageAsUnresolvedRequest, $0.MarkChatMessageAsUnresolvedResponse>(
       '/protobuf.API/markChatMessageAsUnresolved',
       ($0.MarkChatMessageAsUnresolvedRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.MarkChatMessageAsUnresolvedResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.MarkChatMessageAsUnresolvedResponse.fromBuffer(value),);
 
   APIClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors,})
       : super(channel, options: options,
-        interceptors: interceptors);
+        interceptors: interceptors,);
 
   $grpc.ResponseFuture<$0.GetUserResponse> getUser($0.GetUserRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUser, request, options: options);
@@ -304,231 +304,231 @@ abstract class APIServiceBase extends $grpc.Service {
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserRequest.fromBuffer(value),
-        ($0.GetUserResponse value) => value.writeToBuffer()));
+        ($0.GetUserResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetUserCoursesRequest, $0.GetUserCoursesResponse>(
         'getUserCourses',
         getUserCourses_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserCoursesRequest.fromBuffer(value),
-        ($0.GetUserCoursesResponse value) => value.writeToBuffer()));
+        ($0.GetUserCoursesResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetUserPinnedRequest, $0.GetUserPinnedResponse>(
         'getUserPinned',
         getUserPinned_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserPinnedRequest.fromBuffer(value),
-        ($0.GetUserPinnedResponse value) => value.writeToBuffer()));
+        ($0.GetUserPinnedResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PostPinnedRequest, $0.PostPinnedResponse>(
         'postUserPinned',
         postUserPinned_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PostPinnedRequest.fromBuffer(value),
-        ($0.PostPinnedResponse value) => value.writeToBuffer()));
+        ($0.PostPinnedResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.DeletePinnedRequest, $0.DeletePinnedResponse>(
         'deleteUserPinned',
         deleteUserPinned_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.DeletePinnedRequest.fromBuffer(value),
-        ($0.DeletePinnedResponse value) => value.writeToBuffer()));
+        ($0.DeletePinnedResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetUserAdminRequest, $0.GetUserAdminResponse>(
         'getUserAdminCourses',
         getUserAdminCourses_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserAdminRequest.fromBuffer(value),
-        ($0.GetUserAdminResponse value) => value.writeToBuffer()));
+        ($0.GetUserAdminResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetUserSettingsRequest, $0.GetUserSettingsResponse>(
         'getUserSettings',
         getUserSettings_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetUserSettingsRequest.fromBuffer(value),
-        ($0.GetUserSettingsResponse value) => value.writeToBuffer()));
+        ($0.GetUserSettingsResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PatchUserSettingsRequest, $0.PatchUserSettingsResponse>(
         'patchUserSettings',
         patchUserSettings_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PatchUserSettingsRequest.fromBuffer(value),
-        ($0.PatchUserSettingsResponse value) => value.writeToBuffer()));
+        ($0.PatchUserSettingsResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetBookmarksRequest, $0.GetBookmarksResponse>(
         'getUserBookmarks',
         getUserBookmarks_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetBookmarksRequest.fromBuffer(value),
-        ($0.GetBookmarksResponse value) => value.writeToBuffer()));
+        ($0.GetBookmarksResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PutBookmarkRequest, $0.PutBookmarkResponse>(
         'putUserBookmark',
         putUserBookmark_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PutBookmarkRequest.fromBuffer(value),
-        ($0.PutBookmarkResponse value) => value.writeToBuffer()));
+        ($0.PutBookmarkResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PatchBookmarkRequest, $0.PatchBookmarkResponse>(
         'patchUserBookmark',
         patchUserBookmark_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PatchBookmarkRequest.fromBuffer(value),
-        ($0.PatchBookmarkResponse value) => value.writeToBuffer()));
+        ($0.PatchBookmarkResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.DeleteBookmarkRequest, $0.DeleteBookmarkResponse>(
         'deleteUserBookmark',
         deleteUserBookmark_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.DeleteBookmarkRequest.fromBuffer(value),
-        ($0.DeleteBookmarkResponse value) => value.writeToBuffer()));
+        ($0.DeleteBookmarkResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetBannerAlertsRequest, $0.GetBannerAlertsResponse>(
         'getBannerAlerts',
         getBannerAlerts_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetBannerAlertsRequest.fromBuffer(value),
-        ($0.GetBannerAlertsResponse value) => value.writeToBuffer()));
+        ($0.GetBannerAlertsResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetFeatureNotificationsRequest, $0.GetFeatureNotificationsResponse>(
         'getFeatureNotifications',
         getFeatureNotifications_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetFeatureNotificationsRequest.fromBuffer(value),
-        ($0.GetFeatureNotificationsResponse value) => value.writeToBuffer()));
+        ($0.GetFeatureNotificationsResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PostDeviceTokenRequest, $0.PostDeviceTokenResponse>(
         'postDeviceToken',
         postDeviceToken_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PostDeviceTokenRequest.fromBuffer(value),
-        ($0.PostDeviceTokenResponse value) => value.writeToBuffer()));
+        ($0.PostDeviceTokenResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.DeleteDeviceTokenRequest, $0.DeleteDeviceTokenResponse>(
         'deleteDeviceToken',
         deleteDeviceToken_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.DeleteDeviceTokenRequest.fromBuffer(value),
-        ($0.DeleteDeviceTokenResponse value) => value.writeToBuffer()));
+        ($0.DeleteDeviceTokenResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetPublicCoursesRequest, $0.GetPublicCoursesResponse>(
         'getPublicCourses',
         getPublicCourses_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetPublicCoursesRequest.fromBuffer(value),
-        ($0.GetPublicCoursesResponse value) => value.writeToBuffer()));
+        ($0.GetPublicCoursesResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetSemestersRequest, $0.GetSemestersResponse>(
         'getSemesters',
         getSemesters_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetSemestersRequest.fromBuffer(value),
-        ($0.GetSemestersResponse value) => value.writeToBuffer()));
+        ($0.GetSemestersResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetCourseStreamsRequest, $0.GetCourseStreamsResponse>(
         'getCourseStreams',
         getCourseStreams_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetCourseStreamsRequest.fromBuffer(value),
-        ($0.GetCourseStreamsResponse value) => value.writeToBuffer()));
+        ($0.GetCourseStreamsResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetStreamRequest, $0.GetStreamResponse>(
         'GetStream',
         getStream_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetStreamRequest.fromBuffer(value),
-        ($0.GetStreamResponse value) => value.writeToBuffer()));
+        ($0.GetStreamResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetNowLiveRequest, $0.GetNowLiveResponse>(
         'GetNowLive',
         getNowLive_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetNowLiveRequest.fromBuffer(value),
-        ($0.GetNowLiveResponse value) => value.writeToBuffer()));
+        ($0.GetNowLiveResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetThumbsVODRequest, $0.GetThumbsVODResponse>(
         'getThumbsVOD',
         getThumbsVOD_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetThumbsVODRequest.fromBuffer(value),
-        ($0.GetThumbsVODResponse value) => value.writeToBuffer()));
+        ($0.GetThumbsVODResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetThumbsLiveRequest, $0.GetThumbsLiveResponse>(
         'getThumbsLive',
         getThumbsLive_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetThumbsLiveRequest.fromBuffer(value),
-        ($0.GetThumbsLiveResponse value) => value.writeToBuffer()));
+        ($0.GetThumbsLiveResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetProgressRequest, $0.GetProgressResponse>(
         'getProgress',
         getProgress_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetProgressRequest.fromBuffer(value),
-        ($0.GetProgressResponse value) => value.writeToBuffer()));
+        ($0.GetProgressResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PutProgressRequest, $0.PutProgressResponse>(
         'putProgress',
         putProgress_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PutProgressRequest.fromBuffer(value),
-        ($0.PutProgressResponse value) => value.writeToBuffer()));
+        ($0.PutProgressResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.MarkAsWatchedRequest, $0.MarkAsWatchedResponse>(
         'markAsWatched',
         markAsWatched_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.MarkAsWatchedRequest.fromBuffer(value),
-        ($0.MarkAsWatchedResponse value) => value.writeToBuffer()));
+        ($0.MarkAsWatchedResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.GetChatMessagesRequest, $0.GetChatMessagesResponse>(
         'getChatMessages',
         getChatMessages_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.GetChatMessagesRequest.fromBuffer(value),
-        ($0.GetChatMessagesResponse value) => value.writeToBuffer()));
+        ($0.GetChatMessagesResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PostChatMessageRequest, $0.PostChatMessageResponse>(
         'postChatMessage',
         postChatMessage_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PostChatMessageRequest.fromBuffer(value),
-        ($0.PostChatMessageResponse value) => value.writeToBuffer()));
+        ($0.PostChatMessageResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PostChatReactionRequest, $0.PostChatReactionResponse>(
         'postChatReaction',
         postChatReaction_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PostChatReactionRequest.fromBuffer(value),
-        ($0.PostChatReactionResponse value) => value.writeToBuffer()));
+        ($0.PostChatReactionResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.DeleteChatReactionRequest, $0.DeleteChatReactionResponse>(
         'deleteChatReaction',
         deleteChatReaction_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.DeleteChatReactionRequest.fromBuffer(value),
-        ($0.DeleteChatReactionResponse value) => value.writeToBuffer()));
+        ($0.DeleteChatReactionResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.PostChatReplyRequest, $0.PostChatReplyResponse>(
         'postChatReply',
         postChatReply_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.PostChatReplyRequest.fromBuffer(value),
-        ($0.PostChatReplyResponse value) => value.writeToBuffer()));
+        ($0.PostChatReplyResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.MarkChatMessageAsResolvedRequest, $0.MarkChatMessageAsResolvedResponse>(
         'markChatMessageAsResolved',
         markChatMessageAsResolved_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.MarkChatMessageAsResolvedRequest.fromBuffer(value),
-        ($0.MarkChatMessageAsResolvedResponse value) => value.writeToBuffer()));
+        ($0.MarkChatMessageAsResolvedResponse value) => value.writeToBuffer(),),);
     $addMethod($grpc.ServiceMethod<$0.MarkChatMessageAsUnresolvedRequest, $0.MarkChatMessageAsUnresolvedResponse>(
         'markChatMessageAsUnresolved',
         markChatMessageAsUnresolved_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.MarkChatMessageAsUnresolvedRequest.fromBuffer(value),
-        ($0.MarkChatMessageAsUnresolvedResponse value) => value.writeToBuffer()));
+        ($0.MarkChatMessageAsUnresolvedResponse value) => value.writeToBuffer(),),);
   }
 
   $async.Future<$0.GetUserResponse> getUser_Pre($grpc.ServiceCall call, $async.Future<$0.GetUserRequest> request) async {

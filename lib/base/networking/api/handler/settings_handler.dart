@@ -128,7 +128,7 @@ class SettingsHandler {
 
   /// Updates the selected speeds in user settings.
   Future<void> updateSelectedSpeeds(
-      double speed, bool isSelected, List<UserSetting> currentSettings) async {
+      double speed, bool isSelected, List<UserSetting> currentSettings,) async {
     var playbackSpeedSetting = currentSettings.firstWhere(
           (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
       orElse: () => UserSetting(
