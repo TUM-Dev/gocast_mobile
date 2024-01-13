@@ -44,32 +44,11 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
+          onDownload: () => _downloadVideo(widget.stream),
         ),
          Expanded(child: ChatView(isActive: _isChatVisible)),
       ],
     );
-  }
-
-  void _downloadVideo(Stream stream) {
-    // Define the URL of the video to download
-     const videoUrl ="https://file-examples.com/storage/fe263d406665a032b95b05e/2017/04/file_example_MP4_480_1_5MG.mp4";
-     const String fileName = "downloaded_video.mp4";
-
-    // Call the download function from the StreamViewModel
-    ref.read(videoViewModelProvider.notifier)
-        .downloadVideo(videoUrl, fileName)
-        .then((localPath) {
-      if (localPath.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Download completed: $localPath')),
-
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Download failed')),
-        );
-      }
-    });
   }
 
   @override
@@ -243,6 +222,28 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   void _handleToggleChat() {
     setState(() {
       _isChatVisible = !_isChatVisible; // Toggle chat visibility
+    });
+  }
+
+  void _downloadVideo(Stream stream) {
+    // Define the URL of the video to download
+    const videoUrl ="https://file-examples.com/storage/fe320206cb65a2ffea0adca/2017/04/file_example_MP4_640_3MG.mp4";
+    const String fileName = "downloaded_video.mp4";
+
+    // Call the download function from the StreamViewModel
+    ref.read(videoViewModelProvider.notifier)
+        .downloadVideo(videoUrl, fileName)
+        .then((localPath) {
+      if (localPath.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Download completed: $localPath')),
+
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Download failed')),
+        );
+      }
     });
   }
 }

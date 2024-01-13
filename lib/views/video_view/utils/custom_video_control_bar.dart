@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CustomVideoControlBar extends StatelessWidget {
   final Function(String, Stream) onMenuSelection;
   final VoidCallback onToggleChat;
+  final VoidCallback onDownload;
   final VoidCallback onOpenQuizzes;
   final Stream currentStream;
   final bool isChatVisible;
@@ -18,6 +19,7 @@ class CustomVideoControlBar extends StatelessWidget {
     required this.onOpenQuizzes,
     required this.currentStream,
     this.isChatVisible = true,
+    required this.onDownload,
   });
 
   @override
@@ -35,7 +37,9 @@ class CustomVideoControlBar extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final userViewModel = ref.read(userViewModelProvider.notifier);
+        final videoViewModel = ref.read(videoViewModelProvider.notifier);
         final isPinned = userViewModel.isCoursePinned(currentStream.courseID);
+        final isDownloaded = videoViewModel.isStreamDownloaded(currentStream.id);
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -62,12 +66,12 @@ class CustomVideoControlBar extends StatelessWidget {
                     isPinned
                         ? await ref.read(userViewModelProvider.notifier).unpinCourse(currentStream.courseID)
                         : await ref.read(userViewModelProvider.notifier).pinCourse(currentStream.courseID);
-                  } else {
-                    onMenuSelection(choice, currentStream);
+                  } else if (choice == 'Download') {
+                     onDownload();
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  return getMenuItems(isPinned, false).map((Map<String, IconData> choice) {
+                  return getMenuItems(isPinned, isDownloaded).map((Map<String, IconData> choice) {
                     String text = choice.keys.first;
                     IconData icon = choice.values.first;
 
