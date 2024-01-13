@@ -22,6 +22,64 @@ class MyCoursesState extends ConsumerState<MyCourses> {
   late List<Course> temp;
   bool isSearchInitialized = false;
 
+  void filterCoursesBySemester(String selectedSemester) {
+    if (selectedSemester == 'All') {
+      setState(() {
+        displayedUserCourses = allUserCourses;
+      });
+    } else {
+      var parts =
+          selectedSemester.split(' - '); // Assuming the format is "year - term"
+      var year = int.parse(parts[0]);
+      var term = parts[1];
+
+      setState(() {
+        displayedUserCourses = allUserCourses.where((course) {
+          return course.semester.year == year &&
+              course.semester.teachingTerm == term;
+        }).toList();
+      });
+    }
+  }
+
+  List<String> convertAndSortSemesters(
+    List<Semester> semesters,
+    bool isNewestFirst,
+  ) {
+    // Clone the list to avoid modifying the original
+    List<Semester> sortedSemesters = List<Semester>.from(semesters);
+
+    sortedSemesters.sort((a, b) {
+      // Compare by year first
+      int yearComparison = a.year.compareTo(b.year);
+      if (yearComparison != 0) {
+        // If 'isNewestFirst' is true, reverse the year comparison
+        return isNewestFirst ? -yearComparison : yearComparison;
+      }
+
+      // If years are equal, 'W' (Winter) should be considered more recent than 'S' (Summer)
+      if (a.teachingTerm == b.teachingTerm) {
+        return 0;
+      }
+      int termComparison = a.teachingTerm == 'W' ? -1 : 1;
+
+      // Reverse the term comparison if 'isNewestFirst' is true
+      return isNewestFirst ? -termComparison : termComparison;
+    });
+
+    // Convert sorted semesters to string format "year - teachingTerm"
+    return sortedSemesters
+        .map((semester) => "${semester.year} - ${semester.teachingTerm}")
+        .toList();
+  }
+
+  void _handleSortOptionSelected(String choice) {
+    setState(() {
+      isNewestFirst = (choice == 'Newest First');
+      sortCourses(); // Call sortStreams to reorder the streams based on the new setting
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -96,16 +154,15 @@ class MyCoursesState extends ConsumerState<MyCourses> {
 
   @override
   Widget build(BuildContext context) {
+    final semesters = ref.watch(userViewModelProvider).semesters ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
-        onSortOptionSelected: (String choice) {
-          // Implement your logic for handling sort option selection
-        },
-        filterOptions: const [
-          'Option 1',
-          'Option 2',
-        ], // Replace with your actual filter options
+        onSortOptionSelected: _handleSortOptionSelected,
+        filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
+        onSemesterSelected: filterCoursesBySemester,
+        semesters: convertAndSortSemesters(
+            semesters, true), // Replace with your actual filter options
       ),
       body: RefreshIndicator(
         onRefresh: () async {

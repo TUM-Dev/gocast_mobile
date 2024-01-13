@@ -7,12 +7,16 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
   final TextEditingController searchController;
   final Function(String) onSortOptionSelected;
   final List<String> filterOptions;
+  final Function(String)? onSemesterSelected;
+  final List<String>? semesters;
 
   const CustomSearchTopNavBarWithBackButton({
     super.key,
     required this.searchController,
     required this.onSortOptionSelected,
     required this.filterOptions,
+    this.onSemesterSelected,
+    this.semesters,
   });
 
   @override
@@ -30,11 +34,11 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
         actions: [
           FilterPopupMenuButton(
             filterOptions: filterOptions,
-            // Add your filter options here
             onFilterSelected: (String choice) {
               onSortOptionSelected(choice);
-              // Implement what happens when a filter is selected
             },
+            onSemesterSelected: onSemesterSelected,
+            semesters: semesters,
           ),
         ],
         titleSpacing: 0.0,
