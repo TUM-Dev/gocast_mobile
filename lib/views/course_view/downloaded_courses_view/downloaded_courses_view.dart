@@ -6,8 +6,8 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
+import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player.dart';
 
-import '../../video_view/local_video_player.dart';
 
 class DownloadedCourses extends ConsumerWidget {
   const DownloadedCourses({super.key});
@@ -40,9 +40,12 @@ class DownloadedCourses extends ConsumerWidget {
             // Handle video tap, you can use videoId and localPath here
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => LocalVideoPlayerPage(localPath: localPath),
+                builder: (context) => OfflineVideoPlayerPage(localPath: localPath),
               ),
             );
+            //TODO: repalce this with : Navigator.of(context).push(
+            // TODO: MaterialPageRoute(
+            // TODO: builder: (context) => OfflineVideoPlayerPage(localPath: localPath),
           },
           onDelete: () async {
             // Implement deletion logic here
