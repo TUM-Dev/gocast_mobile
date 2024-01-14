@@ -178,6 +178,7 @@ class CourseSection extends StatelessWidget {
                       subtitle: course.name,
                       tumID: course.tUMOnlineIdentifier,
                       roomName: stream.roomName,
+                      roomNumber: stream.roomCode,
                       viewerCount: stream.vodViews.toString(),
                       path: imagePath,
                       live: true,

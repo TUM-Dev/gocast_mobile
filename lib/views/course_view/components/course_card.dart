@@ -87,7 +87,7 @@ class CourseCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _buildCourseTumID(),
-                    _buildCourseViewerCount(themeData.textTheme),
+                    _buildCourseViewerCount(themeData),
                   ],
                 ),
                 const SizedBox(height: 2),
@@ -149,6 +149,7 @@ class CourseCard extends StatelessWidget {
       child: null,
     );
 
+    print("roomnumber: $roomNumber");
     final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
 
     return InkWell(
@@ -230,21 +231,21 @@ class CourseCard extends StatelessWidget {
         : const SizedBox(); // Return an empty SizedBox if not live
   }
 
-  Widget _buildCourseViewerCount(TextTheme textTheme) {
+  Widget _buildCourseViewerCount(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+        color: themeData.shadowColor.withOpacity(0.2), //Colors.grey.shade300,
         borderRadius: BorderRadius.circular(4),
       ),
       padding: const EdgeInsets.all(3),
       child: //spacing between dot and course number
           Text("${viewerCount!} viewers",
-              style: textTheme.labelSmall?.copyWith(
+              style: themeData.textTheme.labelSmall?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     height: 1,
                   ) ??
-                  const TextStyle()),
+                  const TextStyle(),),
     ); // Return an empty SizedBox if not live
   }
 }

@@ -36,26 +36,28 @@ class CourseCardText extends StatelessWidget {
       },
       child: Card(
         elevation: 1,
+        surfaceTintColor: themeData.cardColor,
         shadowColor: Colors.grey.withOpacity(1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
           side: BorderSide(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.5),
             width: 1.0,
           ),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
-          child: Container(
-            color: themeData.cardColor,
-            //Colors.blue.withOpacity(0.01), //Colors.grey[50],
-            padding: const EdgeInsets.all(8.0),
+            borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
             child: Row(
               children: [
-                //_buildCourseImage2(),
-                const SizedBox(width: 15),
-                Expanded(
-                  //to prevent title overflow
+                Container(
+                  width: 5,
+                  height: 60,
+                  color: Colors.blue,
+                ),
+                Container(
+                  color: themeData.cardColor,
+                  //Colors.blue.withOpacity(0.01), //Colors.grey[50],
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -66,9 +68,7 @@ class CourseCardText extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
+            ),),
       ),
     );
   }
@@ -86,10 +86,11 @@ class CourseCardText extends StatelessWidget {
 
   Widget _buildCourseImage2() {
     return ClipOval(
-      child:  Icon(
+      child: Icon(
         Icons.school, //TODO rounder feel
         size: 50,
-        color: Colors.blue.shade900, //iconTheme?.copyWith(color: Colors.blue.shade900),
+        color: Colors
+            .blue.shade900, //iconTheme?.copyWith(color: Colors.blue.shade900),
       ),
     );
   }
@@ -112,10 +113,10 @@ class CourseCardText extends StatelessWidget {
       maxLines: 2, //TODO check that this never causes overflow
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        height: 1,
-      ) ??
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+            height: 1,
+          ) ??
           const TextStyle(),
     );
   }
