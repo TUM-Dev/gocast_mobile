@@ -97,21 +97,19 @@ class CourseCard extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 100,
-                      child: Expanded(child: _buildCourseImage()),
+                      child: _buildCourseImage(),
                     ),
                     const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10),
-                          _buildCourseTitle(themeData.textTheme),
-                          _buildCourseSubtitle(themeData.textTheme),
-                          const SizedBox(height: 15),
-                          _buildLocation(),
-                          //_buildCourseIsLive(),
-                        ],
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10),
+                        _buildCourseTitle(themeData.textTheme),
+                        _buildCourseSubtitle(themeData.textTheme),
+                        const SizedBox(height: 15),
+                        _buildLocation(),
+                        //_buildCourseIsLive(),
+                      ],
                     ),
                   ],
                 ),
@@ -157,7 +155,7 @@ class CourseCard extends StatelessWidget {
         children: [
           const Icon(
             Icons.room,
-            size: 20, 
+            size: 20,
           ),
           Text(roomName!),
           //const SizedBox(width: 2),
