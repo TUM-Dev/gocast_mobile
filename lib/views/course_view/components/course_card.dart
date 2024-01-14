@@ -61,7 +61,7 @@ class CourseCard extends StatelessWidget {
             );
           },
       child: Card(
-        elevation: 2,
+        elevation: 1,
         shadowColor: themeData.shadowColor.withOpacity(0.5),
         color: themeData.cardTheme.color,
         // Use card color from theme
@@ -146,11 +146,6 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildLocation() {
-    final redirect = ElevatedButton(
-      onPressed: () {},
-      child: null,
-    );
-
     print("roomnumber: $roomNumber");
     final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
 

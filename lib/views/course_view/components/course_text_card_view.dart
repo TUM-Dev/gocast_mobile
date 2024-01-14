@@ -36,7 +36,7 @@ class CourseCardText extends StatelessWidget {
       },
       child: Card(
         elevation: 1,
-        surfaceTintColor: themeData?.cardColor ?? Colors.white,
+        surfaceTintColor: themeData.cardColor,
         shadowColor: Colors.grey.withOpacity(1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
@@ -52,20 +52,17 @@ class CourseCardText extends StatelessWidget {
           child: IntrinsicHeight(
             child: Row(
               children: [
-                Container(
-                  width: 5,
-                  color: Colors.blue,
-                ),
+                _buildCourseColor(),
                 Expanded(
                   child: Container(
-                    color: themeData?.cardColor ?? Colors.white,
+                    color: themeData.cardColor,
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildCourseSubtitle() ?? Container(),
-                        _buildCourseTitle(themeData.textTheme) ?? Container(),
-                        _buildLastLecture() ?? Container(),
+                        _buildCourseSubtitle(),
+                        _buildCourseTitle(themeData.textTheme),
+                        _buildLastLecture(),
                       ],
                     ),
                   ),
@@ -78,30 +75,7 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseImage() {
-    return ClipOval(
-      child: Image.asset(
-        path,
-        fit: BoxFit.cover,
-        width: 50, // set your desired width
-        height: 50, // set your desired height
-      ),
-    );
-  }
-
-  Widget _buildCourseImage2() {
-    return ClipOval(
-      child: Icon(
-        Icons.school, //TODO rounder feel
-        size: 50,
-        color: Colors
-            .blue.shade900, //iconTheme?.copyWith(color: Colors.blue.shade900),
-      ),
-    );
-  }
-
-  Widget _buildLastLecture() {
-    //return const Text("Last Lecture: Thursday, 26/10/2023, 10:00");
+  Widget _buildLastLecture() { //TODO make responsive
     return Text(
       'Last Lecture: Thursday, 26/10/2023, 10:00',
       style: TextStyle(
@@ -117,7 +91,7 @@ class CourseCardText extends StatelessWidget {
       child: Text(
         title,
         overflow: TextOverflow.ellipsis,
-        maxLines: 2, //TODO check that this never causes overflow
+        maxLines: 2,
         softWrap: true,
         style: textTheme.titleMedium?.copyWith(
               fontSize: 17,
@@ -139,5 +113,40 @@ class CourseCardText extends StatelessWidget {
         height: 0.9,
       ),
     );
+  }
+
+  Widget _buildCourseColor() {
+    return Container(
+      width: 5,
+      color: _colorPicker(),
+    );
+  }
+
+  Color _colorPicker() { //TODO what are all the TUM faculties?
+    /** Colors:
+     * Informatik - IN: blue
+     * Mathe - MA: purple
+     * Chemie - CH
+     * Physik - PH
+     * Maschinenwesen - MW
+     * nothing/ other: gray
+     *
+     * Elektrotechnick - EL
+     * Management -
+     * Engineering
+     *
+     */
+    switch (tumID.substring(0, 2)) {
+      case 'IN':
+        return Colors.blue;
+      case 'MA':
+        return Colors.purple;
+      case 'CH':
+        return Colors.green;
+      case 'PH':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 }
