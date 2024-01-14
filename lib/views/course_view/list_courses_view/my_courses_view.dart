@@ -40,6 +40,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
           allUserCourses = ref.read(userViewModelProvider).userCourses ?? [];
           displayedUserCourses = allUserCourses;
           isLoading = false; // Set isLoading to false here
+          _handleSortOptionSelected('Semester');
           filterCoursesBySemester(selectedSemester);
         });
       }

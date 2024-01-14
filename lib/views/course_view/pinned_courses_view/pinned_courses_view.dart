@@ -45,6 +45,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         setState(() {
           allPinnedCourses = ref.read(userViewModelProvider).userPinned ?? [];
           displayedCourses = allPinnedCourses;
+          _handleSortOptionSelected('Semester');
           filterCoursesBySemester(selectedSemester);
           isLoading = false; // Set isLoading to false here
         });

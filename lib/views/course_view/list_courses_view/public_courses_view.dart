@@ -40,6 +40,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
               ref.read(userViewModelProvider).publicCourses ?? [];
           displayedPublicCourses = allPublicCourses;
           isLoading = false; // Set isLoading to false here
+          _handleSortOptionSelected('Semester');
           filterCoursesBySemester(selectedSemester);
         });
       }
