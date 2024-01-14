@@ -36,39 +36,42 @@ class CourseCardText extends StatelessWidget {
       },
       child: Card(
         elevation: 1,
-        surfaceTintColor: themeData.cardColor,
+        surfaceTintColor: themeData?.cardColor ?? Colors.white,
         shadowColor: Colors.grey.withOpacity(1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0), // Same radius as ClipRRect
+          borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
             color: Colors.grey.withOpacity(0.5),
             width: 1.0,
           ),
         ),
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
+          borderRadius: BorderRadius.circular(8.0),
+          child: IntrinsicHeight(
             child: Row(
               children: [
                 Container(
                   width: 5,
-                  height: 60,
                   color: Colors.blue,
                 ),
-                Container(
-                  color: themeData.cardColor,
-                  //Colors.blue.withOpacity(0.01), //Colors.grey[50],
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildCourseSubtitle(),
-                      _buildCourseTitle(themeData.textTheme),
-                      _buildLastLecture(),
-                    ],
+                Expanded(
+                  child: Container(
+                    color: themeData?.cardColor ?? Colors.white,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCourseSubtitle() ?? Container(),
+                        _buildCourseTitle(themeData.textTheme) ?? Container(),
+                        _buildLastLecture() ?? Container(),
+                      ],
+                    ),
                   ),
                 ),
               ],
-            ),),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -107,17 +110,20 @@ class CourseCardText extends StatelessWidget {
   }
 
   Widget _buildCourseTitle(TextTheme textTheme) {
-    return Text(
-      title,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 2, //TODO check that this never causes overflow
-      softWrap: true,
-      style: textTheme.titleMedium?.copyWith(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            height: 1,
-          ) ??
-          const TextStyle(),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 3, top: 3),
+      child: Text(
+        title,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2, //TODO check that this never causes overflow
+        softWrap: true,
+        style: textTheme.titleMedium?.copyWith(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+              height: 1,
+            ) ??
+            const TextStyle(),
+      ),
     );
   }
 

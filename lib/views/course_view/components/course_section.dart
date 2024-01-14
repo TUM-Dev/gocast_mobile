@@ -113,7 +113,7 @@ class CourseSection extends StatelessWidget {
           ),
           if (sectionKind == 1 || sectionKind == 2)
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 300),
+              constraints: const BoxConstraints(maxHeight: 400),
               child: FractionallySizedBox(
                 widthFactor: 1.0,
                 child: ListView.builder(
