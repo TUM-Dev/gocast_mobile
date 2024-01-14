@@ -27,6 +27,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   video_player: ^2.8.1
   chewie: ^1.7.4
+  url_launcher: ^6.2.3
 
 
 dev_dependencies:

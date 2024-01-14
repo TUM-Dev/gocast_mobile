@@ -146,7 +146,6 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildLocation() {
-    print("roomnumber: $roomNumber");
     final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
 
     return InkWell(
