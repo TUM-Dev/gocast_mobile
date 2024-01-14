@@ -19,7 +19,6 @@ class MyCoursesState extends ConsumerState<MyCourses> {
   bool isLoading = true;
   final TextEditingController searchController = TextEditingController();
   bool isNewestFirst = false;
-  String selectedSemester = 'All';
   late List<Course> temp;
   bool isSearchInitialized = false;
 
@@ -32,6 +31,8 @@ class MyCoursesState extends ConsumerState<MyCourses> {
 
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final selectedSemester =
+        ref.read(userViewModelProvider).selectedSemester ?? 'All';
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
@@ -39,29 +40,32 @@ class MyCoursesState extends ConsumerState<MyCourses> {
           allUserCourses = ref.read(userViewModelProvider).userCourses ?? [];
           displayedUserCourses = allUserCourses;
           isLoading = false; // Set isLoading to false here
+          filterCoursesBySemester(selectedSemester);
         });
-        _sortCourses();
       }
     });
   }
 
   void _handleSortOptionSelected(String choice) {
     setState(() {
-      isNewestFirst = (choice == 'Newest First');
-      _sortCourses(); // Call sortStreams to reorder the streams based on the new setting
+      ref
+          .read(userViewModelProvider.notifier)
+          .updateSelectedFilterOption(choice);
+      CourseUtils.sortCourses(
+          displayedUserCourses,
+          ref
+              .read(userViewModelProvider)
+              .selectedFilterOption); // Call sortStreams to reorder the streams based on the new setting
     });
   }
 
   void filterCoursesBySemester(String selectedSemester) {
     setState(() {
+      ref
+          .read(userViewModelProvider.notifier)
+          .updateSelectedSemester(selectedSemester);
       displayedUserCourses =
           CourseUtils.filterCoursesBySemester(allUserCourses, selectedSemester);
-    });
-  }
-
-  void _sortCourses() {
-    setState(() {
-      CourseUtils.sortCourses(displayedUserCourses, isNewestFirst);
     });
   }
 
@@ -87,14 +91,12 @@ class MyCoursesState extends ConsumerState<MyCourses> {
 
   @override
   Widget build(BuildContext context) {
-    final semesters = ref.watch(userViewModelProvider).semesters ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
         onSortOptionSelected: _handleSortOptionSelected,
         filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
         onSemesterSelected: filterCoursesBySemester,
-        semesters: CourseUtils.convertAndSortSemesters(semesters, true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {

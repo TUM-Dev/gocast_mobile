@@ -21,8 +21,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   late List<Course> allPinnedCourses = [];
   bool isLoading = true;
   final TextEditingController searchController = TextEditingController();
-  bool isNewestFirst = false;
-  String selectedSemester = 'All';
   late List<Course> temp;
   bool isSearchInitialized = false;
 
@@ -39,36 +37,42 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final selectedSemester =
+        ref.read(userViewModelProvider).selectedSemester ?? 'All';
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
         setState(() {
           allPinnedCourses = ref.read(userViewModelProvider).userPinned ?? [];
           displayedCourses = allPinnedCourses;
+          filterCoursesBySemester(selectedSemester);
           isLoading = false; // Set isLoading to false here
         });
-        sortCourses();
       }
     });
   }
 
   void filterCoursesBySemester(String selectedSemester) {
     setState(() {
+      ref
+          .read(userViewModelProvider.notifier)
+          .updateSelectedSemester(selectedSemester);
       displayedCourses = CourseUtils.filterCoursesBySemester(
           allPinnedCourses, selectedSemester);
     });
   }
 
-  void sortCourses() {
-    setState(() {
-      CourseUtils.sortCourses(displayedCourses, isNewestFirst);
-    });
-  }
 
   void _handleSortOptionSelected(String choice) {
     setState(() {
-      isNewestFirst = (choice == 'Newest First');
-      sortCourses(); // Call sortStreams to reorder the streams based on the new setting
+      ref
+          .read(userViewModelProvider.notifier)
+          .updateSelectedFilterOption(choice);
+      CourseUtils.sortCourses(
+          displayedCourses,
+          ref
+              .read(userViewModelProvider)
+              .selectedFilterOption); // Call sortStreams to reorder the streams based on the new setting
     });
   }
 
@@ -94,7 +98,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
   @override
   Widget build(BuildContext context) {
-    final semesters = ref.watch(userViewModelProvider).semesters ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBar(
         searchController: searchController,
@@ -102,7 +105,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         title: "Pinned Courses",
         filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
         onSemesterSelected: filterCoursesBySemester,
-        semesters: CourseUtils.convertAndSortSemesters(semesters, true),
       ),
       body: RefreshIndicator(
         onRefresh: _refreshPinnedCourses,

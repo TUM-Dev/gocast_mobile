@@ -19,13 +19,14 @@ class CourseDetail extends ConsumerStatefulWidget {
 }
 
 class CourseDetailState extends ConsumerState<CourseDetail> {
-  late Future<List<Stream>> courseStreams;
+  late List<Stream> displayedStreams = [];
+  late List<Stream> allStreams = [];
   late List<String> thumbnails;
+  late List<Stream> temp;
   final TextEditingController searchController = TextEditingController();
   final String baseUrl = 'https://live.rbg.tum.de';
-  late List<Stream> searchCourseStreams = [];
+  bool isSearchInitialized = false;
   bool isLoading = true;
-  bool isNewestFirst = false;
 
   @override
   void initState() {
@@ -41,10 +42,11 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       await videoViewModelNotifier.fetchCourseStreams(widget.courseId);
       await videoViewModelNotifier.fetchThumbnails();
       if (mounted) {
-        sortStreams();
         setState(() {
-          searchCourseStreams = ref.read(videoViewModelProvider).streams ?? [];
+          allStreams = ref.read(videoViewModelProvider).streams ?? [];
           thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
+          displayedStreams = allStreams;
+          _handleSortOptionSelected('Newest First');
           isLoading = false; // Set isLoading to false here
         });
       }
@@ -52,30 +54,29 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   void sortStreams() {
-    final courseStreams = ref.read(videoViewModelProvider).streams ?? [];
-    final sortedStreams = CourseUtils.sortStreams(courseStreams, isNewestFirst);
-
-    setState(() {
-      searchCourseStreams = sortedStreams;
-    });
+    bool isNewestFirst =
+        ref.read(userViewModelProvider).selectedFilterOption == 'Newest First';
+    displayedStreams = CourseUtils.sortStreams(allStreams, isNewestFirst);
   }
 
   void _handleSortOptionSelected(String choice) {
-    setState(() {
-      isNewestFirst = (choice == 'Newest First');
-      sortStreams(); // Call sortStreams to reorder the streams based on the new setting
-    });
+    ref.read(userViewModelProvider.notifier).updateSelectedFilterOption(choice);
+    sortStreams();
   }
 
   void _searchCourses() {
     final searchInput = searchController.text.toLowerCase();
-    final courseStreams = ref.read(videoViewModelProvider).streams ?? [];
+    if (!isSearchInitialized) {
+      temp = List.from(displayedStreams);
+      isSearchInitialized = true;
+    }
 
     setState(() {
       if (searchInput.isEmpty) {
-        searchCourseStreams = courseStreams;
+        displayedStreams = temp;
+        isSearchInitialized = false;
       } else {
-        searchCourseStreams = courseStreams.where((stream) {
+        displayedStreams = displayedStreams.where((stream) {
           return stream.name.toLowerCase().contains(searchInput) ||
               stream.description.toLowerCase().contains(searchInput);
         }).toList();
@@ -106,7 +107,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
             _courseTitle(widget.title),
             _buildStreamList(
               context,
-              searchCourseStreams,
+              displayedStreams,
               thumbnails,
               scaffoldMessenger,
             ),

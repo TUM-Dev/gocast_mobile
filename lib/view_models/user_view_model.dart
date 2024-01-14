@@ -16,10 +16,10 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
+import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 
 class UserViewModel extends StateNotifier<UserState> {
@@ -192,17 +192,6 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchSemesters() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Fetching Semesters');
-      var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
-      state = state.copyWith(semesters: semesters, isLoading: false);
-    } catch (e) {
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
   Future<void> fetchFeatureNotifications() async {
     try {
       _logger.i('Fetching feature notifications');
@@ -337,4 +326,36 @@ class UserViewModel extends StateNotifier<UserState> {
     return state.userSettings;
   }
 
+  Future<void> fetchSemesters() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Fetching Semesters');
+      var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
+      state = state.copyWith(semesters: semesters.item1, isLoading: false);
+      state = state.copyWith(current: semesters.item2, isLoading: false);
+      setSemestersAsString(semesters.item1);
+      String current =
+          "${semesters.item2.year} - ${semesters.item2.teachingTerm}";
+      state = state.copyWith(currentAsString: current);
+      updateSelectedSemester(current);
+      updateSelectedFilterOption('Semester');
+    } catch (e) {
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  //new
+  void updateSelectedFilterOption(String option) {
+    state = state.copyWith(selectedFilterOption: option);
+  }
+
+  void updateSelectedSemester(String? semester) {
+    state = state.copyWith(selectedSemester: semester);
+  }
+
+  void setSemestersAsString(List<Semester> semesters) {
+    state = state.copyWith(
+        semestersAsString:
+            CourseUtils.convertAndSortSemesters(semesters, true));
+  }
 }

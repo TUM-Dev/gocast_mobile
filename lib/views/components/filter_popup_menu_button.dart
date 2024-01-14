@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/providers.dart'; // Assuming this contains your providers
 
-class FilterPopupMenuButton extends StatefulWidget {
+class FilterPopupMenuButton extends ConsumerWidget {
   final Function(String) onFilterSelected;
   final List<String> filterOptions;
   final Function(String)? onSemesterSelected;
@@ -15,30 +17,19 @@ class FilterPopupMenuButton extends StatefulWidget {
   });
 
   @override
-  FilterPopupMenuButtonState createState() => FilterPopupMenuButtonState();
-}
-
-class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
-  String selectedFilterOption = 'Oldest First';
-  String? selectedSemester;
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userViewModel = ref.watch(userViewModelProvider);
+    final selectedFilterOption = userViewModel.selectedFilterOption;
 
     return PopupMenuButton<String>(
       onSelected: (choice) {
-        setState(() {
-          selectedFilterOption = choice;
-        });
+        onFilterSelected(choice);
         if (choice == 'Semester') {
-          _showSemesterSelectionBottomSheet(context);
-        } else {
-          widget.onFilterSelected(choice);
+          _showSemesterSelectionBottomSheet(context, ref);
         }
       },
       itemBuilder: (BuildContext context) {
-        return widget.filterOptions.map((String choice) {
+        return filterOptions.map((String choice) {
           return PopupMenuItem<String>(
             value: choice,
             child: Row(
@@ -46,7 +37,8 @@ class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
               children: [
                 Text(choice),
                 if (selectedFilterOption == choice)
-                  Icon(Icons.check, size: 20, color: themeData.iconTheme.color),
+                  Icon(Icons.check,
+                      size: 20, color: Theme.of(context).iconTheme.color),
               ],
             ),
           );
@@ -56,7 +48,9 @@ class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
     );
   }
 
-  void _showSemesterSelectionBottomSheet(BuildContext context) {
+  void _showSemesterSelectionBottomSheet(BuildContext context, WidgetRef ref) {
+    final selectedSemester = ref.read(userViewModelProvider).selectedSemester;
+
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -64,20 +58,21 @@ class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
           padding: const EdgeInsets.all(16),
           child: Wrap(
             children: [
-              ListTile(
-                title: const Text('All'),
-                trailing: selectedSemester == null || selectedSemester == 'All'
-                    ? const Icon(Icons.check)
-                    : null, // Checkmark for 'All'
-                onTap: () => _selectSemester('All', context),
-              ),
-              ...?widget.semesters?.map((semester) {
+              ...?semesters?.map((semester) {
                 return ListTile(
                   title: Text(semester),
                   trailing: selectedSemester == semester
                       ? const Icon(Icons.check)
-                      : null, // Checkmark
-                  onTap: () => _selectSemester(semester, context),
+                      : null,
+                  onTap: () {
+                    ref
+                        .read(userViewModelProvider.notifier)
+                        .updateSelectedSemester(semester);
+                    if (onSemesterSelected != null) {
+                      onSemesterSelected!(semester);
+                    }
+                    Navigator.pop(context);
+                  },
                 );
               }),
             ],
@@ -85,15 +80,5 @@ class FilterPopupMenuButtonState extends State<FilterPopupMenuButton> {
         );
       },
     );
-  }
-
-  void _selectSemester(String semester, BuildContext context) {
-    setState(() {
-      selectedSemester = semester; // Update the selected semester
-    });
-    Navigator.pop(context);
-    if (widget.onSemesterSelected != null) {
-      widget.onSemesterSelected!(semester);
-    }
   }
 }

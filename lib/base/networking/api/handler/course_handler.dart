@@ -1,6 +1,7 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
 
 /// Handles course-related data operations.
 ///
@@ -23,14 +24,18 @@ class CourseHandler {
     );
   }
 
-  Future<List<Semester>> fetchSemesters() async {
+  Future<Tuple2<List<Semester>, Semester>> fetchSemesters() async {
     _logger.i('Fetching semesters');
-    return _grpcHandler.callGrpcMethod(
+
+    final response = await _grpcHandler.callGrpcMethod(
       (client) async {
-        final response = await client.getSemesters(GetSemestersRequest());
-        _logger.d('Semesters: ${response.semesters}');
-        return response.semesters;
+        return await client.getSemesters(GetSemestersRequest());
       },
     );
+
+    _logger.d('Semesters: ${response.semesters}');
+    _logger.d('Current Semester: ${response.current}');
+
+    return Tuple2(response.semesters, response.current);
   }
 }

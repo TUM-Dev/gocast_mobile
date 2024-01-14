@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/Filter_Popup_Menu_Button.dart';
 
 class CustomSearchTopNavBar extends ConsumerWidget
@@ -9,7 +10,6 @@ class CustomSearchTopNavBar extends ConsumerWidget
   final Function(String) onSortOptionSelected;
   final List<String> filterOptions;
   final Function(String)? onSemesterSelected;
-  final List<String>? semesters;
 
   const CustomSearchTopNavBar({
     super.key,
@@ -18,12 +18,13 @@ class CustomSearchTopNavBar extends ConsumerWidget
     required this.onSortOptionSelected,
     required this.filterOptions,
     required this.onSemesterSelected,
-    this.semesters,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSearchActive = ref.watch(isSearchActiveProvider);
+    final viewModel = ref.watch(userViewModelProvider);
+    final semesters = viewModel.semestersAsString;
 
     return SafeArea(
       child: AppBar(
@@ -32,7 +33,6 @@ class CustomSearchTopNavBar extends ConsumerWidget
         elevation: 0,
         leading: isSearchActive
             ? IconButton(
-                // TODO: when the the back arrow is pressed the setting of semester and the newest/oldest is set again
                 icon:  Icon(Icons.arrow_back_ios, color:Theme.of(context).iconTheme.color,),
                 onPressed: () =>
                     ref.read(isSearchActiveProvider.notifier).state = false,

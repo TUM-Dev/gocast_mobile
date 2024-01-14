@@ -33,23 +33,32 @@ class CourseUtils {
       return a.teachingTerm == 'W' ? -1 : 1;
     });
 
-    return sortedSemesters
+    List<String> semesterStrings = sortedSemesters
         .map((semester) => "${semester.year} - ${semester.teachingTerm}")
         .toList();
+
+    // Add 'All' at the beginning of the list
+    semesterStrings.insert(0, 'All');
+
+    return semesterStrings;
   }
 
-  static void sortCourses(List<Course> courses, bool isNewestFirst) {
-    courses.sort((a, b) {
-      int yearComparison = a.semester.year.compareTo(b.semester.year);
-      if (yearComparison != 0) {
-        return isNewestFirst ? -yearComparison : yearComparison;
-      }
+  static void sortCourses(List<Course> courses, String sortOption) {
+    if (sortOption == 'Semester') {
+    } else {
+      bool isNewestFirst = sortOption == 'Newest First';
+      courses.sort((a, b) {
+        int yearComparison = a.semester.year.compareTo(b.semester.year);
+        if (yearComparison != 0) {
+          return isNewestFirst ? -yearComparison : yearComparison;
+        }
 
-      if (a.semester.teachingTerm == b.semester.teachingTerm) {
-        return 0;
-      }
-      return a.semester.teachingTerm == 'W' ? -1 : 1;
-    });
+        if (a.semester.teachingTerm == b.semester.teachingTerm) {
+          return 0;
+        }
+        return a.semester.teachingTerm == 'W' ? -1 : 1;
+      });
+    }
   }
 
   static List<Stream> sortStreams(List<Stream> streams, bool isNewestFirst) {

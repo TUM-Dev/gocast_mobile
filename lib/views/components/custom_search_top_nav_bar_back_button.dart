@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/filter_popup_menu_button.dart';
 
 class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
@@ -8,7 +9,6 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
   final Function(String) onSortOptionSelected;
   final List<String> filterOptions;
   final Function(String)? onSemesterSelected;
-  final List<String>? semesters;
 
   const CustomSearchTopNavBarWithBackButton({
     super.key,
@@ -16,11 +16,12 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
     required this.onSortOptionSelected,
     required this.filterOptions,
     this.onSemesterSelected,
-    this.semesters,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(userViewModelProvider);
+    final semesters = viewModel.semestersAsString;
     return SafeArea(
       child: AppBar(
         automaticallyImplyLeading: false,
