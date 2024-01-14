@@ -155,6 +155,10 @@ class CourseCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          const Icon(
+            Icons.room,
+            size: 20, 
+          ),
           Text(roomName!),
           //const SizedBox(width: 2),
           Transform.scale(
@@ -206,7 +210,6 @@ class CourseCard extends StatelessWidget {
           const TextStyle(),
     );
   }
-
 
   Widget _buildCourseViewerCount(ThemeData themeData) {
     return Container(
