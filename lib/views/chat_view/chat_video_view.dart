@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/views/video_view/utils/suggested_streams_list.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
+
 
 class ChatView extends ConsumerStatefulWidget {
   final bool isActive;
@@ -41,17 +45,29 @@ class ChatViewState extends ConsumerState<ChatView> {
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatViewModelProvider);
+    var suggestedStreams = ref.watch(videoViewModelProvider).streams ?? [];
+    suggestedStreams = suggestedStreams.where((element) => element.id != widget.streamID).toList();
+    suggestedStreams.sort((a, b) => a.start.toDateTime().compareTo(b.start.toDateTime()));
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if(chatState.isRateLimitReached){
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('You are sending messages too fast. Please wait a few seconds.'),
+            content: Text('You are sending messages too fast. Please wait a 10 seconds.'),
+          ),
+        );
+      });
+    } else if (chatState.isCoolDown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('You are sending messages too fast. Please wait a 60 seconds.'),
           ),
         );
       });
     }
-    return buildActiveChat(isIOS);
+    return widget.isActive ? buildActiveChat(isIOS) :
+    buildInactiveChatOverlay(isIOS, suggestedStreams);
   }
 
   Widget buildActiveChat(bool isIOS) {
@@ -173,27 +189,51 @@ class ChatViewState extends ConsumerState<ChatView> {
     );
   }
 
-  Widget buildInactiveChatOverlay(bool isIOS) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: isIOS ? CupertinoColors.systemBackground.withOpacity(0.8) : Colors.white.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text(
-          'Chat is not active',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+  Widget buildInactiveChatOverlay(bool isIOS, List<Stream> suggestedStreams) {
+    var chatState = ref.watch(chatViewModelProvider);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+          decoration: BoxDecoration(
+            color: isIOS ? CupertinoColors.systemBackground.withOpacity(0.9) : Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child:  Text(
+            chatState.accessDenied ? 'Chat is disabled for this lecture' : 'Chat is Hidden',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
           ),
         ),
-      ),
+        const SizedBox(height: 20),
+        Expanded(
+          child: SuggestedStreamsWidget(
+            suggestedStreams: suggestedStreams,
+            onStreamSelected: (Stream stream) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => VideoPlayerPage(stream: stream)),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
+
 
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (message.isNotEmpty && message.trim().isNotEmpty) {

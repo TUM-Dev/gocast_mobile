@@ -10,6 +10,8 @@ class ChatState {
   final List<ChatReaction>? reactions;
   final List<ChatMessage>? replies;
   final bool isRateLimitReached;
+  final bool isCoolDown;
+  final bool accessDenied;
 
   const ChatState({
     this.isLoading = false,
@@ -18,6 +20,8 @@ class ChatState {
     this.reactions,
     this.replies,
     this.isRateLimitReached = false,
+    this.isCoolDown = false,
+    this.accessDenied = false,
   });
 
   ChatState copyWith({
@@ -27,6 +31,8 @@ class ChatState {
     List<ChatReaction>? reactions,
     List<ChatMessage>? replies,
     bool? isRateLimitReached,
+    bool? isCoolDown,
+    bool? accessDenied,
   }) {
     return ChatState(
       isLoading: isLoading ?? this.isLoading,
@@ -35,6 +41,8 @@ class ChatState {
       reactions: reactions ?? this.reactions,
       replies: replies ?? this.replies,
       isRateLimitReached: isRateLimitReached ?? this.isRateLimitReached,
+      isCoolDown: isCoolDown ?? this.isCoolDown,
+      accessDenied: accessDenied ?? this.accessDenied,
     );
   }
 
@@ -44,7 +52,9 @@ class ChatState {
       messages: messages,
       reactions: reactions,
       replies: replies,
-      isRateLimitReached: isRateLimitReached,
+      isRateLimitReached: false,
+      isCoolDown: false,
+      accessDenied: false,
       error: null,
     );
   }
@@ -56,6 +66,8 @@ class ChatState {
       reactions: reactions,
       replies: replies,
       isRateLimitReached: isRateLimitReached,
+      isCoolDown: isCoolDown,
+      accessDenied: accessDenied,
       error: null,
     );
   }
@@ -67,6 +79,8 @@ ChatState addReaction(ChatReaction reaction) {
       reactions: reactions != null ? [...reactions!, reaction] : [reaction],
       replies: replies,
       isRateLimitReached: isRateLimitReached,
+      isCoolDown: isCoolDown,
+      accessDenied: accessDenied,
       error: null,
     );
   }
@@ -78,6 +92,8 @@ ChatState addReaction(ChatReaction reaction) {
       reactions: reactions,
       replies: replies != null ? [...replies!, reply] : [reply],
       isRateLimitReached: isRateLimitReached,
+      isCoolDown: isCoolDown,
+      accessDenied: accessDenied,
       error: null,
     );
   }

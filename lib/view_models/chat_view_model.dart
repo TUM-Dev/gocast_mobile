@@ -15,12 +15,13 @@ class ChatViewModel extends StateNotifier<ChatState> {
 
   Future<void> fetchChatMessages(Int64 streamId) async {
     state = state.copyWith(isLoading: true);
+    state = state.clearError();
     try {
       final messages = await ChatHandlers(_grpcHandler).getChatMessages(streamId);
       state = state.copyWith(messages: messages, isLoading: false);
     } catch (e) {
       _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
+      state = state.copyWith(error: e as AppError, isLoading: false, accessDenied: true);
     }
   }
 
@@ -32,9 +33,15 @@ class ChatViewModel extends StateNotifier<ChatState> {
       _logger.e(e);
       if (_isRateLimitError(e)) {
         state = state.copyWith(isRateLimitReached: true);
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 10));
         if (mounted) {
           state = state.copyWith(isRateLimitReached: false);
+        }
+      } else if (_isCoolDownError(e)) {
+        state = state.copyWith(isCoolDown: true);
+        await Future.delayed(const Duration(seconds: 60));
+        if (mounted) {
+          state = state.copyWith(isCoolDown: false);
         }
       } else {
         state = state.copyWith(error: e as AppError);
@@ -94,6 +101,10 @@ class ChatViewModel extends StateNotifier<ChatState> {
 
 
   bool _isRateLimitError(dynamic error) {
-    return error.toString().contains(" posting too fast");
+    return error.toString().contains("posting too fast");
+  }
+
+  bool _isCoolDownError(dynamic error) {
+    return error.toString().contains("cooled down");
   }
 }
