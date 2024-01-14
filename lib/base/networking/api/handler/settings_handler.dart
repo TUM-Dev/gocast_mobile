@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:logger/logger.dart';
 
@@ -65,4 +67,87 @@ class SettingsHandler {
       rethrow;
     }
   }
+
+  /// Parses playback speeds from the user settings.
+  List<double> parsePlaybackSpeeds(List<UserSetting>? userSettings) {
+    final playbackSpeedSetting = userSettings?.firstWhere(
+      (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+      orElse: () => UserSetting(value: jsonEncode([])),
+    );
+
+    if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
+      try {
+        final List<dynamic> speedsJson = jsonDecode(playbackSpeedSetting.value);
+        return speedsJson
+            .where((item) => item['enabled'] == true)
+            .map((item) => double.parse(item['speed'].toString()))
+            .toList();
+      } catch (e) {
+        _logger.e('Error parsing playback speeds: $e');
+        return [];
+      }
+    }
+    return [];
+  }
+
+  /// Updates the preferred greeting in user settings.
+  Future<bool> updatePreferredGreeting(
+      String newGreeting, List<UserSetting> currentSettings,) async {
+    try {
+      var greetingSetting = currentSettings.firstWhere(
+        (setting) => setting.type == UserSettingType.GREETING,
+        orElse: () =>
+            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
+      );
+      greetingSetting.value = newGreeting;
+
+      if (!currentSettings.contains(greetingSetting)) {
+        currentSettings.add(greetingSetting);
+      }
+      await updateUserSettings(currentSettings);
+      return true;
+    } catch (e) {
+      _logger.e('Error updating greeting: $e');
+      return false;
+    }
+  }
+
+  /// Updates the preferred name in user settings.
+  Future<bool> updatePreferredName(
+      String newName, List<UserSetting> currentSettings,) async {
+    try {
+      var newSetting =
+          UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName);
+      await updateUserSettings([newSetting]);
+      return true;
+    } catch (e) {
+      _logger.e('Error updating preferred name: $e');
+      return false;
+    }
+  }
+
+  /// Updates the selected speeds in user settings.
+  Future<void> updateSelectedSpeeds(
+      double speed, bool isSelected, List<UserSetting> currentSettings) async {
+    var playbackSpeedSetting = currentSettings.firstWhere(
+          (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+      orElse: () => UserSetting(
+        type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
+        value: jsonEncode([{"speed": 1.0, "enabled": true}]),
+      ),
+    );
+    var speeds = (jsonDecode(playbackSpeedSetting.value) as List)
+        .map((e) => e["speed"])
+        .toSet();
+    isSelected ? speeds.add(speed) : speeds.remove(speed);
+    speeds.add(1.0); // Ensure default speed is always included
+    playbackSpeedSetting.value = jsonEncode(
+      speeds.map((s) => {"speed": s, "enabled": true}).toList(),
+    );
+    if (!currentSettings.contains(playbackSpeedSetting)) {
+      currentSettings.add(playbackSpeedSetting);
+    }
+    await updateUserSettings(currentSettings);
+  }
+
 }

@@ -8,15 +8,19 @@ import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/settings_handler.dart';
 
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utils/globals.dart';
+
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
@@ -34,6 +38,7 @@ class UserViewModel extends StateNotifier<UserState> {
       _logger.i('Logging in user with email: $email');
       await AuthHandler.basicAuth(email, password);
       await fetchUser();
+      await fetchUserSettings();
       _logger.i('Logged in user with basic auth');
 
       if (state.user != null) {
@@ -139,15 +144,10 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings..');
-      final response = await _grpcHandler.callGrpcMethod(
-        (client) async {
-          final response =
-              await client.getUserSettings(GetUserSettingsRequest());
-          return response.userSettings;
-        },
-      );
+      final userSettings =
+          await SettingsHandler(_grpcHandler).fetchUserSettings();
+      state = state.copyWith(userSettings: userSettings);
       _logger.i('User settings fetched successfully');
-      state = state.copyWith(userSettings: response);
     } catch (e) {
       _logger.e('Error fetching user settings: $e');
     }
@@ -156,16 +156,14 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> updateUserSettings(List<UserSetting> updatedSettings) async {
     _logger.i('Updating user settings..');
     try {
-      final request = PatchUserSettingsRequest()
-        ..userSettings.addAll(updatedSettings);
-
-      await _grpcHandler.callGrpcMethod(
-        (client) async {
-          await client.patchUserSettings(request);
-        },
-      );
-      state = state.copyWith(userSettings: updatedSettings);
-      _logger.i('User settings updated successfully');
+      final success = await SettingsHandler(_grpcHandler)
+          .updateUserSettings(updatedSettings);
+      if (success) {
+        state = state.copyWith(userSettings: updatedSettings);
+        _logger.i('User settings updated successfully');
+      } else {
+        _logger.e('Failed to update user settings');
+      }
     } catch (e) {
       _logger.e('Error updating user settings: $e');
     }
@@ -234,4 +232,98 @@ class UserViewModel extends StateNotifier<UserState> {
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }
+
+  Future<void> loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await loadThemePreference(prefs);
+    await loadNotificationPreference(prefs);
+    await fetchUserSettings();
+  }
+
+  Future<void> loadThemePreference(SharedPreferences prefs) async {
+    final themePreference = prefs.getString('themeMode') ?? 'light';
+    state = state.copyWith(isDarkMode: themePreference == 'dark');
+  }
+
+  Future<void> saveThemePreference(String theme, WidgetRef ref) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('themeMode', theme);
+
+    state = state.copyWith(isDarkMode: theme == 'dark');
+
+    ref.read(themeModeProvider.notifier).state =
+        theme == 'dark' ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  Future<void> loadNotificationPreference(SharedPreferences prefs) async {
+    final notificationPreference = prefs.getBool('notifications') ?? true;
+    state = state.copyWith(isPushNotificationsEnabled: notificationPreference);
+  }
+
+  Future<void> saveNotificationPreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('notifications', value);
+    state = state.copyWith(isPushNotificationsEnabled: value);
+  }
+
+  Future<void> saveDownloadWifiOnlyPreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('downloadWifiOnly', value);
+    state = state.copyWith(isDownloadWithWifiOnly: value);
+  }
+
+  // This static method can stay within UserViewModel as it doesn't interact with the API
+  static List<double> getDefaultSpeeds() {
+    return List<double>.generate(14, (i) => (i + 1) * 0.25);
+  }
+
+  Future<void> updatePreferredGreeting(String newGreeting) async {
+    try {
+      await SettingsHandler(_grpcHandler)
+          .updatePreferredGreeting(newGreeting, state.userSettings ?? []);
+      await fetchUserSettings();
+    } catch (e) {
+      _logger.e('Error updating greeting: $e');
+    }
+  }
+
+  Future<bool> updatePreferredName(String newName) async {
+    try {
+      await SettingsHandler(_grpcHandler)
+          .updatePreferredName(newName, state.userSettings ?? []);
+      await fetchUserSettings();
+      return true;
+    } catch (e) {
+      _logger.e('Error updating preferred name: $e');
+      return false;
+    }
+  }
+
+  Future<void> updateSelectedSpeeds(double speed, bool isSelected) async {
+    await SettingsHandler(_grpcHandler)
+        .updateSelectedSpeeds(speed, isSelected, state.userSettings ?? []);
+    await fetchUserSettings();
+  }
+
+  List<double> parsePlaybackSpeeds() {
+    return SettingsHandler(_grpcHandler)
+        .parsePlaybackSpeeds(state.userSettings);
+  }
+
+  isCoursePinned(int id) {
+    if (state.userPinned == null) {
+      return false;
+    }
+    for (var course in state.userPinned!) {
+      if (course.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<UserSetting>? getUserSettings() {
+    return state.userSettings;
+  }
+
 }
