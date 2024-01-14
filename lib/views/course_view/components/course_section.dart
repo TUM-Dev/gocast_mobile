@@ -243,16 +243,12 @@ class CourseSection extends StatelessWidget {
                   ),
                 ],
               )
-            : _buildLive(context),
+            : const PulsingBackground(),
         onViewAll != null
             ? ViewAllButton(onViewAll: onViewAll)
             : const SizedBox(),
       ],
     );
-  }
-
-  Widget _buildLive(BuildContext context) {
-    return const PulsingBackground(); //const SizedBox();
   }
 
   Widget _buildNoCoursesMessage(BuildContext context, String title) {

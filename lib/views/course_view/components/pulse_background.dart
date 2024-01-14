@@ -23,11 +23,11 @@ class _PulsingBackgroundState extends State<PulsingBackground>
 
     _colorAnimation =
         ColorTween(begin: Colors.red.withOpacity(0.6), end: Colors.red).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeInOut,
-          ),
-        );
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override
@@ -43,10 +43,10 @@ class _PulsingBackgroundState extends State<PulsingBackground>
           ),
           child: Text(
             'Live Now',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.white,
-              fontSize: 19,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Colors.white, fontSize: 20),
           ),
         );
       },

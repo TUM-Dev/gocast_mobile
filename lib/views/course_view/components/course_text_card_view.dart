@@ -41,7 +41,9 @@ class CourseCardText extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
-            color: Colors.grey.withOpacity(0.5),
+            color: themeData
+                .inputDecorationTheme.enabledBorder!.borderSide.color
+                .withOpacity(0.5), //TODO add check alternatives
             width: 1.0,
           ),
         ),

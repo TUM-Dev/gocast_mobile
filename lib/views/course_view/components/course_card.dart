@@ -68,7 +68,9 @@ class CourseCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
-            color: themeData.dividerColor,
+            color: themeData
+                .inputDecorationTheme.enabledBorder!.borderSide.color
+                .withOpacity(0.5), //TODO add check alternatives
             width: 1.0,
           ),
         ),
@@ -239,13 +241,15 @@ class CourseCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(3),
       child: //spacing between dot and course number
-          Text("${viewerCount!} viewers",
-              style: themeData.textTheme.labelSmall?.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    height: 1,
-                  ) ??
-                  const TextStyle(),),
+          Text(
+        "${viewerCount!} viewers",
+        style: themeData.textTheme.labelSmall?.copyWith(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              height: 1,
+            ) ??
+            const TextStyle(),
+      ),
     ); // Return an empty SizedBox if not live
   }
 }
