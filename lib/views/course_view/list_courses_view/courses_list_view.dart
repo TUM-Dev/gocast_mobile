@@ -87,9 +87,9 @@ class CoursesList extends ConsumerWidget {
             path: 'assets/images/course2.png',
             live: course.streams.any((stream) => stream.liveNow),
             courseId: course.id,
-            identifier: course.tUMOnlineIdentifier,
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
+            lastLecture: "asd",
           );
         },
         childCount: courses.length,

@@ -133,14 +133,26 @@ class CourseSection extends StatelessWidget {
                     imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
                     /// End of temporary values
-                    debugPrint('Course streams: ${course.streams}');
+                    debugPrint('Course streams1: ${course.streams}');
 
                     return CourseCardText(
                       title: course.name,
                       tumID: course.tUMOnlineIdentifier,
+                      lastLecture: course.streams.isNotEmpty
+                          ? course.streams
+                              .reduce(
+                                (a, b) => (a.end
+                                        .toDateTime()
+                                        .isAfter(b.end.toDateTime()))
+                                    ? a
+                                    : b,
+                              )
+                              .end
+                              .toString()
+                          :
+                          "unknown",
                       path: imagePath,
                       live: course.streams.any((stream) => stream.liveNow),
-                      identifier: '',
                       semester: course.semester.teachingTerm +
                           course.semester.year.toString(),
                       courseId: course.id,
@@ -301,7 +313,7 @@ class CourseSection extends StatelessWidget {
     switch (title) {
       case 'My courses':
         return 'Enroll in a Course';
-      case 'livenow':
+      case 'Live Now':
         return 'No courses currently live';
       case 'Public courses':
         return 'No public courses found';

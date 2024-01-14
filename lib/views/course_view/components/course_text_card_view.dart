@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 class CourseCardText extends StatelessWidget {
   final String title;
   final String tumID;
-  final String identifier;
   final String semester;
+  final String lastLecture;
   final String path;
   final bool live;
 
@@ -19,8 +19,8 @@ class CourseCardText extends StatelessWidget {
     super.key,
     required this.title,
     required this.tumID,
-    required this.identifier,
     required this.semester,
+    required this.lastLecture,
     required this.path,
     required this.live,
     required int courseId,
@@ -37,7 +37,7 @@ class CourseCardText extends StatelessWidget {
       child: Card(
         elevation: 1,
         surfaceTintColor: themeData.cardColor,
-        shadowColor: Colors.grey.withOpacity(1),
+        shadowColor: Colors.grey.withOpacity(0.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
@@ -77,7 +77,7 @@ class CourseCardText extends StatelessWidget {
 
   Widget _buildLastLecture() { //TODO make responsive
     return Text(
-      'Last Lecture: Thursday, 26/10/2023, 10:00',
+      'Last Lecture: $lastLecture', //Thursday, 26/10/2023, 10:00',
       style: TextStyle(
         color: Colors.grey[600],
         fontSize: 12.0,
