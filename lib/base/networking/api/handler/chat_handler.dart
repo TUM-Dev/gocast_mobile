@@ -23,23 +23,25 @@ Future<List<ChatMessage>> getChatMessages(Int64 streamID) async {
     );
   }
 
-  Future<void> postChatMessage(Int64 streamID, String message) async {
+  Future<ChatMessage> postChatMessage(Int64 streamID, String message) async {
     _logger.i('Posting chat message');
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response =
             await client.postChatMessage(PostChatMessageRequest(streamID: streamID, message: message));
         _logger.i('Chat message posted: ${response.message}');
+        return response.message;
       },
     );
   }
 
-Future<void> postMessageReaction(Int64 messageID, Int64 streamID, String emoji) async {
+Future<ChatReaction> postMessageReaction(Int64 messageID, Int64 streamID, String emoji) async {
     _logger.i('Posting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-           final response = await client.postChatReaction(PostChatReactionRequest(chatID: messageID, streamID: streamID, emoji: emoji));
+           final response = await client.postChatReaction(PostChatReactionRequest(emoji: emoji, streamID:streamID, chatID: messageID));
         _logger.i('Chat reaction ${response.reaction} posted');
+        return response.reaction;
       },
     );
   }
@@ -48,18 +50,19 @@ Future<void> deleteMessageReaction(Int64 messageID, Int64 streamID, Int64 reacti
     _logger.i('Deleting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-           await client.deleteChatReaction(DeleteChatReactionRequest(chatID: messageID, streamID: streamID, reactionID: reactionID));
+          await client.deleteChatReaction(DeleteChatReactionRequest(chatID: messageID, streamID: streamID, reactionID: reactionID));
         _logger.i('Chat reaction deleted');
       },
     );
   }
 
-Future<void> postChatReply(Int64 messageID, Int64 streamID, String message) async {
+Future<ChatMessage> postChatReply(Int64 messageID, Int64 streamID, String message) async {
     _logger.i('Posting chat reply');
     return _grpcHandler.callGrpcMethod(
       (client) async {
            final response = await client.postChatReply(PostChatReplyRequest(chatID: messageID, streamID: streamID, message: message));
         _logger.i('Chat reply ${response.reply} posted');
+        return response.reply;
       },
     );
   }

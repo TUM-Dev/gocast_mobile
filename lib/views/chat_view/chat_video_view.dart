@@ -1,31 +1,77 @@
-import 'package:flutter/material.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gocast_mobile/base/helpers/mock_data.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/models/chat/chat_state_model.dart';
+import 'package:gocast_mobile/providers.dart';
 
-class ChatView extends StatelessWidget {
+class ChatView extends ConsumerStatefulWidget {
   final bool isActive;
+  final Int64 streamID;
 
-  const ChatView({super.key, required this.isActive});
+  const ChatView({
+    super.key,
+    required this.isActive,
+    required this.streamID,
+  });
+
+  @override
+  ChatViewState createState() => ChatViewState();
+}
+
+
+class ChatViewState extends ConsumerState<ChatView> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    Future.microtask(
+          () => ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final chatState = ref.watch(chatViewModelProvider);
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    return isActive ? buildActiveChat(context, isIOS) : buildInactiveChatOverlay(isIOS);
+    if(chatState.isRateLimitReached){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('You are sending messages too fast. Please wait a few seconds.'),
+          ),
+        );
+      });
+    }
+    return buildActiveChat(isIOS);
   }
 
-  Widget buildActiveChat(BuildContext context, bool isIOS) {
+  Widget buildActiveChat(bool isIOS) {
+    final chatState = ref.watch(chatViewModelProvider);
     var chatDecoration = getChatDecoration(isIOS);
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: chatDecoration,
       child: Stack(
         children: [
-          buildMessagesList(isIOS),
-          Align(alignment: Alignment.bottomCenter, child: buildMessageInputField(isIOS)),
+          buildMessagesList(chatState, isIOS),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: buildMessageInputField(isIOS),
+          ),
         ],
       ),
     );
   }
+
 
   BoxDecoration getChatDecoration(bool isIOS) {
     return BoxDecoration(
@@ -42,14 +88,18 @@ class ChatView extends StatelessWidget {
     );
   }
 
-  Widget buildMessagesList(bool isIOS) {
+  Widget buildMessagesList(ChatState chatState, bool isIOS) {
+    final currentUserID = ref.watch(userViewModelProvider).user?.id;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     return Padding(
       padding: const EdgeInsets.only(bottom: 60),
       child: ListView.builder(
-        itemCount: MockData.messages.length,
+        controller: _scrollController,
+        itemCount: chatState.messages?.length ?? 0,
         itemBuilder: (context, index) {
-          bool isSentByMe = index % 2 == 0;
-          return buildMessageBubble(MockData.messages[index], isSentByMe, isIOS);
+          final message = chatState.messages![index];
+          bool isSentByMe = int.parse(message.userID) == currentUserID;
+          return buildMessageBubble(message.message, isSentByMe, isIOS);
         },
       ),
     );
@@ -81,16 +131,21 @@ class ChatView extends StatelessWidget {
   }
 
   Widget buildMessageInputField(bool isIOS) {
+    TextEditingController controller = TextEditingController();
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 15.0),
-      child: isIOS ? buildIOSMessageInputField() : buildNonIOSMessageInputField(),
+      child: isIOS ? buildIOSMessageInputField(controller) : buildNonIOSMessageInputField(controller),
     );
   }
 
-  Widget buildIOSMessageInputField() {
+  Widget buildIOSMessageInputField(TextEditingController controller) {
     return CupertinoTextField(
+      controller: controller,
       placeholder: 'Type a message...',
-      suffix: const Icon(CupertinoIcons.arrow_right_circle_fill, color: CupertinoColors.activeBlue),
+      suffix: GestureDetector(
+        onTap: () => postMessage(context, ref, controller.text),
+        child: const Icon(CupertinoIcons.arrow_right_circle_fill, color: CupertinoColors.activeBlue),
+      ),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
         borderRadius: BorderRadius.circular(20),
@@ -99,11 +154,15 @@ class ChatView extends StatelessWidget {
     );
   }
 
-  Widget buildNonIOSMessageInputField() {
+  Widget buildNonIOSMessageInputField(TextEditingController controller) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hintText: 'Type a message...',
-        suffixIcon: const Icon(Icons.send, color: Colors.blue),
+        suffixIcon: GestureDetector(
+          onTap: () => postMessage(context, ref, controller.text),
+          child: const Icon(Icons.send, color: Colors.blue),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide.none,
@@ -135,4 +194,22 @@ class ChatView extends StatelessWidget {
       ),
     );
   }
+
+  void postMessage(BuildContext context, WidgetRef ref, String message) {
+    if (message.isNotEmpty && message.trim().isNotEmpty) {
+      final Int64 streamId = widget.streamID;
+      ref.read(chatViewModelProvider.notifier).postChatMessage(streamId, message);
+    }
+  }
+
+  void _scrollToBottom() {
+    if (mounted && _scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
 }
