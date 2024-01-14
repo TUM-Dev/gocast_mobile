@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
+import 'package:gocast_mobile/models/course/course_state_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/view_models/chat_view_model.dart';
+import 'package:gocast_mobile/view_models/course_view_model.dart';
 import 'package:gocast_mobile/view_models/stream_view_model.dart';
 import 'package:gocast_mobile/view_models/user_view_model.dart';
 
@@ -32,3 +34,6 @@ final chatViewModelProvider = StateNotifierProvider<ChatViewModel, ChatState>(
         (ref) => ChatViewModel(ref.watch(grpcHandlerProvider)),
 );
 
+final courseViewModelProvider = StateNotifierProvider<CourseViewModel, CourseState>(
+        (ref) => CourseViewModel(ref.watch(grpcHandlerProvider)),
+);
