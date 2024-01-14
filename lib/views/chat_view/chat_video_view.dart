@@ -234,7 +234,6 @@ class ChatViewState extends ConsumerState<ChatView> {
     );
   }
 
-
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (message.isNotEmpty && message.trim().isNotEmpty) {
       final Int64 streamId = widget.streamID;
