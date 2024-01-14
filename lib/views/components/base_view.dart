@@ -35,6 +35,7 @@ class BaseView extends StatelessWidget {
                   automaticallyImplyLeading: showLeading,
                   title: Text(title!),
                   actions: actions,
+                  surfaceTintColor: Colors.transparent,
                 )
               : null),
       body: child,
