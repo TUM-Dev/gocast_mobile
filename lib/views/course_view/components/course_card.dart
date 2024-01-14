@@ -100,16 +100,18 @@ class CourseCard extends StatelessWidget {
                       child: _buildCourseImage(),
                     ),
                     const SizedBox(width: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 10),
-                        _buildCourseTitle(themeData.textTheme),
-                        _buildCourseSubtitle(themeData.textTheme),
-                        const SizedBox(height: 15),
-                        _buildLocation(),
-                        //_buildCourseIsLive(),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10),
+                          _buildCourseTitle(themeData.textTheme),
+                          _buildCourseSubtitle(themeData.textTheme),
+                          const SizedBox(height: 15),
+                          _buildLocation(),
+                          //_buildCourseIsLive(),
+                        ],
+                      ),
                     ),
                   ],
                 ),
