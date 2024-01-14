@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 
 class SuggestedStreamsWidget extends StatelessWidget {
+
   final List<Stream> suggestedStreams;
   final Function(Stream) onStreamSelected;
 
