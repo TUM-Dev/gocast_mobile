@@ -171,8 +171,9 @@ class CourseCard extends StatelessWidget {
       tumID,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
-        fontSize: 16,
+        fontSize: 14,
         color: Colors.grey,
+        height: 0.9,
       ),
     );
   }
@@ -185,7 +186,7 @@ class CourseCard extends StatelessWidget {
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             height: 1,
           ) ??
           const TextStyle(),
@@ -206,26 +207,6 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseIsLive() {
-    return live
-        ? Container(
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.only(left: 4, right: 4),
-            child: //spacing between dot and course number
-                const Text(
-              'Live',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
-          )
-        : const SizedBox(); // Return an empty SizedBox if not live
-  }
 
   Widget _buildCourseViewerCount(ThemeData themeData) {
     return Container(
