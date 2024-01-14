@@ -41,6 +41,7 @@ class BaseView extends StatelessWidget {
       body: child,
       //endDrawer: isTablet ? settingsHamburgerMenu : null,
       bottomNavigationBar: bottomNavigationBar,
+
     );
   }
 }

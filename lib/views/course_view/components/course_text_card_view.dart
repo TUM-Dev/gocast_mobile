@@ -43,7 +43,7 @@ class CourseCardText extends StatelessWidget {
           side: BorderSide(
             color: themeData
                 .inputDecorationTheme.enabledBorder!.borderSide.color
-                .withOpacity(0.5), //TODO add check alternatives
+                .withOpacity(0.1), //TODO add check alternatives
             width: 1.0,
           ),
         ),
@@ -60,7 +60,13 @@ class CourseCardText extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildCourseSubtitle(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildCourseSubtitle(),
+                            _buildCourseIsLive(),
+                          ],
+                        ),
                         _buildCourseTitle(themeData.textTheme),
                         _buildLastLecture(),
                       ],
@@ -75,7 +81,8 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
-  Widget _buildLastLecture() { //TODO make responsive
+  Widget _buildLastLecture() {
+    //TODO make responsive
     return Text(
       'Last Lecture: $lastLecture', //Thursday, 26/10/2023, 10:00',
       style: TextStyle(
@@ -83,6 +90,28 @@ class CourseCardText extends StatelessWidget {
         fontSize: 12.0,
       ),
     );
+  }
+
+  Widget _buildCourseIsLive() {
+    return tumID.substring(0, 2) == "MA"
+        ? const Row(
+            children: [
+              Icon(
+                Icons.circle,
+                size: 10,
+                color: Colors.red,
+              ),
+              SizedBox(width: 5), // Add spacing between the dot and text
+              Text(
+                'Live Now',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          )
+        : const SizedBox(); // Return an empty SizedBox if not live
   }
 
   Widget _buildCourseTitle(TextTheme textTheme) {
@@ -122,7 +151,8 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
-  Color _colorPicker() { //TODO what are all the TUM faculties?
+  Color _colorPicker() {
+    //TODO what are all the TUM faculties?
     /** Colors:
      * Informatik - IN: blue
      * Mathe - MA: purple

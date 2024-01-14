@@ -73,10 +73,10 @@ class CoursesList extends ConsumerWidget {
   Widget _buildCourseListView() {
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
+        crossAxisCount: 1,
+        //crossAxisSpacing: 1,
+        mainAxisSpacing: 1,
+        childAspectRatio: 4,
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {

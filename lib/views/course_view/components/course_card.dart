@@ -70,7 +70,7 @@ class CourseCard extends StatelessWidget {
           side: BorderSide(
             color: themeData
                 .inputDecorationTheme.enabledBorder!.borderSide.color
-                .withOpacity(0.5), //TODO add check alternatives
+                .withOpacity(0.1), //TODO add check alternatives
             width: 1.0,
           ),
         ),
