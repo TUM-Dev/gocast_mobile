@@ -25,7 +25,7 @@ class BaseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+    //bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
 
     return Scaffold(
       key: scaffoldKey,
@@ -34,20 +34,11 @@ class BaseView extends StatelessWidget {
               ? AppBar(
                   automaticallyImplyLeading: showLeading,
                   title: Text(title!),
-                  actions: isTablet
-                      ? [
-                          IconButton(
-                            icon: const Icon(Icons.settings),
-                            onPressed: () {
-                              scaffoldKey.currentState?.openEndDrawer();
-                            },
-                          ),
-                        ]
-                      : actions,
+                  actions: actions,
                 )
               : null),
       body: child,
-      endDrawer: isTablet ? settingsHamburgerMenu : null,
+      //endDrawer: isTablet ? settingsHamburgerMenu : null,
       bottomNavigationBar: bottomNavigationBar,
     );
   }

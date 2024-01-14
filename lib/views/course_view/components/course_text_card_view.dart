@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 /// Course card view
@@ -29,6 +28,8 @@ class CourseCardText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
     return InkWell(
       onTap: () {
         // TODO: Add navigation to the course details screen
@@ -46,19 +47,20 @@ class CourseCardText extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0), // Same radius as the Card
           child: Container(
-            color: Colors.white, //Colors.blue.withOpacity(0.01), //Colors.grey[50],
+            color: themeData.cardColor,
+            //Colors.blue.withOpacity(0.01), //Colors.grey[50],
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                _buildCourseImage(),
-                const SizedBox(width: 10),
+                //_buildCourseImage2(),
+                const SizedBox(width: 15),
                 Expanded(
                   //to prevent title overflow
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildCourseSubtitle(),
-                      _buildCourseTitle(),
+                      _buildCourseTitle(themeData.textTheme),
                       _buildLastLecture(),
                     ],
                   ),
@@ -82,6 +84,16 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
+  Widget _buildCourseImage2() {
+    return ClipOval(
+      child:  Icon(
+        Icons.school, //TODO rounder feel
+        size: 50,
+        color: Colors.blue.shade900, //iconTheme?.copyWith(color: Colors.blue.shade900),
+      ),
+    );
+  }
+
   Widget _buildLastLecture() {
     //return const Text("Last Lecture: Thursday, 26/10/2023, 10:00");
     return Text(
@@ -93,20 +105,18 @@ class CourseCardText extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseTitle() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 2),
-      child: Text(
-        title,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
-        style: const TextStyle(
-          fontSize: 16, //17,
-          fontWeight: FontWeight.w700,
-          color: Colors.black,
-          height: 0.9,
-        ),
-      ),
+  Widget _buildCourseTitle(TextTheme textTheme) {
+    return Text(
+      title,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 2, //TODO check that this never causes overflow
+      softWrap: true,
+      style: textTheme.titleMedium?.copyWith(
+        fontSize: 17,
+        fontWeight: FontWeight.w600,
+        height: 1,
+      ) ??
+          const TextStyle(),
     );
   }
 
@@ -121,9 +131,4 @@ class CourseCardText extends StatelessWidget {
       ),
     );
   }
-
-
-
-
-
 }

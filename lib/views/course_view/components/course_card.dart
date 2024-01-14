@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Course card view
 ///
@@ -12,6 +14,9 @@ class CourseCard extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String tumID;
+  final String? roomName;
+  final String? roomNumber;
+  final String? viewerCount;
   final String path;
   final bool live;
   final int courseId;
@@ -22,6 +27,9 @@ class CourseCard extends StatelessWidget {
     required this.title,
     this.subtitle,
     required this.tumID,
+    this.roomName,
+    this.roomNumber,
+    this.viewerCount,
     required this.path,
     required this.live,
     required this.courseId,
@@ -69,7 +77,7 @@ class CourseCard extends StatelessWidget {
           child: Container(
             width: cardWidth,
             padding: const EdgeInsets.all(8.0),
-            color: subtitle == null
+            color: subtitle != null
                 ? themeData.cardColor
                 : themeData.cardTheme.color, // Apply card color from theme
             child: Column(
@@ -79,16 +87,32 @@ class CourseCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _buildCourseTumID(),
-                    _buildCourseIsLive(),
+                    _buildCourseViewerCount(themeData.textTheme),
                   ],
                 ),
-                subtitle == null
-                    ? Expanded(child: _buildCourseImage())
-                    : const SizedBox(),
-                _buildCourseTitle(themeData.textTheme),
-                subtitle != null
-                    ? _buildCourseSubtitle(themeData.textTheme)
-                    : const SizedBox(),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Expanded(child: _buildCourseImage()),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10),
+                          _buildCourseTitle(themeData.textTheme),
+                          _buildCourseSubtitle(themeData.textTheme),
+                          const SizedBox(height: 15),
+                          _buildLocation(),
+                          //_buildCourseIsLive(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -101,7 +125,7 @@ class CourseCard extends StatelessWidget {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 10 / 7,
+          aspectRatio: 16 / 12, //TODO how are the thumbnails given?
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
@@ -110,7 +134,38 @@ class CourseCard extends StatelessWidget {
             ),
           ),
         ),
+        /*Positioned(
+          bottom: 3, // Adjust this value based on your layout
+          right: 3, // Adjust this value based on your layout
+          child: _buildCourseViewerCount(),
+        ),*/
       ],
+    );
+  }
+
+  Widget _buildLocation() {
+    final redirect = ElevatedButton(
+      onPressed: () {},
+      child: null,
+    );
+
+    final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
+
+    return InkWell(
+      onTap: () async {
+        await launchUrl(url);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(roomName!),
+          //const SizedBox(width: 2),
+          Transform.scale(
+            scale: 0.6, // Adjust the scale factor as needed
+            child: ViewAllButton(onViewAll: () {}),
+          ),
+        ],
+      ),
     );
   }
 
@@ -129,10 +184,10 @@ class CourseCard extends StatelessWidget {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
-      maxLines: 3,
+      maxLines: 2, //TODO check that this never causes overflow
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
-            fontSize: 17,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
             height: 1,
           ) ??
@@ -144,6 +199,7 @@ class CourseCard extends StatelessWidget {
     return Text(
       subtitle!, //nullcheck already passed
       overflow: TextOverflow.ellipsis,
+      //maxLines: 2,
       style: textTheme.labelSmall?.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w400,
@@ -172,5 +228,23 @@ class CourseCard extends StatelessWidget {
             ),
           )
         : const SizedBox(); // Return an empty SizedBox if not live
+  }
+
+  Widget _buildCourseViewerCount(TextTheme textTheme) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: const EdgeInsets.all(3),
+      child: //spacing between dot and course number
+          Text("${viewerCount!} viewers",
+              style: textTheme.labelSmall?.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    height: 1,
+                  ) ??
+                  const TextStyle()),
+    ); // Return an empty SizedBox if not live
   }
 }

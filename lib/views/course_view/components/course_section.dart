@@ -7,6 +7,7 @@ import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/components/course_text_card_view.dart';
+import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 /// CourseSection
@@ -78,7 +79,7 @@ class CourseSection extends StatelessWidget {
               sectionKind: 0,
             )
           : _buildNoCoursesMessage(context, title));
-    } else  {
+    } else {
       return (courses.isNotEmpty
           ? _buildCourseSection(
               context: context,
@@ -104,8 +105,13 @@ class CourseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(context, title, onViewAll),
-          if (sectionKind == 1)
+          _buildSectionTitle(
+            context,
+            title,
+            sectionKind == 1 ? Icons.school : null,
+            onViewAll,
+          ),
+          if (sectionKind == 1 || sectionKind == 2)
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 300),
               child: FractionallySizedBox(
@@ -143,9 +149,9 @@ class CourseSection extends StatelessWidget {
                 ),
               ),
             )
-           else if (sectionKind == 0)
+          else if (sectionKind == 0)
             SizedBox(
-              height: streams != null ? 85 : 200,
+              height: streams != null ? 130 : 200,
               //TODO make this fit livestreams too
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -168,8 +174,11 @@ class CourseSection extends StatelessWidget {
                         .first;
                     return CourseCard(
                       title: stream.name,
+                      //TODO add link to tumRoomFinder
                       subtitle: course.name,
                       tumID: course.tUMOnlineIdentifier,
+                      roomName: stream.roomName,
+                      viewerCount: stream.vodViews.toString(),
                       path: imagePath,
                       live: true,
                       //stream.liveNow, TODO BUG why is this not always true
@@ -210,20 +219,39 @@ class CourseSection extends StatelessWidget {
   Row _buildSectionTitle(
     BuildContext context,
     String title,
+    IconData? icon,
     VoidCallback? onViewAll,
   ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        onViewAll != null
+            ? Row(
+                children: [
+                  icon != null
+                      ? const Row(
+                          children: [
+                            Icon(Icons.school),
+                            SizedBox(width: 10),
+                          ],
+                        )
+                      : const SizedBox(),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
+              )
+            : _buildLive(context),
         onViewAll != null
             ? ViewAllButton(onViewAll: onViewAll)
             : const SizedBox(),
       ],
     );
+  }
+
+  Widget _buildLive(BuildContext context) {
+    return const PulsingBackground(); //const SizedBox();
   }
 
   Widget _buildNoCoursesMessage(BuildContext context, String title) {
@@ -240,15 +268,13 @@ class CourseSection extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const Spacer(),
-// This will push the title to the start of the Row
             ],
           ),
-          const SizedBox(height: 20), // Spacing between title and icon
+          const SizedBox(height: 20),
           const Center(
-// Center the icon
             child: Icon(Icons.folder_open, size: 50, color: Colors.grey),
           ),
-          const SizedBox(height: 8), // Spacing between icon and text
+          const SizedBox(height: 8),
           Center(
             child: Text(
               'No $title found',
@@ -260,13 +286,10 @@ class CourseSection extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12), // Spacing between text and button
+          const SizedBox(height: 12),
           Center(
-// Center the button
             child: ElevatedButton(
-              onPressed: () {
-/* Action */
-              },
+              onPressed: () {},
               child: Text(
                 _buttonText(title),
               ),
