@@ -5,8 +5,8 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
-import 'package:gocast_mobile/views/course_view/components/course_text_card_view.dart';
 import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 /// CourseSection
@@ -132,7 +132,8 @@ class CourseSection extends StatelessWidget {
           /// End of temporary values
           debugPrint('Course streams1: ${course.streams}');
 
-          return CourseCardText(
+          return CourseCard(
+            isCourse: true,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
             lastLecture: course.streams.isNotEmpty
@@ -151,6 +152,17 @@ class CourseSection extends StatelessWidget {
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
             courseId: course.id,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseDetail(
+                    title: course.name,
+                    courseId: course.id,
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
@@ -174,6 +186,7 @@ class CourseSection extends StatelessWidget {
               courses.where((course) => course.id == stream.courseID).first;
 
           return CourseCard(
+            isCourse: false,
             title: stream.name,
             subtitle: course.name,
             tumID: course.tUMOnlineIdentifier,

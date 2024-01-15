@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
-import 'package:gocast_mobile/views/course_view/components/course_text_card_view.dart';
+import 'package:gocast_mobile/views/course_view/components/course_card.dart';
+import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 /// CoursesScreen
@@ -81,7 +82,7 @@ class CoursesList extends ConsumerWidget {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           final course = courses[index];
-          return CourseCardText(
+          return CourseCard(
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
             path: 'assets/images/course2.png',
@@ -90,6 +91,11 @@ class CoursesList extends ConsumerWidget {
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
             lastLecture: "asd",
+            isCourse: true,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyCourses()),
+            ),
           );
         },
         childCount: courses.length,

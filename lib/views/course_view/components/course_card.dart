@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
-import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Course card view
@@ -12,17 +11,27 @@ import 'package:url_launcher/url_launcher.dart';
 /// titles, subtitles and paths.
 class CourseCard extends StatelessWidget {
   final String title;
-  final String? subtitle;
   final String tumID;
+  final VoidCallback onTap;
+  final int courseId;
+
+  final bool isCourse; //true: course, false: stream
+
+  //for displaying courses
+  final bool? live;
+  final String? lastLecture;
+  final String? semester;
+
+  //for displaying livestreams
+  final String? subtitle;
   final String? roomName;
   final String? roomNumber;
   final String? viewerCount;
-  final String path;
-  final int courseId;
-  final VoidCallback? onTap;
+  final String? path;
 
   const CourseCard({
     super.key,
+    required this.isCourse,
     required this.title,
     this.subtitle,
     required this.tumID,
@@ -31,7 +40,10 @@ class CourseCard extends StatelessWidget {
     this.viewerCount,
     required this.path,
     required this.courseId,
-    this.onTap,
+    required this.onTap,
+    this.live,
+    this.lastLecture,
+    this.semester,
   });
 
   @override
@@ -46,18 +58,7 @@ class CourseCard extends StatelessWidget {
           : MediaQuery.of(context).size.width * 0.4; //TODO test
     }
     return InkWell(
-      onTap: onTap ??
-          () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CourseDetail(
-                  title: title,
-                  courseId: courseId,
-                ),
-              ),
-            );
-          },
+      onTap: onTap,
       child: Card(
         elevation: 1,
         shadowColor: themeData.shadowColor.withOpacity(0.5),
@@ -67,61 +68,102 @@ class CourseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
             color: themeData
-                .inputDecorationTheme.enabledBorder!.borderSide.color
-                .withOpacity(0.1), //TODO add check alternatives
+                    .inputDecorationTheme.enabledBorder?.borderSide.color
+                    .withOpacity(0.1) ??
+                Colors.grey.withOpacity(0.1),
             width: 1.0,
           ),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Container(
-            width: cardWidth,
-            padding: const EdgeInsets.all(8.0),
-            color: subtitle != null
-                ? themeData.cardColor
-                : themeData.cardTheme.color, // Apply card color from theme
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildCourseTumID(),
-                    _buildCourseViewerCount(themeData),
-                  ],
+          child: isCourse
+              ? _buildCourseCard(themeData, cardWidth)
+              : _buildStreamCard(
+                  themeData,
+                  cardWidth,
                 ),
-                const SizedBox(height: 2),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: _buildCourseImage(),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10),
-                          _buildCourseTitle(themeData.textTheme),
-                          _buildCourseSubtitle(themeData.textTheme),
-                          const SizedBox(height: 15),
-                          _buildLocation(),
-                          //_buildCourseIsLive(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
   }
 
+  Widget _buildStreamCard(ThemeData themeData, double cardWidth) {
+    return Container(
+      width: cardWidth,
+      padding: const EdgeInsets.all(8.0),
+      color: subtitle != null
+          ? themeData.cardColor
+          : themeData.cardTheme.color, // Apply card color from theme
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildCourseTumID(),
+              _buildCourseViewerCount(themeData),
+            ],
+          ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              SizedBox(
+                width: 100,
+                child: _buildCourseImage(),
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildCourseTitle(themeData.textTheme),
+                    _buildCourseSubtitle(themeData.textTheme),
+                    const SizedBox(height: 15),
+                    _buildLocation(),
+                    //_buildCourseIsLive(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseCard(ThemeData themeData, double cardWidth) {
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          _buildCourseColor(),
+          Expanded(
+            child: Container(
+              color: themeData.cardColor,
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildCourseTumID(),
+                      _buildCourseIsLive(),
+                    ],
+                  ),
+                  _buildCourseTitle(themeData.textTheme),
+                  _buildLastLecture(),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCourseImage() {
+    if (path == null) return const SizedBox();
     return Stack(
       children: [
         AspectRatio(
@@ -129,7 +171,7 @@ class CourseCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
-              path,
+              path!,
               fit: BoxFit.cover,
             ),
           ),
@@ -144,7 +186,12 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildLocation() {
-    final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
+    if (roomName == null) return const SizedBox();
+
+    final Uri url = roomName != null
+        ? Uri.parse('https://nav.tum.de/room/$roomNumber')
+        : Uri.parse(
+            'https://nav.tum.de/room/'); //will give an error on NavigaTUM
 
     return InkWell(
       onTap: () async {
@@ -161,7 +208,7 @@ class CourseCard extends StatelessWidget {
           //const SizedBox(width: 2),
           Transform.scale(
             scale: 0.6, // Adjust the scale factor as needed
-            child: ViewAllButton(onViewAll: () {}),
+            child: ViewAllButton(onViewAll: () {}), //TODO maybe remove this
           ),
         ],
       ),
@@ -196,6 +243,8 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseSubtitle(TextTheme textTheme) {
+    if (subtitle == null) return const SizedBox();
+
     return Text(
       subtitle!, //nullcheck already passed
       overflow: TextOverflow.ellipsis,
@@ -210,6 +259,7 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseViewerCount(ThemeData themeData) {
+    if (viewerCount == null) return const SizedBox();
     return Container(
       decoration: BoxDecoration(
         color: themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
@@ -227,5 +277,75 @@ class CourseCard extends StatelessWidget {
             const TextStyle(),
       ),
     ); // Return an empty SizedBox if not live
+  }
+
+  Widget _buildLastLecture() {
+    //TODO make responsive
+    return Text(
+      'Last Lecture: $lastLecture', //Thursday, 26/10/2023, 10:00',
+      style: TextStyle(
+        color: Colors.grey[600],
+        fontSize: 12.0,
+      ),
+    );
+  }
+
+  Widget _buildCourseIsLive() {
+    if (live == null) return const SizedBox();
+    return live!
+        ? const Row(
+            children: [
+              Icon(
+                Icons.circle,
+                size: 10,
+                color: Colors.red,
+              ),
+              SizedBox(width: 5), // Add spacing between the dot and text
+              Text(
+                'Live Now',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          )
+        : const SizedBox(); // Return an empty SizedBox if not live
+  }
+
+  Widget _buildCourseColor() {
+    return Container(
+      width: 5,
+      color: _colorPicker(),
+    );
+  }
+
+  Color _colorPicker() {
+    //TODO what are all the TUM faculties?
+    /** Colors:
+     * Informatik - IN: blue
+     * Mathe - MA: purple
+     * Chemie - CH
+     * Physik - PH
+     * Maschinenwesen - MW
+     * nothing/ other: gray
+     *
+     * Elektrotechnick - EL
+     * Management -
+     * Engineering
+     *
+     */
+    switch (tumID.substring(0, 2)) {
+      case 'IN':
+        return Colors.blue;
+      case 'MA':
+        return Colors.purple;
+      case 'CH':
+        return Colors.green;
+      case 'PH':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 }
