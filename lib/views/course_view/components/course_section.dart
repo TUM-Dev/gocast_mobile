@@ -114,9 +114,7 @@ class CourseSection extends StatelessWidget {
           if (sectionKind == 1 || sectionKind == 2)
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 400),
-              child: FractionallySizedBox(
-                widthFactor: 1.0,
-                child: ListView.builder(
+              child: ListView.builder(
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -160,17 +158,12 @@ class CourseSection extends StatelessWidget {
                     );
                   },
                 ),
-              ),
             )
           else if (sectionKind == 0)
-            SizedBox(
-              height: 130,
-              //TODO make this fit livestreams too
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: streams.length,
-                itemBuilder: (BuildContext context, int index) {
-                  /// Those are temporary values until we get the real data from the API
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: streams.map((stream) {
                   final Random random = Random();
                   String imagePath;
                   List<String> imagePaths = [
@@ -179,28 +172,24 @@ class CourseSection extends StatelessWidget {
                   ];
                   imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
-                  /// End of temporary values
-                  final stream = streams[index];
                   final course = courses
                       .where((course) => course.id == stream.courseID)
                       .first;
+
                   return CourseCard(
                     title: stream.name,
-                    //TODO add link to tumRoomFinder
                     subtitle: course.name,
                     tumID: course.tUMOnlineIdentifier,
                     roomName: stream.roomName,
                     roomNumber: stream.roomCode,
                     viewerCount: stream.vodViews.toString(),
                     path: imagePath,
-                    live: true,
-                    //stream.liveNow, TODO BUG why is this not always true
                     courseId: course.id,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          //TODO - is chat enabled in live mode
+                          //TODO - is chat enabled in live mode?
                           builder: (context) => VideoPlayerPage(
                             stream: stream,
                           ),
@@ -208,9 +197,10 @@ class CourseSection extends StatelessWidget {
                       );
                     },
                   );
-                                },
+                }).toList(),
               ),
             )
+
           else
             const SizedBox(),
         ],

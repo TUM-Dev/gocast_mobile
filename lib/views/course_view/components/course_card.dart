@@ -18,7 +18,6 @@ class CourseCard extends StatelessWidget {
   final String? roomNumber;
   final String? viewerCount;
   final String path;
-  final bool live;
   final int courseId;
   final VoidCallback? onTap;
 
@@ -31,7 +30,6 @@ class CourseCard extends StatelessWidget {
     this.roomNumber,
     this.viewerCount,
     required this.path,
-    required this.live,
     required this.courseId,
     this.onTap,
   });
