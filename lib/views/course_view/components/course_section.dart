@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:gocast_mobile/base/helpers/mock_data.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
@@ -53,8 +52,8 @@ class CourseSection extends StatelessWidget {
             title: sectionTitle,
             sectionKind: sectionKind,
             onViewAll: onViewAll,
-            courses: courses ?? MockData.mockCourses,
-            streams: streams ?? [], //TODO add mock streams
+            courses: courses,
+            streams: streams, //TODO add mock streams
           ),
         ],
       ),
@@ -165,11 +164,11 @@ class CourseSection extends StatelessWidget {
             )
           else if (sectionKind == 0)
             SizedBox(
-              height: streams != null ? 130 : 200,
+              height: 130,
               //TODO make this fit livestreams too
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: streams != null ? streams.length : courses.length,
+                itemCount: streams.length,
                 itemBuilder: (BuildContext context, int index) {
                   /// Those are temporary values until we get the real data from the API
                   final Random random = Random();
@@ -181,47 +180,35 @@ class CourseSection extends StatelessWidget {
                   imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
                   /// End of temporary values
-                  if (streams != null) {
-                    final stream = streams[index];
-                    final course = courses
-                        .where((course) => course.id == stream.courseID)
-                        .first;
-                    return CourseCard(
-                      title: stream.name,
-                      //TODO add link to tumRoomFinder
-                      subtitle: course.name,
-                      tumID: course.tUMOnlineIdentifier,
-                      roomName: stream.roomName,
-                      roomNumber: stream.roomCode,
-                      viewerCount: stream.vodViews.toString(),
-                      path: imagePath,
-                      live: true,
-                      //stream.liveNow, TODO BUG why is this not always true
-                      courseId: course.id,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            //TODO - is chat enabled in live mode
-                            builder: (context) => VideoPlayerPage(
-                              stream: stream,
-                            ),
+                  final stream = streams[index];
+                  final course = courses
+                      .where((course) => course.id == stream.courseID)
+                      .first;
+                  return CourseCard(
+                    title: stream.name,
+                    //TODO add link to tumRoomFinder
+                    subtitle: course.name,
+                    tumID: course.tUMOnlineIdentifier,
+                    roomName: stream.roomName,
+                    roomNumber: stream.roomCode,
+                    viewerCount: stream.vodViews.toString(),
+                    path: imagePath,
+                    live: true,
+                    //stream.liveNow, TODO BUG why is this not always true
+                    courseId: course.id,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          //TODO - is chat enabled in live mode
+                          builder: (context) => VideoPlayerPage(
+                            stream: stream,
                           ),
-                        );
-                      },
-                    );
-                  } else {
-                    final course = courses[index];
-
-                    return CourseCard(
-                      title: course.name,
-                      tumID: course.tUMOnlineIdentifier,
-                      path: imagePath,
-                      live: course.streams.any((stream) => stream.liveNow),
-                      courseId: course.id,
-                    );
-                  }
-                },
+                        ),
+                      );
+                    },
+                  );
+                                },
               ),
             )
           else
