@@ -30,14 +30,14 @@ class CourseSection extends StatelessWidget {
       sectionKind; //0 for livestreams, 1 cor mycourses, 2 for puliccourses
   final List<Course> courses;
   final List<Stream> streams;
-  final VoidCallback onViewAll;
+  final VoidCallback? onViewAll;
 
   const CourseSection({
     super.key,
     required this.sectionTitle,
     required this.sectionKind,
     required this.streams,
-    required this.onViewAll,
+    this.onViewAll,
     required this.courses,
   });
 
@@ -64,32 +64,20 @@ class CourseSection extends StatelessWidget {
     required BuildContext context,
     required String title,
     required int sectionKind,
-    required VoidCallback onViewAll,
+    VoidCallback? onViewAll,
     required List<Course> courses,
     required List<Stream> streams,
   }) {
-    if (sectionKind == 0) {
-      return (streams.isNotEmpty
-          ? _buildCourseSection(
-              context: context,
-              title: title,
-              courses: courses,
-              streams: streams,
-              sectionKind: 0,
-            )
-          : _buildNoCoursesMessage(context, title));
-    } else {
-      return (courses.isNotEmpty
-          ? _buildCourseSection(
-              context: context,
-              title: title,
-              onViewAll: onViewAll,
-              courses: courses,
-              streams: streams,
-              sectionKind: sectionKind,
-            )
-          : _buildNoCoursesMessage(context, title));
-    }
+    return (streams.isNotEmpty
+        ? _buildCourseSection(
+            context: context,
+            title: title,
+            onViewAll: onViewAll,
+            courses: courses,
+            streams: streams,
+            sectionKind: sectionKind,
+          )
+        : _buildNoCoursesMessage(context, title));
   }
 
   Widget _buildCourseSection({
@@ -99,111 +87,114 @@ class CourseSection extends StatelessWidget {
     required List<Course> courses,
     required List<Stream> streams,
     required int sectionKind,
-  })  {
+  }) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(
-            context,
-            title,
-            sectionKind == 1 ? Icons.school : null,
-            onViewAll,
-          ),
-          if (sectionKind == 1 || sectionKind == 2)
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 400),
-              child: ListView.builder(
-                  physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: courses.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    /// Those are temporary values until we get the real data from the API
-                    final Random random = Random();
-                    final course = courses[index];
-                    String imagePath;
-                    List<String> imagePaths = [
-                      AppImages.course1,
-                      AppImages.course2,
-                    ];
-                    imagePath = imagePaths[random.nextInt(imagePaths.length)];
-
-                    /// End of temporary values
-                    debugPrint('Course streams1: ${course.streams}');
-
-                    return CourseCardText(
-                      title: course.name,
-                      tumID: course.tUMOnlineIdentifier,
-                      lastLecture: course.streams.isNotEmpty
-                          ? course.streams
-                              .reduce(
-                                (a, b) => (a.end
-                                        .toDateTime()
-                                        .isAfter(b.end.toDateTime()))
-                                    ? a
-                                    : b,
-                              )
-                              .end
-                              .toString()
-                          : "unknown",
-                      path: imagePath,
-                      live:
-                          streams.any((stream) => stream.courseID == course.id),
-                      //course.streams.any((stream) => stream.liveNow),
-                      semester: course.semester.teachingTerm +
-                          course.semester.year.toString(),
-                      courseId: course.id,
-                    );
-                  },
+          sectionKind == 0
+              ? const PulsingBackground()
+              : _buildSectionTitle(
+                  context,
+                  title,
+                  sectionKind == 1 ? Icons.school : null,
+                  onViewAll,
                 ),
-            )
+          if (sectionKind == 1 || sectionKind == 2)
+            _buildCourseList(context)
           else if (sectionKind == 0)
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: streams.map((stream) {
-                  final Random random = Random();
-                  String imagePath;
-                  List<String> imagePaths = [
-                    AppImages.course1,
-                    AppImages.course2,
-                  ];
-                  imagePath = imagePaths[random.nextInt(imagePaths.length)];
-
-                  final course = courses
-                      .where((course) => course.id == stream.courseID)
-                      .first;
-
-                  return CourseCard(
-                    title: stream.name,
-                    subtitle: course.name,
-                    tumID: course.tUMOnlineIdentifier,
-                    roomName: stream.roomName,
-                    roomNumber: stream.roomCode,
-                    viewerCount: stream.vodViews.toString(),
-                    path: imagePath,
-                    courseId: course.id,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          //TODO - is chat enabled in live mode?
-                          builder: (context) => VideoPlayerPage(
-                            stream: stream,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
-            )
-
-          else
-            const SizedBox(),
+            _buildStreamList(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCourseList(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 400),
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: courses.length,
+        itemBuilder: (BuildContext context, int index) {
+          /// Those are temporary values until we get the real data from the API
+          final Random random = Random();
+          final course = courses[index];
+          String imagePath;
+          List<String> imagePaths = [
+            AppImages.course1,
+            AppImages.course2,
+          ];
+          imagePath = imagePaths[random.nextInt(imagePaths.length)];
+
+          /// End of temporary values
+          debugPrint('Course streams1: ${course.streams}');
+
+          return CourseCardText(
+            title: course.name,
+            tumID: course.tUMOnlineIdentifier,
+            lastLecture: course.streams.isNotEmpty
+                ? course.streams
+                    .reduce(
+                      (a, b) => (a.end.toDateTime().isAfter(b.end.toDateTime()))
+                          ? a
+                          : b,
+                    )
+                    .end
+                    .toString()
+                : "unknown",
+            path: imagePath,
+            live: streams.any((stream) => stream.courseID == course.id),
+            //course.streams.any((stream) => stream.liveNow),
+            semester:
+                course.semester.teachingTerm + course.semester.year.toString(),
+            courseId: course.id,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildStreamList(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: streams.map((stream) {
+          final Random random = Random();
+          String imagePath;
+          List<String> imagePaths = [
+            AppImages.course1,
+            AppImages.course2,
+          ];
+          imagePath = imagePaths[random.nextInt(imagePaths.length)];
+
+          final course =
+              courses.where((course) => course.id == stream.courseID).first;
+
+          return CourseCard(
+            title: stream.name,
+            subtitle: course.name,
+            tumID: course.tUMOnlineIdentifier,
+            roomName: stream.roomName,
+            roomNumber: stream.roomCode,
+            viewerCount: stream.vodViews.toString(),
+            path: imagePath,
+            courseId: course.id,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  //TODO - is chat enabled in live mode?
+                  builder: (context) => VideoPlayerPage(
+                    stream: stream,
+                  ),
+                ),
+              );
+            },
+          );
+        }).toList(),
       ),
     );
   }

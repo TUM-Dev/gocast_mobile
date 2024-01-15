@@ -72,13 +72,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                   CourseSection(
                     sectionTitle: "Live Now",
                     sectionKind: 0,
-                    onViewAll: () => Navigator.push(
-                      context,
-                      //TODO remove viewAll or add a LiveStreams page
-                      MaterialPageRoute(
-                        builder: (context) => const MyCourses(),
-                      ),
-                    ),
                     courses: userCourses ?? [],
                     streams: liveStreams ?? [],
                   ),
