@@ -29,17 +29,17 @@ class CourseSection extends StatelessWidget {
   final String sectionTitle;
   final int
       sectionKind; //0 for livestreams, 1 cor mycourses, 2 for puliccourses
-  final List<Course>? courses;
-  final List<Stream>? streams;
+  final List<Course> courses;
+  final List<Stream> streams;
   final VoidCallback onViewAll;
 
   const CourseSection({
     super.key,
     required this.sectionTitle,
     required this.sectionKind,
-    this.streams,
+    required this.streams,
     required this.onViewAll,
-    this.courses,
+    required this.courses,
   });
 
   @override
@@ -86,6 +86,7 @@ class CourseSection extends StatelessWidget {
               title: title,
               onViewAll: onViewAll,
               courses: courses,
+              streams: streams,
               sectionKind: sectionKind,
             )
           : _buildNoCoursesMessage(context, title));
@@ -97,9 +98,9 @@ class CourseSection extends StatelessWidget {
     required String title,
     VoidCallback? onViewAll,
     required List<Course> courses,
-    List<Stream>? streams,
+    required List<Stream> streams,
     required int sectionKind,
-  }) {
+  })  {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -149,10 +150,11 @@ class CourseSection extends StatelessWidget {
                               )
                               .end
                               .toString()
-                          :
-                          "unknown",
+                          : "unknown",
                       path: imagePath,
-                      live: course.streams.any((stream) => stream.liveNow),
+                      live:
+                          streams.any((stream) => stream.courseID == course.id),
+                      //course.streams.any((stream) => stream.liveNow),
                       semester: course.semester.teachingTerm +
                           course.semester.year.toString(),
                       courseId: course.id,

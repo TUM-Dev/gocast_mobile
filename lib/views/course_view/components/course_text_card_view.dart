@@ -93,7 +93,7 @@ class CourseCardText extends StatelessWidget {
   }
 
   Widget _buildCourseIsLive() {
-    return tumID.substring(0, 2) == "MA"
+    return live 
         ? const Row(
             children: [
               Icon(

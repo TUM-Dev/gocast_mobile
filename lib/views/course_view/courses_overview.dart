@@ -90,6 +90,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     MaterialPageRoute(builder: (context) => const MyCourses()),
                   ),
                   courses: userCourses ?? [],
+                  streams: liveStreams ?? [],
                 ),
                 CourseSection(
                   sectionTitle: "Public courses",
@@ -101,6 +102,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     ),
                   ),
                   courses: publicCourses ?? [],
+                  streams: liveStreams ?? [],
                   // Add other sections or content as needed
                 ),
               ],

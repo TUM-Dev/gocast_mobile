@@ -214,7 +214,7 @@ class CourseCard extends StatelessWidget {
   Widget _buildCourseViewerCount(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
-        color: themeData.shadowColor.withOpacity(0.2), //Colors.grey.shade300,
+        color: themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
         borderRadius: BorderRadius.circular(4),
       ),
       padding: const EdgeInsets.all(3),
@@ -223,7 +223,7 @@ class CourseCard extends StatelessWidget {
         "${viewerCount!} viewers",
         style: themeData.textTheme.labelSmall?.copyWith(
               fontSize: 12,
-              fontWeight: FontWeight.bold,
+              //fontWeight: FontWeight.bold,
               height: 1,
             ) ??
             const TextStyle(),
