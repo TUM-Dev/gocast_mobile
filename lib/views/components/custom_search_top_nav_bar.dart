@@ -29,7 +29,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
     return SafeArea(
       child: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         leading: isSearchActive
             ? IconButton(
@@ -41,7 +41,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
         title: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: isSearchActive
-              ? _buildSearchField(ref)
+              ? _buildSearchField(context)
               : Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -75,16 +75,17 @@ class CustomSearchTopNavBar extends ConsumerWidget
     );
   }
 
-  Widget _buildSearchField(WidgetRef ref) {
+  Widget _buildSearchField(BuildContext context) {
     return Container(
       width: 301,
       height: 36,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color:
+                Theme.of(context).appBarTheme.backgroundColor!.withOpacity(0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -96,12 +97,9 @@ class CustomSearchTopNavBar extends ConsumerWidget
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Search',
-          prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
-          hintStyle: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 17,
-            fontWeight: FontWeight.normal,
-          ),
+          prefixIcon: Icon(Icons.search,
+              color: Theme.of(context).inputDecorationTheme.hintStyle?.color),
+          hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
           hintMaxLines: 1,
           alignLabelWithHint: true,

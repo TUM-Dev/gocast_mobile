@@ -32,19 +32,17 @@ class FilterPopupMenuButton extends ConsumerWidget {
         return filterOptions.map((String choice) {
           return PopupMenuItem<String>(
             value: choice,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(choice),
-                if (selectedFilterOption == choice)
-                  Icon(Icons.check,
-                      size: 20, color: Theme.of(context).iconTheme.color),
-              ],
+            child: ListTile(
+              contentPadding: EdgeInsets.zero, // Removes any inherent padding
+              title: Text(choice),
+              trailing: selectedFilterOption == choice
+                  ? Icon(Icons.check, color: Theme.of(context).iconTheme.color)
+                  : null,
             ),
           );
         }).toList();
       },
-      icon: const Icon(Icons.filter_list, color: Colors.black),
+      icon: Icon(Icons.filter_list, color: Theme.of(context).iconTheme.color),
     );
   }
 
