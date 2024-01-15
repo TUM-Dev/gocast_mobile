@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 
 /// Course card view
 ///
@@ -14,6 +15,7 @@ class CourseCardText extends StatelessWidget {
   final String lastLecture;
   final String path;
   final bool live;
+  final int courseId;
 
   const CourseCardText({
     super.key,
@@ -23,7 +25,7 @@ class CourseCardText extends StatelessWidget {
     required this.lastLecture,
     required this.path,
     required this.live,
-    required int courseId,
+    required this.courseId,
   });
 
   @override
@@ -32,7 +34,15 @@ class CourseCardText extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // TODO: Add navigation to the course details screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseDetail(
+              title: title,
+              courseId: courseId,
+            ),
+          ),
+        );
       },
       child: Card(
         elevation: 1,
@@ -93,7 +103,7 @@ class CourseCardText extends StatelessWidget {
   }
 
   Widget _buildCourseIsLive() {
-    return live 
+    return live
         ? const Row(
             children: [
               Icon(
