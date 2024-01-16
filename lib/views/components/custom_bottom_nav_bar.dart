@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 
-
 class CustomBottomNavBar extends ConsumerWidget {
   const CustomBottomNavBar({super.key});
 
@@ -66,6 +65,7 @@ class CustomBottomNavBar extends ConsumerWidget {
   ) {
     ref.read(currentIndexProvider.notifier).state = index;
   }
+
   BottomNavigationBarItem _buildNavigationBarItem(
     IconData icon,
     String label,

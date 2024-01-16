@@ -25,7 +25,7 @@ dependencies:
   protobuf: ^3.1.0
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0
-  video_player: ^2.8.1
+  video_player: ^2.8.2
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.9
   flutter_local_notifications: ^16.3.0

@@ -107,7 +107,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     return Expanded(
       child: courseStreams.isNotEmpty
           ? ListView.builder(
-        itemCount: courseStreams.length,
+              itemCount: courseStreams.length,
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               itemBuilder: (context, index) => _streamCardBuilder(
                 context,
@@ -203,7 +203,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       SnackBar(content: Text(message)),
     );
   }
-  
+
   bool _checkPinStatus() {
     final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     // Iterate over the userPinned list and check if courseId matches

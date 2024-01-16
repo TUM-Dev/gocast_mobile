@@ -23,4 +23,3 @@ class StreamCard extends BaseCard {
     ];
   }
 }
-

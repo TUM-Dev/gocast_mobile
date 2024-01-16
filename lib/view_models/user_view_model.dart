@@ -280,4 +280,20 @@ class UserViewModel extends StateNotifier<UserState> {
     return SettingsHandler(_grpcHandler)
         .parsePlaybackSpeeds(state.userSettings);
   }
+
+  isCoursePinned(int id) {
+    if (state.userPinned == null) {
+      return false;
+    }
+    for (var course in state.userPinned!) {
+      if (course.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<UserSetting>? getUserSettings() {
+    return state.userSettings;
+  }
 }

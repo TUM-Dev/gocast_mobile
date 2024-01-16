@@ -9,6 +9,10 @@ void showPlaybackSpeedsPicker(
 ) {
   List<double> defaultSpeeds = List.generate(14, (index) => (index + 1) * 0.25);
 
+  if (!selectedSpeeds.contains(1.0)) {
+    selectedSpeeds.add(1.0);
+  }
+
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -26,12 +30,14 @@ void showPlaybackSpeedsPicker(
                           speed: speed,
                           isSelected: selectedSpeeds.contains(speed),
                           onTap: (double speed, bool isSelected) {
-                            setModalState(() {
-                              isSelected
-                                  ? selectedSpeeds.add(speed)
-                                  : selectedSpeeds.remove(speed);
-                              updateSelectedSpeeds(speed, isSelected);
-                            });
+                            if (speed != 1.0) {
+                              setModalState(() {
+                                isSelected
+                                    ? selectedSpeeds.add(speed)
+                                    : selectedSpeeds.remove(speed);
+                                updateSelectedSpeeds(speed, isSelected);
+                              });
+                            }
                           },
                         ),
                       if (selectedSpeeds
@@ -76,9 +82,14 @@ Widget _buildSpeedTile({
   required bool isSelected,
   required Function(double, bool) onTap,
 }) {
-  return ListTile(
-    title: Text('${speed}x'),
-    trailing: isSelected ? const Icon(Icons.check) : const SizedBox(),
-    onTap: () => onTap(speed, !isSelected),
+  bool isNonRemovable = speed == 1.0;
+
+  return Opacity(
+    opacity: isNonRemovable ? 0.6 : 1.0,
+    child: ListTile(
+      title: Text('${speed}x'),
+      trailing: isSelected ? const Icon(Icons.check) : const SizedBox(),
+      onTap: isNonRemovable ? null : () => onTap(speed, !isSelected),
+    ),
   );
 }
