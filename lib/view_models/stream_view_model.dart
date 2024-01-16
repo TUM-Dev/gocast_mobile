@@ -95,6 +95,32 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
+  Future<void> deleteAllDownloads() async {
+    _logger.i('Deleting all downloaded videos');
+    state = state.copyWith(isLoading: true);
+
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final files = Directory(directory.path).listSync();
+
+      for (final file in files) {
+        if (file is File && file.path.endsWith('.mp4')) {
+          await file.delete();
+          _logger.d('Deleted video file at: ${file.path}');
+        }
+      }
+
+      // Clear the downloaded videos map in the state
+      state = state.copyWith(downloadedVideos: {});
+
+      _logger.i('All downloaded videos have been deleted');
+    } catch (e) {
+      _logger.e('Error deleting all videos: $e');
+      // Handle the error appropriately
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
 
   Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');
