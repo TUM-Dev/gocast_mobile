@@ -103,13 +103,15 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   void _onSaveButtonPressed() {
-    if (preferredNameController.text.isNotEmpty) {
-      _updatePreferredName(preferredNameController.text);
-    } else {
-      setState(() {
-        infoText = 'Please enter a preferred name';
-        isError = true;
-      });
+    if (mounted) {
+      if (preferredNameController.text.isNotEmpty) {
+        _updatePreferredName(preferredNameController.text);
+      } else {
+        setState(() {
+          infoText = 'Please enter a preferred name';
+          isError = true;
+        });
+      }
     }
   }
 
