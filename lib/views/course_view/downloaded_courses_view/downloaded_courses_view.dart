@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player.dart';
@@ -19,8 +18,7 @@ class DownloadedCourses extends ConsumerWidget {
 
     //print('Number of downloaded videos: ${downloadedVideos.length}');
 
-    return downloadedVideos.isNotEmpty
-        ? DownloadCoursesContentView(
+    return  DownloadCoursesContentView(
       title: 'Downloads',
       videoCards: downloadedVideos.entries.map((entry) {
         final int videoId = entry.key;
@@ -54,19 +52,6 @@ class DownloadedCourses extends ConsumerWidget {
           },
         );
       }).toList(),
-    )
-        : BaseView(
-      showLeading: false,
-      title: '',
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.refresh),
-          onPressed: () async {
-            ref.read(videoViewModelProvider.notifier).fetchDownloadVideos();
-          },
-        ),
-      ],
-      child: const Center(child: Text('No downloaded courses')),
     );
   }
 }

@@ -4,6 +4,9 @@ import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 
+import '../../../providers.dart';
+import '../../../utils/constants.dart';
+
 /// CourseListScreen
 ///
 /// This screen displays a list of courses.
@@ -33,11 +36,25 @@ class DownloadCoursesContentView extends ConsumerWidget {
       ),
       showLeading: false,
       child: RefreshIndicator(
-        onRefresh: onRefresh ?? () async {},
+        onRefresh: onRefresh ?? () => ref.read(videoViewModelProvider.notifier).fetchDownloadVideos(),
         child: ListView.builder(
-          itemCount: videoCards.length,
+          itemCount: videoCards.isEmpty ? 1 : videoCards.length,
           itemBuilder: (BuildContext context, int index) {
-            return videoCards[index];
+            if (videoCards.isEmpty) {
+              return const Center(
+                child: Padding(
+                  padding: AppPadding.sectionPadding,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 295.0),
+                      child: Text('No Downloaded Courses'),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return videoCards[index];
+            }
           },
         ),
       ),
