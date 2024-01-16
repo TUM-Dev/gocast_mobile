@@ -38,23 +38,6 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> handleDownloadForStream(String videoUrl, Stream stream) async {
-    state = state.copyWith(isLoading: true);
-    String localPath = await downloadVideo(videoUrl, "downloaded_stream_${stream.id.toInt()}.mp4");
-
-    if (localPath.isNotEmpty) {
-      state = state.copyWith(
-          downloadedVideos: Map.from(state.downloadedVideos)..[stream.id.toInt()] = localPath,
-          isLoading: false,
-      );
-      _logger.d('Downloaded video for stream ID ${stream.id} to: $localPath'); // Debug statement
-
-      // Debug statement to check if downloads are being updated
-      _logger.d('Updated downloaded videos: ${state.downloadedVideos}');
-    } else {
-      state = state.copyWith(isLoading: false);
-    }
-  }
   Future<void> fetchDownloadVideos() async {
     state = state.copyWith(isLoading: true);
 

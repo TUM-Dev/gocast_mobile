@@ -226,18 +226,33 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   void _downloadVideo(Stream stream) {
-    // Define the URL of the video to download
-    const videoUrl ="https://file-examples.com/storage/fe320206cb65a2ffea0adca/2017/04/file_example_MP4_640_3MG.mp4";
+    // Extract the "Combined" download URL from the Stream object
+    String? combinedDownloadUrl;
+    for (var download in stream.downloads) {
+      if (download.friendlyName == "Combined") {
+        combinedDownloadUrl = download.downloadURL;
+        break;
+      }
+    }
+
+    // Check if the Combined URL is found
+    if (combinedDownloadUrl == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Combined download URL not found')),
+      );
+      return;
+    }
+
+    // Use the extracted URL for downloading
     const String fileName = "downloaded_video.mp4";
 
     // Call the download function from the StreamViewModel
     ref.read(videoViewModelProvider.notifier)
-        .downloadVideo(videoUrl, fileName)
+        .downloadVideo(combinedDownloadUrl, fileName)
         .then((localPath) {
       if (localPath.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Download completed: $localPath')),
-
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
