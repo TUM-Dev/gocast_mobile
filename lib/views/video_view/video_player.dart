@@ -234,6 +234,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         break;
       }
     }
+    combinedDownloadUrl ="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
 
     // Check if the Combined URL is found
     if (combinedDownloadUrl == null) {
@@ -245,20 +246,11 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
     // Use the extracted URL for downloading
     const String fileName = "downloaded_video.mp4";
-
     // Call the download function from the StreamViewModel
     ref.read(videoViewModelProvider.notifier)
         .downloadVideo(combinedDownloadUrl, fileName)
         .then((localPath) {
-      if (localPath.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Download completed: $localPath')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Download failed')),
-        );
-      }
     });
+
   }
 }
