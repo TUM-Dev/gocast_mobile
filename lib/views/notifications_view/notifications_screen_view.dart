@@ -42,7 +42,7 @@ class NotificationsScreen extends ConsumerWidget {
                   _buildSectionHeader('Feature Notifications'),
                   for (var notification in featureNotifications)
                     _buildFeatureNotification(notification),
-                  _buildSectionHeader('Push Notifications'),
+                  _buildSectionHeader('Recent Uploads'),
                   for (var notification in pushNotifications)
                     _buildPushNotification(notification),
                 ],

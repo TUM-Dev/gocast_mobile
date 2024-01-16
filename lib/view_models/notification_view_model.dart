@@ -1,11 +1,16 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
+import 'package:gocast_mobile/main.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/notifications/notification_state_model.dart';
 import 'package:gocast_mobile/models/notifications/push_notification.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
 
 class NotificationViewModel extends StateNotifier<NotificationState> {
@@ -13,6 +18,46 @@ class NotificationViewModel extends StateNotifier<NotificationState> {
   final GrpcHandler _grpcHandler;
 
   NotificationViewModel(this._grpcHandler) : super(const NotificationState());
+
+  /// Create instance of FCM
+  final _firebaseMessaging = FirebaseMessaging.instance;
+
+  /// Function to initialize notifications
+  Future<void> initPushNotifications() async {
+    // Request permission from user
+    await _firebaseMessaging.requestPermission();
+
+    // Fetch device_token
+    final deviceToken = await _firebaseMessaging.getToken();
+
+    // Send device_token to API
+    if (deviceToken != null) await postDeviceToken(deviceToken);
+
+    // App was terminated and now openen
+    FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+
+    // Attach event listener for notification opening the app
+    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+  }
+
+  /// Function to handle received messages
+  handleMessage(RemoteMessage? message) {
+    _logger.e("HandleMessage: $message");
+    if (message == null) return;
+
+    final msg = message.data['msg'];
+    final sum = message.data['sum'];
+
+    if (msg != null && sum != null) {
+      PushNotification notification = PushNotification(
+        body: msg,
+        title: sum,
+        receivedAt: DateTime.now(),
+        data: message.data,
+      );
+      addNotification(notification);
+    }
+  }
 
   addNotification(PushNotification notification) {
     _logger.i('Adding push notification');
@@ -22,7 +67,52 @@ class NotificationViewModel extends StateNotifier<NotificationState> {
     pushNotifications.add(notification);
 
     state = state.copyWith(pushNotifications: pushNotifications);
-    _logger.w("PushNOtifications = ${pushNotifications.length}");
+    _logger.w("PushNotifications = ${pushNotifications.length}");
+  }
+
+  void handleUploadNotifications(ref) {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    messaging.requestPermission();
+
+    final nvmn = ref.read(notificationViewModelProvider.notifier);
+
+    if (!isPushNotificationListenerSet) {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        final msg = message.data['msg'];
+        final sum = message.data['sum'];
+
+        if (msg != null && sum != null) {
+          PushNotification notification = PushNotification(
+            body: msg,
+            title: sum,
+            receivedAt: DateTime.now(),
+            data: message.data,
+          );
+          nvmn.addNotification(notification);
+          showDialog(
+            context: navigatorKey.currentContext!,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(notification.title),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(notification.body),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      });
+
+      // Handle incoming messages when the app is in the background but visible
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        debugPrint('TODO: A new onMessageOpenedApp event was published!');
+      });
+      isPushNotificationListenerSet = true;
+    }
   }
 
   Future<void> postDeviceToken(String deviceToken) async {
