@@ -15,11 +15,11 @@ class FilterPopupMenuButton extends ConsumerWidget {
     this.onSemesterSelected,
     this.semesters,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userViewModel = ref.watch(userViewModelProvider);
     final selectedFilterOption = userViewModel.selectedFilterOption;
+    final selectedSemester = ref.read(userViewModelProvider).selectedSemester;
 
     return PopupMenuButton<String>(
       onSelected: (choice) {
@@ -29,11 +29,14 @@ class FilterPopupMenuButton extends ConsumerWidget {
         }
       },
       itemBuilder: (BuildContext context) {
-        return filterOptions.map((String choice) {
+        return (selectedSemester == 'All'
+                ? filterOptions
+                : [selectedFilterOption])
+            .map((choice) {
           return PopupMenuItem<String>(
             value: choice,
             child: ListTile(
-              contentPadding: EdgeInsets.zero, // Removes any inherent padding
+              contentPadding: EdgeInsets.zero,
               title: Text(choice),
               trailing: selectedFilterOption == choice
                   ? Icon(Icons.check, color: Theme.of(context).iconTheme.color)
