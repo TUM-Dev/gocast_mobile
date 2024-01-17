@@ -103,12 +103,12 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   BoxDecoration getChatDecoration(bool isIOS) {
     return BoxDecoration(
-      color: isIOS ? CupertinoColors.systemBackground : Colors.white,
-      borderRadius: BorderRadius.circular(12),
+      color: isIOS ? Theme.of(context).appBarTheme.backgroundColor : Colors.white,
+      borderRadius: BorderRadius.circular(13),
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 2,
+          spreadRadius: 0.5,
           blurRadius: 4,
           offset: const Offset(0, 3),
         ),
@@ -175,13 +175,13 @@ class ChatViewState extends ConsumerState<ChatView> {
         onTap: () => postMessage(context, ref, controller.text),
         child: _isCooldownActive
             ? const CupertinoActivityIndicator()
-            : const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.activeBlue)
+            : const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.activeBlue,),
       ),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
     );
   }
 
