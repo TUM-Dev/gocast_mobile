@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/video_view/utils/suggested_streams_list.dart';
+import 'package:gocast_mobile/views/chat_view/suggested_streams_list.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:logger/logger.dart';
