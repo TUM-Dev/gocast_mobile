@@ -27,6 +27,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
 
   Future<void> postChatMessage(Int64 streamId, String message) async {
     try {
+      fetchChatMessages(streamId);
       var chatMessage = await ChatHandlers(_grpcHandler).postChatMessage(streamId, message);
       state = state.addMessage(chatMessage);
     } catch (e) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/video_view/utils/suggested_streams_list.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
+import 'package:logger/logger.dart';
 
 
 class ChatView extends ConsumerStatefulWidget {
@@ -26,11 +29,19 @@ class ChatView extends ConsumerStatefulWidget {
 
 class ChatViewState extends ConsumerState<ChatView> {
   late ScrollController _scrollController;
+  Timer? _updateTimer;
+  bool _isCooldownActive = false;
+
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _updateTimer = Timer.periodic(const Duration(seconds: 30), (_) {
+      if (mounted) {
+        ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID);
+      }
+    });
     Future.microtask(
           () => ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID),
     );
@@ -39,6 +50,7 @@ class ChatViewState extends ConsumerState<ChatView> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _updateTimer?.cancel();
     super.dispose();
   }
 
@@ -157,10 +169,13 @@ class ChatViewState extends ConsumerState<ChatView> {
   Widget buildIOSMessageInputField(TextEditingController controller) {
     return CupertinoTextField(
       controller: controller,
-      placeholder: 'Type a message...',
+      placeholder: _isCooldownActive ? 'Wait 30 seconds before sending another message' : 'Type a message...',
+      enabled: !_isCooldownActive,
       suffix: GestureDetector(
         onTap: () => postMessage(context, ref, controller.text),
-        child: const Icon(CupertinoIcons.arrow_right_circle_fill, color: CupertinoColors.activeBlue),
+        child: _isCooldownActive
+            ? const CupertinoActivityIndicator()
+            : const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.activeBlue)
       ),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
@@ -174,10 +189,13 @@ class ChatViewState extends ConsumerState<ChatView> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        hintText: 'Type a message...',
+        hintText: _isCooldownActive ? 'Wait 30 seconds before sending another message' : 'Type a message...',
+        enabled: !_isCooldownActive,
         suffixIcon: GestureDetector(
           onTap: () => postMessage(context, ref, controller.text),
-          child: const Icon(Icons.send, color: Colors.blue),
+          child: _isCooldownActive
+              ? const CircularProgressIndicator()
+              : const Icon(Icons.send, color: Colors.blue),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
@@ -235,11 +253,25 @@ class ChatViewState extends ConsumerState<ChatView> {
   }
 
   void postMessage(BuildContext context, WidgetRef ref, String message) {
-    if (message.isNotEmpty && message.trim().isNotEmpty) {
+    if (!_isCooldownActive && message.isNotEmpty && message.trim().isNotEmpty) {
       final Int64 streamId = widget.streamID;
       ref.read(chatViewModelProvider.notifier).postChatMessage(streamId, message);
+      // Start cooldown
+      Logger().i('Cooldown started');
+      setState(() {
+        _isCooldownActive = true;
+      });
+      Timer(const Duration(seconds: 30), () {
+        if (mounted) {
+          setState(() {
+            _isCooldownActive = false;
+          });
+        }
+      });
+      Logger().i('Cooldown stopped');
     }
   }
+
 
   void _scrollToBottom() {
     if (mounted && _scrollController.hasClients) {
