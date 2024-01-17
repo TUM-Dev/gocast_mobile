@@ -103,7 +103,7 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   BoxDecoration getChatDecoration(bool isIOS) {
     return BoxDecoration(
-      color: isIOS ? Theme.of(context).appBarTheme.backgroundColor : Colors.white,
+      color: Theme.of(context).appBarTheme.backgroundColor,
       borderRadius: BorderRadius.circular(13),
       boxShadow: [
         BoxShadow(
@@ -153,7 +153,7 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   BoxDecoration getMessageBubbleStyle(bool isSentByMe, bool isIOS) {
     return BoxDecoration(
-      color: isSentByMe ? (isIOS ? CupertinoColors.activeBlue : Colors.blue) : (isIOS ? CupertinoColors.systemGrey5 : Colors.grey[300]),
+      color: isSentByMe ? (isIOS ? CupertinoColors.activeBlue : Colors.blue) : (isIOS ? CupertinoColors.systemGrey6 : Colors.grey[300]),
       borderRadius: BorderRadius.circular(18),
     );
   }
