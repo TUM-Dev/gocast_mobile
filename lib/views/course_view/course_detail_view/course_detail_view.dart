@@ -118,10 +118,19 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Fetches user pinned information.
+
   Future<void> _refreshStreams(int courseID) async {
     await ref
         .read(videoViewModelProvider.notifier)
         .fetchCourseStreams(courseID);
+    if (mounted) {
+      setState(() {
+        allStreams = ref.watch(videoViewModelProvider).streams ?? [];
+        displayedStreams = allStreams;
+        _handleSortOptionSelected(
+            ref.read(userViewModelProvider).selectedFilterOption);
+      });
+    }
   }
 
   // In _courseTitle method of CourseDetailState

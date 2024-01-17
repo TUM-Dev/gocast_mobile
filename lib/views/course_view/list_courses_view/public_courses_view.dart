@@ -102,10 +102,23 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
       body: CoursesList(
         title: 'Public Courses',
         courses: displayedPublicCourses,
-        onRefresh: () async {
-          await ref.read(userViewModelProvider.notifier).fetchPublicCourses();
-        },
+        onRefresh: _refreshPublicCourses,
       ),
     );
+  }
+
+  Future<void> _refreshPublicCourses() async {
+    await ref.read(userViewModelProvider.notifier).fetchPublicCourses();
+    final selectedSemester =
+        ref.read(userViewModelProvider).selectedSemester ?? 'All';
+    if (mounted) {
+      setState(() {
+        allPublicCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
+        displayedPublicCourses = allPublicCourses;
+        _handleSortOptionSelected(
+            ref.read(userViewModelProvider).selectedFilterOption);
+        filterCoursesBySemester(selectedSemester);
+      });
+    }
   }
 }

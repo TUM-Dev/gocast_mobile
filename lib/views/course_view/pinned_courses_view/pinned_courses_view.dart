@@ -26,6 +26,17 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
   Future<void> _refreshPinnedCourses() async {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+    final selectedSemester =
+        ref.read(userViewModelProvider).selectedSemester ?? 'All';
+    if (mounted) {
+      setState(() {
+        allPinnedCourses = ref.watch(userViewModelProvider).userPinned ?? [];
+        displayedCourses = allPinnedCourses;
+        _handleSortOptionSelected(
+            ref.read(userViewModelProvider).selectedFilterOption);
+        filterCoursesBySemester(selectedSemester);
+      });
+    }
   }
 
   @override
@@ -43,7 +54,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
         setState(() {
-          allPinnedCourses = ref.read(userViewModelProvider).userPinned ?? [];
+          allPinnedCourses = ref.watch(userViewModelProvider).userPinned ?? [];
           displayedCourses = allPinnedCourses;
           _handleSortOptionSelected('Semester');
           filterCoursesBySemester(selectedSemester);
@@ -150,6 +161,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     } else {
       await viewModel.pinCourse(course.id);
     }
+    await _refreshPinnedCourses();
   }
 
   VideoSourceType determineSourceType(String videoSource) {

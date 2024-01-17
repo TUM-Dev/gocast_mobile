@@ -100,9 +100,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
         onSemesterSelected: filterCoursesBySemester,
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-        },
+        onRefresh: _refreshMyCourses,
         child: CoursesList(
           title: 'My Courses',
           courses: displayedUserCourses,
@@ -112,5 +110,20 @@ class MyCoursesState extends ConsumerState<MyCourses> {
         ),
       ),
     );
+  }
+
+  Future<void> _refreshMyCourses() async {
+    await ref.read(userViewModelProvider.notifier).fetchUserCourses();
+    final selectedSemester =
+        ref.read(userViewModelProvider).selectedSemester ?? 'All';
+    if (mounted) {
+      setState(() {
+        allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
+        displayedUserCourses = allUserCourses;
+        _handleSortOptionSelected(
+            ref.read(userViewModelProvider).selectedFilterOption);
+        filterCoursesBySemester(selectedSemester);
+      });
+    }
   }
 }
