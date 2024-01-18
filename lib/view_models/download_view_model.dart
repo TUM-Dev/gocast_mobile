@@ -114,5 +114,4 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-// ... other methods if necessary ...
 }
