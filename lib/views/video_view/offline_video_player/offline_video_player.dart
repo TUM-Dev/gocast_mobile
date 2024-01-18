@@ -141,7 +141,7 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
   }
 
   bool _shouldMarkAsWatched(double progress) {
-    const watchedThreshold = 0.9; // 80%
+    const watchedThreshold = 0.9; // 90%
     return progress >= watchedThreshold;
   }
 
