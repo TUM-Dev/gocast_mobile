@@ -70,12 +70,14 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
               children: [
                 if (isLoggedIn)
                   CourseSection(
+                    ref: ref,
                     sectionTitle: "Live Now",
                     sectionKind: 0,
                     courses: userCourses ?? [],
                     streams: liveStreams ?? [],
                   ),
                 CourseSection(
+                  ref: ref,
                   sectionTitle: "My courses",
                   sectionKind: 1,
                   onViewAll: () => Navigator.push(
@@ -86,6 +88,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                   streams: liveStreams ?? [],
                 ),
                 CourseSection(
+                  ref: ref,
                   sectionTitle: "Public courses",
                   sectionKind: 2,
                   onViewAll: () => Navigator.push(

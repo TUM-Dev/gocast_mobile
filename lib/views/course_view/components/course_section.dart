@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
@@ -31,9 +32,11 @@ class CourseSection extends StatelessWidget {
   final List<Course> courses;
   final List<Stream> streams;
   final VoidCallback? onViewAll;
+  final WidgetRef ref;
 
   const CourseSection({
     super.key,
+    required this.ref,
     required this.sectionTitle,
     required this.sectionKind,
     required this.streams,
@@ -43,11 +46,13 @@ class CourseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildCourseSectionOrMessage(
+            ref: ref,
             context: context,
             title: sectionTitle,
             sectionKind: sectionKind,
@@ -61,6 +66,7 @@ class CourseSection extends StatelessWidget {
   }
 
   Widget _buildCourseSectionOrMessage({
+    required WidgetRef ref,
     required BuildContext context,
     required String title,
     required int sectionKind,
@@ -70,6 +76,7 @@ class CourseSection extends StatelessWidget {
   }) {
     return (streams.isNotEmpty
         ? _buildCourseSection(
+      ref: ref,
             context: context,
             title: title,
             onViewAll: onViewAll,
@@ -81,6 +88,7 @@ class CourseSection extends StatelessWidget {
   }
 
   Widget _buildCourseSection({
+    required WidgetRef ref,
     required BuildContext context,
     required String title,
     VoidCallback? onViewAll,
@@ -134,18 +142,10 @@ class CourseSection extends StatelessWidget {
 
           return CourseCard(
             isCourse: true,
+            ref: ref,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            lastLecture: course.streams.isNotEmpty
-                ? course.streams
-                    .reduce(
-                      (a, b) => (a.end.toDateTime().isAfter(b.end.toDateTime()))
-                          ? a
-                          : b,
-                    )
-                    .end
-                    .toString()
-                : "unknown",
+            lastLecture: course.lastRecordingID,
             path: imagePath,
             live: streams.any((stream) => stream.courseID == course.id),
             //course.streams.any((stream) => stream.liveNow),
@@ -187,6 +187,7 @@ class CourseSection extends StatelessWidget {
 
           return CourseCard(
             isCourse: false,
+            ref: ref,
             title: stream.name,
             subtitle: course.name,
             tumID: course.tUMOnlineIdentifier,

@@ -1,4 +1,7 @@
+import 'package:fixnum/src/int64.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,10 +19,11 @@ class CourseCard extends StatelessWidget {
   final int courseId;
 
   final bool isCourse; //true: course, false: stream
+  final WidgetRef? ref;
 
   //for displaying courses
   final bool? live;
-  final String? lastLecture;
+  final int? lastLecture;
   final String? semester;
 
   //for displaying livestreams
@@ -31,6 +35,7 @@ class CourseCard extends StatelessWidget {
 
   const CourseCard({
     super.key,
+    this.ref,
     required this.isCourse,
     required this.title,
     this.subtitle,
@@ -57,6 +62,10 @@ class CourseCard extends StatelessWidget {
           ? MediaQuery.of(context).size.width * 0.2
           : MediaQuery.of(context).size.width * 0.4; //TODO test
     }
+
+/*    final videoModelNotifier = ref!.read(videoViewModelProvider.notifier);
+    final stream = videoModelNotifier.fetchStream(lastLecture as Int64);*/
+
     return InkWell(
       onTap: onTap,
       child: Card(
@@ -280,6 +289,25 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildLastLecture() {
+    if (lastLecture == null) return const SizedBox();
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          'Last Lecture: $lastLecture'!,
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontSize: 12.0,
+          ),
+        ),
+        //const SizedBox(width: 2),
+        Transform.scale(
+          scale: 0.5, // Adjust the scale factor as needed
+          child: ViewAllButton(onViewAll: () {}), //TODO maybe remove this
+        ),
+      ],
+    );
     //TODO make responsive
     return Text(
       'Last Lecture: $lastLecture', //Thursday, 26/10/2023, 10:00',
@@ -335,6 +363,8 @@ class CourseCard extends StatelessWidget {
      * Engineering
      *
      */
+    if (tumID.length < 2) return Colors.grey;
+
     switch (tumID.substring(0, 2)) {
       case 'IN':
         return Colors.blue;

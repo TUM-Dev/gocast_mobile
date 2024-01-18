@@ -90,7 +90,7 @@ class CoursesList extends ConsumerWidget {
             courseId: course.id,
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
-            lastLecture: "asd",
+            lastLecture: course.lastRecordingID,
             isCourse: true,
             onTap: () => Navigator.push(
               context,
