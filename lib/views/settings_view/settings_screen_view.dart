@@ -203,7 +203,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     if (!mounted) return;
     if (result == true) {
       // User decided to delete all downloads
-      await ref.read(videoViewModelProvider.notifier).deleteAllDownloads();
+      await ref.read(downloadViewModelProvider.notifier).deleteAllDownloads();
     }
 
     // Proceed with logout

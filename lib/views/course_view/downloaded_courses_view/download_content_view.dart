@@ -38,7 +38,7 @@ class DownloadCoursesContentView extends ConsumerWidget {
       child: RefreshIndicator(
         onRefresh: onRefresh ?? () async {
           // Ensure the correct provider is used here
-          await ref.read(videoViewModelProvider.notifier).fetchDownloadedVideos();
+          await ref.read(downloadViewModelProvider.notifier).fetchDownloadedVideos();
         },
         child: ListView.builder(
           itemCount: videoCards.isEmpty ? 1 : videoCards.length,

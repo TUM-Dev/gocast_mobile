@@ -13,7 +13,7 @@ class DownloadedCourses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final downloadedVideos = ref.watch(videoViewModelProvider).downloadedVideos;
+    final downloadedVideos = ref.watch(downloadViewModelProvider).downloadedVideos;
 
 
     //print('Number of downloaded videos: ${downloadedVideos.length}');
@@ -33,7 +33,9 @@ class DownloadedCourses extends ConsumerWidget {
           imageName: 'assets/images/course1.png',
           // Update as necessary
           title: 'Video $videoId', // Replace with the appropriate title
-          date: 'Video Date', // Replace with the appropriate date
+          date: 'Video Date',
+          // Replace with the appropriate date
+
           onTap: () {
             // Handle video tap, you can use videoId and localPath here
             Navigator.of(context).push(
@@ -47,7 +49,7 @@ class DownloadedCourses extends ConsumerWidget {
           },
           onDelete: () async {
             // Implement deletion logic here
-            await ref.read(videoViewModelProvider.notifier).deleteDownload(videoId);
+            await ref.read(downloadViewModelProvider.notifier).deleteDownload(videoId);
             // For example, delete the video file and update the state
           },
         );

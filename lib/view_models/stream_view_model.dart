@@ -7,9 +7,7 @@ import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/video/stream_state_model.dart';
 import 'package:logger/logger.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:dio/dio.dart';
+
 
 class StreamViewModel extends StateNotifier<StreamState> {
   final Logger _logger = Logger();
@@ -17,94 +15,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   StreamViewModel(this._grpcHandler) : super(const StreamState());
 
-  Future<String> downloadVideo(String videoUrl, String fileName) async {
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/$fileName';
-      Dio dio = Dio();
-      await dio.download(videoUrl, filePath);
-      _logger.d('Downloaded video to: $filePath'); // Debug statement
 
-      // Debug statement to check if downloads are being updated
-      state = state.copyWith(
-        downloadedVideos: Map.from(state.downloadedVideos)
-          ..[state.streams?.first.id.toInt() ?? -1] = filePath,
-      );
-      _logger.d('Downloaded videos: ${state.downloadedVideos}');
-      return filePath;
-    } catch (e) {
-      _logger.e("Error downloading video: $e");
-      return '';
-    }
-  }
-
-  Future<void> fetchDownloadedVideos() async {
-    state = state.copyWith(isLoading: true);
-
-    try {
-      // Assuming downloadedVideos is already populated correctly
-      _logger.d('Downloaded videos: ${state.downloadedVideos.keys}'); // Debug statement
-      state = state.copyWith(isLoading: false);
-    } catch (e) {
-      _logger.e('Error fetching downloaded videos: $e');
-      state = state.copyWith(isLoading: false);
-    }
-  }
-  Future<void> deleteDownload(int videoId) async {
-    _logger.i('Deleting downloaded video with ID: $videoId');
-    state = state.copyWith(isLoading: true);
-
-    try {
-      String? filePath = state.downloadedVideos[videoId];
-      if (filePath != null && filePath.isNotEmpty) {
-        final file = File(filePath);
-        if (await file.exists()) {
-          await file.delete();
-          _logger.d('Deleted video file at: $filePath');
-
-          // Update the state by removing the video from the downloadedVideos map
-          var updatedDownloads = Map<int, String>.from(state.downloadedVideos);
-          updatedDownloads.remove(videoId);
-          state = state.copyWith(downloadedVideos: updatedDownloads);
-        } else {
-          _logger.w('File not found: $filePath');
-        }
-      } else {
-        _logger.w('No file path found for video ID: $videoId');
-      }
-    } catch (e) {
-      _logger.e('Error deleting video with ID $videoId: $e');
-    } finally {
-      state = state.copyWith(isLoading: false);
-    }
-  }
-
-  Future<void> deleteAllDownloads() async {
-    _logger.i('Deleting all downloaded videos');
-    state = state.copyWith(isLoading: true);
-
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final files = Directory(directory.path).listSync();
-
-      for (final file in files) {
-        if (file is File && file.path.endsWith('.mp4')) {
-          await file.delete();
-          _logger.d('Deleted video file at: ${file.path}');
-        }
-      }
-
-      // Clear the downloaded videos map in the state
-      state = state.copyWith(downloadedVideos: {});
-
-      _logger.i('All downloaded videos have been deleted');
-    } catch (e) {
-      _logger.e('Error deleting all videos: $e');
-      // Handle the error appropriately
-    } finally {
-      state = state.copyWith(isLoading: false);
-    }
-  }
 
   Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');

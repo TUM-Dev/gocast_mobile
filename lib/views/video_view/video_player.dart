@@ -249,8 +249,8 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       const SnackBar(content: Text('Downloading Video')),
     );
     // Call the download function from the StreamViewModel
-    ref.read(videoViewModelProvider.notifier)
-        .downloadVideo(combinedDownloadUrl, fileName)
+    ref.read(downloadViewModelProvider.notifier)
+        .downloadVideo(combinedDownloadUrl,stream.id ,fileName)
         .then((localPath) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Video Downloaded')),
