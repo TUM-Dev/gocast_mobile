@@ -47,7 +47,6 @@ class CourseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +76,7 @@ class CourseSection extends StatelessWidget {
   }) {
     return (streams.isNotEmpty
         ? _buildCourseSection(
-      ref: ref,
+            ref: ref,
             context: context,
             title: title,
             onViewAll: onViewAll,
@@ -120,8 +119,10 @@ class CourseSection extends StatelessWidget {
   }
 
   Widget _buildCourseList(BuildContext context) {
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 400),
+      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
       child: ListView.builder(
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,

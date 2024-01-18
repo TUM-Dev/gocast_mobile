@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
-import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
@@ -42,6 +41,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final publicCourses = ref.watch(userViewModelProvider).publicCourses;
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
 
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+
     return BaseView(
       showLeading: false,
       title: 'GoCast',
@@ -69,43 +70,68 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
             child: Column(
               children: [
                 if (isLoggedIn)
-                  CourseSection(
-                    ref: ref,
-                    sectionTitle: "Live Now",
-                    sectionKind: 0,
-                    courses: userCourses ?? [],
-                    streams: liveStreams ?? [],
+                  _buildSection(
+                    "Live Now",
+                    0,
+                    (userCourses ?? []) + (publicCourses ?? []),
+                    liveStreams,
                   ),
-                CourseSection(
-                  ref: ref,
-                  sectionTitle: "My courses",
-                  sectionKind: 1,
-                  onViewAll: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyCourses()),
-                  ),
-                  courses: userCourses ?? [],
-                  streams: liveStreams ?? [],
-                ),
-                CourseSection(
-                  ref: ref,
-                  sectionTitle: "Public courses",
-                  sectionKind: 2,
-                  onViewAll: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PublicCourses(),
-                    ),
-                  ),
-                  courses: publicCourses ?? [],
-                  streams: liveStreams ?? [],
-                  // Add other sections or content as needed
-                ),
+                const SizedBox(height: 50,),
+                isTablet
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _buildSection(
+                              "My Courses",
+                              1,
+                              userCourses,
+                              liveStreams,
+                            ),
+                          ),
+                          Expanded(
+                            child: _buildSection(
+                              "Public Courses",
+                              2,
+                              publicCourses,
+                              liveStreams,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          _buildSection(
+                              "My Courses", 1, userCourses, liveStreams),
+                          _buildSection(
+                              "Public Courses", 2, publicCourses, liveStreams),
+                        ],
+                      )
+
+                // Add other sections or content as needed
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSection(String title, int sectionKind, courses, streams) {
+    //TODO maybe add types?
+    return CourseSection(
+      ref: ref,
+      sectionTitle: title,
+      sectionKind: sectionKind,
+      onViewAll: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PublicCourses(),
+        ),
+      ),
+      courses: courses,
+      //publicCourses ?? [],
+      streams: streams, //liveStreams ?? [],
     );
   }
 

@@ -65,15 +65,11 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = subtitle == null
-        ? MediaQuery.of(context).size.width * 0.4
-        : MediaQuery.of(context).size.width * 0.9;
     ThemeData themeData = Theme.of(context);
-    if (MediaQuery.of(context).size.width >= 600) {
-      cardWidth = subtitle == null
-          ? MediaQuery.of(context).size.width * 0.2
-          : MediaQuery.of(context).size.width * 0.4; //TODO test
-    }
+
+    double cardWidth = MediaQuery.of(context).size.width >= 600
+        ? MediaQuery.of(context).size.width * 0.4
+        : MediaQuery.of(context).size.width * 0.9; //TODO test
 
     return InkWell(
       onTap: onTap,
