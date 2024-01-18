@@ -12,7 +12,7 @@ class StreamState  {
   final Progress? progress;
   final bool isWatched;
   final String? videoSource;
-  final Map<int, String> downloadedVideos;
+
 
   const StreamState({
     this.isLoading = false,
@@ -23,7 +23,6 @@ class StreamState  {
     this.progress,
     this.isWatched = false,
     this.videoSource,
-    this.downloadedVideos = const {},
   });
 
   StreamState copyWith({
@@ -46,7 +45,6 @@ class StreamState  {
       progress: progress ?? this.progress,
       isWatched: isWatched ?? this.isWatched,
       videoSource: videoSource ?? this.videoSource,
-      downloadedVideos: downloadedVideos ?? this.downloadedVideos,
     );
   }
 

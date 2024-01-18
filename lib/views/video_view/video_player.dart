@@ -234,7 +234,6 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         break;
       }
     }
-   // combinedDownloadUrl ="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_640_3MG.mp4";
     // Check if the Combined URL is found
     if (combinedDownloadUrl == null ) {
       ScaffoldMessenger.of(context).showSnackBar(

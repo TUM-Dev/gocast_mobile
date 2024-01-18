@@ -37,9 +37,9 @@ class CustomVideoControlBar extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final userViewModel = ref.read(userViewModelProvider.notifier);
-        final videoViewModel = ref.read(videoViewModelProvider.notifier);
+        final downloadViewModel = ref.read(downloadViewModelProvider.notifier);
         final isPinned = userViewModel.isCoursePinned(currentStream.courseID);
-        final isDownloaded = videoViewModel.isStreamDownloaded(currentStream.id);
+        final isDownloaded = downloadViewModel.isStreamDownloaded(currentStream.id);
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),

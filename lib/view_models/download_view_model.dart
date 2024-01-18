@@ -113,5 +113,9 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error deleting all videos: $e');
     }
   }
+  bool isStreamDownloaded(Int64 id) {
+    final int streamIdInt = id.toInt();  // Convert Int64 to int
+    return state.downloadedVideos.containsKey(streamIdInt);
+  }
 
 }

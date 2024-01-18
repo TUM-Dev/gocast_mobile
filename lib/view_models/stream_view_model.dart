@@ -188,7 +188,4 @@ class StreamViewModel extends StateNotifier<StreamState> {
     state = state.copyWith(progress: Progress(progress: savedProgress));
   }
 
-  bool isStreamDownloaded(Int64 id) {
-    return state.downloadedVideos.containsKey(id.toInt());
-  }
 }
