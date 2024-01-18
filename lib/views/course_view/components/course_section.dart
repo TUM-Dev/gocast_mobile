@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -142,7 +143,7 @@ class CourseSection extends StatelessWidget {
             ref: ref,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            lastLecture: course.lastRecordingID,
+            lastLectureId: Int64(course.lastRecordingID),
             path: imagePath,
             live: streams.any((stream) => stream.courseID == course.id),
             //course.streams.any((stream) => stream.liveNow),

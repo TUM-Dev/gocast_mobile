@@ -25,7 +25,7 @@ class CourseCard extends StatelessWidget {
 
   //for displaying courses
   final bool? live;
-  final int? lastLecture;
+  final Int64? lastLectureId;
   final String? semester;
 
   //for displaying livestreams
@@ -49,15 +49,18 @@ class CourseCard extends StatelessWidget {
     required this.courseId,
     required this.onTap,
     this.live,
-    this.lastLecture,
+    this.lastLectureId,
     this.semester,
   });
 
   Future<void> fetchDataAsync(BuildContext context) async {
-    // You can also use the context to read providers asynchronously
-    final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
-    videoViewModelNotifier.fetchStream(Int64(lastLecture!));
-    // Do something with videoModelNotifier (optional)
+    print("Course card: streams are being fetched");
+    print("Last Recording ID $lastLectureId");
+
+    if (lastLectureId != null) {
+      final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
+      videoViewModelNotifier.fetchStream(lastLectureId!);
+    }
   }
 
   @override
@@ -300,16 +303,16 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildLastLecture(BuildContext context) {
-    if (lastLecture == null) return const SizedBox();
+    if (lastLectureId == null) return const SizedBox();
 
     return ViewAllButton(
       icon: Icons.north_east,
-      onViewAll: _buildLastStream(context, Int64(lastLecture!)),
+      onViewAll: _buildLastStream(context, lastLectureId!),
       text: 'Last Lecture',
     );
   }
 
-  VoidCallback _buildLastStream(BuildContext context, Int64 streamId) {
+  VoidCallback _buildLastStream(BuildContext context, Int64 lastLectureId) {
     return () async {
       await fetchDataAsync(context);
 
