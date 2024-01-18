@@ -3,7 +3,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 
 @immutable
-class StreamState {
+class StreamState  {
   final bool isLoading;
   final List<Stream>? streams;
   final List<Stream>? liveStreams;
@@ -12,6 +12,7 @@ class StreamState {
   final Progress? progress;
   final bool isWatched;
   final String? videoSource;
+
 
   const StreamState({
     this.isLoading = false,
@@ -33,6 +34,7 @@ class StreamState {
     Progress? progress,
     bool? isWatched,
     String? videoSource,
+    Map<int, String>? downloadedVideos,
   }) {
     return StreamState(
       isLoading: isLoading ?? this.isLoading,

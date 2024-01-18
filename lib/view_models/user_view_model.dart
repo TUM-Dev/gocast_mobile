@@ -22,12 +22,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 
+
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
 
   final GrpcHandler _grpcHandler;
 
   UserViewModel(this._grpcHandler) : super(const UserState());
+
+
 
   /// Handles basic authentication.
   /// If the authentication is successful, it navigates to the courses screen.
