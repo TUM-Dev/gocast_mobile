@@ -29,7 +29,7 @@ class FilterPopupMenuButton extends ConsumerWidget {
         }
       },
       itemBuilder: (BuildContext context) {
-        return (selectedSemester == 'All'
+        return (selectedSemester == 'All' || filterOptions.length == 2
                 ? filterOptions
                 : [selectedFilterOption])
             .map((choice) {

@@ -24,6 +24,31 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   late List<Course> temp;
   bool isSearchInitialized = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _initializeCourses();
+    searchController.addListener(_searchCourses);
+  }
+
+  void _initializeCourses() {
+    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+
+    Future.microtask(() async {
+      await userViewModelNotifier.fetchUserPinned();
+      if (mounted) {
+        setState(() {
+          allPinnedCourses = ref.watch(userViewModelProvider).userPinned ?? [];
+          displayedCourses = allPinnedCourses;
+          _handleSortOptionSelected('Semester');
+          filterCoursesBySemester(
+              ref.read(userViewModelProvider).currentAsString ?? 'All');
+          isLoading = false; // Set isLoading to false here
+        });
+      }
+    });
+  }
+
   Future<void> _refreshPinnedCourses() async {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
     final selectedSemester =
@@ -37,31 +62,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         filterCoursesBySemester(selectedSemester);
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeCourses();
-    searchController.addListener(_searchCourses);
-  }
-
-  void _initializeCourses() {
-    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
-    final selectedSemester =
-        ref.read(userViewModelProvider).selectedSemester ?? 'All';
-    Future.microtask(() async {
-      await userViewModelNotifier.fetchUserPinned();
-      if (mounted) {
-        setState(() {
-          allPinnedCourses = ref.watch(userViewModelProvider).userPinned ?? [];
-          displayedCourses = allPinnedCourses;
-          _handleSortOptionSelected('Semester');
-          filterCoursesBySemester(selectedSemester);
-          isLoading = false; // Set isLoading to false here
-        });
-      }
-    });
   }
 
   void filterCoursesBySemester(String selectedSemester) {

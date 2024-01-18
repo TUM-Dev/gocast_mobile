@@ -31,8 +31,6 @@ class MyCoursesState extends ConsumerState<MyCourses> {
 
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
-    final selectedSemester =
-        ref.read(userViewModelProvider).selectedSemester ?? 'All';
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
@@ -41,10 +39,26 @@ class MyCoursesState extends ConsumerState<MyCourses> {
           displayedUserCourses = allUserCourses;
           isLoading = false; // Set isLoading to false here
           _handleSortOptionSelected('Semester');
-          filterCoursesBySemester(selectedSemester);
+          filterCoursesBySemester(
+              ref.read(userViewModelProvider).currentAsString ?? 'All');
         });
       }
     });
+  }
+
+  Future<void> _refreshMyCourses() async {
+    await ref.read(userViewModelProvider.notifier).fetchUserCourses();
+    final selectedSemester =
+        ref.read(userViewModelProvider).selectedSemester ?? 'All';
+    if (mounted) {
+      setState(() {
+        allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
+        displayedUserCourses = allUserCourses;
+        _handleSortOptionSelected(
+            ref.read(userViewModelProvider).selectedFilterOption);
+        filterCoursesBySemester(selectedSemester);
+      });
+    }
   }
 
   void _handleSortOptionSelected(String choice) {
@@ -112,18 +126,4 @@ class MyCoursesState extends ConsumerState<MyCourses> {
     );
   }
 
-  Future<void> _refreshMyCourses() async {
-    await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-    final selectedSemester =
-        ref.read(userViewModelProvider).selectedSemester ?? 'All';
-    if (mounted) {
-      setState(() {
-        allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
-        displayedUserCourses = allUserCourses;
-        _handleSortOptionSelected(
-            ref.read(userViewModelProvider).selectedFilterOption);
-        filterCoursesBySemester(selectedSemester);
-      });
-    }
-  }
 }

@@ -30,8 +30,6 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
 
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
-    final selectedSemester =
-        ref.read(userViewModelProvider).selectedSemester ?? 'All';
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
       if (mounted) {
@@ -41,7 +39,8 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
           displayedPublicCourses = allPublicCourses;
           isLoading = false; // Set isLoading to false here
           _handleSortOptionSelected('Semester');
-          filterCoursesBySemester(selectedSemester);
+          filterCoursesBySemester(
+              ref.read(userViewModelProvider).currentAsString ?? 'All');
         });
       }
     });

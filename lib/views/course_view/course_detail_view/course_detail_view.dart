@@ -34,7 +34,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     _initializeStreams();
     searchController.addListener(_searchCourses);
   }
-
   // set the thumbnails streams and search results
   void _initializeStreams() {
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
