@@ -49,11 +49,11 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: preferredNameController,
-              maxLength: 50,
+              maxLength: 80,
               decoration: InputDecoration(
                 hintText: 'Enter your preferred name',
                 border: const OutlineInputBorder(),
-                counterText: '${preferredNameController.text.length}/50',
+                counterText: '${preferredNameController.text.length}/80',
               ),
             ),
             const SizedBox(height: 16),
@@ -103,7 +103,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   void _onSaveButtonPressed() {
-    String preferredName = preferredNameController.text;
+    String preferredName = preferredNameController.text.trim();
     if (preferredName.isEmpty) {
       setState(() {
         infoText = 'Please enter a preferred name';
