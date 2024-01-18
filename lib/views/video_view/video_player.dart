@@ -234,6 +234,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         break;
       }
     }
+    //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
     // Check if the Combined URL is found
     if (combinedDownloadUrl == null ) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -243,7 +244,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     }
 
     // Use the extracted URL for downloading
-     String fileName = stream.name;
+     String fileName = "stream.mp4";
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Downloading Video')),
     );

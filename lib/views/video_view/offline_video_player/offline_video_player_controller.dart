@@ -25,10 +25,18 @@ class OfflineVideoPlayerControllerManager {
   }
 
   Future<void> initializePlayer() async {
+    final file = File(localPath);
+    if (!await file.exists()) {
+      // Handle the case where the video file doesn't exist
+      //print('Video file does not exist at path: $localPath');
+      return;
+    }
+    //print('Video file  exist at path: $localPath');
+
+    videoPlayerController = _createVideoPlayerController(localPath);
     await videoPlayerController.initialize();
     chewieController = _createChewieController();
   }
-
   ChewieController _createChewieController() {
     return ChewieController(
       videoPlayerController: videoPlayerController,

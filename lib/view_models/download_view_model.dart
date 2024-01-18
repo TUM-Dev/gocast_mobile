@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'dart:io';
-
 import '../models/download_state_model.dart';
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
@@ -25,7 +24,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       state = state.copyWith(downloadedVideos: downloadedVideos);
     }
   }
-
   Future<String> downloadVideo(String videoUrl, Int64 streamId, String fileName) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
@@ -35,7 +33,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.d('Downloaded video to: $filePath');
 
       final prefs = await SharedPreferences.getInstance();
-      // Convert Int64 to int
       final int streamIdInt = streamId.toInt();
       final downloadedVideos = Map<int, String>.from(state.downloadedVideos)
         ..[streamIdInt] = filePath;
@@ -50,6 +47,8 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       return '';
     }
   }
+
+
 
 
   Future<void> fetchDownloadedVideos() async {

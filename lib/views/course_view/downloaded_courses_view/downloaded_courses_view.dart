@@ -26,6 +26,7 @@ class DownloadedCourses extends ConsumerWidget {
 
         //print('Video ID: $videoId');
        // print('Local Path: $localPath');
+        //print('Trying to play video from path: $localPath');
 
         return VideoCard(
           duration:
@@ -35,6 +36,7 @@ class DownloadedCourses extends ConsumerWidget {
           title: 'Video $videoId', // Replace with the appropriate title
           date: 'Video Date',
           // Replace with the appropriate date
+
 
           onTap: () {
             // Handle video tap, you can use videoId and localPath here
