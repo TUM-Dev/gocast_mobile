@@ -317,7 +317,8 @@ class CourseCard extends StatelessWidget {
           ref!.watch(videoViewModelProvider).streams;
 
       if (lastLectureStream != null || lastLectureStream!.isNotEmpty) {
-        Navigator.push(
+        if (context.mounted) {
+          Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => VideoPlayerPage(
@@ -325,6 +326,7 @@ class CourseCard extends StatelessWidget {
             ),
           ),
         );
+        }
       }
     };
   }
