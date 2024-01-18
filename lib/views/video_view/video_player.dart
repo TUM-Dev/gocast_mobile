@@ -244,7 +244,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     }
 
     // Use the extracted URL for downloading
-    const String fileName = "downloaded_video.mp4";
+     String fileName = stream.name;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Downloading Video')),
     );
