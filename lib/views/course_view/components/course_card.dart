@@ -1,8 +1,10 @@
-import 'package:fixnum/src/int64.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Course card view
@@ -51,6 +53,13 @@ class CourseCard extends StatelessWidget {
     this.semester,
   });
 
+  Future<void> fetchDataAsync(BuildContext context) async {
+    // You can also use the context to read providers asynchronously
+    final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
+    videoViewModelNotifier.fetchStream(Int64(lastLecture!));
+    // Do something with videoModelNotifier (optional)
+  }
+
   @override
   Widget build(BuildContext context) {
     double cardWidth = subtitle == null
@@ -62,9 +71,6 @@ class CourseCard extends StatelessWidget {
           ? MediaQuery.of(context).size.width * 0.2
           : MediaQuery.of(context).size.width * 0.4; //TODO test
     }
-
-/*    final videoModelNotifier = ref!.read(videoViewModelProvider.notifier);
-    final stream = videoModelNotifier.fetchStream(lastLecture as Int64);*/
 
     return InkWell(
       onTap: onTap,
@@ -86,7 +92,7 @@ class CourseCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: isCourse
-              ? _buildCourseCard(themeData, cardWidth)
+              ? _buildCourseCard(themeData, cardWidth, context)
               : _buildStreamCard(
                   themeData,
                   cardWidth,
@@ -141,7 +147,11 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseCard(ThemeData themeData, double cardWidth) {
+  Widget _buildCourseCard(
+    ThemeData themeData,
+    double cardWidth,
+    BuildContext context,
+  ) {
     return IntrinsicHeight(
       child: Row(
         children: [
@@ -161,7 +171,7 @@ class CourseCard extends StatelessWidget {
                     ],
                   ),
                   _buildCourseTitle(themeData.textTheme),
-                  _buildLastLecture(),
+                  _buildLastLecture(context),
                 ],
               ),
             ),
@@ -200,7 +210,8 @@ class CourseCard extends StatelessWidget {
     final Uri url = roomName != null
         ? Uri.parse('https://nav.tum.de/room/$roomNumber')
         : Uri.parse(
-            'https://nav.tum.de/room/'); //will give an error on NavigaTUM
+            'https://nav.tum.de/room/',
+          ); //will give an error on NavigaTUM
 
     return InkWell(
       onTap: () async {
@@ -288,34 +299,34 @@ class CourseCard extends StatelessWidget {
     ); // Return an empty SizedBox if not live
   }
 
-  Widget _buildLastLecture() {
+  Widget _buildLastLecture(BuildContext context) {
     if (lastLecture == null) return const SizedBox();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          'Last Lecture: $lastLecture'!,
-          style: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 12.0,
+    return ViewAllButton(
+      icon: Icons.north_east,
+      onViewAll: _buildLastStream(context, Int64(lastLecture!)),
+      text: 'Last Lecture',
+    );
+  }
+
+  VoidCallback _buildLastStream(BuildContext context, Int64 streamId) {
+    return () async {
+      await fetchDataAsync(context);
+
+      final List<Stream>? lastLectureStream =
+          ref!.watch(videoViewModelProvider).streams;
+
+      if (lastLectureStream != null || lastLectureStream!.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VideoPlayerPage(
+              stream: lastLectureStream.first,
+            ),
           ),
-        ),
-        //const SizedBox(width: 2),
-        Transform.scale(
-          scale: 0.5, // Adjust the scale factor as needed
-          child: ViewAllButton(onViewAll: () {}), //TODO maybe remove this
-        ),
-      ],
-    );
-    //TODO make responsive
-    return Text(
-      'Last Lecture: $lastLecture', //Thursday, 26/10/2023, 10:00',
-      style: TextStyle(
-        color: Colors.grey[600],
-        fontSize: 12.0,
-      ),
-    );
+        );
+      }
+    };
   }
 
   Widget _buildCourseIsLive() {

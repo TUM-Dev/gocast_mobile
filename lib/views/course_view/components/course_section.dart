@@ -137,9 +137,6 @@ class CourseSection extends StatelessWidget {
           ];
           imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
-          /// End of temporary values
-          debugPrint('Course streams1: ${course.streams}');
-
           return CourseCard(
             isCourse: true,
             ref: ref,
