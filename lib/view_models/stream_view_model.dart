@@ -30,7 +30,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
         downloadedVideos: Map.from(state.downloadedVideos)
           ..[state.streams?.first.id.toInt() ?? -1] = filePath,
       );
-
+      _logger.d('Downloaded videos: ${state.downloadedVideos}');
       return filePath;
     } catch (e) {
       _logger.e("Error downloading video: $e");
@@ -38,29 +38,13 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> fetchDownloadVideos() async {
+  Future<void> fetchDownloadedVideos() async {
     state = state.copyWith(isLoading: true);
 
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final files = Directory(directory.path).listSync(); // List all files in the storage directory
-      final downloadedVideoPaths = <int, String>{};
-
-      for (final file in files) {
-        if (file is File && file.path.endsWith('.mp4')) {
-          final fileName = file.uri.pathSegments.last; // Get the file name
-          final videoIdStr = fileName.split('_').last.split('.').first;
-          final videoId = int.tryParse(videoIdStr);
-
-          if (videoId != null) {
-            downloadedVideoPaths[videoId] = file.path;
-            _logger.d('Found downloaded video with ID $videoId at: ${file.path}'); // Debug statement
-          }
-        }
-      }
-
-      state = state.copyWith(isLoading: false, downloadedVideos: downloadedVideoPaths);
-      _logger.d('Downloaded videos: ${downloadedVideoPaths.keys}'); // Debug statement
+      // Assuming downloadedVideos is already populated correctly
+      _logger.d('Downloaded videos: ${state.downloadedVideos.keys}'); // Debug statement
+      state = state.copyWith(isLoading: false);
     } catch (e) {
       _logger.e('Error fetching downloaded videos: $e');
       state = state.copyWith(isLoading: false);
