@@ -68,4 +68,8 @@ class AppError implements Exception {
   /// Represents an unknown error.
   factory AppError.unknownError(String? message) =>
       AppError('❓ An unknown error occurred {message: $message}');
+
+  /// Represents an error when trying to change the preferred name less then 3 months.
+  factory AppError.preferredNameChangeTooSoon() =>
+      AppError('⏱ Preferred name can only be changed once every three months');
 }
