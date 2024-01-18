@@ -106,9 +106,7 @@ class CourseCard extends StatelessWidget {
     return Container(
       width: cardWidth,
       padding: const EdgeInsets.all(8.0),
-      color: subtitle != null
-          ? themeData.cardColor
-          : themeData.cardTheme.color, // Apply card color from theme
+      color: themeData.cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -170,7 +168,10 @@ class CourseCard extends StatelessWidget {
                       _buildCourseIsLive(),
                     ],
                   ),
-                  _buildCourseTitle(themeData.textTheme),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3.0),
+                    child: _buildCourseTitle(themeData.textTheme),
+                  ),
                   _buildLastLecture(context),
                 ],
               ),
@@ -256,7 +257,7 @@ class CourseCard extends StatelessWidget {
       style: textTheme.titleMedium?.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            height: 1,
+            height: 1.2,
           ) ??
           const TextStyle(),
     );
@@ -286,8 +287,7 @@ class CourseCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       padding: const EdgeInsets.all(3),
-      child: //spacing between dot and course number
-          Text(
+      child: Text(
         "${viewerCount!} viewers",
         style: themeData.textTheme.labelSmall?.copyWith(
               fontSize: 12,
@@ -296,7 +296,7 @@ class CourseCard extends StatelessWidget {
             ) ??
             const TextStyle(),
       ),
-    ); // Return an empty SizedBox if not live
+    );
   }
 
   Widget _buildLastLecture(BuildContext context) {
@@ -319,13 +319,17 @@ class CourseCard extends StatelessWidget {
       if (lastLectureStream != null || lastLectureStream!.isNotEmpty) {
         if (context.mounted) {
           Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VideoPlayerPage(
-              stream: lastLectureStream.first,
+            context,
+            MaterialPageRoute(
+              builder: (context) => VideoPlayerPage(
+                stream: lastLectureStream.first,
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          //TODO how to handle this error case?
+          print("Navigation skipped: Widget is not mounted.");
+          throw FlutterError("Navigation skipped: Widget is not mounted.");
         }
       }
     };
