@@ -12,6 +12,7 @@ class ChatState {
   final bool isRateLimitReached;
   final bool isCoolDown;
   final bool accessDenied;
+  final bool isResolved;
 
   const ChatState({
     this.isLoading = false,
@@ -22,6 +23,7 @@ class ChatState {
     this.isRateLimitReached = false,
     this.isCoolDown = false,
     this.accessDenied = false,
+    this.isResolved = false,
   });
 
   ChatState copyWith({
@@ -33,6 +35,7 @@ class ChatState {
     bool? isRateLimitReached,
     bool? isCoolDown,
     bool? accessDenied,
+    bool? isResolved,
   }) {
     return ChatState(
       isLoading: isLoading ?? this.isLoading,
@@ -43,6 +46,7 @@ class ChatState {
       isRateLimitReached: isRateLimitReached ?? this.isRateLimitReached,
       isCoolDown: isCoolDown ?? this.isCoolDown,
       accessDenied: accessDenied ?? this.accessDenied,
+      isResolved: isResolved ?? this.isResolved,
     );
   }
 
@@ -52,10 +56,11 @@ class ChatState {
       messages: messages,
       reactions: reactions,
       replies: replies,
-      isRateLimitReached: false,
-      isCoolDown: false,
-      accessDenied: false,
+      isRateLimitReached: isRateLimitReached,
+      isCoolDown: isCoolDown,
+      accessDenied: accessDenied,
       error: null,
+      isResolved: isResolved,
     );
   }
 
@@ -68,7 +73,8 @@ class ChatState {
       isRateLimitReached: isRateLimitReached,
       isCoolDown: isCoolDown,
       accessDenied: accessDenied,
-      error: null,
+      isResolved: isResolved,
+      error: error,
     );
   }
 
@@ -81,7 +87,8 @@ ChatState addReaction(ChatReaction reaction) {
       isRateLimitReached: isRateLimitReached,
       isCoolDown: isCoolDown,
       accessDenied: accessDenied,
-      error: null,
+      isResolved: isResolved,
+      error: error,
     );
   }
 
@@ -94,7 +101,8 @@ ChatState addReaction(ChatReaction reaction) {
       isRateLimitReached: isRateLimitReached,
       isCoolDown: isCoolDown,
       accessDenied: accessDenied,
-      error: null,
+      isResolved: isResolved,
+      error: error,
     );
   }
 }
