@@ -7,12 +7,12 @@ This mobile client for [gocast](https://github.com/TUM-Dev/gocast) is currently 
 
 - [x] Authentication using internal account
 - [x] Authentication using TUM SSO
-- [ ] Overview of own and publicly available Lectures
-- [ ] Ability to watch lectures (single, multi - view and split - view)
-- [ ] Bookmark lectures
-- [ ] Automatic notifications if lecture starts
-- [ ] Ability to search for lectures
-- [ ] Ability to download lectures in a data privacy conform manner (non - exportable and remotely deletable)
+- [x] Overview of own and publicly available Lectures
+- [x] Ability to watch lectures (single, multi - view and split - view)
+- [x] Pin lectures
+- [x] Automatic notifications if course goes live starts and if new lecture VoD is uploaded 
+- [x] Ability to search for lectures
+- [x] Ability to download lectures in a data privacy conform manner (non - exportable and remotely deletable)
 - [ ] Ability to answer quizzes and feedback requests
 
 ## Config
@@ -29,3 +29,7 @@ This mobile client for [gocast](https://github.com/TUM-Dev/gocast) is currently 
 |------------------------------------------|------------------------------------------|----------------------------------------------|
 | `Flutter` (includes the `Dart` compiler) | SDK to develop this app                  | https://docs.flutter.dev/get-started/install |
 | A local instance of [`gocast`](https://github.com/tum-dev/gocast) | API to fetch user data & streams                  | https://github.com/TUM-Dev/gocast#readme |
+
+## Push notifications
+
+For the push notifications, gocast_mobile uses the Firebase Cloudmessaging API. For more details and a detailed setup instruction, see [gocast FCM guide](https://gist.github.com/carlobortolan/845141e175c2f43135b3893670f99c59).

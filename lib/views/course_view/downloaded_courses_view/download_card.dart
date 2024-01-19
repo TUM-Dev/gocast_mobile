@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/views/course_view/components/base_card.dart';
+
 class VideoCard extends BaseCard {
   final String title;
   final String date;

@@ -26,6 +26,8 @@ dependencies:
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0
   video_player: ^2.8.2
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
   chewie: ^1.7.4
   path_provider: any
 

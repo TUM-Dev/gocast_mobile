@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class BaseCard extends StatelessWidget {
   final String imageName;
 

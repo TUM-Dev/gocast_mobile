@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
+import 'package:gocast_mobile/models/notifications/notification_state_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
+import 'package:gocast_mobile/view_models/notification_view_model.dart';
 import 'package:gocast_mobile/view_models/download_view_model.dart';
 import 'package:gocast_mobile/view_models/stream_view_model.dart';
 import 'package:gocast_mobile/view_models/user_view_model.dart';
-
 import 'base/networking/api/handler/grpc_handler.dart';
 import 'models/download_state_model.dart';
 import 'models/video/stream_state_model.dart';
@@ -22,12 +23,18 @@ final videoViewModelProvider =
   (ref) => StreamViewModel(ref.watch(grpcHandlerProvider)),
 );
 
+final notificationViewModelProvider =
+    StateNotifierProvider<NotificationViewModel, NotificationState>(
+  (ref) => NotificationViewModel(ref.watch(grpcHandlerProvider)),
+);
+
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 final themeModeProvider = StateProvider<ThemeMode>((ref) {
-    return ThemeMode.system; // Default to system theme
+  return ThemeMode.system; // Default to system theme
 });
 
-final downloadViewModelProvider = StateNotifierProvider<DownloadViewModel, DownloadState>((ref) {
-    return DownloadViewModel();
+final downloadViewModelProvider =
+    StateNotifierProvider<DownloadViewModel, DownloadState>((ref) {
+  return DownloadViewModel();
 });

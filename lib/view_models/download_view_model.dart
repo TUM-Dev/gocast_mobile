@@ -20,11 +20,14 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     final jsonString = prefs.getString('downloadedVideos');
     if (jsonString != null) {
       final downloaded = Map<String, dynamic>.from(json.decode(jsonString));
-      final downloadedVideos = downloaded.map((key, value) => MapEntry(int.parse(key), value.toString()));
+      final downloadedVideos = downloaded
+          .map((key, value) => MapEntry(int.parse(key), value.toString()));
       state = state.copyWith(downloadedVideos: downloadedVideos);
     }
   }
-  Future<String> downloadVideo(String videoUrl, Int64 streamId, String fileName) async {
+
+  Future<String> downloadVideo(
+      String videoUrl, Int64 streamId, String fileName) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -38,7 +41,10 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
         ..[streamIdInt] = filePath;
 
       // Save to SharedPreferences
-      await prefs.setString('downloadedVideos', json.encode(downloadedVideos.map((key, value) => MapEntry(key.toString(), value))));
+      await prefs.setString(
+          'downloadedVideos',
+          json.encode(downloadedVideos
+              .map((key, value) => MapEntry(key.toString(), value))));
       state = state.copyWith(downloadedVideos: downloadedVideos);
       _logger.d('Downloaded videos: ${state.downloadedVideos}');
       return filePath;
@@ -47,9 +53,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       return '';
     }
   }
-
-
-
 
   Future<void> fetchDownloadedVideos() async {
     try {
@@ -71,11 +74,15 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           _logger.d('Deleted video file at: $filePath');
 
           final prefs = await SharedPreferences.getInstance();
-          final updatedDownloads = Map<int, String>.from(state.downloadedVideos);
+          final updatedDownloads =
+              Map<int, String>.from(state.downloadedVideos);
           updatedDownloads.remove(videoId);
 
           // Save updated list to SharedPreferences
-          await prefs.setString('downloadedVideos', json.encode(updatedDownloads.map((key, value) => MapEntry(key.toString(), value))));
+          await prefs.setString(
+              'downloadedVideos',
+              json.encode(updatedDownloads
+                  .map((key, value) => MapEntry(key.toString(), value))));
           state = state.copyWith(downloadedVideos: updatedDownloads);
         } else {
           _logger.w('File not found: $filePath');
@@ -112,9 +119,9 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error deleting all videos: $e');
     }
   }
+
   bool isStreamDownloaded(Int64 id) {
-    final int streamIdInt = id.toInt();  // Convert Int64 to int
+    final int streamIdInt = id.toInt(); // Convert Int64 to int
     return state.downloadedVideos.containsKey(streamIdInt);
   }
-
 }

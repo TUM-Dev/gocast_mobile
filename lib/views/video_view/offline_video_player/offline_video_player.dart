@@ -8,7 +8,6 @@ import 'package:gocast_mobile/views/chat_view/chat_video_view.dart';
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class OfflineVideoPlayerPage extends ConsumerStatefulWidget {
   final String localPath;
 
@@ -18,10 +17,12 @@ class OfflineVideoPlayerPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<OfflineVideoPlayerPage> createState() => OfflineVideoPlayerPageState();
+  ConsumerState<OfflineVideoPlayerPage> createState() =>
+      OfflineVideoPlayerPageState();
 }
 
-class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> {
+class OfflineVideoPlayerPageState
+    extends ConsumerState<OfflineVideoPlayerPage> {
   late OfflineVideoPlayerControllerManager _controllerManager;
 
   Timer? _progressTimer;
@@ -69,7 +70,8 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
 
 // Initialize the controller manager.
   void _initializeControllerManager() {
-    _controllerManager = OfflineVideoPlayerControllerManager(localPath: widget.localPath);
+    _controllerManager =
+        OfflineVideoPlayerControllerManager(localPath: widget.localPath);
   }
 
 // Initialize the video player and seek to the last progress.
@@ -89,11 +91,12 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
     final prefs = await SharedPreferences.getInstance();
     final progress = prefs.getDouble('progress_${widget.localPath}') ?? 0.0;
     final position = Duration(
-      seconds: (progress * _controllerManager.videoPlayerController.value.duration.inSeconds).round(),
+      seconds: (progress *
+              _controllerManager.videoPlayerController.value.duration.inSeconds)
+          .round(),
     );
     await _controllerManager.videoPlayerController.seekTo(position);
   }
-
 
 // Handle errors and update the UI accordingly.
   void _handleError(Object error, String errorMessage) {
@@ -150,12 +153,10 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
     await prefs.setBool('watched_${widget.localPath}', true);
   }
 
-
   // Simplified loading state management
   void _setLoadingState(bool isLoading) {
     setState(() {
       ref.read(videoViewModelProvider).copyWith(isLoading: isLoading);
     });
   }
-
 }

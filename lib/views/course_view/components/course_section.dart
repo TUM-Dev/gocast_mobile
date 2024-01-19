@@ -79,7 +79,6 @@ class CourseSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionTitle(context, title, onViewAll),
-
           SizedBox(
             height: 200,
             child: ListView.builder(
@@ -112,7 +111,11 @@ class CourseSection extends StatelessWidget {
     );
   }
 
-  Row _buildSectionTitle(BuildContext context, String title, VoidCallback onViewAll) {
+  Row _buildSectionTitle(
+    BuildContext context,
+    String title,
+    VoidCallback onViewAll,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/theme.dart';
@@ -8,16 +9,24 @@ import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
-
-import 'base/networking/api/gocast/api_v2.pb.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   Logger.level = Level.debug;
-  runApp(const ProviderScope(child: App()));
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }
+
+bool isPushNotificationListenerSet = false;
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -25,8 +34,26 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(userViewModelProvider);
-    final themeMode = ref.watch(themeModeProvider);
-    // Check for errors in userState and show a SnackBar if any
+
+    _handleErrors(ref, userState);
+    _setupNotifications(ref, userState);
+
+    return MaterialApp(
+      theme: appTheme, // Your light theme
+      darkTheme: darkAppTheme, // Define your dark theme
+      themeMode:
+          ref.watch(themeModeProvider), // Use the theme mode from the provider
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      home: userState.user == null
+          ? const WelcomeScreen()
+          : const NavigationTab(),
+      routes: _buildRoutes(),
+    );
+  }
+
+  void _handleErrors(WidgetRef ref, UserState userState) {
+    // Check for errors in userState and show a SnackBar if there are any
     if (userState.error != null) {
       Future.microtask(() {
         scaffoldMessengerKey.currentState?.showSnackBar(
@@ -36,23 +63,6 @@ class App extends ConsumerWidget {
         ref.read(userViewModelProvider.notifier).clearError();
       });
     }
-
-    // Decide the home screen based on the user's state
-    final Widget homeScreen = _getHomeScreen(userState.user);
-
-    return MaterialApp(
-      theme: appTheme, // Your light theme
-      darkTheme: darkAppTheme, // Define your dark theme
-      themeMode: themeMode, // Use the theme mode from the provider
-      navigatorKey: navigatorKey,
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      home: homeScreen,
-      routes: _buildRoutes(),
-    );
-  }
-
-  Widget _getHomeScreen(User? user) {
-    return user == null ? const WelcomeScreen() : const NavigationTab();
   }
 
   Map<String, WidgetBuilder> _buildRoutes() {
@@ -62,5 +72,18 @@ class App extends ConsumerWidget {
       '/navigationTab': (context) => const NavigationTab(),
       '/publiccourses': (context) => const PublicCourses(),
     };
+  }
+
+  _setupNotifications(WidgetRef ref, UserState userState) {
+    final nvmn = ref.read(notificationViewModelProvider.notifier);
+
+    // Push notifications (e.g. "stream xyz just started") are shown only once
+    nvmn.initPushNotifications();
+
+    if (userState.user != null) {
+      // Upload notifications (e.g., "New VoD for course xyz" are available for
+      // logged in users only and can be also seen in the "notificaions" tab
+      nvmn.handleUploadNotifications(ref);
+    }
   }
 }

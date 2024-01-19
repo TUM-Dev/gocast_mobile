@@ -10,7 +10,9 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    return isActive ? buildActiveChat(context, isIOS) : buildInactiveChatOverlay(isIOS);
+    return isActive
+        ? buildActiveChat(context, isIOS)
+        : buildInactiveChatOverlay(isIOS);
   }
 
   Widget buildActiveChat(BuildContext context, bool isIOS) {
@@ -21,7 +23,10 @@ class ChatView extends StatelessWidget {
       child: Stack(
         children: [
           buildMessagesList(isIOS),
-          Align(alignment: Alignment.bottomCenter, child: buildMessageInputField(isIOS)),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: buildMessageInputField(isIOS),
+          ),
         ],
       ),
     );
@@ -49,7 +54,11 @@ class ChatView extends StatelessWidget {
         itemCount: MockData.messages.length,
         itemBuilder: (context, index) {
           bool isSentByMe = index % 2 == 0;
-          return buildMessageBubble(MockData.messages[index], isSentByMe, isIOS);
+          return buildMessageBubble(
+            MockData.messages[index],
+            isSentByMe,
+            isIOS,
+          );
         },
       ),
     );
@@ -75,7 +84,9 @@ class ChatView extends StatelessWidget {
 
   BoxDecoration getMessageBubbleStyle(bool isSentByMe, bool isIOS) {
     return BoxDecoration(
-      color: isSentByMe ? (isIOS ? CupertinoColors.activeBlue : Colors.blue) : (isIOS ? CupertinoColors.systemGrey5 : Colors.grey[300]),
+      color: isSentByMe
+          ? (isIOS ? CupertinoColors.activeBlue : Colors.blue)
+          : (isIOS ? CupertinoColors.systemGrey5 : Colors.grey[300]),
       borderRadius: BorderRadius.circular(18),
     );
   }
@@ -83,14 +94,18 @@ class ChatView extends StatelessWidget {
   Widget buildMessageInputField(bool isIOS) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 15.0),
-      child: isIOS ? buildIOSMessageInputField() : buildNonIOSMessageInputField(),
+      child:
+          isIOS ? buildIOSMessageInputField() : buildNonIOSMessageInputField(),
     );
   }
 
   Widget buildIOSMessageInputField() {
     return CupertinoTextField(
       placeholder: 'Type a message...',
-      suffix: const Icon(CupertinoIcons.arrow_right_circle_fill, color: CupertinoColors.activeBlue),
+      suffix: const Icon(
+        CupertinoIcons.arrow_right_circle_fill,
+        color: CupertinoColors.activeBlue,
+      ),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
         borderRadius: BorderRadius.circular(20),
@@ -118,7 +133,9 @@ class ChatView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: isIOS ? CupertinoColors.systemBackground.withOpacity(0.8) : Colors.white.withOpacity(0.8),
+        color: isIOS
+            ? CupertinoColors.systemBackground.withOpacity(0.8)
+            : Colors.white.withOpacity(0.8),
         borderRadius: BorderRadius.circular(12),
       ),
       child: const Padding(
