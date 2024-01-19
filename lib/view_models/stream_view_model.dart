@@ -8,11 +8,14 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/video/stream_state_model.dart';
 import 'package:logger/logger.dart';
 
+
 class StreamViewModel extends StateNotifier<StreamState> {
   final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   StreamViewModel(this._grpcHandler) : super(const StreamState());
+
+
 
   Future<void> fetchCourseStreams(int courseID) async {
     _logger.i('Fetching streams');
@@ -180,4 +183,9 @@ class StreamViewModel extends StateNotifier<StreamState> {
   void switchVideoSource(String newPlaylistUrl) {
     state = state.switchVideoSource(newPlaylistUrl);
   }
+
+  void setProgress(double savedProgress) {
+    state = state.copyWith(progress: Progress(progress: savedProgress));
+  }
+
 }

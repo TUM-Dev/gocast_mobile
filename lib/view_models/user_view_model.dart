@@ -29,6 +29,8 @@ class UserViewModel extends StateNotifier<UserState> {
 
   UserViewModel(this._grpcHandler) : super(const UserState());
 
+
+
   /// Handles basic authentication.
   /// If the authentication is successful, it navigates to the courses screen.
   /// If the authentication fails, it shows an error message.
