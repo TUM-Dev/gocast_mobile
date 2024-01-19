@@ -33,6 +33,7 @@ class StreamState {
     Progress? progress,
     bool? isWatched,
     String? videoSource,
+    Map<int, String>? downloadedVideos,
   }) {
     return StreamState(
       isLoading: isLoading ?? this.isLoading,
