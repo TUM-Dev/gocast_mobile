@@ -32,7 +32,7 @@ class AppConfig {
     return Platform.isAndroid ? '10.0.2.2' : 'localhost';
   }
 
-  static const int grpcPort = 12544;
+  static const int grpcPort = 8081;
 }
 
 /// Routes - Defines HTTP and gRPC routes for the application.

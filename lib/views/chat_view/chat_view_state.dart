@@ -25,12 +25,16 @@ class ChatViewState extends ConsumerState<ChatView> {
     _scrollController = ScrollController();
     _updateTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       if (mounted) {
-        ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID);
+        if(widget.streamID != null) {
+          ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID!);
+        }
       }
     });
-    Future.microtask(
-          () => ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID),
-    );
+    if(widget.streamID != null) {
+      Future.microtask(
+            () => ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID!),
+      );
+    }
   }
 
   @override
@@ -240,8 +244,8 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (!_isCooldownActive && message.isNotEmpty && message.trim().isNotEmpty) {
-      final Int64 streamId = widget.streamID;
-      ref.read(chatViewModelProvider.notifier).postChatMessage(streamId, message);
+      final Int64? streamId = widget.streamID;
+      ref.read(chatViewModelProvider.notifier).postChatMessage(streamId!, message);
       // Start cooldown
       Logger().i('Cooldown started');
       setState(() {
