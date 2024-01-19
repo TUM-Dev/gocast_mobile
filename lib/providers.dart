@@ -6,10 +6,12 @@ import 'package:gocast_mobile/models/course/course_state_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/view_models/chat_view_model.dart';
 import 'package:gocast_mobile/view_models/course_view_model.dart';
+import 'package:gocast_mobile/view_models/download_view_model.dart';
 import 'package:gocast_mobile/view_models/stream_view_model.dart';
 import 'package:gocast_mobile/view_models/user_view_model.dart';
 
 import 'base/networking/api/handler/grpc_handler.dart';
+import 'models/download_state_model.dart';
 import 'models/video/stream_state_model.dart';
 
 final grpcHandlerProvider =
@@ -37,3 +39,8 @@ final chatViewModelProvider = StateNotifierProvider<ChatViewModel, ChatState>(
 final courseViewModelProvider = StateNotifierProvider<CourseViewModel, CourseState>(
         (ref) => CourseViewModel(ref.watch(grpcHandlerProvider)),
 );
+
+final downloadViewModelProvider = StateNotifierProvider<DownloadViewModel, DownloadState>((ref) {
+    return DownloadViewModel();
+});
+

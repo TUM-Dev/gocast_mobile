@@ -41,6 +41,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
           isChatActive: _isChatActive,
+          onDownload: () => _downloadVideo(widget.stream),
         ),
          Expanded(child: ChatView(isActive: _isChatVisible, streamID: widget.stream.id)),
       ],
@@ -228,5 +229,41 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     setState(() {
       _isChatVisible = !_isChatVisible;
     });
+  }
+
+  void _downloadVideo(Stream stream) {
+    // Extract the "Combined" download URL from the Stream object
+    String? combinedDownloadUrl;
+    for (var download in stream.downloads) {
+      if (download.friendlyName == "Combined") {
+        combinedDownloadUrl = download.downloadURL;
+        break;
+      }
+    }
+    //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
+    // Check if the Combined URL is found
+    if (combinedDownloadUrl == null ) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Combined download URL not found')),
+      );
+      return;
+    }
+
+    // Use the extracted URL for downloading
+     String fileName = "stream.mp4";
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Downloading Video')),
+    );
+    // Call the download function from the StreamViewModel
+    ref.read(downloadViewModelProvider.notifier)
+        .downloadVideo(combinedDownloadUrl,stream.id ,fileName)
+        .then((localPath) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Video Downloaded')),
+        );
+
+    });
+
+
   }
 }
