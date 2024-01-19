@@ -5,7 +5,6 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-
 class OfflineVideoPlayerControllerManager {
   late VideoPlayerController videoPlayerController;
   ChewieController? chewieController;
@@ -14,8 +13,7 @@ class OfflineVideoPlayerControllerManager {
   OfflineVideoPlayerControllerManager({
     required this.localPath,
   }) {
-    videoPlayerController =
-        _createVideoPlayerController(localPath);
+    videoPlayerController = _createVideoPlayerController(localPath);
   }
 
   VideoPlayerController _createVideoPlayerController(String source) {
@@ -37,6 +35,7 @@ class OfflineVideoPlayerControllerManager {
     await videoPlayerController.initialize();
     chewieController = _createChewieController();
   }
+
   ChewieController _createChewieController() {
     return ChewieController(
       videoPlayerController: videoPlayerController,

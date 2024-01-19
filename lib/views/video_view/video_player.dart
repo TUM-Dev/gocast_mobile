@@ -43,7 +43,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           isChatActive: _isChatActive,
           onDownload: () => _downloadVideo(widget.stream),
         ),
-         Expanded(child: ChatView(isActive: _isChatVisible, streamID: widget.stream.id)),
+        Expanded(
+            child:
+                ChatView(isActive: _isChatVisible, streamID: widget.stream.id)),
       ],
     );
   }
@@ -57,10 +59,13 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     );
     _initializeControllerManager();
     Future.microtask(() async {
-      await ref.read(courseViewModelProvider.notifier).getCourseWithID(widget.stream.courseID);
+      await ref
+          .read(courseViewModelProvider.notifier)
+          .getCourseWithID(widget.stream.courseID);
       Course? course = ref.read(courseViewModelProvider).course;
       if (course != null) {
-        if((course.chatEnabled || course.vodChatEnabled)&& widget.stream.chatEnabled){
+        if ((course.chatEnabled || course.vodChatEnabled) &&
+            widget.stream.chatEnabled) {
           setState(() {
             _isChatActive = true;
           });
@@ -242,7 +247,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     }
     //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
     // Check if the Combined URL is found
-    if (combinedDownloadUrl == null ) {
+    if (combinedDownloadUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Combined download URL not found')),
       );
@@ -250,20 +255,18 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     }
 
     // Use the extracted URL for downloading
-     String fileName = "stream.mp4";
+    String fileName = "stream.mp4";
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Downloading Video')),
     );
     // Call the download function from the StreamViewModel
-    ref.read(downloadViewModelProvider.notifier)
-        .downloadVideo(combinedDownloadUrl,stream.id ,fileName)
+    ref
+        .read(downloadViewModelProvider.notifier)
+        .downloadVideo(combinedDownloadUrl, stream.id, fileName)
         .then((localPath) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Video Downloaded')),
-        );
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Video Downloaded')),
+      );
     });
-
-
   }
 }

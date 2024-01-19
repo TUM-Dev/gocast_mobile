@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
-
 import 'notifications_screen_view.dart';
 
 class MyNotifications extends ConsumerStatefulWidget {
@@ -15,27 +14,37 @@ class MyNotificationsState extends ConsumerState<MyNotifications> {
   @override
   void initState() {
     super.initState();
-    _fetchData();
-  }
-
-  void _fetchData() {
-    ref.read(userViewModelProvider.notifier).fetchFeatureNotifications();
-    ref.read(userViewModelProvider.notifier).fetchBannerAlerts();
+    Future.microtask(() async {
+      await ref
+          .read(notificationViewModelProvider.notifier)
+          .fetchFeatureNotifications();
+      await ref
+          .read(notificationViewModelProvider.notifier)
+          .fetchBannerAlerts();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final featureNotifications =
-        ref.watch(userViewModelProvider).featureNotifications ?? [];
-    final bannerAlerts = ref.watch(userViewModelProvider).bannerAlerts ?? [];
+    final notificationState = ref.watch(notificationViewModelProvider);
+
+    final pushNotifications = notificationState.pushNotifications ?? [];
+    final featureNotifications = notificationState.featureNotifications ?? [];
+    final bannerAlerts = notificationState.bannerAlerts ?? [];
 
     return NotificationsScreen(
       title: 'Notifications',
+      pushNotifications: pushNotifications,
       featureNotifications: featureNotifications,
       bannerAlerts: bannerAlerts,
-      onRefresh: () async {
-        await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-      },
+      onRefresh: _refreshNotifications,
     );
+  }
+
+  Future<void> _refreshNotifications() async {
+    await ref.read(notificationViewModelProvider.notifier).fetchBannerAlerts();
+    await ref
+        .read(notificationViewModelProvider.notifier)
+        .fetchFeatureNotifications();
   }
 }

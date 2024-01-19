@@ -55,7 +55,9 @@ class VideoPlayerControllerManager {
       autoInitialize: true,
       allowFullScreen: true,
       fullScreenByDefault: false,
-      playbackSpeeds: playbackSpeeds.isEmpty ? [0.25, 0.5,0.75, 1, 1.25, 1.5, 1.75, 2] : playbackSpeeds,
+      playbackSpeeds: playbackSpeeds.isEmpty
+          ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+          : playbackSpeeds,
     );
   }
 
