@@ -5,14 +5,16 @@ class VideoCard extends BaseCard {
   final String title;
   final String date;
   final String duration;
+  final VoidCallback onDelete;
 
   const VideoCard({
     super.key,
-    required super.imageName,
     required this.title,
     required this.date,
     required this.duration,
+    required super.imageName,
     required super.onTap,
+    required this.onDelete,
   });
 
   @override
@@ -21,8 +23,13 @@ class VideoCard extends BaseCard {
       buildHeader(
         title: title,
         subtitle: date,
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: onDelete,
+        ),
       ),
-      buildImage(),
+      buildImage(), // Assuming this method exists in BaseCard for displaying the image
+      // Additional content can be added here if needed
     ];
   }
 }

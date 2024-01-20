@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/chat_view/chat_video_view.dart';
+import 'package:gocast_mobile/views/chat_view/chat_view.dart';
 import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.dart';
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
@@ -29,23 +29,23 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
   Timer? _progressTimer;
   bool _isChatVisible = false;
+  bool _isChatActive = false;
 
   Widget _buildVideoLayout() {
-    _videoPlayerHandlers = VideoPlayerHandlers(
-      switchPlaylist: _switchPlaylist,
-      onToggleChat: _handleToggleChat,
-    );
     return Column(
       children: <Widget>[
         Expanded(child: _controllerManager.buildVideoPlayer()),
         CustomVideoControlBar(
-          onMenuSelection: _videoPlayerHandlers.handleMenuSelection,
           onToggleChat: _videoPlayerHandlers.handleToggleChat,
           onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
+          isChatActive: _isChatActive,
+          onDownload: () => _downloadVideo(widget.stream),
         ),
-         Expanded(child: ChatView(isActive: _isChatVisible)),
+        Expanded(
+            child:
+                ChatView(isActive: _isChatVisible, streamID: widget.stream.id)),
       ],
     );
   }
@@ -58,7 +58,19 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       onToggleChat: _handleToggleChat,
     );
     _initializeControllerManager();
-    Future.microtask(() {
+    Future.microtask(() async {
+      await ref
+          .read(courseViewModelProvider.notifier)
+          .getCourseWithID(widget.stream.courseID);
+      Course? course = ref.read(courseViewModelProvider).course;
+      if (course != null) {
+        if ((course.chatEnabled || course.vodChatEnabled) &&
+            widget.stream.chatEnabled) {
+          setState(() {
+            _isChatActive = true;
+          });
+        }
+      }
       ref
           .read(videoViewModelProvider.notifier)
           .switchVideoSource(widget.stream.playlistUrl);
@@ -220,7 +232,41 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
   void _handleToggleChat() {
     setState(() {
-      _isChatVisible = !_isChatVisible; // Toggle chat visibility
+      _isChatVisible = !_isChatVisible;
+    });
+  }
+
+  void _downloadVideo(Stream stream) {
+    // Extract the "Combined" download URL from the Stream object
+    String? combinedDownloadUrl;
+    for (var download in stream.downloads) {
+      if (download.friendlyName == "Combined") {
+        combinedDownloadUrl = download.downloadURL;
+        break;
+      }
+    }
+    //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
+    // Check if the Combined URL is found
+    if (combinedDownloadUrl == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Combined download URL not found')),
+      );
+      return;
+    }
+
+    // Use the extracted URL for downloading
+    String fileName = "stream.mp4";
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Downloading Video')),
+    );
+    // Call the download function from the StreamViewModel
+    ref
+        .read(downloadViewModelProvider.notifier)
+        .downloadVideo(combinedDownloadUrl, stream.id, fileName)
+        .then((localPath) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Video Downloaded')),
+      );
     });
   }
 }
