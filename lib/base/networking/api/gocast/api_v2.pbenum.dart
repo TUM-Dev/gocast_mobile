@@ -14,24 +14,21 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class UserSettingType extends $pb.ProtobufEnum {
-  static const UserSettingType PREFERRED_NAME =
-      UserSettingType._(0, _omitEnumNames ? '' : 'PREFERRED_NAME');
-  static const UserSettingType GREETING =
-      UserSettingType._(1, _omitEnumNames ? '' : 'GREETING');
-  static const UserSettingType CUSTOM_PLAYBACK_SPEEDS =
-      UserSettingType._(2, _omitEnumNames ? '' : 'CUSTOM_PLAYBACK_SPEEDS');
+  static const UserSettingType PREFERRED_NAME = UserSettingType._(0, _omitEnumNames ? '' : 'PREFERRED_NAME');
+  static const UserSettingType GREETING = UserSettingType._(1, _omitEnumNames ? '' : 'GREETING');
+  static const UserSettingType CUSTOM_PLAYBACK_SPEEDS = UserSettingType._(2, _omitEnumNames ? '' : 'CUSTOM_PLAYBACK_SPEEDS');
 
-  static const $core.List<UserSettingType> values = <UserSettingType>[
+  static const $core.List<UserSettingType> values = <UserSettingType> [
     PREFERRED_NAME,
     GREETING,
     CUSTOM_PLAYBACK_SPEEDS,
   ];
 
-  static final $core.Map<$core.int, UserSettingType> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, UserSettingType> _byValue = $pb.ProtobufEnum.initByValue(values);
   static UserSettingType? valueOf($core.int value) => _byValue[value];
 
   const UserSettingType._($core.int v, $core.String n) : super(v, n);
 }
+
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

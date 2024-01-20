@@ -3,21 +3,22 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class CustomVideoControlBar extends StatelessWidget {
-  final Function(String, Stream) onMenuSelection;
   final VoidCallback onToggleChat;
+  final VoidCallback onDownload;
   final VoidCallback onOpenQuizzes;
   final Stream currentStream;
   final bool isChatVisible;
+  final bool isChatActive;
 
   const CustomVideoControlBar({
     super.key,
-    required this.onMenuSelection,
     required this.onToggleChat,
     required this.onOpenQuizzes,
     required this.currentStream,
-    this.isChatVisible = true,
+    this.isChatActive = false,
+    this.isChatVisible = false,
+    required this.onDownload,
   });
 
   @override
@@ -27,7 +28,11 @@ class CustomVideoControlBar extends StatelessWidget {
     List<Map<String, IconData>> getMenuItems(bool isPinned, bool isDownloaded) {
       List<Map<String, IconData>> items = [
         {'Pin Course': isPinned ? Icons.push_pin : Icons.push_pin_outlined},
-        {'Download': isDownloaded ? Icons.download_done_outlined : Icons.download_outlined},
+        {
+          'Download': isDownloaded
+              ? Icons.download_done_outlined
+              : Icons.download_outlined,
+        },
       ];
       return items;
     }
@@ -35,7 +40,10 @@ class CustomVideoControlBar extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final userViewModel = ref.read(userViewModelProvider.notifier);
+        final downloadViewModel = ref.read(downloadViewModelProvider.notifier);
         final isPinned = userViewModel.isCoursePinned(currentStream.courseID);
+        final isDownloaded =
+            downloadViewModel.isStreamDownloaded(currentStream.id);
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -45,9 +53,11 @@ class CustomVideoControlBar extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: isChatVisible ? Icon(Icons.chat_bubble, color: themeData.primaryColor) : const Icon(Icons.chat_bubble_outline),
+                    icon: isChatVisible
+                        ? Icon(Icons.chat_bubble, color: themeData.primaryColor)
+                        : const Icon(Icons.chat_bubble_outline),
                     color: themeData.iconTheme.color,
-                    onPressed: onToggleChat,
+                    onPressed: isChatActive ? onToggleChat : null,
                   ),
                   IconButton(
                     icon: const Icon(Icons.quiz_outlined),
@@ -60,14 +70,19 @@ class CustomVideoControlBar extends StatelessWidget {
                 onSelected: (choice) async {
                   if (choice == 'Pin Course') {
                     isPinned
-                        ? await ref.read(userViewModelProvider.notifier).unpinCourse(currentStream.courseID)
-                        : await ref.read(userViewModelProvider.notifier).pinCourse(currentStream.courseID);
-                  } else {
-                    onMenuSelection(choice, currentStream);
+                        ? await ref
+                            .read(userViewModelProvider.notifier)
+                            .unpinCourse(currentStream.courseID)
+                        : await ref
+                            .read(userViewModelProvider.notifier)
+                            .pinCourse(currentStream.courseID);
+                  } else if (choice == 'Download') {
+                    onDownload();
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  return getMenuItems(isPinned, false).map((Map<String, IconData> choice) {
+                  return getMenuItems(isPinned, isDownloaded)
+                      .map((Map<String, IconData> choice) {
                     String text = choice.keys.first;
                     IconData icon = choice.values.first;
 
@@ -75,7 +90,12 @@ class CustomVideoControlBar extends StatelessWidget {
                       value: text,
                       child: ListTile(
                         leading: Icon(icon, color: themeData.iconTheme.color),
-                        title: Text(text, style: TextStyle(color: themeData.textTheme.titleMedium?.color)),
+                        title: Text(
+                          text,
+                          style: TextStyle(
+                            color: themeData.textTheme.titleMedium?.color,
+                          ),
+                        ),
                       ),
                     );
                   }).toList();
@@ -86,7 +106,8 @@ class CustomVideoControlBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                   side: BorderSide(color: themeData.dividerColor),
                 ),
-                elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0 : 3.0,
+                elevation:
+                    Theme.of(context).platform == TargetPlatform.iOS ? 0 : 3.0,
               ),
             ],
           ),

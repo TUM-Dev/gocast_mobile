@@ -1,12 +1,14 @@
+import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/models/notifications/push_notification.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   final String title;
+  final List<PushNotification> pushNotifications;
   final List<FeatureNotification> featureNotifications;
   final List<BannerAlert> bannerAlerts;
   final Future<void> Function() onRefresh;
@@ -14,11 +16,13 @@ class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({
     super.key,
     required this.title,
+    required this.pushNotifications,
     required this.featureNotifications,
     required this.bannerAlerts,
     required this.onRefresh,
   });
 
+  // A basic functioning view that supports all notification related functions
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseView(
@@ -27,24 +31,22 @@ class NotificationsScreen extends ConsumerWidget {
       actions: _buildAppBarActions(context, ref),
       child: RefreshIndicator(
         onRefresh: onRefresh,
-        color: Colors.blue,
-        backgroundColor: Colors.white,
-        strokeWidth: 2.0,
-        displacement: 20.0,
-        child: CustomScrollView(
-          slivers: [
-            featureNotifications.isEmpty && bannerAlerts.isEmpty
-                ? SliverFillRemaining(
-                    child: _buildPlaceholder(),
-                  )
-                : SliverList(
-                    delegate: SliverChildListDelegate.fixed([
-                      _buildFeatureNotificationsListView(),
-                      _buildBannerAlertsListView(),
-                    ]),
-                  ),
-          ],
-        ),
+        child: pushNotifications.isEmpty &&
+                featureNotifications.isEmpty &&
+                bannerAlerts.isEmpty
+            ? _buildPlaceholder()
+            : ListView(
+                children: [
+                  _buildSectionHeader('Banner Alerts'),
+                  for (var alert in bannerAlerts) _buildBannerAlert(alert),
+                  _buildSectionHeader('Feature Notifications'),
+                  for (var notification in featureNotifications)
+                    _buildFeatureNotification(notification),
+                  _buildSectionHeader('Recent Uploads'),
+                  for (var notification in pushNotifications)
+                    _buildPushNotification(notification),
+                ],
+              ),
       ),
     );
   }
@@ -56,7 +58,6 @@ class NotificationsScreen extends ConsumerWidget {
     );
   }
 
-  //TODO export functionality
   List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
     return [
       IconButton(
@@ -69,44 +70,95 @@ class NotificationsScreen extends ConsumerWidget {
     ];
   }
 
-  Widget _buildFeatureNotificationsListView() {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          /*final course = featureNotifications[index];
-          return CourseCard(
-            title: course.name,
-            subtitle: course.slug,
-            path: 'assets/images/course2.png',
-            live: course.streams.any((stream) => stream.liveNow),
-          );*/
-          return const Text("This will be the feature notifications");
-        },
-        childCount: featureNotifications.length,
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+        ),
       ),
     );
   }
 
-  //TODO do we need to check dates ourselves?
-  Widget _buildBannerAlertsListView() {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
+  Widget _buildPushNotification(PushNotification notification) {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading: const Icon(Icons.notifications_active, color: Colors.green),
+        title: Text(
+          notification.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              notification.body,
+              style: TextStyle(
+                color: Colors.grey[700],
+              ),
+            ),
+            Text(
+              'Received at: ${notification.receivedAt}',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 12.0,
+              ),
+            ),
+          ],
+        ),
+        // trailing: const Icon(Icons.arrow_forward_ios, size: 14.0),
       ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return const Text("This will be the  Banner Alerts");
-        },
-        childCount: bannerAlerts.length,
+    );
+  }
+
+  Widget _buildFeatureNotification(FeatureNotification notification) {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading:
+            const Icon(Icons.notifications_sharp, color: Colors.blueAccent),
+        title: Text(
+          notification.title.isEmpty ? "User notification" : notification.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+          ),
+        ),
+        subtitle: Text(
+          notification.body,
+          style: TextStyle(
+            color: Colors.grey[700],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBannerAlert(BannerAlert alert) {
+    return Card(
+      color: alert.warn ? Colors.redAccent : Colors.blueAccent,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: Text(
+          alert.text,
+          style: const TextStyle(color: Colors.white),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Start Date: ${alert.startsAt}\nEnd Date: ${alert.expiresAt}',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
