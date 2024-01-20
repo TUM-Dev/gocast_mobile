@@ -31,6 +31,10 @@ class AppError implements Exception {
   factory AppError.tokenSaveError([dynamic error]) =>
       AppError('🔑 Token error occurred', error);
 
+  /// Represents an already_exists error when a resource already exists
+  factory AppError.conflictError([dynamic error]) =>
+      AppError('Resource already exists');
+
   /// Represents a JSON parsing error.
   factory AppError.jsonParsingError([dynamic error]) =>
       AppError('🔍 Unable to parse the data', error);

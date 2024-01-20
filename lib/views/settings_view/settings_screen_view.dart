@@ -189,11 +189,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           content: const Text('Would you like to delete all your downloads?'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.of(context).pop(false), // User chooses not to delete downloads
+              onPressed: () => Navigator.of(context)
+                  .pop(false), // User chooses not to delete downloads
               child: const Text('No'),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(true), // User chooses to delete downloads
+              onPressed: () => Navigator.of(context)
+                  .pop(true), // User chooses to delete downloads
               child: const Text('Yes'),
             ),
           ],
@@ -210,7 +212,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     ref.read(userViewModelProvider.notifier).logout();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-          (Route<dynamic> route) => false,
+      (Route<dynamic> route) => false,
     );
   }
 

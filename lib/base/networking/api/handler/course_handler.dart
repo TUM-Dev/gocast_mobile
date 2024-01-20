@@ -1,5 +1,6 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
+import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
@@ -37,5 +38,11 @@ class CourseHandler {
     _logger.d('Current Semester: ${response.current}');
 
     return Tuple2(response.semesters, response.current);
+  }
+
+  Future<List<Course>> fetchAllCourses() async {
+    List<Course> userCourses = await UserHandler(_grpcHandler).fetchUserCourses();
+    List<Course> publicCourses = await CourseHandler(_grpcHandler).fetchPublicCourses();
+    return [...userCourses, ...publicCourses];
   }
 }

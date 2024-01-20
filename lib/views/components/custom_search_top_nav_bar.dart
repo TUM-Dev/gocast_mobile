@@ -33,7 +33,10 @@ class CustomSearchTopNavBar extends ConsumerWidget
         elevation: 0,
         leading: isSearchActive
             ? IconButton(
-                icon:  Icon(Icons.arrow_back_ios, color:Theme.of(context).iconTheme.color,),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Theme.of(context).iconTheme.color,
+                ),
                 onPressed: () =>
                     ref.read(isSearchActiveProvider.notifier).state = false,
               )
@@ -57,7 +60,10 @@ class CustomSearchTopNavBar extends ConsumerWidget
             ? null
             : [
                 IconButton(
-                  icon:  Icon(Icons.search, color: Theme.of(context).iconTheme.color,),
+                  icon: Icon(
+                    Icons.search,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                   onPressed: () =>
                       ref.read(isSearchActiveProvider.notifier).state = true,
                 ),

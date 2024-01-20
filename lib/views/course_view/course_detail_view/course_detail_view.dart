@@ -169,7 +169,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     return Expanded(
       child: courseStreams.isNotEmpty
           ? ListView.builder(
-        itemCount: courseStreams.length,
+              itemCount: courseStreams.length,
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               itemBuilder: (context, index) => _streamCardBuilder(
                 context,

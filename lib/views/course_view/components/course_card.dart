@@ -105,10 +105,11 @@ class CourseCard extends StatelessWidget {
       maxLines: 3,
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        height: 1,
-      ) ?? const TextStyle(),
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+            height: 1,
+          ) ??
+          const TextStyle(),
     );
   }
 
@@ -119,7 +120,6 @@ class CourseCard extends StatelessWidget {
       style: textTheme.titleSmall ?? const TextStyle(),
     );
   }
-
 
   Widget _buildCourseIsLive() {
     return live
