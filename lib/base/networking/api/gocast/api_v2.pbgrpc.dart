@@ -187,6 +187,56 @@ class APIClient extends $grpc.Client {
     ($0.MarkAsWatchedRequest value) => value.writeToBuffer(),
     ($core.List<$core.int> value) => $0.MarkAsWatchedResponse.fromBuffer(value),
   );
+  static final _$getChatMessages =
+      $grpc.ClientMethod<$0.GetChatMessagesRequest, $0.GetChatMessagesResponse>(
+    '/protobuf.API/getChatMessages',
+    ($0.GetChatMessagesRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.GetChatMessagesResponse.fromBuffer(value),
+  );
+  static final _$postChatMessage =
+      $grpc.ClientMethod<$0.PostChatMessageRequest, $0.PostChatMessageResponse>(
+    '/protobuf.API/postChatMessage',
+    ($0.PostChatMessageRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.PostChatMessageResponse.fromBuffer(value),
+  );
+  static final _$postChatReaction = $grpc.ClientMethod<
+      $0.PostChatReactionRequest, $0.PostChatReactionResponse>(
+    '/protobuf.API/postChatReaction',
+    ($0.PostChatReactionRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.PostChatReactionResponse.fromBuffer(value),
+  );
+  static final _$deleteChatReaction = $grpc.ClientMethod<
+      $0.DeleteChatReactionRequest, $0.DeleteChatReactionResponse>(
+    '/protobuf.API/deleteChatReaction',
+    ($0.DeleteChatReactionRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.DeleteChatReactionResponse.fromBuffer(value),
+  );
+  static final _$postChatReply =
+      $grpc.ClientMethod<$0.PostChatReplyRequest, $0.PostChatReplyResponse>(
+    '/protobuf.API/postChatReply',
+    ($0.PostChatReplyRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) => $0.PostChatReplyResponse.fromBuffer(value),
+  );
+  static final _$markChatMessageAsResolved = $grpc.ClientMethod<
+      $0.MarkChatMessageAsResolvedRequest,
+      $0.MarkChatMessageAsResolvedResponse>(
+    '/protobuf.API/markChatMessageAsResolved',
+    ($0.MarkChatMessageAsResolvedRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.MarkChatMessageAsResolvedResponse.fromBuffer(value),
+  );
+  static final _$markChatMessageAsUnresolved = $grpc.ClientMethod<
+      $0.MarkChatMessageAsUnresolvedRequest,
+      $0.MarkChatMessageAsUnresolvedResponse>(
+    '/protobuf.API/markChatMessageAsUnresolved',
+    ($0.MarkChatMessageAsUnresolvedRequest value) => value.writeToBuffer(),
+    ($core.List<$core.int> value) =>
+        $0.MarkChatMessageAsUnresolvedResponse.fromBuffer(value),
+  );
 
   APIClient(
     $grpc.ClientChannel channel, {
@@ -198,191 +248,204 @@ class APIClient extends $grpc.Client {
           interceptors: interceptors,
         );
 
-  $grpc.ResponseFuture<$0.GetUserResponse> getUser(
-    $0.GetUserRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+  $grpc.ResponseFuture<$0.GetUserResponse> getUser($0.GetUserRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUser, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserCoursesResponse> getUserCourses(
-    $0.GetUserCoursesRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetUserCoursesRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUserCourses, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserPinnedResponse> getUserPinned(
-    $0.GetUserPinnedRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetUserPinnedRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUserPinned, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.PostPinnedResponse> postUserPinned(
-    $0.PostPinnedRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.PostPinnedRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$postUserPinned, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.DeletePinnedResponse> deleteUserPinned(
-    $0.DeletePinnedRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.DeletePinnedRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteUserPinned, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserAdminResponse> getUserAdminCourses(
-    $0.GetUserAdminRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetUserAdminRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUserAdminCourses, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUserSettingsResponse> getUserSettings(
-    $0.GetUserSettingsRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetUserSettingsRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUserSettings, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.PatchUserSettingsResponse> patchUserSettings(
-    $0.PatchUserSettingsRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.PatchUserSettingsRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$patchUserSettings, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetBookmarksResponse> getUserBookmarks(
-    $0.GetBookmarksRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetBookmarksRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUserBookmarks, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.PutBookmarkResponse> putUserBookmark(
-    $0.PutBookmarkRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.PutBookmarkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$putUserBookmark, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.PatchBookmarkResponse> patchUserBookmark(
-    $0.PatchBookmarkRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.PatchBookmarkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$patchUserBookmark, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.DeleteBookmarkResponse> deleteUserBookmark(
-    $0.DeleteBookmarkRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.DeleteBookmarkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteUserBookmark, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetBannerAlertsResponse> getBannerAlerts(
-    $0.GetBannerAlertsRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetBannerAlertsRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getBannerAlerts, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetFeatureNotificationsResponse>
-      getFeatureNotifications(
-    $0.GetFeatureNotificationsRequest request, {
-    $grpc.CallOptions? options,
-  }) {
-    return $createUnaryCall(
-      _$getFeatureNotifications,
-      request,
-      options: options,
-    );
+      getFeatureNotifications($0.GetFeatureNotificationsRequest request,
+          {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getFeatureNotifications, request,
+        options: options);
   }
 
   $grpc.ResponseFuture<$0.PostDeviceTokenResponse> postDeviceToken(
-    $0.PostDeviceTokenRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.PostDeviceTokenRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$postDeviceToken, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.DeleteDeviceTokenResponse> deleteDeviceToken(
-    $0.DeleteDeviceTokenRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.DeleteDeviceTokenRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteDeviceToken, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetPublicCoursesResponse> getPublicCourses(
-    $0.GetPublicCoursesRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetPublicCoursesRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getPublicCourses, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetSemestersResponse> getSemesters(
-    $0.GetSemestersRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetSemestersRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getSemesters, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetCourseStreamsResponse> getCourseStreams(
-    $0.GetCourseStreamsRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetCourseStreamsRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getCourseStreams, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetStreamResponse> getStream(
-    $0.GetStreamRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetStreamRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getStream, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetNowLiveResponse> getNowLive(
-    $0.GetNowLiveRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetNowLiveRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getNowLive, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetThumbsVODResponse> getThumbsVOD(
-    $0.GetThumbsVODRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetThumbsVODRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getThumbsVOD, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetThumbsLiveResponse> getThumbsLive(
-    $0.GetThumbsLiveRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetThumbsLiveRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getThumbsLive, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetProgressResponse> getProgress(
-    $0.GetProgressRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.GetProgressRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getProgress, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.PutProgressResponse> putProgress(
-    $0.PutProgressRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.PutProgressRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$putProgress, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.MarkAsWatchedResponse> markAsWatched(
-    $0.MarkAsWatchedRequest request, {
-    $grpc.CallOptions? options,
-  }) {
+      $0.MarkAsWatchedRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$markAsWatched, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetChatMessagesResponse> getChatMessages(
+      $0.GetChatMessagesRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getChatMessages, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.PostChatMessageResponse> postChatMessage(
+      $0.PostChatMessageRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$postChatMessage, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.PostChatReactionResponse> postChatReaction(
+      $0.PostChatReactionRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$postChatReaction, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.DeleteChatReactionResponse> deleteChatReaction(
+      $0.DeleteChatReactionRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteChatReaction, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.PostChatReplyResponse> postChatReply(
+      $0.PostChatReplyRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$postChatReply, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.MarkChatMessageAsResolvedResponse>
+      markChatMessageAsResolved($0.MarkChatMessageAsResolvedRequest request,
+          {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$markChatMessageAsResolved, request,
+        options: options);
+  }
+
+  $grpc.ResponseFuture<$0.MarkChatMessageAsUnresolvedResponse>
+      markChatMessageAsUnresolved($0.MarkChatMessageAsUnresolvedRequest request,
+          {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$markChatMessageAsUnresolved, request,
+        options: options);
   }
 }
 
@@ -681,292 +744,349 @@ abstract class APIServiceBase extends $grpc.Service {
         ($0.MarkAsWatchedResponse value) => value.writeToBuffer(),
       ),
     );
+    $addMethod(
+      $grpc.ServiceMethod<$0.GetChatMessagesRequest,
+          $0.GetChatMessagesResponse>(
+        'getChatMessages',
+        getChatMessages_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.GetChatMessagesRequest.fromBuffer(value),
+        ($0.GetChatMessagesResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.PostChatMessageRequest,
+          $0.PostChatMessageResponse>(
+        'postChatMessage',
+        postChatMessage_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.PostChatMessageRequest.fromBuffer(value),
+        ($0.PostChatMessageResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.PostChatReactionRequest,
+          $0.PostChatReactionResponse>(
+        'postChatReaction',
+        postChatReaction_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.PostChatReactionRequest.fromBuffer(value),
+        ($0.PostChatReactionResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.DeleteChatReactionRequest,
+          $0.DeleteChatReactionResponse>(
+        'deleteChatReaction',
+        deleteChatReaction_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.DeleteChatReactionRequest.fromBuffer(value),
+        ($0.DeleteChatReactionResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.PostChatReplyRequest, $0.PostChatReplyResponse>(
+        'postChatReply',
+        postChatReply_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.PostChatReplyRequest.fromBuffer(value),
+        ($0.PostChatReplyResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.MarkChatMessageAsResolvedRequest,
+          $0.MarkChatMessageAsResolvedResponse>(
+        'markChatMessageAsResolved',
+        markChatMessageAsResolved_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.MarkChatMessageAsResolvedRequest.fromBuffer(value),
+        ($0.MarkChatMessageAsResolvedResponse value) => value.writeToBuffer(),
+      ),
+    );
+    $addMethod(
+      $grpc.ServiceMethod<$0.MarkChatMessageAsUnresolvedRequest,
+          $0.MarkChatMessageAsUnresolvedResponse>(
+        'markChatMessageAsUnresolved',
+        markChatMessageAsUnresolved_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.MarkChatMessageAsUnresolvedRequest.fromBuffer(value),
+        ($0.MarkChatMessageAsUnresolvedResponse value) => value.writeToBuffer(),
+      ),
+    );
   }
 
   $async.Future<$0.GetUserResponse> getUser_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetUserRequest> request,
-  ) async {
+      $grpc.ServiceCall call, $async.Future<$0.GetUserRequest> request) async {
     return getUser(call, await request);
   }
 
   $async.Future<$0.GetUserCoursesResponse> getUserCourses_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetUserCoursesRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetUserCoursesRequest> request) async {
     return getUserCourses(call, await request);
   }
 
   $async.Future<$0.GetUserPinnedResponse> getUserPinned_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetUserPinnedRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetUserPinnedRequest> request) async {
     return getUserPinned(call, await request);
   }
 
   $async.Future<$0.PostPinnedResponse> postUserPinned_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.PostPinnedRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.PostPinnedRequest> request) async {
     return postUserPinned(call, await request);
   }
 
   $async.Future<$0.DeletePinnedResponse> deleteUserPinned_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.DeletePinnedRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.DeletePinnedRequest> request) async {
     return deleteUserPinned(call, await request);
   }
 
   $async.Future<$0.GetUserAdminResponse> getUserAdminCourses_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetUserAdminRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetUserAdminRequest> request) async {
     return getUserAdminCourses(call, await request);
   }
 
   $async.Future<$0.GetUserSettingsResponse> getUserSettings_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetUserSettingsRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetUserSettingsRequest> request) async {
     return getUserSettings(call, await request);
   }
 
   $async.Future<$0.PatchUserSettingsResponse> patchUserSettings_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.PatchUserSettingsRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.PatchUserSettingsRequest> request) async {
     return patchUserSettings(call, await request);
   }
 
   $async.Future<$0.GetBookmarksResponse> getUserBookmarks_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetBookmarksRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetBookmarksRequest> request) async {
     return getUserBookmarks(call, await request);
   }
 
   $async.Future<$0.PutBookmarkResponse> putUserBookmark_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.PutBookmarkRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.PutBookmarkRequest> request) async {
     return putUserBookmark(call, await request);
   }
 
   $async.Future<$0.PatchBookmarkResponse> patchUserBookmark_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.PatchBookmarkRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.PatchBookmarkRequest> request) async {
     return patchUserBookmark(call, await request);
   }
 
   $async.Future<$0.DeleteBookmarkResponse> deleteUserBookmark_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.DeleteBookmarkRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.DeleteBookmarkRequest> request) async {
     return deleteUserBookmark(call, await request);
   }
 
   $async.Future<$0.GetBannerAlertsResponse> getBannerAlerts_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetBannerAlertsRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetBannerAlertsRequest> request) async {
     return getBannerAlerts(call, await request);
   }
 
   $async.Future<$0.GetFeatureNotificationsResponse> getFeatureNotifications_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetFeatureNotificationsRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetFeatureNotificationsRequest> request) async {
     return getFeatureNotifications(call, await request);
   }
 
   $async.Future<$0.PostDeviceTokenResponse> postDeviceToken_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.PostDeviceTokenRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.PostDeviceTokenRequest> request) async {
     return postDeviceToken(call, await request);
   }
 
   $async.Future<$0.DeleteDeviceTokenResponse> deleteDeviceToken_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.DeleteDeviceTokenRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.DeleteDeviceTokenRequest> request) async {
     return deleteDeviceToken(call, await request);
   }
 
   $async.Future<$0.GetPublicCoursesResponse> getPublicCourses_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetPublicCoursesRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetPublicCoursesRequest> request) async {
     return getPublicCourses(call, await request);
   }
 
   $async.Future<$0.GetSemestersResponse> getSemesters_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetSemestersRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetSemestersRequest> request) async {
     return getSemesters(call, await request);
   }
 
   $async.Future<$0.GetCourseStreamsResponse> getCourseStreams_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetCourseStreamsRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetCourseStreamsRequest> request) async {
     return getCourseStreams(call, await request);
   }
 
-  $async.Future<$0.GetStreamResponse> getStream_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetStreamRequest> request,
-  ) async {
+  $async.Future<$0.GetStreamResponse> getStream_Pre($grpc.ServiceCall call,
+      $async.Future<$0.GetStreamRequest> request) async {
     return getStream(call, await request);
   }
 
-  $async.Future<$0.GetNowLiveResponse> getNowLive_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetNowLiveRequest> request,
-  ) async {
+  $async.Future<$0.GetNowLiveResponse> getNowLive_Pre($grpc.ServiceCall call,
+      $async.Future<$0.GetNowLiveRequest> request) async {
     return getNowLive(call, await request);
   }
 
   $async.Future<$0.GetThumbsVODResponse> getThumbsVOD_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetThumbsVODRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetThumbsVODRequest> request) async {
     return getThumbsVOD(call, await request);
   }
 
   $async.Future<$0.GetThumbsLiveResponse> getThumbsLive_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetThumbsLiveRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetThumbsLiveRequest> request) async {
     return getThumbsLive(call, await request);
   }
 
-  $async.Future<$0.GetProgressResponse> getProgress_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.GetProgressRequest> request,
-  ) async {
+  $async.Future<$0.GetProgressResponse> getProgress_Pre($grpc.ServiceCall call,
+      $async.Future<$0.GetProgressRequest> request) async {
     return getProgress(call, await request);
   }
 
-  $async.Future<$0.PutProgressResponse> putProgress_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.PutProgressRequest> request,
-  ) async {
+  $async.Future<$0.PutProgressResponse> putProgress_Pre($grpc.ServiceCall call,
+      $async.Future<$0.PutProgressRequest> request) async {
     return putProgress(call, await request);
   }
 
   $async.Future<$0.MarkAsWatchedResponse> markAsWatched_Pre(
-    $grpc.ServiceCall call,
-    $async.Future<$0.MarkAsWatchedRequest> request,
-  ) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.MarkAsWatchedRequest> request) async {
     return markAsWatched(call, await request);
   }
 
+  $async.Future<$0.GetChatMessagesResponse> getChatMessages_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetChatMessagesRequest> request) async {
+    return getChatMessages(call, await request);
+  }
+
+  $async.Future<$0.PostChatMessageResponse> postChatMessage_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.PostChatMessageRequest> request) async {
+    return postChatMessage(call, await request);
+  }
+
+  $async.Future<$0.PostChatReactionResponse> postChatReaction_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.PostChatReactionRequest> request) async {
+    return postChatReaction(call, await request);
+  }
+
+  $async.Future<$0.DeleteChatReactionResponse> deleteChatReaction_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.DeleteChatReactionRequest> request) async {
+    return deleteChatReaction(call, await request);
+  }
+
+  $async.Future<$0.PostChatReplyResponse> postChatReply_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.PostChatReplyRequest> request) async {
+    return postChatReply(call, await request);
+  }
+
+  $async.Future<$0.MarkChatMessageAsResolvedResponse>
+      markChatMessageAsResolved_Pre($grpc.ServiceCall call,
+          $async.Future<$0.MarkChatMessageAsResolvedRequest> request) async {
+    return markChatMessageAsResolved(call, await request);
+  }
+
+  $async.Future<$0.MarkChatMessageAsUnresolvedResponse>
+      markChatMessageAsUnresolved_Pre($grpc.ServiceCall call,
+          $async.Future<$0.MarkChatMessageAsUnresolvedRequest> request) async {
+    return markChatMessageAsUnresolved(call, await request);
+  }
+
   $async.Future<$0.GetUserResponse> getUser(
-    $grpc.ServiceCall call,
-    $0.GetUserRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetUserRequest request);
   $async.Future<$0.GetUserCoursesResponse> getUserCourses(
-    $grpc.ServiceCall call,
-    $0.GetUserCoursesRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetUserCoursesRequest request);
   $async.Future<$0.GetUserPinnedResponse> getUserPinned(
-    $grpc.ServiceCall call,
-    $0.GetUserPinnedRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetUserPinnedRequest request);
   $async.Future<$0.PostPinnedResponse> postUserPinned(
-    $grpc.ServiceCall call,
-    $0.PostPinnedRequest request,
-  );
+      $grpc.ServiceCall call, $0.PostPinnedRequest request);
   $async.Future<$0.DeletePinnedResponse> deleteUserPinned(
-    $grpc.ServiceCall call,
-    $0.DeletePinnedRequest request,
-  );
+      $grpc.ServiceCall call, $0.DeletePinnedRequest request);
   $async.Future<$0.GetUserAdminResponse> getUserAdminCourses(
-    $grpc.ServiceCall call,
-    $0.GetUserAdminRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetUserAdminRequest request);
   $async.Future<$0.GetUserSettingsResponse> getUserSettings(
-    $grpc.ServiceCall call,
-    $0.GetUserSettingsRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetUserSettingsRequest request);
   $async.Future<$0.PatchUserSettingsResponse> patchUserSettings(
-    $grpc.ServiceCall call,
-    $0.PatchUserSettingsRequest request,
-  );
+      $grpc.ServiceCall call, $0.PatchUserSettingsRequest request);
   $async.Future<$0.GetBookmarksResponse> getUserBookmarks(
-    $grpc.ServiceCall call,
-    $0.GetBookmarksRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetBookmarksRequest request);
   $async.Future<$0.PutBookmarkResponse> putUserBookmark(
-    $grpc.ServiceCall call,
-    $0.PutBookmarkRequest request,
-  );
+      $grpc.ServiceCall call, $0.PutBookmarkRequest request);
   $async.Future<$0.PatchBookmarkResponse> patchUserBookmark(
-    $grpc.ServiceCall call,
-    $0.PatchBookmarkRequest request,
-  );
+      $grpc.ServiceCall call, $0.PatchBookmarkRequest request);
   $async.Future<$0.DeleteBookmarkResponse> deleteUserBookmark(
-    $grpc.ServiceCall call,
-    $0.DeleteBookmarkRequest request,
-  );
+      $grpc.ServiceCall call, $0.DeleteBookmarkRequest request);
   $async.Future<$0.GetBannerAlertsResponse> getBannerAlerts(
-    $grpc.ServiceCall call,
-    $0.GetBannerAlertsRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetBannerAlertsRequest request);
   $async.Future<$0.GetFeatureNotificationsResponse> getFeatureNotifications(
-    $grpc.ServiceCall call,
-    $0.GetFeatureNotificationsRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetFeatureNotificationsRequest request);
   $async.Future<$0.PostDeviceTokenResponse> postDeviceToken(
-    $grpc.ServiceCall call,
-    $0.PostDeviceTokenRequest request,
-  );
+      $grpc.ServiceCall call, $0.PostDeviceTokenRequest request);
   $async.Future<$0.DeleteDeviceTokenResponse> deleteDeviceToken(
-    $grpc.ServiceCall call,
-    $0.DeleteDeviceTokenRequest request,
-  );
+      $grpc.ServiceCall call, $0.DeleteDeviceTokenRequest request);
   $async.Future<$0.GetPublicCoursesResponse> getPublicCourses(
-    $grpc.ServiceCall call,
-    $0.GetPublicCoursesRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetPublicCoursesRequest request);
   $async.Future<$0.GetSemestersResponse> getSemesters(
-    $grpc.ServiceCall call,
-    $0.GetSemestersRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetSemestersRequest request);
   $async.Future<$0.GetCourseStreamsResponse> getCourseStreams(
-    $grpc.ServiceCall call,
-    $0.GetCourseStreamsRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetCourseStreamsRequest request);
   $async.Future<$0.GetStreamResponse> getStream(
-    $grpc.ServiceCall call,
-    $0.GetStreamRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetStreamRequest request);
   $async.Future<$0.GetNowLiveResponse> getNowLive(
-    $grpc.ServiceCall call,
-    $0.GetNowLiveRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetNowLiveRequest request);
   $async.Future<$0.GetThumbsVODResponse> getThumbsVOD(
-    $grpc.ServiceCall call,
-    $0.GetThumbsVODRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetThumbsVODRequest request);
   $async.Future<$0.GetThumbsLiveResponse> getThumbsLive(
-    $grpc.ServiceCall call,
-    $0.GetThumbsLiveRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetThumbsLiveRequest request);
   $async.Future<$0.GetProgressResponse> getProgress(
-    $grpc.ServiceCall call,
-    $0.GetProgressRequest request,
-  );
+      $grpc.ServiceCall call, $0.GetProgressRequest request);
   $async.Future<$0.PutProgressResponse> putProgress(
-    $grpc.ServiceCall call,
-    $0.PutProgressRequest request,
-  );
+      $grpc.ServiceCall call, $0.PutProgressRequest request);
   $async.Future<$0.MarkAsWatchedResponse> markAsWatched(
-    $grpc.ServiceCall call,
-    $0.MarkAsWatchedRequest request,
-  );
+      $grpc.ServiceCall call, $0.MarkAsWatchedRequest request);
+  $async.Future<$0.GetChatMessagesResponse> getChatMessages(
+      $grpc.ServiceCall call, $0.GetChatMessagesRequest request);
+  $async.Future<$0.PostChatMessageResponse> postChatMessage(
+      $grpc.ServiceCall call, $0.PostChatMessageRequest request);
+  $async.Future<$0.PostChatReactionResponse> postChatReaction(
+      $grpc.ServiceCall call, $0.PostChatReactionRequest request);
+  $async.Future<$0.DeleteChatReactionResponse> deleteChatReaction(
+      $grpc.ServiceCall call, $0.DeleteChatReactionRequest request);
+  $async.Future<$0.PostChatReplyResponse> postChatReply(
+      $grpc.ServiceCall call, $0.PostChatReplyRequest request);
+  $async.Future<$0.MarkChatMessageAsResolvedResponse> markChatMessageAsResolved(
+      $grpc.ServiceCall call, $0.MarkChatMessageAsResolvedRequest request);
+  $async.Future<$0.MarkChatMessageAsUnresolvedResponse>
+      markChatMessageAsUnresolved($grpc.ServiceCall call,
+          $0.MarkChatMessageAsUnresolvedRequest request);
 }

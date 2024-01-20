@@ -196,10 +196,6 @@ class UserViewModel extends StateNotifier<UserState> {
     _logger.i('Logged out user and cleared tokens.');
   }
 
-  void clearError() {
-    state = state.clearError();
-  }
-
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }

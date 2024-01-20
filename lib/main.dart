@@ -60,7 +60,7 @@ class App extends ConsumerWidget {
           SnackBar(content: Text('Error: ${userState.error!.message}')),
         );
         // Clear the error
-        ref.read(userViewModelProvider.notifier).clearError();
+        ref.read(userViewModelProvider).clearError();
       });
     }
   }

@@ -4,20 +4,20 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomVideoControlBar extends StatelessWidget {
-  final Function(String, Stream) onMenuSelection;
   final VoidCallback onToggleChat;
   final VoidCallback onDownload;
   final VoidCallback onOpenQuizzes;
   final Stream currentStream;
   final bool isChatVisible;
+  final bool isChatActive;
 
   const CustomVideoControlBar({
     super.key,
-    required this.onMenuSelection,
     required this.onToggleChat,
     required this.onOpenQuizzes,
     required this.currentStream,
-    this.isChatVisible = true,
+    this.isChatActive = false,
+    this.isChatVisible = false,
     required this.onDownload,
   });
 
@@ -57,7 +57,7 @@ class CustomVideoControlBar extends StatelessWidget {
                         ? Icon(Icons.chat_bubble, color: themeData.primaryColor)
                         : const Icon(Icons.chat_bubble_outline),
                     color: themeData.iconTheme.color,
-                    onPressed: onToggleChat,
+                    onPressed: isChatActive ? onToggleChat : null,
                   ),
                   IconButton(
                     icon: const Icon(Icons.quiz_outlined),

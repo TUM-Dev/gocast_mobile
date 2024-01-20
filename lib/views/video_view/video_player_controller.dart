@@ -127,6 +127,7 @@ class VideoPlayerControllerManager {
       : Chewie(controller: chewieController!);
 
   void dispose() {
+    videoPlayerController.pause();
     videoPlayerController.dispose();
     chewieController?.dispose();
   }
