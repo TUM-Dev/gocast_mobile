@@ -42,14 +42,12 @@ class CoursesList extends ConsumerWidget {
           backgroundColor: Colors.white,
           strokeWidth: 2.0,
           displacement: 20.0,
-          child: CustomScrollView(
-            slivers: [
-              courses.isEmpty
-                  ? SliverFillRemaining(
-                      child: _buildPlaceholder(),
-                    )
-                  : _buildCourseListView(context),
-            ],
+          child: SingleChildScrollView(
+            child: courses.isEmpty
+                ? SliverFillRemaining(
+                    child: _buildPlaceholder(),
+                  )
+                : _buildCourseListView(context),
           ),
         ),
       ),
@@ -78,15 +76,14 @@ class CoursesList extends ConsumerWidget {
   Widget _buildCourseListView(BuildContext context) {
     bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
 
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: isTablet ? 2 : 1,
-        crossAxisSpacing: 1,
-        mainAxisSpacing: 1,
-        childAspectRatio: 4.5, //amount of lines is set --> this never overflows
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: courses.length,
+        itemBuilder: (BuildContext context, int index) {
           final course = courses[index];
           return CourseCard(
             title: course.name,
@@ -111,7 +108,6 @@ class CoursesList extends ConsumerWidget {
             },
           );
         },
-        childCount: courses.length,
       ),
     );
   }

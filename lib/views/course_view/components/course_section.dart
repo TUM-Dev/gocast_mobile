@@ -147,7 +147,6 @@ class CourseSection extends StatelessWidget {
             lastLectureId: Int64(course.lastRecordingID),
             path: imagePath,
             live: streams.any((stream) => stream.courseID == course.id),
-            //course.streams.any((stream) => stream.liveNow),
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
             courseId: course.id,
