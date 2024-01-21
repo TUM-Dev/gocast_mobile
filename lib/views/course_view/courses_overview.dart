@@ -76,7 +76,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     (userCourses ?? []) + (publicCourses ?? []),
                     liveStreams,
                   ),
-                const SizedBox(height: 50,),
                 isTablet
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,11 +101,19 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     : Column(
                         children: [
                           _buildSection(
-                              "My Courses", 1, userCourses, liveStreams),
+                            "My Courses",
+                            1,
+                            userCourses,
+                            liveStreams,
+                          ),
                           _buildSection(
-                              "Public Courses", 2, publicCourses, liveStreams),
+                            "Public Courses",
+                            2,
+                            publicCourses,
+                            liveStreams,
+                          ),
                         ],
-                      )
+                      ),
 
                 // Add other sections or content as needed
               ],
@@ -129,9 +136,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
           builder: (context) => const PublicCourses(),
         ),
       ),
-      courses: courses,
-      //publicCourses ?? [],
-      streams: streams, //liveStreams ?? [],
+      courses: courses ?? [],
+      streams: streams ?? [],
     );
   }
 

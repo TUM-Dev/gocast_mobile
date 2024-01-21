@@ -251,7 +251,7 @@ class CourseCard extends StatelessWidget {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
-      maxLines: 2, //TODO check that this never causes overflow
+      //maxLines: 2, //TODO check that this never causes overflow
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
             fontSize: 16,

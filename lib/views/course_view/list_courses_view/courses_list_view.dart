@@ -5,7 +5,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
-import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 /// CoursesScreen
@@ -34,20 +34,23 @@ class CoursesList extends ConsumerWidget {
       bottomNavigationBar: null,
       title: title,
       actions: _buildAppBarActions(context, ref),
-      child: RefreshIndicator(
-        onRefresh: onRefresh,
-        color: Colors.blue,
-        backgroundColor: Colors.white,
-        strokeWidth: 2.0,
-        displacement: 20.0,
-        child: CustomScrollView(
-          slivers: [
-            courses.isEmpty
-                ? SliverFillRemaining(
-                    child: _buildPlaceholder(),
-                  )
-                : _buildCourseListView(),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: RefreshIndicator(
+          onRefresh: onRefresh,
+          color: Colors.blue,
+          backgroundColor: Colors.white,
+          strokeWidth: 2.0,
+          displacement: 20.0,
+          child: CustomScrollView(
+            slivers: [
+              courses.isEmpty
+                  ? SliverFillRemaining(
+                      child: _buildPlaceholder(),
+                    )
+                  : _buildCourseListView(context),
+            ],
+          ),
         ),
       ),
     );
@@ -72,13 +75,15 @@ class CoursesList extends ConsumerWidget {
     );
   }
 
-  Widget _buildCourseListView() {
+  Widget _buildCourseListView(BuildContext context) {
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+
     return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        //crossAxisSpacing: 1,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isTablet ? 2 : 1,
+        crossAxisSpacing: 1,
         mainAxisSpacing: 1,
-        childAspectRatio: 4,
+        childAspectRatio: 4.5, //amount of lines is set --> this never overflows
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
@@ -93,10 +98,17 @@ class CoursesList extends ConsumerWidget {
                 course.semester.teachingTerm + course.semester.year.toString(),
             lastLectureId: Int64(course.lastRecordingID),
             isCourse: true,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyCourses()),
-            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseDetail(
+                    title: course.name,
+                    courseId: course.id,
+                  ),
+                ),
+              );
+            },
           );
         },
         childCount: courses.length,
