@@ -5,14 +5,18 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
-import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
   final int courseId;
   final String? courseTumId;
 
-  const CourseDetail({super.key, required this.title, required this.courseId, this.courseTumId});
+  const CourseDetail({
+    super.key,
+    required this.title,
+    required this.courseId,
+    this.courseTumId,
+  });
 
   @override
   CourseDetailState createState() => CourseDetailState();
@@ -131,119 +135,10 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     ScaffoldMessengerState scaffoldMessenger,
   ) {
     final stream = courseStreams[index];
-    var thumbnail = _getThumbnailUrl(index, thumbnails);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      /*child: StreamCard(
-        imageName: thumbnail,
-        stream: stream,
-        onTap: () => _handleStreamTap(context, scaffoldMessenger, stream),
-      ),*/
       child: StreamCard(stream: stream),
-      /*child: CourseCard(
-        isCourse: false,
-        ref: ref,
-        title: stream.name,
-        subtitle: widget.title,
-        tumID: widget.courseId.toString(), //.tUMOnlineIdentifier,
-        roomName: stream.roomName,
-        roomNumber: stream.roomCode,
-        viewerCount: formatDuration(stream.duration), //stream.vodViews.toString(),
-        path: thumbnail,
-        courseId: widget.courseId,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              //TODO - is chat enabled in live mode?
-              builder: (context) => VideoPlayerPage(
-                stream: stream,
-              ),
-            ),
-          );
-        },
-      ),*/
-    );
-  }
-
-  String formatDuration(int durationInMinutes) {
-    int hours = durationInMinutes ~/ 60;
-    int minutes = durationInMinutes % 60;
-    int seconds = 0;
-
-    String formattedHours = hours < 10 ? '0$hours' : '$hours';
-    String formattedMinutes = minutes < 10 ? '0$minutes' : '$minutes';
-    String formattedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
-
-    return '$formattedHours:$formattedMinutes:$formattedSeconds';
-  }
-
-  /// Determines the thumbnail URL for a stream.
-  String _getThumbnailUrl(int index, List<String> thumbnails) {
-    var thumbnail = thumbnails.length > index
-        ? thumbnails[index]
-        : '/thumb-fallback.png'; // Default thumbnail path
-
-    // Check if the thumbnail doesn't start with 'http' or 'https'
-    if (!thumbnail.startsWith('http') && !thumbnail.startsWith('https')) {
-      // If not an absolute URL, prefix it with the base URL
-      thumbnail = '$baseUrl$thumbnail';
-    }
-
-    // Return the final thumbnail URL
-    return thumbnail;
-  }
-
-
-  /// Handles taps on stream cards.
-  Future<void> _handleStreamTap(
-    BuildContext context,
-    ScaffoldMessengerState scaffoldMessenger,
-    Stream stream,
-  ) async {
-    try {
-      await _navigateToVideoPlayer(ref, context, stream);
-    } catch (e) {
-      _showErrorSnackBar(
-        scaffoldMessenger,
-        "Failed to load course streams: $e",
-      );
-    }
-  }
-
-  /// Navigates to the video player page.
-  Future<void> _navigateToVideoPlayer(
-    WidgetRef ref,
-    BuildContext context,
-    Stream clickedStream,
-  ) async {
-    // Fetch course streams only if not already fetched
-    final streams = ref.read(videoViewModelProvider).streams;
-    if (streams == null || streams.isEmpty) {
-      await ref
-          .read(videoViewModelProvider.notifier)
-          .fetchCourseStreams(widget.courseId);
-      if (!mounted) return;
-    }
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => VideoPlayerPage(
-          stream: clickedStream,
-        ),
-      ),
-    );
-  }
-
-  /// Shows an error snackbar.
-  void _showErrorSnackBar(
-    ScaffoldMessengerState scaffoldMessenger,
-    String message,
-  ) {
-    if (!mounted) return;
-    scaffoldMessenger.showSnackBar(
-      SnackBar(content: Text(message)),
     );
   }
 

@@ -4,7 +4,7 @@ class PulsingBackground extends StatefulWidget {
   const PulsingBackground({super.key});
 
   @override
-  _PulsingBackgroundState createState() => _PulsingBackgroundState();
+  State<PulsingBackground> createState() => _PulsingBackgroundState();
 }
 
 class _PulsingBackgroundState extends State<PulsingBackground>

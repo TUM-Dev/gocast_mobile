@@ -141,7 +141,7 @@ class SettingsHandler {
       orElse: () => UserSetting(
         type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
         value: jsonEncode([
-          {"speed": 1.0, "enabled": true}
+          {"speed": 1.0, "enabled": true},
         ]),
       ),
     );

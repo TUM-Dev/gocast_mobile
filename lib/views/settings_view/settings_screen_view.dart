@@ -210,10 +210,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     // Proceed with logout
     ref.read(userViewModelProvider.notifier).logout();
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-      (Route<dynamic> route) => false,
-    );
+    if (context.mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+        (Route<dynamic> route) => false,
+      );
+    } else {
+      //TODO how to handle this error?
+      throw FlutterError("Navigation skipped: Widget is not mounted.");
+    }
   }
 
   ListTile _buildNavigableListTile(String title, VoidCallback onTap) {
