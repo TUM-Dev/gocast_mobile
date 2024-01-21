@@ -34,25 +34,28 @@ class PinnedCoursesContentView extends ConsumerWidget {
         searchController: searchController,
         title: title,
       ),
-      child: ListView.builder(
-        itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (pinnedCourseCards.isEmpty) {
-            return const Center(
-              child: Padding(
-                padding: AppPadding.sectionPadding,
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 295.0),
-                    child: Text('No Pinned Courses'),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+        child: ListView.builder(
+          itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (pinnedCourseCards.isEmpty) {
+              return const Center(
+                child: Padding(
+                  padding: AppPadding.sectionPadding,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 295.0),
+                      child: Text('No Pinned Courses'),
+                    ),
                   ),
                 ),
-              ),
-            );
-          } else {
-            return pinnedCourseCards[index];
-          }
-        },
+              );
+            } else {
+              return pinnedCourseCards[index];
+            }
+          },
+        ),
       ),
     );
   }
