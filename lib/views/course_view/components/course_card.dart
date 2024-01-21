@@ -72,7 +72,7 @@ class CourseCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         elevation: 1,
-        shadowColor: themeData.shadowColor.withOpacity(0.5),
+        shadowColor: themeData.shadowColor,
         color: themeData.cardTheme.color,
         // Use card color from theme
         shape: RoundedRectangleBorder(
@@ -80,8 +80,8 @@ class CourseCard extends StatelessWidget {
           side: BorderSide(
             color: themeData
                     .inputDecorationTheme.enabledBorder?.borderSide.color
-                    .withOpacity(0.1) ??
-                Colors.grey.withOpacity(0.1),
+                    .withOpacity(0.2) ??
+                Colors.grey.withOpacity(0.2),
             width: 1.0,
           ),
         ),
@@ -279,7 +279,7 @@ class CourseCard extends StatelessWidget {
     if (viewerCount == null) return const SizedBox();
     return Container(
       decoration: BoxDecoration(
-        color: themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
+        color: themeData.shadowColor.withOpacity(0.15),
         borderRadius: BorderRadius.circular(4),
       ),
       padding: const EdgeInsets.all(3),

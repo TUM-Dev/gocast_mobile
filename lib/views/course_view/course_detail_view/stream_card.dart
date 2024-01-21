@@ -48,7 +48,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
       onTap: onTap,
       child: Card(
         elevation: 1,
-        shadowColor: themeData.shadowColor.withOpacity(0.5),
+        shadowColor: themeData.shadowColor,
         color: themeData.cardTheme.color,
         // Use card color from theme
         shape: RoundedRectangleBorder(
@@ -56,40 +56,44 @@ class StreamCardState extends ConsumerState<StreamCard> {
           side: BorderSide(
             color: themeData
                     .inputDecorationTheme.enabledBorder?.borderSide.color
-                    .withOpacity(0.1) ??
-                Colors.grey.withOpacity(0.1),
+                    .withOpacity(0.2) ??
+                Colors.grey.withOpacity(0.2),
             width: 1.0,
           ),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildHeader(
-                title: widget.stream.name,
-                subtitle: widget.stream.description,
-                length: widget.stream.duration,
-              ),
-              _buildThumbnail(widget.stream.duration),  // Adjust spacing as needed
-              LinearProgressIndicator(
-                value: videoProgress != null ? videoProgress.progress : 0.0,
-                minHeight: 10.0,
-                // Adjust the height of the progress bar
-                backgroundColor: Colors.grey[300],
-                // Change the background color
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  Colors.blue,
-                ), // Change the fill color
-              ),
-            ],
+          child: Container(
+            color: themeData.cardColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildHeader(
+                  title: widget.stream.name,
+                  subtitle: widget.stream.description,
+                  length: widget.stream.duration,
+                  themeData: themeData,
+                ),
+                _buildThumbnail(themeData), // Adjust spacing as needed
+                LinearProgressIndicator(
+                  value: videoProgress != null ? videoProgress.progress : 0.0,
+                  minHeight: 10.0,
+                  // Adjust the height of the progress bar
+                  backgroundColor: Colors.grey[300],
+                  // Change the background color
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    Colors.blue,
+                  ), // Change the fill color
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildThumbnail(int duration) {
+  Widget _buildThumbnail(ThemeData themeData) {
     return Stack(
       children: [
         AspectRatio(
@@ -105,7 +109,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
                   child: CircularProgressIndicator(
                     value: loadingProgress.expectedTotalBytes != null
                         ? loadingProgress.cumulativeBytesLoaded /
-                        (loadingProgress.expectedTotalBytes ?? 1)
+                            (loadingProgress.expectedTotalBytes ?? 1)
                         : null,
                   ),
                 );
@@ -120,9 +124,9 @@ class StreamCardState extends ConsumerState<StreamCard> {
           ),
         ),
         Positioned(
-          bottom: 2,
-          right: 2,
-          child: _buildStreamLength(duration),
+          bottom: 4,
+          right: 4,
+          child: _buildStreamLength(themeData),
         ),
       ],
     );
@@ -133,6 +137,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
     required String subtitle,
     int? length,
     Widget? trailing,
+    required ThemeData themeData,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -155,7 +160,8 @@ class StreamCardState extends ConsumerState<StreamCard> {
               ],
             ),
           ),
-          if (length != null) _buildStreamDate(), //_buildStreamLength(length, widget.stream),
+          if (length != null) _buildStreamDate(themeData),
+          //_buildStreamLength(length, widget.stream),
           if (trailing != null) trailing,
         ],
       ),
@@ -174,16 +180,16 @@ class StreamCardState extends ConsumerState<StreamCard> {
     return '$formattedHours:$formattedMinutes:$formattedSeconds';
   }
 
-  Widget _buildStreamDate() {
+  Widget _buildStreamDate(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        //themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
+        color: themeData.focusColor, //.shadowColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(4),
       ),
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       child: Text(
-        DateFormat('EEEE, MM/dd/yyyy, HH:mm').format(widget.stream.start.toDateTime()),
+        DateFormat('EEEE, MM/dd/yyyy, HH:mm')
+            .format(widget.stream.start.toDateTime()),
         style: const TextStyle(
           //themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
@@ -194,26 +200,24 @@ class StreamCardState extends ConsumerState<StreamCard> {
     );
   }
 
-  Widget _buildStreamLength(int length) {
+  Widget _buildStreamLength(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        //themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(4),
+        color: themeData.shadowColor.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(20),
       ),
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(5),
       child: Text(
-        formatDuration(length),
-        style: const TextStyle(
-          //themeData.textTheme.labelSmall?.copyWith(
+        formatDuration(widget.stream.duration),
+        style: themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
+          color: Colors.white,
           //fontWeight: FontWeight.bold,
           //height: 1,
         ),
       ),
     );
   }
-
 }
 
 /*
