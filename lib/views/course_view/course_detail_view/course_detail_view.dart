@@ -141,7 +141,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
         stream: stream,
         onTap: () => _handleStreamTap(context, scaffoldMessenger, stream),
       ),*/
-      child: YourWidget(stream: stream),
+      child: StreamCard(stream: stream),
       /*child: CourseCard(
         isCourse: false,
         ref: ref,

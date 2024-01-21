@@ -54,7 +54,6 @@ class CourseCard extends StatelessWidget {
   });
 
   Future<void> fetchDataAsync(BuildContext context) async {
-
     if (lastLectureId != null) {
       final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
       videoViewModelNotifier.fetchStream(lastLectureId!);

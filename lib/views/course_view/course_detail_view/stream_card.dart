@@ -1,26 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/views/course_view/components/base_card.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
 
-class YourWidget extends StatefulWidget {
+class StreamCard extends ConsumerStatefulWidget {
   final Stream stream;
 
-  const YourWidget({super.key, required this.stream});
+  const StreamCard({super.key, required this.stream});
 
   @override
-  _YourWidgetState createState() => _YourWidgetState();
+  StreamCardState createState() => StreamCardState();
 }
 
-class _YourWidgetState extends State<YourWidget> {
+class StreamCardState extends ConsumerState<StreamCard> {
   String imageName =
       'https://live.rbg.tum.de/thumb-fallback.png'; // Replace with your image URL
-  double videoProgress =
-      0.5; // Replace with your actual video progress (0.0 to 1.0)
+
+  @override
+  void initState() {
+    super.initState();
+    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
+    Future.microtask(() {
+      videoViewModelNotifier.fetchProgress(widget.stream.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    var onTap = () {};
+    onTap() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          //TODO - is chat enabled in live mode?
+          builder: (context) => VideoPlayerPage(
+            stream: widget.stream,
+          ),
+        ),
+      );
+    }
+    final videoProgress = ref.watch(videoViewModelProvider).progress;
 
     return InkWell(
       onTap: onTap,
@@ -77,13 +97,14 @@ class _YourWidgetState extends State<YourWidget> {
                 ),
               ), // Adjust spacing as needed
               LinearProgressIndicator(
-                value: videoProgress,
+                value: videoProgress != null ? videoProgress.progress : 0.0,
                 minHeight: 10.0,
                 // Adjust the height of the progress bar
                 backgroundColor: Colors.grey[300],
                 // Change the background color
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                    Colors.blue), // Change the fill color
+                  Colors.blue,
+                ), // Change the fill color
               ),
             ],
           ),
@@ -119,7 +140,7 @@ class _YourWidgetState extends State<YourWidget> {
               ],
             ),
           ),
-          if (length != null) _buildStreamLength(length!),
+          if (length != null) _buildStreamLength(length),
           if (trailing != null) trailing,
         ],
       ),
@@ -127,7 +148,6 @@ class _YourWidgetState extends State<YourWidget> {
   }
 
   String formatDuration(int durationInMinutes) {
-    print("durationInMinutes $durationInMinutes");
     int hours = durationInMinutes ~/ 60;
     int minutes = durationInMinutes % 60;
     int seconds = 0;
@@ -140,7 +160,6 @@ class _YourWidgetState extends State<YourWidget> {
   }
 
   Widget _buildStreamLength(int length) {
-    if (length == null) return const SizedBox();
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -151,17 +170,17 @@ class _YourWidgetState extends State<YourWidget> {
       child: Text(
         formatDuration(length),
         style: const TextStyle(
-              //themeData.textTheme.labelSmall?.copyWith(
-              fontSize: 12,
-              //fontWeight: FontWeight.bold,
-              //height: 1,
-            ) ??
-            const TextStyle(),
+          //themeData.textTheme.labelSmall?.copyWith(
+          fontSize: 12,
+          //fontWeight: FontWeight.bold,
+          //height: 1,
+        ),
       ),
     );
   }
 }
 
+/*
 class StreamCard extends BaseCard {
   final Stream stream;
 
@@ -184,3 +203,4 @@ class StreamCard extends BaseCard {
     ];
   }
 }
+*/
