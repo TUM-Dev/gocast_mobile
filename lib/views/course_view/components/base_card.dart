@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class BaseCard extends StatelessWidget {
   final String imageName;
 
@@ -14,18 +13,23 @@ class BaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
     return InkWell(
       onTap: onTap,
       child: Card(
+        elevation: 1,
+        color: themeData.cardTheme.color,
+        shadowColor: themeData.shadowColor,
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             ...buildCardContent(), // Call to the overridable method
-            const Padding(
+            /*const Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -42,12 +46,14 @@ class BaseCard extends StatelessWidget {
   Widget buildHeader({
     required String title,
     required String subtitle,
+    int?  length,
     Widget? trailing,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(
@@ -69,8 +75,42 @@ class BaseCard extends StatelessWidget {
               ],
             ),
           ),
+          if (length != null) _buildStreamLength(length!),
           if (trailing != null) trailing,
         ],
+      ),
+    );
+  }
+
+  String formatDuration(int durationInMinutes) {
+    print("durationInMinutes $durationInMinutes");
+    int hours = durationInMinutes ~/ 60;
+    int minutes = durationInMinutes % 60;
+    int seconds = 0;
+
+    String formattedHours = hours < 10 ? '0$hours' : '$hours';
+    String formattedMinutes = minutes < 10 ? '0$minutes' : '$minutes';
+    String formattedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
+
+    return '$formattedHours:$formattedMinutes:$formattedSeconds';
+  }
+
+  Widget _buildStreamLength(int length) {
+    if (length == null) return const SizedBox();
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,  //themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: const EdgeInsets.all(3),
+      child: Text(
+        formatDuration(length),
+        style: TextStyle(//themeData.textTheme.labelSmall?.copyWith(
+          fontSize: 12,
+          //fontWeight: FontWeight.bold,
+          //height: 1,
+        ) ??
+            const TextStyle(),
       ),
     );
   }

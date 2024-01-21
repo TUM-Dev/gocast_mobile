@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
+import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
@@ -10,8 +11,9 @@ import 'package:gocast_mobile/views/video_view/video_player.dart';
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
   final int courseId;
+  final String? courseTumId;
 
-  const CourseDetail({super.key, required this.title, required this.courseId});
+  const CourseDetail({super.key, required this.title, required this.courseId, this.courseTumId});
 
   @override
   CourseDetailState createState() => CourseDetailState();
@@ -75,7 +77,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     bool isPinned = _checkPinStatus();
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -107,7 +109,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     return Expanded(
       child: courseStreams.isNotEmpty
           ? ListView.builder(
-        itemCount: courseStreams.length,
+              itemCount: courseStreams.length,
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               itemBuilder: (context, index) => _streamCardBuilder(
                 context,
@@ -134,12 +136,49 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: StreamCard(
+      /*child: StreamCard(
         imageName: thumbnail,
         stream: stream,
         onTap: () => _handleStreamTap(context, scaffoldMessenger, stream),
-      ),
+      ),*/
+      child: YourWidget(stream: stream),
+      /*child: CourseCard(
+        isCourse: false,
+        ref: ref,
+        title: stream.name,
+        subtitle: widget.title,
+        tumID: widget.courseId.toString(), //.tUMOnlineIdentifier,
+        roomName: stream.roomName,
+        roomNumber: stream.roomCode,
+        viewerCount: formatDuration(stream.duration), //stream.vodViews.toString(),
+        path: thumbnail,
+        courseId: widget.courseId,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              //TODO - is chat enabled in live mode?
+              builder: (context) => VideoPlayerPage(
+                stream: stream,
+              ),
+            ),
+          );
+        },
+      ),*/
     );
+  }
+
+  String formatDuration(int durationInMinutes) {
+    print("durationInMinutes $durationInMinutes");
+    int hours = durationInMinutes ~/ 60;
+    int minutes = durationInMinutes % 60;
+    int seconds = 0;
+
+    String formattedHours = hours < 10 ? '0$hours' : '$hours';
+    String formattedMinutes = minutes < 10 ? '0$minutes' : '$minutes';
+    String formattedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
+
+    return '$formattedHours:$formattedMinutes:$formattedSeconds';
   }
 
   /// Determines the thumbnail URL for a stream.
@@ -147,11 +186,17 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     var thumbnail = thumbnails.length > index
         ? thumbnails[index]
         : '/thumb-fallback.png'; // Default thumbnail path
-    if (!thumbnail.startsWith('http')) {
+
+    // Check if the thumbnail doesn't start with 'http' or 'https'
+    if (!thumbnail.startsWith('http') && !thumbnail.startsWith('https')) {
+      // If not an absolute URL, prefix it with the base URL
       thumbnail = '$baseUrl$thumbnail';
     }
+
+    // Return the final thumbnail URL
     return thumbnail;
   }
+
 
   /// Handles taps on stream cards.
   Future<void> _handleStreamTap(
@@ -203,7 +248,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       SnackBar(content: Text(message)),
     );
   }
-  
+
   bool _checkPinStatus() {
     final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     // Iterate over the userPinned list and check if courseId matches

@@ -54,8 +54,6 @@ class CourseCard extends StatelessWidget {
   });
 
   Future<void> fetchDataAsync(BuildContext context) async {
-    print("Course card: streams are being fetched");
-    print("Last Recording ID $lastLectureId");
 
     if (lastLectureId != null) {
       final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
@@ -327,7 +325,6 @@ class CourseCard extends StatelessWidget {
           );
         } else {
           //TODO how to handle this error case?
-          print("Navigation skipped: Widget is not mounted.");
           throw FlutterError("Navigation skipped: Widget is not mounted.");
         }
       }

@@ -66,4 +66,8 @@ class DownloadedCourses extends ConsumerWidget {
             child: const Center(child: Text('No downloaded courses')),
           );
   }
+
+  Widget _buildStreamList() {
+    return const SizedBox();
+  }
 }

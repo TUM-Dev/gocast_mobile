@@ -36,6 +36,7 @@ class DownloadCoursesContentView extends ConsumerWidget {
         onRefresh: onRefresh ?? () async {},
         child: ListView.builder(
           itemCount: videoCards.length,
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           itemBuilder: (BuildContext context, int index) {
             return videoCards[index];
           },
