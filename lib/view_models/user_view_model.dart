@@ -17,10 +17,7 @@ import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:logger/logger.dart';
-import 'package:gocast_mobile/base/networking/api/handler/notification_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
@@ -192,41 +189,11 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchFeatureNotifications() async {
-    try {
-      _logger.i('Fetching feature notifications');
-      var featureNotifications =
-          await NotificationHandler(_grpcHandler).fetchFeatureNotifications();
-      state = state.copyWith(
-        featureNotifications: featureNotifications,
-        isLoading: false,
-      );
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-  Future<void> fetchBannerAlerts() async {
-    try {
-      _logger.i('Fetching banner alerts');
-      var bannerAlerts =
-          await NotificationHandler(_grpcHandler).fetchBannerAlerts();
-      state = state.copyWith(bannerAlerts: bannerAlerts, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
   Future<void> logout() async {
     await TokenHandler.deleteToken('jwt');
+    await TokenHandler.deleteToken('device_token');
     state = const UserState(); // Resets the state to its initial value
     _logger.i('Logged out user and cleared tokens.');
-  }
-
-  void clearError() {
-    state = state.clearError();
   }
 
   void setLoading(bool isLoading) {
@@ -325,5 +292,4 @@ class UserViewModel extends StateNotifier<UserState> {
   List<UserSetting>? getUserSettings() {
     return state.userSettings;
   }
-
 }

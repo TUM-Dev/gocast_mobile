@@ -180,4 +180,8 @@ class StreamViewModel extends StateNotifier<StreamState> {
   void switchVideoSource(String newPlaylistUrl) {
     state = state.switchVideoSource(newPlaylistUrl);
   }
+
+  void setProgress(double savedProgress) {
+    state = state.copyWith(progress: Progress(progress: savedProgress));
+  }
 }

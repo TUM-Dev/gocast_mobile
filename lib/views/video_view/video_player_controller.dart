@@ -1,5 +1,4 @@
 import 'package:chewie/chewie.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -56,7 +55,9 @@ class VideoPlayerControllerManager {
       autoInitialize: true,
       allowFullScreen: true,
       fullScreenByDefault: false,
-      playbackSpeeds: playbackSpeeds.isEmpty ? [0.25, 0.5,0.75, 1, 1.25, 1.5, 1.75, 2] : playbackSpeeds,
+      playbackSpeeds: playbackSpeeds.isEmpty
+          ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+          : playbackSpeeds,
     );
   }
 
@@ -126,6 +127,7 @@ class VideoPlayerControllerManager {
       : Chewie(controller: chewieController!);
 
   void dispose() {
+    videoPlayerController.pause();
     videoPlayerController.dispose();
     chewieController?.dispose();
   }
