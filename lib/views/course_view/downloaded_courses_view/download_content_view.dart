@@ -35,9 +35,8 @@ class DownloadCoursesContentView extends ConsumerWidget {
       customAppBar: CustomSearchTopNavBar(
         searchController: searchController,
         title: title,
-        onSortOptionSelected: _handleSortOptionSelected,
         filterOptions: const ['Newest First', 'Oldest First'],
-        onSemesterSelected: _handleSortOptionSelected,
+        onClick: _handleSortOptionSelected,
       ),
       showLeading: false,
       child: RefreshIndicator(

@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/Filter_Popup_Menu_Button.dart';
 
 class CustomSearchTopNavBar extends ConsumerWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
   final String title;
-  final Function(String) onSortOptionSelected;
+
   final List<String> filterOptions;
-  final Function(String)? onSemesterSelected;
+  final Function(String) onClick;
 
   const CustomSearchTopNavBar({
     super.key,
     required this.searchController,
     required this.title,
-    required this.onSortOptionSelected,
     required this.filterOptions,
-    required this.onSemesterSelected,
+    required this.onClick,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSearchActive = ref.watch(isSearchActiveProvider);
-    final viewModel = ref.watch(userViewModelProvider);
-    final semesters = viewModel.semestersAsString;
 
     return SafeArea(
       child: AppBar(
@@ -69,11 +65,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
                 ),
                 FilterPopupMenuButton(
                   filterOptions: filterOptions,
-                  onFilterSelected: (String choice) {
-                    onSortOptionSelected(choice);
-                  },
-                  onSemesterSelected: onSemesterSelected,
-                  semesters: semesters,
+                  onClick: onClick,
                 ),
               ],
         titleSpacing: 0.0,

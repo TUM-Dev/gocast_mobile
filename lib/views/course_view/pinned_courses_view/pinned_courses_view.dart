@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
@@ -17,9 +16,6 @@ class PinnedCourses extends ConsumerStatefulWidget {
 }
 
 class PinnedCoursesState extends ConsumerState<PinnedCourses> {
-  late List<Course> displayedCourses = [];
-  late List<Course> allPinnedCourses = [];
-  bool isLoading = true;
   final TextEditingController searchController = TextEditingController();
   late List<Course> temp;
   bool isSearchInitialized = false;
@@ -33,90 +29,54 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
-
     Future.microtask(() async {
       await userViewModelNotifier.fetchUserPinned();
-      if (mounted) {
-        setState(() {
-          allPinnedCourses = ref.watch(userViewModelProvider).userPinned ?? [];
-          displayedCourses = allPinnedCourses;
-          _handleSortOptionSelected('Semester');
-          filterCoursesBySemester(
-              ref.read(userViewModelProvider).currentAsString ?? 'All');
-          isLoading = false; // Set isLoading to false here
-        });
-      }
     });
   }
 
   Future<void> _refreshPinnedCourses() async {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
-    final selectedSemester =
-        ref.read(userViewModelProvider).selectedSemester ?? 'All';
-    if (mounted) {
-      setState(() {
-        allPinnedCourses = ref.watch(userViewModelProvider).userPinned ?? [];
-        displayedCourses = allPinnedCourses;
-        _handleSortOptionSelected(
-            ref.read(userViewModelProvider).selectedFilterOption);
-        filterCoursesBySemester(selectedSemester);
-      });
-    }
   }
 
   void filterCoursesBySemester(String selectedSemester) {
-    setState(() {
-      ref
-          .read(userViewModelProvider.notifier)
-          .updateSelectedSemester(selectedSemester);
-      displayedCourses = CourseUtils.filterCoursesBySemester(
-          allPinnedCourses, selectedSemester);
-    });
-  }
-
-
-  void _handleSortOptionSelected(String choice) {
-    setState(() {
-      ref
-          .read(userViewModelProvider.notifier)
-          .updateSelectedFilterOption(choice);
-      CourseUtils.sortCourses(
-          displayedCourses,
-          ref
-              .read(userViewModelProvider)
-              .selectedFilterOption); // Call sortStreams to reorder the streams based on the new setting
-    });
+    var userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    ref
+        .read(userViewModelProvider.notifier)
+        .updateSelectedSemester(selectedSemester, userPinned);
   }
 
   void _searchCourses() {
+    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     final searchInput = searchController.text.toLowerCase();
+    var displayedCourses =
+        ref.watch(userViewModelProvider).displayedCourses ?? [];
     if (!isSearchInitialized) {
       temp = List.from(displayedCourses);
       isSearchInitialized = true;
     }
-
-    setState(() {
       if (searchInput.isEmpty) {
-        displayedCourses = temp;
-        isSearchInitialized = false;
-      } else {
-        displayedCourses = displayedCourses.where((course) {
-          return course.name.toLowerCase().contains(searchInput) ||
-              course.slug.toLowerCase().contains(searchInput);
+      userViewModelNotifier.updatedDisplayedCourses(temp);
+      isSearchInitialized = false;
+    } else {
+      displayedCourses = displayedCourses.where((course) {
+        return course.name.toLowerCase().contains(searchInput) ||
+            course.slug.toLowerCase().contains(searchInput);
         }).toList();
-      }
-    });
+      userViewModelNotifier.updatedDisplayedCourses(displayedCourses);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final userPinned = ref.watch(userViewModelProvider).displayedCourses ?? [];
+    final filterOptions =
+        ref.watch(userViewModelProvider).semestersAsString ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBar(
         searchController: searchController,
-        onSortOptionSelected: _handleSortOptionSelected,
         title: "Pinned Courses",
-        filterOptions: const ['Newest First', 'Oldest First', 'Semester'],
-        onSemesterSelected: filterCoursesBySemester,
+        filterOptions: filterOptions,
+        onClick: filterCoursesBySemester,
       ),
       body: RefreshIndicator(
         onRefresh: _refreshPinnedCourses,
@@ -126,9 +86,9 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         displacement: 20.0,
         child: PinnedCoursesContentView(
           title: "Pinned Courses",
-          pinnedCourseCards: displayedCourses.map((course) {
-            final isPinned = displayedCourses
-                .any((pinnedCourse) => pinnedCourse.id == course.id);
+          pinnedCourseCards: userPinned.map((course) {
+            final isPinned =
+                userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return PinnedCourseCard(
               imageName: 'assets/images/course2.png',
               course: course,

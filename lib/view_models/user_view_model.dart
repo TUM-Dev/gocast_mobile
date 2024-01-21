@@ -77,68 +77,6 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchUserCourses() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Fetching user courses');
-      var courses = await UserHandler(_grpcHandler).fetchUserCourses();
-      state = state.copyWith(userCourses: courses, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-  Future<void> fetchUserPinned() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
-      state = state.copyWith(userPinned: courses, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-  Future<bool> pinCourse(int courseID) async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Pinning course with id: $courseID');
-      bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
-      if (success) {
-        await fetchUserPinned();
-        _logger.i('Course pinned successfully');
-      } else {
-        _logger.e('Failed to pin course');
-      }
-      state = state.copyWith(isLoading: false);
-      return success;
-    } catch (e) {
-      _logger.e('Error pinning course: $e');
-      state = state.copyWith(error: e as AppError, isLoading: false);
-      return false;
-    }
-  }
-
-  Future<bool> unpinCourse(int courseID) async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Unpinning course with id: $courseID');
-      bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
-      if (success) {
-        await fetchUserPinned();
-        _logger.i('Course unpinned successfully');
-      } else {
-        _logger.e('Failed to unpin course');
-      }
-      state = state.copyWith(isLoading: false);
-      return success;
-    } catch (e) {
-      _logger.e('Error unpinning course: $e');
-      state = state.copyWith(error: e as AppError, isLoading: false);
-      return false;
-    }
-  }
 
   Future<void> fetchUserSettings() async {
     try {
@@ -176,17 +114,6 @@ class UserViewModel extends StateNotifier<UserState> {
       state = state.copyWith(userBookmarks: bookmarks, isLoading: false);
     } catch (e) {
       _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
-  Future<void> fetchPublicCourses() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Fetching public courses');
-      var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
-      state = state.copyWith(publicCourses: courses, isLoading: false);
-    } catch (e) {
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
@@ -306,25 +233,115 @@ class UserViewModel extends StateNotifier<UserState> {
       String current =
           "${semesters.item2.year} - ${semesters.item2.teachingTerm}";
       state = state.copyWith(currentAsString: current);
-      updateSelectedSemester(current);
-      updateSelectedFilterOption('Semester');
+      updateSelectedSemester(current, []);
+      updateSelectedFilterOption('Semester', []);
     } catch (e) {
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
 
-  //new
-  void updateSelectedFilterOption(String option) {
-    state = state.copyWith(selectedFilterOption: option);
+  Future<void> fetchUserPinned() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
+      state = state.copyWith(userPinned: courses, isLoading: false);
+      setUpDisplayedCourses(state.userPinned ?? []);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
   }
 
-  void updateSelectedSemester(String? semester) {
+  Future<void> fetchPublicCourses() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Fetching public courses');
+      var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
+      state = state.copyWith(publicCourses: courses, isLoading: false);
+      setUpDisplayedCourses(state.publicCourses ?? []);
+    } catch (e) {
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<void> fetchUserCourses() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Fetching user courses');
+      var courses = await UserHandler(_grpcHandler).fetchUserCourses();
+      state = state.copyWith(userCourses: courses, isLoading: false);
+      setUpDisplayedCourses(state.userCourses ?? []);
+    } catch (e) {
+      _logger.e(e);
+      state = state.copyWith(error: e as AppError, isLoading: false);
+    }
+  }
+
+  Future<bool> pinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Pinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course pinned successfully');
+      } else {
+        _logger.e('Failed to pin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error pinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
+  Future<bool> unpinCourse(int courseID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      _logger.i('Unpinning course with id: $courseID');
+      bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
+      if (success) {
+        await fetchUserPinned();
+        _logger.i('Course unpinned successfully');
+      } else {
+        _logger.e('Failed to unpin course');
+      }
+      state = state.copyWith(isLoading: false);
+      return success;
+    } catch (e) {
+      _logger.e('Error unpinning course: $e');
+      state = state.copyWith(error: e as AppError, isLoading: false);
+      return false;
+    }
+  }
+
+  //new
+  void updateSelectedFilterOption(String option, List<Course> allCourses) {
+    state = state.copyWith(selectedFilterOption: option);
+    CourseUtils.sortCourses(allCourses, state.selectedFilterOption);
+  }
+
+  void updateSelectedSemester(String? semester, List<Course> allCourses) {
     state = state.copyWith(selectedSemester: semester);
+    updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
+        allCourses, state.selectedSemester ?? 'All'));
   }
 
   void setSemestersAsString(List<Semester> semesters) {
     state = state.copyWith(
         semestersAsString:
             CourseUtils.convertAndSortSemesters(semesters, true));
+  }
+
+  void updatedDisplayedCourses(List<Course> displayedCourses) {
+    state = state.copyWith(displayedCourses: displayedCourses);
+  }
+
+  void setUpDisplayedCourses(List<Course> allCourses) {
+    CourseUtils.sortCourses(allCourses, 'Newest First');
+    updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
+        allCourses, state.selectedSemester ?? 'All'));
   }
 }

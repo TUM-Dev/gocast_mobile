@@ -17,12 +17,13 @@ class UserState {
   final bool isPushNotificationsEnabled;
   final bool isDownloadWithWifiOnly;
   final List<Semester>? semesters;
+
   final String selectedFilterOption;
   final String? selectedSemester;
   final List<String>? semestersAsString;
   final Semester? current;
   final String? currentAsString;
-
+  final List<Course>? displayedCourses;
   const UserState({
     this.isLoading = false,
     this.user,
@@ -43,6 +44,7 @@ class UserState {
     this.semestersAsString,
     this.current,
     this.currentAsString,
+    this.displayedCourses,
   });
 
   UserState copyWith({
@@ -65,7 +67,7 @@ class UserState {
     List<String>? semestersAsString,
     Semester? current,
     String? currentAsString,
-  }) {
+      List<Course>? displayedCourses}) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
@@ -88,6 +90,7 @@ class UserState {
       semestersAsString: semestersAsString ?? this.semestersAsString,
       current: current ?? this.current,
       currentAsString: currentAsString ?? this.currentAsString,
+      displayedCourses: displayedCourses ?? this.displayedCourses,
     );
   }
 

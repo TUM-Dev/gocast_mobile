@@ -3,83 +3,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart'; // Assuming this contains your providers
 
 class FilterPopupMenuButton extends ConsumerWidget {
-  final Function(String) onFilterSelected;
   final List<String> filterOptions;
-  final Function(String)? onSemesterSelected;
-  final List<String>? semesters;
+  final Function(String) onClick;
 
   const FilterPopupMenuButton({
     super.key,
-    required this.onFilterSelected,
+    required this.onClick,
     required this.filterOptions,
-    this.onSemesterSelected,
-    this.semesters,
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userViewModel = ref.watch(userViewModelProvider);
-    final selectedFilterOption = userViewModel.selectedFilterOption;
     final selectedSemester = ref.read(userViewModelProvider).selectedSemester;
 
     return PopupMenuButton<String>(
       onSelected: (choice) {
-        onFilterSelected(choice);
-        if (choice == 'Semester') {
-          _showSemesterSelectionBottomSheet(context, ref);
-        }
+        onClick(choice);
       },
       itemBuilder: (BuildContext context) {
-        return (selectedSemester == 'All' || filterOptions.length == 2
-                ? filterOptions
-                : [selectedFilterOption])
-            .map((choice) {
+        return filterOptions.map((choice) {
+          bool isSelected = selectedSemester == choice;
           return PopupMenuItem<String>(
             value: choice,
             child: ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(choice),
-              trailing: selectedFilterOption == choice
-                  ? Icon(Icons.check, color: Theme.of(context).iconTheme.color)
-                  : null,
+              trailing: Opacity(
+                opacity: isSelected ? 1.0 : 0.0,
+                child:
+                    Icon(Icons.check, color: Theme.of(context).iconTheme.color),
+              ),
             ),
           );
         }).toList();
       },
       icon: Icon(Icons.filter_list, color: Theme.of(context).iconTheme.color),
-    );
-  }
-
-  void _showSemesterSelectionBottomSheet(BuildContext context, WidgetRef ref) {
-    final selectedSemester = ref.read(userViewModelProvider).selectedSemester;
-
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Wrap(
-            children: [
-              ...?semesters?.map((semester) {
-                return ListTile(
-                  title: Text(semester),
-                  trailing: selectedSemester == semester
-                      ? const Icon(Icons.check)
-                      : null,
-                  onTap: () {
-                    ref
-                        .read(userViewModelProvider.notifier)
-                        .updateSelectedSemester(semester);
-                    if (onSemesterSelected != null) {
-                      onSemesterSelected!(semester);
-                    }
-                    Navigator.pop(context);
-                  },
-                );
-              }),
-            ],
-          ),
-        );
-      },
     );
   }
 }

@@ -1,21 +1,7 @@
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 
 class CourseUtils {
-  static List<Course> filterCoursesBySemester(
-      List<Course> courses, String selectedSemester) {
-    if (selectedSemester == 'All') {
-      return courses;
-    } else {
-      var parts = selectedSemester.split(' - ');
-      var year = int.parse(parts[0]);
-      var term = parts[1];
 
-      return courses.where((course) {
-        return course.semester.year == year &&
-            course.semester.teachingTerm == term;
-      }).toList();
-    }
-  }
 
   static List<String> convertAndSortSemesters(
       List<Semester> semesters, bool isNewestFirst) {
@@ -43,9 +29,23 @@ class CourseUtils {
     return semesterStrings;
   }
 
-  static void sortCourses(List<Course> courses, String sortOption) {
-    if (sortOption == 'Semester') {
+  static List<Course> filterCoursesBySemester(
+      List<Course> courses, String selectedSemester) {
+    if (selectedSemester == 'All') {
+      return courses;
     } else {
+      var parts = selectedSemester.split(' - ');
+      var year = int.parse(parts[0]);
+      var term = parts[1];
+
+      return courses.where((course) {
+        return course.semester.year == year &&
+            course.semester.teachingTerm == term;
+      }).toList();
+    }
+  }
+
+  static void sortCourses(List<Course> courses, String sortOption) {
       bool isNewestFirst = sortOption == 'Newest First';
       courses.sort((a, b) {
         int yearComparison = a.semester.year.compareTo(b.semester.year);
@@ -58,7 +58,6 @@ class CourseUtils {
         }
         return a.semester.teachingTerm == 'W' ? -1 : 1;
       });
-    }
   }
 
   static List<Stream> sortStreams(List<Stream> streams, bool isNewestFirst) {

@@ -59,7 +59,9 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   void _handleSortOptionSelected(String choice) {
-    ref.read(userViewModelProvider.notifier).updateSelectedFilterOption(choice);
+    ref
+        .read(userViewModelProvider.notifier)
+        .updateSelectedFilterOption(choice, []);
     sortStreams();
   }
 
@@ -95,7 +97,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
-        onSortOptionSelected: _handleSortOptionSelected,
+        onClick: _handleSortOptionSelected,
         filterOptions: const ['Newest First', 'Oldest First'],
       ),
       body: RefreshIndicator(

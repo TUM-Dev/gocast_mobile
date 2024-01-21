@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/filter_popup_menu_button.dart';
 
 class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
-  final Function(String) onSortOptionSelected;
   final List<String> filterOptions;
-  final Function(String)? onSemesterSelected;
+  final Function(String) onClick;
 
   const CustomSearchTopNavBarWithBackButton({
     super.key,
     required this.searchController,
-    required this.onSortOptionSelected,
     required this.filterOptions,
-    this.onSemesterSelected,
+    required this.onClick,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(userViewModelProvider);
-    final semesters = viewModel.semestersAsString;
     return SafeArea(
       child: AppBar(
         automaticallyImplyLeading: false,
@@ -38,11 +33,7 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
         actions: [
           FilterPopupMenuButton(
             filterOptions: filterOptions,
-            onFilterSelected: (String choice) {
-              onSortOptionSelected(choice);
-            },
-            onSemesterSelected: onSemesterSelected,
-            semesters: semesters,
+            onClick: onClick,
           ),
         ],
         titleSpacing: 0.0,
