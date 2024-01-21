@@ -212,7 +212,11 @@ class CourseCard extends StatelessWidget {
 
     return InkWell(
       onTap: () async {
-        await launchUrl(url);
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url);
+        } else {
+          throw 'Could not launch $url';
+        }
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
