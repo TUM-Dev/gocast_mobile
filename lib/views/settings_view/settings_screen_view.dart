@@ -21,12 +21,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(userViewModelProvider.notifier).loadPreferences();
+    //ref.read(userViewModelProvider.notifier).loadPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userViewModelProvider);
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
 
     return Scaffold(
       key: _scaffoldKey,
