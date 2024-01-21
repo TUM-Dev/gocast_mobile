@@ -219,28 +219,3 @@ class StreamCardState extends ConsumerState<StreamCard> {
     );
   }
 }
-
-/*
-class StreamCard extends BaseCard {
-  final Stream stream;
-
-  const StreamCard({
-    super.key,
-    required super.imageName,
-    required this.stream,
-    required super.onTap,
-  });
-
-  @override
-  List<Widget> buildCardContent() {
-    return [
-      buildHeader(
-        title: stream.name,
-        subtitle: stream.description,
-        length: stream.duration,
-      ),
-      buildInternetImage(),
-    ];
-  }
-}
-*/

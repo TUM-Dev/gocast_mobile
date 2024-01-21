@@ -18,8 +18,7 @@ class DownloadedCourses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userDownloaded = ref.watch(userViewModelProvider).downloadedCourses ??
-        MockData.mockDownloadedCourses;
+    final userDownloaded = ref.watch(userViewModelProvider).downloadedCourses ?? [];
 
     return userDownloaded.isNotEmpty
         ? DownloadCoursesContentView(
