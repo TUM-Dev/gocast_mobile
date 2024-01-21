@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
+import 'package:intl/intl.dart';
 
 class StreamCard extends ConsumerStatefulWidget {
   final Stream stream;
@@ -40,6 +41,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
         ),
       );
     }
+
     final videoProgress = ref.watch(videoViewModelProvider).progress;
 
     return InkWell(
@@ -69,33 +71,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
                 subtitle: widget.stream.description,
                 length: widget.stream.duration,
               ),
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Image.network(
-                  imageName,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  (loadingProgress.expectedTotalBytes ?? 1)
-                              : null,
-                        ),
-                      );
-                    }
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      'assets/images/default_image.png',
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-              ), // Adjust spacing as needed
+              _buildThumbnail(widget.stream.duration),  // Adjust spacing as needed
               LinearProgressIndicator(
                 value: videoProgress != null ? videoProgress.progress : 0.0,
                 minHeight: 10.0,
@@ -110,6 +86,45 @@ class StreamCardState extends ConsumerState<StreamCard> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildThumbnail(int duration) {
+    return Stack(
+      children: [
+        AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Image.network(
+            imageName,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                        (loadingProgress.expectedTotalBytes ?? 1)
+                        : null,
+                  ),
+                );
+              }
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                'assets/images/default_image.png',
+                fit: BoxFit.cover,
+              );
+            },
+          ),
+        ),
+        Positioned(
+          bottom: 2,
+          right: 2,
+          child: _buildStreamLength(duration),
+        ),
+      ],
     );
   }
 
@@ -140,7 +155,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
               ],
             ),
           ),
-          if (length != null) _buildStreamLength(length),
+          if (length != null) _buildStreamDate(), //_buildStreamLength(length, widget.stream),
           if (trailing != null) trailing,
         ],
       ),
@@ -157,6 +172,26 @@ class StreamCardState extends ConsumerState<StreamCard> {
     String formattedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
 
     return '$formattedHours:$formattedMinutes:$formattedSeconds';
+  }
+
+  Widget _buildStreamDate() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        //themeData.shadowColor.withOpacity(0.15), //Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: const EdgeInsets.all(3),
+      child: Text(
+        DateFormat('EEEE, MM/dd/yyyy, HH:mm').format(widget.stream.start.toDateTime()),
+        style: const TextStyle(
+          //themeData.textTheme.labelSmall?.copyWith(
+          fontSize: 12,
+          //fontWeight: FontWeight.bold,
+          //height: 1,
+        ),
+      ),
+    );
   }
 
   Widget _buildStreamLength(int length) {
@@ -178,6 +213,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
       ),
     );
   }
+
 }
 
 /*
