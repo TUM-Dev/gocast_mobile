@@ -89,7 +89,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
   Future<void> updatePreferredGreeting(String newGreeting) async {
     try {
       await SettingsHandler(_grpcHandler)
-          .updatePreferredGreeting(newGreeting, state.userSettings ?? []);
+          .updateGreeting(newGreeting);
       await fetchUserSettings();
     } catch (e) {
       _logger.e('Error updating greeting: $e');
@@ -99,7 +99,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
   Future<bool> updatePreferredName(String newName) async {
     try {
       await SettingsHandler(_grpcHandler)
-          .updatePreferredName(newName, state.userSettings ?? []);
+          .updateName(newName);
       await fetchUserSettings();
       return true;
     } catch (e) {

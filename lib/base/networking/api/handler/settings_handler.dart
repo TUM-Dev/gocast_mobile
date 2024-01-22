@@ -67,6 +67,46 @@ class SettingsHandler {
     }
   }
 
+  Future<bool> updateName(String newName) async {
+    try {
+      _logger.i('Updating user settings...');
+      final request = PatchUserSettingsRequest()
+        ..userSettings.add(UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName));
+
+      await _grpcHandler.callGrpcMethod(
+        (client) async {
+          await client.patchUserSettings(request);
+          _logger.i('User settings updated successfully');
+        },
+      );
+      return true;
+    } catch (e) {
+      _logger.e('Error updating user settings: $e');
+      rethrow;
+    }
+  }
+
+  Future<bool> updateGreeting(String newGreeting) async {
+    try {
+      _logger.i('Updating user settings...');
+      final request = PatchUserSettingsRequest()
+        ..userSettings.add(UserSetting(type: UserSettingType.GREETING, value: newGreeting));
+
+      await _grpcHandler.callGrpcMethod(
+        (client) async {
+          await client.patchUserSettings(request);
+          _logger.i('User settings updated successfully');
+        },
+      );
+      return true;
+    } catch (e) {
+      _logger.e('Error updating user settings: $e');
+      rethrow;
+    }
+  }
+
+
+
   /// Parses playback speeds from the user settings.
   List<double> parsePlaybackSpeeds(List<UserSetting>? userSettings) {
     final playbackSpeedSetting = userSettings?.firstWhere(
@@ -87,30 +127,6 @@ class SettingsHandler {
       }
     }
     return [];
-  }
-
-  /// Updates the preferred greeting in user settings.
-  Future<bool> updatePreferredGreeting(
-    String newGreeting,
-    List<UserSetting> currentSettings,
-  ) async {
-    try {
-      var greetingSetting = currentSettings.firstWhere(
-        (setting) => setting.type == UserSettingType.GREETING,
-        orElse: () =>
-            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
-      );
-      greetingSetting.value = newGreeting;
-
-      if (!currentSettings.contains(greetingSetting)) {
-        currentSettings.add(greetingSetting);
-      }
-      await updateUserSettings(currentSettings);
-      return true;
-    } catch (e) {
-      _logger.e('Error updating greeting: $e');
-      return false;
-    }
   }
 
   /// Updates the preferred name in user settings.
@@ -152,9 +168,8 @@ class SettingsHandler {
     playbackSpeedSetting.value = jsonEncode(
       speeds.map((s) => {"speed": s, "enabled": true}).toList(),
     );
-    if (!currentSettings.contains(playbackSpeedSetting)) {
-      currentSettings.add(playbackSpeedSetting);
-    }
-    await updateUserSettings(currentSettings);
+    await updateUserSettings([playbackSpeedSetting]);
   }
+
+
 }
