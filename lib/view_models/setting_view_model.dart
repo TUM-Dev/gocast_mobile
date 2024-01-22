@@ -99,7 +99,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
   Future<bool> updatePreferredName(String newName) async {
     try {
       await SettingsHandler(_grpcHandler)
-          .updateName(newName);
+          .updatePreferredName(newName);
       await fetchUserSettings();
       return true;
     } catch (e) {
