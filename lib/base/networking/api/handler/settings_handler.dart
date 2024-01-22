@@ -60,7 +60,6 @@ class SettingsHandler {
           _logger.i('User settings updated successfully');
         },
       );
-
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
@@ -141,7 +140,7 @@ class SettingsHandler {
       orElse: () => UserSetting(
         type: UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
         value: jsonEncode([
-          {"speed": 1.0, "enabled": true}
+          {"speed": 1.0, "enabled": true},
         ]),
       ),
     );

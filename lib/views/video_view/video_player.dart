@@ -45,7 +45,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         ),
         Expanded(
             child:
-                ChatView(isActive: _isChatVisible, streamID: widget.stream.id)),
+                ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
       ],
     );
   }
