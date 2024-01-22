@@ -9,8 +9,8 @@ class PreferredGreetingView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.watch(userViewModelProvider);
-    final currentGreeting = userState.userSettings
+    final settingState = ref.watch(settingViewModelProvider);
+    final currentGreeting = settingState.userSettings
             ?.firstWhere(
               (setting) => setting.type == UserSettingType.GREETING,
               orElse: () => UserSetting(value: 'Default Greeting'),
@@ -49,7 +49,7 @@ class PreferredGreetingView extends ConsumerWidget {
                   await showAuthenticationErrorCard(context, ref);
               if (isAuthenticated) {
                 await ref
-                    .read(userViewModelProvider.notifier)
+                    .read(settingViewModelProvider.notifier)
                     .updatePreferredGreeting(newValue);
               }
             }

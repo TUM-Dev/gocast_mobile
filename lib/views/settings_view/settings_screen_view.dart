@@ -22,12 +22,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-      ref.read(userViewModelProvider.notifier).fetchUserSettings(),);
+      ref.read(settingViewModelProvider.notifier).fetchUserSettings(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userViewModelProvider);
+    final settingState = ref.watch(settingViewModelProvider);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -53,30 +55,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const PreferredGreetingView(),
               _buildSwitchListTile(
                 title: 'Push notifications',
-                value: userState.isPushNotificationsEnabled,
+                value: settingState.isPushNotificationsEnabled,
                 onChanged: (value) {
                   ref
-                      .read(userViewModelProvider.notifier)
+                      .read(settingViewModelProvider.notifier)
                       .saveNotificationPreference(value);
                 },
                 ref: ref,
               ),
               _buildSwitchListTile(
                 title: 'Dark mode',
-                value: userState.isDarkMode,
+                value: settingState.isDarkMode,
                 onChanged: (value) {
                   ref
-                      .read(userViewModelProvider.notifier)
+                      .read(settingViewModelProvider.notifier)
                       .saveThemePreference(value ? 'dark' : 'light', ref);
                 },
                 ref: ref,
               ),
               _buildSwitchListTile(
                 title: 'Download Over Wi-Fi only',
-                value: userState.isDownloadWithWifiOnly,
+                value: settingState.isDownloadWithWifiOnly,
                 onChanged: (value) {
                   ref
-                      .read(userViewModelProvider.notifier)
+                      .read(settingViewModelProvider.notifier)
                       .saveDownloadWifiOnlyPreference(value);
                 },
                 ref: ref,
@@ -113,14 +115,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   ListTile _buildProfileTile(userState) {
-    final preferredNameSetting = userState.userSettings?.firstWhere(
+     final settingState = ref.watch(settingViewModelProvider);
+    final preferredNameSetting = settingState.userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.PREFERRED_NAME,
       orElse: () => UserSetting(value: ''),
     );
     final preferredName = preferredNameSetting?.value ?? '';
     final userName = userState.user?.name ?? 'Guest';
 
-    final greetingSetting = userState.userSettings?.firstWhere(
+    final greetingSetting = settingState.userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.GREETING,
       orElse: () => UserSetting(value: 'Hi'),
     );

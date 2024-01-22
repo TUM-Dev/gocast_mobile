@@ -66,7 +66,7 @@ class BaseViewState extends ConsumerState<BaseView> {
       bottomNavigationBar: widget.bottomNavigationBar,
       onEndDrawerChanged: (isOpen) {
         if (isOpen) {
-          ref.read(userViewModelProvider.notifier).loadPreferences();
+          ref.read(settingViewModelProvider.notifier).loadPreferences();
         }
       },
     );

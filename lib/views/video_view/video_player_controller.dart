@@ -162,7 +162,7 @@ class VideoPlayerControllerManager {
   }
 
   List<double> _getPlaybackSpeeds() {
-    final userViewModel = ref.read(userViewModelProvider.notifier);
-    return userViewModel.parsePlaybackSpeeds();
+    final settingViewModel = ref.read(settingViewModelProvider.notifier);
+    return settingViewModel.parsePlaybackSpeeds();
   }
 }

@@ -11,9 +11,9 @@ class PlaybackSpeedSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.watch(userViewModelProvider);
+    final settingState = ref.watch(settingViewModelProvider);
     final selectedPlaybackSpeeds =
-        _parsePlaybackSpeeds(userState.userSettings, ref);
+        _parsePlaybackSpeeds(settingState.userSettings, ref);
 
     return Column(
       children: [
@@ -63,7 +63,7 @@ class PlaybackSpeedSettings extends ConsumerWidget {
     if (!isAuthenticated) return;
 
     await ref
-        .read(userViewModelProvider.notifier)
+        .read(settingViewModelProvider.notifier)
         .updateSelectedSpeeds(speed, isSelected);
   }
 
@@ -71,6 +71,6 @@ class PlaybackSpeedSettings extends ConsumerWidget {
     List<UserSetting>? userSettings,
     WidgetRef ref,
   ) {
-    return ref.read(userViewModelProvider.notifier).parsePlaybackSpeeds();
+    return ref.read(settingViewModelProvider.notifier).parsePlaybackSpeeds();
   }
 }

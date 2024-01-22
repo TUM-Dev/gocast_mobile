@@ -118,7 +118,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Future<void> _updatePreferredName(String name) async {
     try {
       bool success = await ref
-          .read(userViewModelProvider.notifier)
+          .read(settingViewModelProvider.notifier)
           .updatePreferredName(name);
       if (success) {
         setState(() {
