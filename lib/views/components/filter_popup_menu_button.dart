@@ -15,6 +15,8 @@ class FilterPopupMenuButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedSemester = ref.read(userViewModelProvider).selectedSemester;
+    final selectedSortedOption =
+        ref.read(videoViewModelProvider).selectedFilterOption;
 
     return PopupMenuButton<String>(
       onSelected: (choice) {
@@ -22,7 +24,8 @@ class FilterPopupMenuButton extends ConsumerWidget {
       },
       itemBuilder: (BuildContext context) {
         return filterOptions.map((choice) {
-          bool isSelected = selectedSemester == choice;
+          bool isSelected =
+              selectedSemester == choice || selectedSortedOption == choice;
           return PopupMenuItem<String>(
             value: choice,
             child: ListTile(

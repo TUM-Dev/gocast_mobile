@@ -1,5 +1,5 @@
 import 'package:fixnum/fixnum.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
@@ -50,6 +50,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
       streamsWithThumb: fetchedStreamsWithThumbnails,
       isLoading: false,
     );
+    updatedDisplayedStreams(fetchedStreamsWithThumbnails);
   }
 
   void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {

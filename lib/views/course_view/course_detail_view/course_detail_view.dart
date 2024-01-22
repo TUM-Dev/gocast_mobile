@@ -25,7 +25,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   final TextEditingController searchController = TextEditingController();
   final String baseUrl = 'https://live.rbg.tum.de';
   bool isSearchInitialized = false;
-  bool isLoading = true;
 
   @override
   void initState() {
@@ -77,12 +76,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   Widget build(BuildContext context) {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final streams = ref.watch(videoViewModelProvider).displayedStreams ?? [];
-    if (isLoading) {
-      return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
