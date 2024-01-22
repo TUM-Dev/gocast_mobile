@@ -37,7 +37,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
   }
 
   void filterCoursesBySemester(String selectedSemester) {
-    var allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
+    var allUserCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
     ref
         .read(userViewModelProvider.notifier)
         .updateSelectedSemester(selectedSemester, allUserCourses);

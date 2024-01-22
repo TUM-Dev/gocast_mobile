@@ -28,7 +28,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     Future.microtask(() async {
-      await userViewModelNotifier.fetchUserPinned();
+      await userViewModelNotifier.fetchUserCourses();
     });
   }
 
