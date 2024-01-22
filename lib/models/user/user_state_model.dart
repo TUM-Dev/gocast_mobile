@@ -18,7 +18,6 @@ class UserState {
   final bool isDownloadWithWifiOnly;
   final List<Semester>? semesters;
 
-  final String selectedFilterOption;
   final String? selectedSemester;
   final List<String>? semestersAsString;
   final Semester? current;
@@ -39,7 +38,7 @@ class UserState {
     this.isDownloadWithWifiOnly = true,
     this.semesters,
     //new
-    this.selectedFilterOption = 'Oldest First',
+
     this.selectedSemester = 'All',
     this.semestersAsString,
     this.current,
@@ -62,8 +61,8 @@ class UserState {
     bool? isDownloadWithWifiOnly,
     List<Semester>? semesters,
     //new
-    String? selectedFilterOption,
-    String? selectedSemester,
+
+      String? selectedSemester,
     List<String>? semestersAsString,
     Semester? current,
     String? currentAsString,
@@ -85,7 +84,7 @@ class UserState {
           isDownloadWithWifiOnly ?? this.isDownloadWithWifiOnly,
       semesters: semesters ?? this.semesters,
       //new
-      selectedFilterOption: selectedFilterOption ?? this.selectedFilterOption,
+
       selectedSemester: selectedSemester ?? this.selectedSemester,
       semestersAsString: semestersAsString ?? this.semestersAsString,
       current: current ?? this.current,

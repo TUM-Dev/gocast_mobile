@@ -1,4 +1,5 @@
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
@@ -6,7 +7,9 @@ import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/video/stream_state_model.dart';
+import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
 
 class StreamViewModel extends StateNotifier<StreamState> {
   final Logger _logger = Logger();
@@ -34,12 +37,35 @@ class StreamViewModel extends StateNotifier<StreamState> {
     if (state.streams == null) {
       return;
     }
-    var fetchThumbnailTasks = state.streams!
-        .map((stream) => fetchThumbnailForStream(stream))
-        .toList();
+    var fetchThumbnailTasks = <Future<Tuple2<Stream, String>>>[];
+    for (var stream in state.streams!) {
+      fetchThumbnailTasks.add(
+        fetchThumbnailForStream(stream)
+            .then((thumbnail) => Tuple2(stream, thumbnail)),
+      );
+    }
 
-    var fetchedThumbnails = await Future.wait(fetchThumbnailTasks);
-    state = state.copyWith(thumbnails: fetchedThumbnails, isLoading: false);
+    var fetchedStreamsWithThumbnails = await Future.wait(fetchThumbnailTasks);
+    state = state.copyWith(
+      streamsWithThumb: fetchedStreamsWithThumbnails,
+      isLoading: false,
+    );
+  }
+
+  void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
+    state = state.copyWith(displayedStreams: allStreams);
+  }
+
+  void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
+    updatedDisplayedStreams(
+        CourseUtils.sortStreams(allStreams, state.selectedFilterOption));
+  }
+
+  void updateSelectedFilterOption(
+      String option, List<Tuple2<Stream, String>> allStreams) {
+    state = state.copyWith(selectedFilterOption: option);
+    updatedDisplayedStreams(
+        CourseUtils.sortStreams(allStreams, state.selectedFilterOption));
   }
 
   /// Fetches a thumbnail for a given stream.

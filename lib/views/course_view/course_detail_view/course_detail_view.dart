@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/utils/sort_utils.dart';
+
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
+
+import 'package:tuple/tuple.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
@@ -19,10 +21,7 @@ class CourseDetail extends ConsumerStatefulWidget {
 }
 
 class CourseDetailState extends ConsumerState<CourseDetail> {
-  late List<Stream> displayedStreams = [];
-  late List<Stream> allStreams = [];
-  late List<String> thumbnails;
-  late List<Stream> temp;
+  late List<Tuple2<Stream, String>> temp;
   final TextEditingController searchController = TextEditingController();
   final String baseUrl = 'https://live.rbg.tum.de';
   bool isSearchInitialized = false;
@@ -40,32 +39,20 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     Future.microtask(() async {
       await videoViewModelNotifier.fetchCourseStreams(widget.courseId);
       await videoViewModelNotifier.fetchThumbnails();
-      if (mounted) {
-        setState(() {
-          allStreams = ref.read(videoViewModelProvider).streams ?? [];
-          thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
-          displayedStreams = allStreams;
-          _handleSortOptionSelected('Newest First');
-          isLoading = false; // Set isLoading to false here
-        });
-      }
     });
   }
 
-  void sortStreams() {
-    bool isNewestFirst =
-        ref.read(userViewModelProvider).selectedFilterOption == 'Newest First';
-    displayedStreams = CourseUtils.sortStreams(allStreams, isNewestFirst);
-  }
-
   void _handleSortOptionSelected(String choice) {
+    var allStreams = ref.watch(videoViewModelProvider).streamsWithThumb ?? [];
     ref
-        .read(userViewModelProvider.notifier)
-        .updateSelectedFilterOption(choice, []);
-    sortStreams();
+        .read(videoViewModelProvider.notifier)
+        .updateSelectedFilterOption(choice, allStreams);
   }
 
   void _searchCourses() {
+    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
+    var displayedStreams =
+        ref.watch(videoViewModelProvider).displayedStreams ?? [];
     final searchInput = searchController.text.toLowerCase();
     if (!isSearchInitialized) {
       temp = List.from(displayedStreams);
@@ -74,13 +61,14 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
 
     setState(() {
       if (searchInput.isEmpty) {
-        displayedStreams = temp;
+        videoViewModelNotifier.updatedDisplayedStreams(temp);
         isSearchInitialized = false;
       } else {
         displayedStreams = displayedStreams.where((stream) {
-          return stream.name.toLowerCase().contains(searchInput) ||
-              stream.description.toLowerCase().contains(searchInput);
+          return stream.item1.name.toLowerCase().contains(searchInput) ||
+              stream.item1.description.toLowerCase().contains(searchInput);
         }).toList();
+        videoViewModelNotifier.updatedDisplayedStreams(displayedStreams);
       }
     });
   }
@@ -88,6 +76,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   @override
   Widget build(BuildContext context) {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final streams = ref.watch(videoViewModelProvider).displayedStreams ?? [];
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
@@ -108,8 +97,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
             _courseTitle(widget.title),
             _buildStreamList(
               context,
-              displayedStreams,
-              thumbnails,
+              streams,
               scaffoldMessenger,
             ),
           ],
@@ -124,14 +112,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     await ref
         .read(videoViewModelProvider.notifier)
         .fetchCourseStreams(courseID);
-    if (mounted) {
-      setState(() {
-        allStreams = ref.watch(videoViewModelProvider).streams ?? [];
-        displayedStreams = allStreams;
-        _handleSortOptionSelected(
-            ref.read(userViewModelProvider).selectedFilterOption);
-      });
-    }
+    await ref.read(videoViewModelProvider.notifier).fetchThumbnails();
   }
 
   // In _courseTitle method of CourseDetailState
@@ -164,20 +145,18 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   /// Builds the list of streams.
   Widget _buildStreamList(
     BuildContext context,
-    List<Stream> courseStreams,
-    List<String> thumbnails,
+    List<Tuple2<Stream, String>> streamsWithThumb,
     ScaffoldMessengerState scaffoldMessenger,
   ) {
     return Expanded(
-      child: courseStreams.isNotEmpty
+      child: streamsWithThumb.isNotEmpty
           ? ListView.builder(
-              itemCount: courseStreams.length,
+              itemCount: streamsWithThumb.length,
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               itemBuilder: (context, index) => _streamCardBuilder(
                 context,
                 index,
-                courseStreams,
-                thumbnails,
+                streamsWithThumb,
                 scaffoldMessenger,
               ),
             )
@@ -186,15 +165,13 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Builds individual stream cards.
-  Widget _streamCardBuilder(
-    BuildContext context,
-    int index,
-    List<Stream> courseStreams,
-    List<String> thumbnails,
-    ScaffoldMessengerState scaffoldMessenger,
-  ) {
-    final stream = courseStreams[index];
-    var thumbnail = _getThumbnailUrl(index, thumbnails);
+  Widget _streamCardBuilder(BuildContext context,
+      int index,
+      List<Tuple2<Stream, String>> streamsWithThumb,
+      ScaffoldMessengerState scaffoldMessenger,) {
+    final streamWithThumb = streamsWithThumb[index];
+    final stream = streamWithThumb.item1;
+    final thumbnail = _getThumbnailUrl(streamWithThumb.item2);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -206,11 +183,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     );
   }
 
-  /// Determines the thumbnail URL for a stream.
-  String _getThumbnailUrl(int index, List<String> thumbnails) {
-    var thumbnail = thumbnails.length > index
-        ? thumbnails[index]
-        : '/thumb-fallback.png'; // Default thumbnail path
+  String _getThumbnailUrl(String thumbnail) {
     if (!thumbnail.startsWith('http')) {
       thumbnail = '$baseUrl$thumbnail';
     }

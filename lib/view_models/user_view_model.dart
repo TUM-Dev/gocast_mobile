@@ -234,7 +234,6 @@ class UserViewModel extends StateNotifier<UserState> {
           "${semesters.item2.year} - ${semesters.item2.teachingTerm}";
       state = state.copyWith(currentAsString: current);
       updateSelectedSemester(current, []);
-      updateSelectedFilterOption('Semester', []);
     } catch (e) {
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
@@ -318,21 +317,20 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   //new
-  void updateSelectedFilterOption(String option, List<Course> allCourses) {
-    state = state.copyWith(selectedFilterOption: option);
-    CourseUtils.sortCourses(allCourses, state.selectedFilterOption);
-  }
 
   void updateSelectedSemester(String? semester, List<Course> allCourses) {
     state = state.copyWith(selectedSemester: semester);
     updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
-        allCourses, state.selectedSemester ?? 'All'));
+        allCourses,
+        state.selectedSemester ?? 'All',
+      ),
+    );
   }
 
   void setSemestersAsString(List<Semester> semesters) {
     state = state.copyWith(
-        semestersAsString:
-            CourseUtils.convertAndSortSemesters(semesters, true));
+        semestersAsString: CourseUtils.convertAndSortSemesters(semesters, true),
+    );
   }
 
   void updatedDisplayedCourses(List<Course> displayedCourses) {
@@ -342,6 +340,9 @@ class UserViewModel extends StateNotifier<UserState> {
   void setUpDisplayedCourses(List<Course> allCourses) {
     CourseUtils.sortCourses(allCourses, 'Newest First');
     updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
-        allCourses, state.selectedSemester ?? 'All'));
+        allCourses,
+        state.selectedSemester ?? 'All',
+      ),
+    );
   }
 }
