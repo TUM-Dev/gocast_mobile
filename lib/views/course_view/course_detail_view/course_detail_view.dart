@@ -4,7 +4,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
-import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
+import 'package:gocast_mobile/views/course_view/components/stream_card.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
@@ -109,17 +109,22 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     List<String> thumbnails,
     ScaffoldMessengerState scaffoldMessenger,
   ) {
+    double width = MediaQuery.of(context).size.width;
+    bool isTablet = width >= 600 ? true : false;
     return Expanded(
       child: courseStreams.isNotEmpty
-          ? ListView.builder(
-              itemCount: courseStreams.length,
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              itemBuilder: (context, index) => _streamCardBuilder(
-                context,
-                index,
-                courseStreams,
-                thumbnails,
-                scaffoldMessenger,
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: isTablet ? width * 0.15 : 0),
+              child: ListView.builder(
+                itemCount: courseStreams.length,
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                itemBuilder: (context, index) => _streamCardBuilder(
+                  context,
+                  index,
+                  courseStreams,
+                  thumbnails,
+                  scaffoldMessenger,
+                ),
               ),
             )
           : const Center(child: Text('No courses available')),

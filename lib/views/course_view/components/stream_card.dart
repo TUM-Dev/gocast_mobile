@@ -34,7 +34,6 @@ class StreamCardState extends ConsumerState<StreamCard> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          //TODO - is chat enabled in live mode?
           builder: (context) => VideoPlayerPage(
             stream: widget.stream,
           ),

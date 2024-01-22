@@ -28,6 +28,7 @@ class DownloadCoursesContentView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController searchController = TextEditingController();
+    double width = MediaQuery.of(context).size.width;
 
     return BaseView(
       customAppBar: CustomSearchTopNavBar(
@@ -45,25 +46,34 @@ class DownloadCoursesContentView extends ConsumerWidget {
             },
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-          child: ListView.builder(
-            itemCount: videoCards.isEmpty ? 1 : videoCards.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (videoCards.isEmpty) {
-                return const Center(
-                  child: Padding(
-                    padding: AppPadding.sectionPadding,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 295.0),
-                        child: Text('No Downloaded Courses'),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal:
+                  width >= 600 ? MediaQuery.of(context).size.width * 0.15 : 0,
+            ),
+            child: ListView.builder(
+              itemCount: videoCards.isEmpty ? 1 : videoCards.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (videoCards.isEmpty) {
+                  return const Center(
+                    child: Padding(
+                      padding: AppPadding.sectionPadding,
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 295.0),
+                          child: Text('No Downloaded Courses'),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              } else {
-                return videoCards[index];
-              }
-            },
+                  );
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: width * 0.02),
+                    child: videoCards[index],
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),

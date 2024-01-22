@@ -28,6 +28,7 @@ class PinnedCoursesContentView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController searchController = TextEditingController();
+    double width = MediaQuery.of(context).size.width;
 
     return BaseView(
       customAppBar: CustomSearchTopNavBar(
@@ -36,25 +37,34 @@ class PinnedCoursesContentView extends ConsumerWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-        child: ListView.builder(
-          itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (pinnedCourseCards.isEmpty) {
-              return const Center(
-                child: Padding(
-                  padding: AppPadding.sectionPadding,
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 295.0),
-                      child: Text('No Pinned Courses'),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal:
+                width >= 600 ? MediaQuery.of(context).size.width * 0.15 : 0,
+          ),
+          child: ListView.builder(
+            itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (pinnedCourseCards.isEmpty) {
+                return const Center(
+                  child: Padding(
+                    padding: AppPadding.sectionPadding,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 295.0),
+                        child: Text('No Pinned Courses'),
+                      ),
                     ),
                   ),
-                ),
-              );
-            } else {
-              return pinnedCourseCards[index];
-            }
-          },
+                );
+              } else {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: width * 0.02),
+                  child: pinnedCourseCards[index],
+                );
+              }
+            },
+          ),
         ),
       ),
     );
