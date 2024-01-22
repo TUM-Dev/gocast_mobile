@@ -227,8 +227,10 @@ class UserViewModel extends StateNotifier<UserState> {
     try {
       _logger.i('Fetching Semesters');
       var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
-      state = state.copyWith(semesters: semesters.item1, isLoading: false);
+      semesters.item1.add(semesters.item2);
       state = state.copyWith(current: semesters.item2, isLoading: false);
+      state = state.copyWith(semesters: semesters.item1, isLoading: false);
+
       setSemestersAsString(semesters.item1);
       String current =
           "${semesters.item2.year} - ${semesters.item2.teachingTerm}";
