@@ -69,6 +69,8 @@ class StreamState {
       progress: progress,
       isWatched: isWatched,
       videoSource: videoSource,
+      streamsWithThumb: streamsWithThumb,
+      displayedStreams: displayedStreams,
       error: null,
     );
   }
@@ -82,6 +84,8 @@ class StreamState {
       progress: progress,
       isWatched: isWatched,
       videoSource: videoSource,
+      streamsWithThumb: streamsWithThumb,
+      displayedStreams: displayedStreams,
       error: null,
     );
   }
