@@ -38,7 +38,10 @@ class BaseViewState extends ConsumerState<BaseView> {
     final double drawerWidth = MediaQuery.of(context).size.width * 0.5;
     return Drawer(
       width: drawerWidth,
-      child: widget.settingsHamburgerMenu, // Set the custom width here
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 10), // Add padding to left and right
+        child: widget.settingsHamburgerMenu,
+      ),
     );
   }
 
