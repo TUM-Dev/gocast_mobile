@@ -50,7 +50,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
       streamsWithThumb: fetchedStreamsWithThumbnails,
       isLoading: false,
     );
-    updatedDisplayedStreams(fetchedStreamsWithThumbnails);
+    setUpDisplayedCourses(fetchedStreamsWithThumbnails);
   }
 
   void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
