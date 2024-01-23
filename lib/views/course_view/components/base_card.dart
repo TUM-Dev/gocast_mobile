@@ -33,7 +33,6 @@ class BaseCard extends StatelessWidget {
 
   @protected
   List<Widget> buildCardContent() {
-    // Default content or abstract if BigCard is abstract
     return [];
   }
 

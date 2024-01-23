@@ -21,12 +21,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(userViewModelProvider.notifier).loadPreferences();
+    Future.microtask(() =>
+      ref.read(settingViewModelProvider.notifier).fetchUserSettings(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userViewModelProvider);
+    final settingState = ref.watch(settingViewModelProvider);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -52,30 +55,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const PreferredGreetingView(),
               _buildSwitchListTile(
                 title: 'Push notifications',
-                value: userState.isPushNotificationsEnabled,
+                value: settingState.isPushNotificationsEnabled,
                 onChanged: (value) {
                   ref
-                      .read(userViewModelProvider.notifier)
+                      .read(settingViewModelProvider.notifier)
                       .saveNotificationPreference(value);
                 },
                 ref: ref,
               ),
               _buildSwitchListTile(
                 title: 'Dark mode',
-                value: userState.isDarkMode,
+                value: settingState.isDarkMode,
                 onChanged: (value) {
                   ref
-                      .read(userViewModelProvider.notifier)
+                      .read(settingViewModelProvider.notifier)
                       .saveThemePreference(value ? 'dark' : 'light', ref);
                 },
                 ref: ref,
               ),
               _buildSwitchListTile(
                 title: 'Download Over Wi-Fi only',
-                value: userState.isDownloadWithWifiOnly,
+                value: settingState.isDownloadWithWifiOnly,
                 onChanged: (value) {
                   ref
-                      .read(userViewModelProvider.notifier)
+                      .read(settingViewModelProvider.notifier)
                       .saveDownloadWifiOnlyPreference(value);
                 },
                 ref: ref,
@@ -112,14 +115,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   ListTile _buildProfileTile(userState) {
-    final preferredNameSetting = userState.userSettings?.firstWhere(
+     final settingState = ref.watch(settingViewModelProvider);
+    final preferredNameSetting = settingState.userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.PREFERRED_NAME,
       orElse: () => UserSetting(value: ''),
     );
     final preferredName = preferredNameSetting?.value ?? '';
     final userName = userState.user?.name ?? 'Guest';
 
-    final greetingSetting = userState.userSettings?.firstWhere(
+    final greetingSetting = settingState.userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.GREETING,
       orElse: () => UserSetting(value: 'Hi'),
     );
@@ -181,6 +185,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   void _showLogoutDialog(BuildContext context) async {
+    // Capture the Navigator state before the async gap
+    final NavigatorState navigator = Navigator.of(context);
+
     final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -189,13 +196,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           content: const Text('Would you like to delete all your downloads?'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.of(context)
-                  .pop(false), // User chooses not to delete downloads
+              onPressed: () => Navigator.of(context).pop(false), // User chooses not to delete downloads
               child: const Text('No'),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context)
-                  .pop(true), // User chooses to delete downloads
+              onPressed: () => Navigator.of(context).pop(true), // User chooses to delete downloads
               child: const Text('Yes'),
             ),
           ],
@@ -207,14 +212,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       // User decided to delete all downloads
       await ref.read(downloadViewModelProvider.notifier).deleteAllDownloads();
     }
-
     // Proceed with logout
     ref.read(userViewModelProvider.notifier).logout();
-    Navigator.of(context).pushAndRemoveUntil(
+    // Use the captured Navigator state
+    navigator.pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-      (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
     );
   }
+
 
   ListTile _buildNavigableListTile(String title, VoidCallback onTap) {
     return ListTile(
