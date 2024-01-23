@@ -122,10 +122,12 @@ class SettingsHandler {
     if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
       try {
         final List<dynamic> speedsJson = jsonDecode(playbackSpeedSetting.value);
-        return speedsJson
+        var sortedSpeeds = speedsJson
             .where((item) => item['enabled'] == true)
             .map((item) => double.parse(item['speed'].toString()))
             .toList();
+        sortedSpeeds.sort();
+        return sortedSpeeds;
       } catch (e) {
         _logger.e('Error parsing playback speeds: $e');
         return [];

@@ -39,7 +39,7 @@ class BaseViewState extends ConsumerState<BaseView> {
     return Drawer(
       width: drawerWidth,
       child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 10), // Add padding to left and right
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 10),
         child: widget.settingsHamburgerMenu,
       ),
     );

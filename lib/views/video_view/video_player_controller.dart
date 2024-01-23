@@ -42,24 +42,40 @@ class VideoPlayerControllerManager {
   }
 
   ChewieController _createChewieController() {
-    List<double> playbackSpeeds = _getPlaybackSpeeds();
     return ChewieController(
       videoPlayerController: videoPlayerController,
       aspectRatio: videoPlayerController.value.aspectRatio,
       autoPlay: true,
       looping: false,
+      zoomAndPan: true,
       additionalOptions: (context) => _getAdditionalOptions(),
+      errorBuilder: (context, errorMessage) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                errorMessage,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        );
+      },
+      isLive: currentStream.liveNow,
+      allowMuting: true,
+      useRootNavigator: true,
       cupertinoProgressColors: _getCupertinoProgressColors(),
       materialProgressColors: _getMaterialProgressColors(),
       placeholder: Container(color: Colors.black),
       autoInitialize: true,
       allowFullScreen: true,
       fullScreenByDefault: false,
-      playbackSpeeds: playbackSpeeds.isEmpty
-          ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
-          : playbackSpeeds,
+      playbackSpeeds: _filteredPlaybackSpeeds(),
+      allowPlaybackSpeedChanging: true,
     );
   }
+
 
   List<OptionItem> _getAdditionalOptions() {
     List<OptionItem> items = [];
@@ -142,7 +158,7 @@ class VideoPlayerControllerManager {
 
   Future<void> _pauseAndDisposeCurrentPlayer() async {
     await videoPlayerController.pause();
-    videoPlayerController.dispose();
+    await videoPlayerController.dispose();
     chewieController?.dispose();
   }
 
@@ -165,4 +181,12 @@ class VideoPlayerControllerManager {
     final settingViewModel = ref.read(settingViewModelProvider.notifier);
     return settingViewModel.parsePlaybackSpeeds();
   }
+
+  List<double> _filteredPlaybackSpeeds() {
+    final playbackSpeeds = _getPlaybackSpeeds();
+    var filteredSpeeds = playbackSpeeds.where((speed) => speed <= 2.0).toList();
+    return filteredSpeeds.isEmpty ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] : filteredSpeeds;
+  }
+
+
 }
