@@ -33,8 +33,12 @@ class CustomSearchTopNavBar extends ConsumerWidget
                   Icons.arrow_back_ios,
                   color: Theme.of(context).iconTheme.color,
                 ),
-                onPressed: () =>
-                    ref.read(isSearchActiveProvider.notifier).state = false,
+                onPressed: () {
+                  // Clear the search field
+                  searchController.clear();
+                  // Set isSearchActive to false
+                  ref.read(isSearchActiveProvider.notifier).state = false;
+                },
               )
             : null,
         title: AnimatedSwitcher(
