@@ -62,7 +62,7 @@ class CourseUtils {
   }
 
   static List<Tuple2<Stream, String>> sortStreams(
-      List<Tuple2<Stream, String>> streamsWithThumb, String sortOption) {
+      List<Tuple2<Stream, String>> streamsWithThumb, String sortOption,) {
     bool isNewestFirst = sortOption == 'Newest First';
     streamsWithThumb.sort((a, b) {
       DateTime startA = a.item1.start.toDateTime();

@@ -59,14 +59,14 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
     updatedDisplayedStreams(
-        CourseUtils.sortStreams(allStreams, state.selectedFilterOption));
+        CourseUtils.sortStreams(allStreams, state.selectedFilterOption),);
   }
 
   void updateSelectedFilterOption(
-      String option, List<Tuple2<Stream, String>> allStreams) {
+      String option, List<Tuple2<Stream, String>> allStreams,) {
     state = state.copyWith(selectedFilterOption: option);
     updatedDisplayedStreams(
-        CourseUtils.sortStreams(allStreams, state.selectedFilterOption));
+        CourseUtils.sortStreams(allStreams, state.selectedFilterOption),);
   }
 
   /// Fetches a thumbnail for a given stream.

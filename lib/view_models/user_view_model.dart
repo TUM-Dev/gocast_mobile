@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
@@ -205,8 +206,6 @@ class UserViewModel extends StateNotifier<UserState> {
       return false;
     }
   }
-
-  //new
 
   void updateSelectedSemester(String? semester, List<Course> allCourses) {
     state = state.copyWith(selectedSemester: semester);

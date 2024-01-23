@@ -100,7 +100,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
           border: InputBorder.none,
           hintText: 'Search',
           prefixIcon: Icon(Icons.search,
-              color: Theme.of(context).inputDecorationTheme.hintStyle?.color),
+              color: Theme.of(context).inputDecorationTheme.hintStyle?.color,),
           hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
           hintMaxLines: 1,

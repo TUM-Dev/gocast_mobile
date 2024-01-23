@@ -18,7 +18,7 @@ class CoursesList extends ConsumerWidget {
   final List<Course> courses;
   final Future<void> Function() onRefresh;
 
-  CoursesList({
+  const CoursesList({
     super.key,
     required this.title,
     required this.courses,

@@ -49,7 +49,7 @@ class UserState {
     List<String>? semestersAsString,
     Semester? current,
     String? currentAsString,
-    List<Course>? displayedCourses}) {
+    List<Course>? displayedCourses,}) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
