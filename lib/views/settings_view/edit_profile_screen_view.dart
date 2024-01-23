@@ -33,70 +33,83 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: Padding(
+          padding:
+              isLandscape ? const EdgeInsets.only(top: 16.0) : EdgeInsets.zero,
+          child: const Text('Edit Profile'),
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Preferred Name',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: preferredNameController,
-              maxLength: 50,
-              decoration: InputDecoration(
-                hintText: 'Enter your preferred name',
-                border: const OutlineInputBorder(),
-                counterText: '${preferredNameController.text.length}/50',
+      body: Padding(
+        padding: isLandscape
+            ? const EdgeInsets.only(left: 25, right: 55)
+            : EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Preferred Name',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-            const SizedBox(height: 16),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.scrim.withOpacity(0.50),
+              const SizedBox(height: 8),
+              TextField(
+                controller: preferredNameController,
+                maxLength: 50,
+                decoration: InputDecoration(
+                  hintText: 'Enter your preferred name',
+                  border: const OutlineInputBorder(),
+                  counterText: '${preferredNameController.text.length}/80',
                 ),
-                children: const [
-                  TextSpan(text: 'You can change this '),
-                  TextSpan(
-                    text: 'once every three months.',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                    ),
+              ),
+              const SizedBox(height: 16),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    color:
+                        Theme.of(context).colorScheme.scrim.withOpacity(0.50),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  children: const [
+                    TextSpan(text: 'You can change this '),
+                    TextSpan(
+                      text: 'once every three months.',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              onPressed: () => _onSaveButtonPressed(),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                child: Text('Save'),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                onPressed: () => _onSaveButtonPressed(),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Text('Save'),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              infoText,
-              style: TextStyle(
-                color: isError
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.secondary,
+              const SizedBox(height: 16),
+              Text(
+                infoText,
+                style: TextStyle(
+                  color: isError
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.secondary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
