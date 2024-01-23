@@ -104,7 +104,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   void _onSaveButtonPressed() {
     if (mounted) {
-      if (preferredNameController.text.isNotEmpty) {
+      if (preferredNameController.text.trim().isNotEmpty) {
         _updatePreferredName(preferredNameController.text);
       } else {
         setState(() {
