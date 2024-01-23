@@ -120,10 +120,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       if (preferredNameController.text.trim().isNotEmpty) {
         _updatePreferredName(preferredNameController.text);
       } else {
-        setState(() {
-          infoText = 'Please enter a preferred name';
-          isError = true;
-        });
+        _showErrorDialog('Please enter a preferred name');
       }
     }
   }
@@ -139,16 +136,31 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           isError = false;
         });
       } else {
-        setState(() {
-          infoText = 'Error updating preferred name';
-          isError = true;
-        });
+        _showErrorDialog('Preferred name can only be changed every 3 months');
       }
     } catch (e) {
-      setState(() {
-        infoText = 'An error occurred';
-        isError = true;
-      });
+      _showErrorDialog('An error occurred');
     }
+  }
+
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          title: const Text("Error"),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
