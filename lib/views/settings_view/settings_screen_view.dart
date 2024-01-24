@@ -15,6 +15,10 @@ class SettingsScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SettingsScreenState();
 }
 
+bool _isTablet(BuildContext context) {
+  return MediaQuery.of(context).size.width >= 600;
+}
+
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -108,7 +112,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return AppBar(
       title: const Text('Settings'),
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: !_isTablet(context)
+            ? const Icon(Icons.arrow_back_ios)
+            : const Icon(Icons.close),
         onPressed: () => Navigator.pop(context),
       ),
     );

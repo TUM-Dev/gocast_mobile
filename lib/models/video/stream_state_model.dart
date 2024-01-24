@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
+import 'package:tuple/tuple.dart';
 
 @immutable
 class StreamState {
@@ -12,6 +13,9 @@ class StreamState {
   final Progress? progress;
   final bool isWatched;
   final String? videoSource;
+  final List<Tuple2<Stream, String>>? streamsWithThumb;
+  final List<Tuple2<Stream, String>>? displayedStreams;
+  final String selectedFilterOption;
 
   const StreamState({
     this.isLoading = false,
@@ -22,6 +26,9 @@ class StreamState {
     this.progress,
     this.isWatched = false,
     this.videoSource,
+    this.streamsWithThumb,
+    this.displayedStreams,
+    this.selectedFilterOption = 'Oldest First',
   });
 
   StreamState copyWith({
@@ -34,6 +41,9 @@ class StreamState {
     bool? isWatched,
     String? videoSource,
     Map<int, String>? downloadedVideos,
+    List<Tuple2<Stream, String>>? streamsWithThumb,
+    List<Tuple2<Stream, String>>? displayedStreams,
+    String? selectedFilterOption,
   }) {
     return StreamState(
       isLoading: isLoading ?? this.isLoading,
@@ -44,6 +54,9 @@ class StreamState {
       progress: progress ?? this.progress,
       isWatched: isWatched ?? this.isWatched,
       videoSource: videoSource ?? this.videoSource,
+      streamsWithThumb: streamsWithThumb ?? this.streamsWithThumb,
+      displayedStreams: displayedStreams ?? this.displayedStreams,
+      selectedFilterOption: selectedFilterOption ?? this.selectedFilterOption,
     );
   }
 
@@ -56,6 +69,8 @@ class StreamState {
       progress: progress,
       isWatched: isWatched,
       videoSource: videoSource,
+      streamsWithThumb: streamsWithThumb,
+      displayedStreams: displayedStreams,
       error: null,
     );
   }
@@ -69,6 +84,8 @@ class StreamState {
       progress: progress,
       isWatched: isWatched,
       videoSource: videoSource,
+      streamsWithThumb: streamsWithThumb,
+      displayedStreams: displayedStreams,
       error: null,
     );
   }

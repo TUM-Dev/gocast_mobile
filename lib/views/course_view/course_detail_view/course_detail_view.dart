@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
+
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
+
+import 'package:tuple/tuple.dart';
 
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
@@ -18,17 +21,18 @@ class CourseDetail extends ConsumerStatefulWidget {
 }
 
 class CourseDetailState extends ConsumerState<CourseDetail> {
-  late Future<List<Stream>> courseStreams;
-  late List<String> thumbnails;
+  late List<Tuple2<Stream, String>> temp;
   final TextEditingController searchController = TextEditingController();
   final String baseUrl = 'https://live.rbg.tum.de';
+  bool isSearchInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _initializeStreams();
+    searchController.addListener(_searchCourses);
   }
-
+  // set the thumbnails streams and search results
   void _initializeStreams() {
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
     Future.microtask(() async {
@@ -37,26 +41,56 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     });
   }
 
+  void _handleSortOptionSelected(String choice) {
+    var allStreams = ref.watch(videoViewModelProvider).streamsWithThumb ?? [];
+    ref
+        .read(videoViewModelProvider.notifier)
+        .updateSelectedFilterOption(choice, allStreams);
+  }
+
+  void _searchCourses() {
+    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
+    var displayedStreams =
+        ref.watch(videoViewModelProvider).displayedStreams ?? [];
+    final searchInput = searchController.text.toLowerCase();
+    if (!isSearchInitialized) {
+      temp = List.from(displayedStreams);
+      isSearchInitialized = true;
+    }
+
+    setState(() {
+      if (searchInput.isEmpty) {
+        videoViewModelNotifier.updatedDisplayedStreams(temp);
+        isSearchInitialized = false;
+      } else {
+        displayedStreams = displayedStreams.where((stream) {
+          return stream.item1.name.toLowerCase().contains(searchInput) ||
+              stream.item1.description.toLowerCase().contains(searchInput);
+        }).toList();
+        videoViewModelNotifier.updatedDisplayedStreams(displayedStreams);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final courseStreams = ref.watch(videoViewModelProvider).streams ?? [];
-    final thumbnails = ref.watch(videoViewModelProvider).thumbnails ?? [];
-
+    final streams = ref.watch(videoViewModelProvider).displayedStreams ?? [];
     return Scaffold(
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
+        onClick: _handleSortOptionSelected,
+        filterOptions: const ['Newest First', 'Oldest First'],
       ),
       body: RefreshIndicator(
-        onRefresh: () => _refreshPinnedUser(),
+        onRefresh: () => _refreshStreams(widget.courseId),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _courseTitle(widget.title),
             _buildStreamList(
               context,
-              courseStreams,
-              thumbnails,
+              streams,
               scaffoldMessenger,
             ),
           ],
@@ -66,8 +100,12 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Fetches user pinned information.
-  Future<void> _refreshPinnedUser() async {
-    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+
+  Future<void> _refreshStreams(int courseID) async {
+    await ref
+        .read(videoViewModelProvider.notifier)
+        .fetchCourseStreams(courseID);
+    await ref.read(videoViewModelProvider.notifier).fetchThumbnails();
   }
 
   // In _courseTitle method of CourseDetailState
@@ -100,20 +138,18 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   /// Builds the list of streams.
   Widget _buildStreamList(
     BuildContext context,
-    List<Stream> courseStreams,
-    List<String> thumbnails,
+    List<Tuple2<Stream, String>> streamsWithThumb,
     ScaffoldMessengerState scaffoldMessenger,
   ) {
     return Expanded(
-      child: courseStreams.isNotEmpty
+      child: streamsWithThumb.isNotEmpty
           ? ListView.builder(
-              itemCount: courseStreams.length,
+              itemCount: streamsWithThumb.length,
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               itemBuilder: (context, index) => _streamCardBuilder(
                 context,
                 index,
-                courseStreams,
-                thumbnails,
+                streamsWithThumb,
                 scaffoldMessenger,
               ),
             )
@@ -122,15 +158,13 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Builds individual stream cards.
-  Widget _streamCardBuilder(
-    BuildContext context,
-    int index,
-    List<Stream> courseStreams,
-    List<String> thumbnails,
-    ScaffoldMessengerState scaffoldMessenger,
-  ) {
-    final stream = courseStreams[index];
-    var thumbnail = _getThumbnailUrl(index, thumbnails);
+  Widget _streamCardBuilder(BuildContext context,
+      int index,
+      List<Tuple2<Stream, String>> streamsWithThumb,
+      ScaffoldMessengerState scaffoldMessenger,) {
+    final streamWithThumb = streamsWithThumb[index];
+    final stream = streamWithThumb.item1;
+    final thumbnail = _getThumbnailUrl(streamWithThumb.item2);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -142,11 +176,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     );
   }
 
-  /// Determines the thumbnail URL for a stream.
-  String _getThumbnailUrl(int index, List<String> thumbnails) {
-    var thumbnail = thumbnails.length > index
-        ? thumbnails[index]
-        : '/thumb-fallback.png'; // Default thumbnail path
+  String _getThumbnailUrl(String thumbnail) {
     if (!thumbnail.startsWith('http')) {
       thumbnail = '$baseUrl$thumbnail';
     }
