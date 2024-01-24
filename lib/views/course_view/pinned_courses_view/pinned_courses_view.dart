@@ -85,7 +85,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         strokeWidth: 2.0,
         displacement: 20.0,
         child: PinnedCoursesContentView(
-          title: "Pinned Courses",
           pinnedCourseCards: userPinned.map((course) {
             final isPinned =
                 userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);

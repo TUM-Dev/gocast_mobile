@@ -18,7 +18,7 @@ class BaseView extends ConsumerStatefulWidget {
     required this.child,
     this.title,
     this.actions,
-    this.showLeading = true,
+    this.showLeading = false,
     this.customAppBar,
     this.bottomNavigationBar = const CustomBottomNavBar(),
     this.settingsHamburgerMenu = const SettingsScreen(),
@@ -49,6 +49,7 @@ class BaseViewState extends ConsumerState<BaseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      /*
       appBar: widget.customAppBar ?? AppBar(
         automaticallyImplyLeading: widget.showLeading,
         title: widget.title != null ? Text(widget.title!) : null,
@@ -63,6 +64,7 @@ class BaseViewState extends ConsumerState<BaseView> {
         ]
             : widget.actions,
       ),
+       */
       body: widget.child,
       drawer: !_isTablet(context) ? _buildHamburgerMenu(context) : null,
       endDrawer: _isTablet(context) ? _buildHamburgerMenu(context) : null,

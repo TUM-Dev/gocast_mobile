@@ -12,22 +12,18 @@ import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 /// course-related content, including pinned courses or downloaded courses.
 ///
 /// Parameters:
-///   [title] - The title of the content section.
 ///   [pinnedCourseCards] - A list of cards representing pinned courses.
 ///
 class PinnedCoursesContentView extends ConsumerWidget {
-  final String title;
   final List<BaseCard> pinnedCourseCards;
 
   const PinnedCoursesContentView({
     super.key,
-    required this.title,
     required this.pinnedCourseCards,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return BaseView(
       child: ListView.builder(
         itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
