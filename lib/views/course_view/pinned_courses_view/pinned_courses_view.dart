@@ -72,12 +72,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     final filterOptions =
         ref.watch(userViewModelProvider).semestersAsString ?? [];
     return Scaffold(
-      appBar: CustomSearchTopNavBar(
-        searchController: searchController,
-        title: "Pinned Courses",
-        filterOptions: filterOptions,
-        onClick: filterCoursesBySemester,
-      ),
       body: RefreshIndicator(
         onRefresh: _refreshPinnedCourses,
         color: Colors.blue,
@@ -85,6 +79,12 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         strokeWidth: 2.0,
         displacement: 20.0,
         child: PinnedCoursesContentView(
+          customAppBar: CustomSearchTopNavBar(
+            searchController: searchController,
+            title: "Pinned Courses",
+            filterOptions: filterOptions,
+            onClick: filterCoursesBySemester,
+          ),
           pinnedCourseCards: userPinned.map((course) {
             final isPinned =
                 userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);

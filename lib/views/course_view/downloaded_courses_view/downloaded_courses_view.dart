@@ -17,7 +17,7 @@ class DownloadedCourses extends ConsumerStatefulWidget {
 class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
   final TextEditingController searchController = TextEditingController();
 
-  void _handleSortOptionSelected(String choice) {}
+  //TODO: void _handleSortOptionSelected(String choice) {}
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,6 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
         ref.watch(downloadViewModelProvider).downloadedVideos;
 
     return Scaffold(
-      appBar: CustomSearchTopNavBar(
-        searchController: searchController,
-        title: 'Downloads',
-        filterOptions: const ['Newest First', 'Oldest First'],
-        onClick: (String choice) {
-          // Handle filter option click
-        },
-      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await ref
@@ -40,6 +32,14 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
               .fetchDownloadedVideos();
         },
         child: DownloadCoursesContentView(
+          customAppBar: CustomSearchTopNavBar(
+            searchController: searchController,
+            title: 'Downloads',
+            filterOptions: const ['Newest First', 'Oldest First'],
+            onClick: (String choice) {
+              // Handle filter option click
+            },
+          ),
           videoCards: downloadedVideos.entries.map((entry) {
             final int videoId = entry.key;
             final String localPath = entry.value;
