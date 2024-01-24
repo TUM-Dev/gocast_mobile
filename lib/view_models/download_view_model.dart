@@ -44,7 +44,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
 
       // Check if 'Download Over Wi-Fi Only' is enabled and if not connected to Wi-Fi
-      if (downloadOverWifiOnly == (await isConnectedToWifi())) {
+      if (downloadOverWifiOnly == !(await isConnectedToWifi())) {
         _logger.w('Not connected to Wi-Fi. Download cancelled.');
         throw Exception('Not connected to Wi-Fi');
       }
