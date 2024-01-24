@@ -235,8 +235,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       _isChatVisible = !_isChatVisible;
     });
   }
-
   void _downloadVideo(Stream stream) {
+    final isDownloadWithWifiOnly = ref.watch(settingViewModelProvider).isDownloadWithWifiOnly;
+
     // Extract the "Combined" download URL from the Stream object
     String? combinedDownloadUrl;
     for (var download in stream.downloads) {
@@ -245,7 +246,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         break;
       }
     }
-    //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
+
     // Check if the Combined URL is found
     if (combinedDownloadUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -257,16 +258,35 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     // Use the extracted URL for downloading
     String fileName = "stream.mp4";
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Downloading Video')),
+      const SnackBar(content: Text('Starting download...')),
     );
-    // Call the download function from the StreamViewModel
+
+    // Call the download function from the DownloadViewModel
     ref
         .read(downloadViewModelProvider.notifier)
-        .downloadVideo(combinedDownloadUrl, stream.id, fileName)
+        .downloadVideo(combinedDownloadUrl, stream.id, fileName, downloadOverWifiOnly: isDownloadWithWifiOnly)
         .then((localPath) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Video Downloaded')),
-      );
+      if (localPath.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Video Downloaded')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Download failed')),
+        );
+      }
+    }).catchError((error) {
+      // Handle specific error from 'downloadVideo'
+      if (error.toString() == 'Exception: Not connected to Wi-Fi') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please connect to Wi-Fi to download videos')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${error.toString()}')),
+        );
+      }
     });
   }
+
 }

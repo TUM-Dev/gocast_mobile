@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,7 @@ import 'dart:io';
 import '../models/download_state_model.dart';
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
+
   final Logger _logger = Logger();
 
   DownloadViewModel() : super(const DownloadState()) {
@@ -26,9 +28,23 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
+  Future<bool> isConnectedToWifi() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<String> downloadVideo(
-      String videoUrl, Int64 streamId, String fileName,) async {
+      String videoUrl, Int64 streamId, String fileName,{required bool downloadOverWifiOnly,}) async {
     try {
+      // Check if 'Download Over Wi-Fi Only' is enabled and if not connected to Wi-Fi
+      if (downloadOverWifiOnly && !(await isConnectedToWifi())) {
+        _logger.w('Not connected to Wi-Fi. Download cancelled.');
+        throw Exception('Not connected to Wi-Fi');
+      }
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
       Dio dio = Dio();
