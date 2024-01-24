@@ -40,8 +40,11 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   Future<String> downloadVideo(
       String videoUrl, Int64 streamId, String fileName,{required bool downloadOverWifiOnly,}) async {
     try {
+      _logger.d('Download Over Wi-Fi Only setting is: $downloadOverWifiOnly');
+
+
       // Check if 'Download Over Wi-Fi Only' is enabled and if not connected to Wi-Fi
-      if (downloadOverWifiOnly && !(await isConnectedToWifi())) {
+      if (downloadOverWifiOnly == (await isConnectedToWifi())) {
         _logger.w('Not connected to Wi-Fi. Download cancelled.');
         throw Exception('Not connected to Wi-Fi');
       }

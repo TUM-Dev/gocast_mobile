@@ -277,7 +277,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       }
     }).catchError((error) {
       // Handle specific error from 'downloadVideo'
-      if (error.toString() == 'Exception: Not connected to Wi-Fi') {
+      if (error.toString() == "Not connected to Wi-Fi. Download cancelled.") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please connect to Wi-Fi to download videos')),
         );
