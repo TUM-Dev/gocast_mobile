@@ -67,16 +67,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
                 ref: ref,
               ),
-              _buildSwitchListTile(
-                title: 'Dark mode',
-                value: settingState.isDarkMode,
-                onChanged: (value) {
-                  ref
-                      .read(settingViewModelProvider.notifier)
-                      .saveThemePreference(value ? 'dark' : 'light', ref);
-                },
-                ref: ref,
-              ),
+              _buildThemeSelectionTile(context, ref),
               _buildSwitchListTile(
                 title: 'Download Over Wi-Fi only',
                 value: settingState.isDownloadWithWifiOnly,
@@ -120,6 +111,61 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
+  ListTile _buildThemeSelectionTile(BuildContext context, WidgetRef ref) {
+    // Get the current theme setting from the state
+    final settingState = ref.watch(settingViewModelProvider);
+
+    String themeModeText;
+    if (settingState.isDarkMode) {
+      themeModeText = 'Dark Mode';
+    } else if (settingState.isLightMode) {
+      themeModeText = 'Light Mode';
+    } else {
+      themeModeText = 'System Default';
+    }
+
+    return ListTile(
+      title: const Text('Choose Theme'),
+      subtitle: Text(themeModeText),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () => _showThemeSelectionSheet(context, ref),
+    );
+  }
+
+  void _showThemeSelectionSheet(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                title: const Text('System Default'),
+                onTap: () {
+                  ref.read(settingViewModelProvider.notifier).saveThemePreference('system', ref);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Dark Mode'),
+                onTap: () {
+                  ref.read(settingViewModelProvider.notifier).saveThemePreference('dark', ref);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Light Mode'),
+                onTap: () {
+                  ref.read(settingViewModelProvider.notifier).saveThemePreference('light', ref);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   ListTile _buildProfileTile(userState) {
      final settingState = ref.watch(settingViewModelProvider);
     final preferredNameSetting = settingState.userSettings?.firstWhere(
