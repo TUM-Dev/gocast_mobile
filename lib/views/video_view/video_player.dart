@@ -41,7 +41,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
           isChatActive: _isChatActive,
-          onDownload: () => _downloadVideo(widget.stream),
+          onDownload: (type) => _downloadVideo(widget.stream,type),
         ),
         Expanded(
             child:
@@ -236,20 +236,20 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     });
   }
 
-  void _downloadVideo(Stream stream) {
+  void _downloadVideo(Stream stream,String type) {
     // Extract the "Combined" download URL from the Stream object
-    String? combinedDownloadUrl;
+    String? downloadUrl;
     for (var download in stream.downloads) {
-      if (download.friendlyName == "Combined") {
-        combinedDownloadUrl = download.downloadURL;
+      if (download.friendlyName == type) {
+     downloadUrl = download.downloadURL;
         break;
       }
     }
     //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
     // Check if the Combined URL is found
-    if (combinedDownloadUrl == null) {
+    if (downloadUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Combined download URL not found')),
+        SnackBar(content: Text('Download type "$type" not available for this lecture')),
       );
       return;
     }
@@ -262,7 +262,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     // Call the download function from the StreamViewModel
     ref
         .read(downloadViewModelProvider.notifier)
-        .downloadVideo(combinedDownloadUrl, stream.id, fileName)
+        .downloadVideo(downloadUrl, stream.id, fileName)
         .then((localPath) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Video Downloaded')),
