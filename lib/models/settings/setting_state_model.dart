@@ -8,6 +8,8 @@ class SettingState {
   final List<UserSetting>? userSettings;
   final AppError? error;
   final bool isDarkMode;
+  final bool isLightMode;
+  final bool isSystemDefault;
   final bool isPushNotificationsEnabled;
   final bool isDownloadWithWifiOnly;
 
@@ -16,6 +18,8 @@ class SettingState {
     this.userSettings,
     this.error,
     this.isDarkMode = false,
+    this.isLightMode =false,
+    this.isSystemDefault =true,
     this.isPushNotificationsEnabled = true,
     this.isDownloadWithWifiOnly = true,
   });
@@ -25,6 +29,8 @@ class SettingState {
     List<UserSetting>? userSettings,
     AppError? error,
     bool? isDarkMode,
+    bool? isLightMode,
+    bool? isSystemDefault,
     bool? isPushNotificationsEnabled,
     bool? isDownloadWithWifiOnly,
   }) {
