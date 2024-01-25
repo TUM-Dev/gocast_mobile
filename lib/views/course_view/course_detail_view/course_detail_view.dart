@@ -183,7 +183,11 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: StreamCard(stream: stream),
+      child: StreamCard(
+        imageName: thumbnail,
+        stream: stream,
+        onTap: () => _handleStreamTap(context, scaffoldMessenger, stream),
+      ),
     );
   }
 

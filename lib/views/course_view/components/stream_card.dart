@@ -7,8 +7,15 @@ import 'package:intl/intl.dart';
 
 class StreamCard extends ConsumerStatefulWidget {
   final Stream stream;
+  final String imageName;
+  final VoidCallback onTap;
 
-  const StreamCard({super.key, required this.stream});
+  const StreamCard({
+    super.key,
+    required this.stream,
+    required this.imageName,
+    required this.onTap,
+  });
 
   @override
   StreamCardState createState() => StreamCardState();
