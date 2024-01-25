@@ -7,7 +7,6 @@ import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 // current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
-
 class CourseOverview extends ConsumerStatefulWidget {
   const CourseOverview({super.key});
 
@@ -26,8 +25,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       // Fetch user courses if the user is logged in
       if (ref.read(userViewModelProvider).user != null) {
         userViewModelNotifier.fetchUserCourses();
-        videoViewModelNotifier
-            .fetchLiveNowStreams(); //TODO is this only when logged it?
+        videoViewModelNotifier.fetchLiveNowStreams();
       }
       // Fetch public courses regardless of user's login status
       userViewModelNotifier.fetchPublicCourses();
@@ -62,62 +60,55 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
         },
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.0), // Set the color to gray
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                if (isLoggedIn)
-                  _buildSection(
-                    "Live Now",
-                    0,
-                    (userCourses ?? []) + (publicCourses ?? []),
-                    liveStreams,
-                  ),
-                isTablet
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _buildSection(
-                              "My Courses",
-                              1,
-                              userCourses,
-                              liveStreams,
-                            ),
-                          ),
-                          Expanded(
-                            child: _buildSection(
-                              "Public Courses",
-                              2,
-                              publicCourses,
-                              liveStreams,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          _buildSection(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (isLoggedIn)
+                _buildSection(
+                  "Live Now",
+                  0,
+                  (userCourses ?? []) + (publicCourses ?? []),
+                  liveStreams,
+                ),
+              isTablet
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: _buildSection(
                             "My Courses",
                             1,
                             userCourses,
                             liveStreams,
                           ),
-                          _buildSection(
+                        ),
+                        Expanded(
+                          child: _buildSection(
                             "Public Courses",
                             2,
                             publicCourses,
                             liveStreams,
                           ),
-                        ],
-                      ),
-
-                // Add other sections or content as needed
-              ],
-            ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        _buildSection(
+                          "My Courses",
+                          1,
+                          userCourses,
+                          liveStreams,
+                        ),
+                        _buildSection(
+                          "Public Courses",
+                          2,
+                          publicCourses,
+                          liveStreams,
+                        ),
+                      ],
+                    ),
+            ],
           ),
         ),
       ),
@@ -125,7 +116,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   }
 
   Widget _buildSection(String title, int sectionKind, courses, streams) {
-    //TODO maybe add types?
     return CourseSection(
       ref: ref,
       sectionTitle: title,

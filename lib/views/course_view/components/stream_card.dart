@@ -49,7 +49,6 @@ class StreamCardState extends ConsumerState<StreamCard> {
         elevation: 1,
         shadowColor: themeData.shadowColor,
         color: themeData.cardTheme.color,
-        // Use card color from theme
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
@@ -73,16 +72,14 @@ class StreamCardState extends ConsumerState<StreamCard> {
                   length: widget.stream.duration,
                   themeData: themeData,
                 ),
-                _buildThumbnail(themeData), // Adjust spacing as needed
+                _buildThumbnail(themeData),
                 LinearProgressIndicator(
                   value: videoProgress != null ? videoProgress.progress : 0.0,
                   minHeight: 10.0,
-                  // Adjust the height of the progress bar
                   backgroundColor: Colors.grey[300],
-                  // Change the background color
                   valueColor: const AlwaysStoppedAnimation<Color>(
                     Colors.blue,
-                  ), // Change the fill color
+                  ),
                 ),
               ],
             ),
@@ -160,7 +157,6 @@ class StreamCardState extends ConsumerState<StreamCard> {
             ),
           ),
           if (length != null) _buildStreamDate(themeData),
-          //_buildStreamLength(length, widget.stream),
           if (trailing != null) trailing,
         ],
       ),
@@ -182,7 +178,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
   Widget _buildStreamDate(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
-        color: themeData.focusColor, //.shadowColor.withOpacity(0.1),
+        color: themeData.focusColor,
         borderRadius: BorderRadius.circular(4),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -190,10 +186,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
         DateFormat('EEEE, MM/dd/yyyy, HH:mm')
             .format(widget.stream.start.toDateTime()),
         style: const TextStyle(
-          //themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
-          //fontWeight: FontWeight.bold,
-          //height: 1,
         ),
       ),
     );
@@ -211,8 +204,6 @@ class StreamCardState extends ConsumerState<StreamCard> {
         style: themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
           color: Colors.white,
-          //fontWeight: FontWeight.bold,
-          //height: 1,
         ),
       ),
     );

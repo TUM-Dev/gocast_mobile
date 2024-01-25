@@ -27,9 +27,6 @@ class BaseCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ...buildCardContent(), // Call to the overridable method
-            /*const Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
-            ),*/
           ],
         ),
       ),

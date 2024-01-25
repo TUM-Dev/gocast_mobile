@@ -15,17 +15,11 @@ class DownloadedCourses extends ConsumerWidget {
     final downloadedVideos =
         ref.watch(downloadViewModelProvider).downloadedVideos;
 
-    //print('Number of downloaded videos: ${downloadedVideos.length}');
-
     return DownloadCoursesContentView(
       title: 'Downloads',
       videoCards: downloadedVideos.entries.map((entry) {
         final int videoId = entry.key;
         final String localPath = entry.value;
-
-        //print('Video ID: $videoId');
-        // print('Local Path: $localPath');
-        //print('Trying to play video from path: $localPath');
 
         return VideoCard(
           duration:
@@ -44,7 +38,7 @@ class DownloadedCourses extends ConsumerWidget {
                     OfflineVideoPlayerPage(localPath: localPath),
               ),
             );
-            //TODO: repalce this with : Navigator.of(context).push(
+            //TODO: replace this with : Navigator.of(context).push(
             // TODO: MaterialPageRoute(
             // TODO: builder: (context) => OfflineVideoPlayerPage(localPath: localPath),
           },

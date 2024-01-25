@@ -44,9 +44,7 @@ class CoursesList extends ConsumerWidget {
           displacement: 20.0,
           child: SingleChildScrollView(
             child: courses.isEmpty
-                ? SliverFillRemaining(
-                    child: _buildPlaceholder(),
-                  )
+                ? _buildPlaceholder()
                 : _buildCourseListView(context),
           ),
         ),

@@ -66,7 +66,7 @@ class CourseCard extends StatelessWidget {
 
     double cardWidth = MediaQuery.of(context).size.width >= 600
         ? MediaQuery.of(context).size.width * 0.4
-        : MediaQuery.of(context).size.width * 0.9; //TODO test
+        : MediaQuery.of(context).size.width * 0.9;
 
     return InkWell(
       onTap: onTap,
@@ -183,7 +183,7 @@ class CourseCard extends StatelessWidget {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 16 / 12, //TODO how are the thumbnails given?
+          aspectRatio: 16 / 12,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
@@ -202,13 +202,9 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildLocation() {
-    if (roomName == null) return const SizedBox();
+    if (roomNumber == null) return const SizedBox();
 
-    final Uri url = roomName != null
-        ? Uri.parse('https://nav.tum.de/room/$roomNumber')
-        : Uri.parse(
-            'https://nav.tum.de/room/',
-          ); //will give an error on NavigaTUM
+    final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
 
     return InkWell(
       onTap: () async {
@@ -225,11 +221,11 @@ class CourseCard extends StatelessWidget {
             Icons.room,
             size: 20,
           ),
-          Text(roomName!),
+          Text(roomName ?? "Location"),
           //const SizedBox(width: 2),
           Transform.scale(
             scale: 0.6, // Adjust the scale factor as needed
-            child: ViewAllButton(onViewAll: () {}), //TODO maybe remove this
+            child: ViewAllButton(onViewAll: () {}),
           ),
         ],
       ),
@@ -252,7 +248,8 @@ class CourseCard extends StatelessWidget {
     return Text(
       title,
       overflow: TextOverflow.ellipsis,
-      //maxLines: 2, //TODO check that this never causes overflow
+      maxLines: 2,
+      //if courses are ever no longer displayed as list, check this for overflows
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
             fontSize: 16,
@@ -269,7 +266,6 @@ class CourseCard extends StatelessWidget {
     return Text(
       subtitle!, //nullcheck already passed
       overflow: TextOverflow.ellipsis,
-      //maxLines: 2,
       style: textTheme.labelSmall?.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w400,
@@ -291,7 +287,6 @@ class CourseCard extends StatelessWidget {
         "${viewerCount!} viewers",
         style: themeData.textTheme.labelSmall?.copyWith(
               fontSize: 12,
-              //fontWeight: FontWeight.bold,
               height: 1,
             ) ??
             const TextStyle(),
@@ -344,7 +339,7 @@ class CourseCard extends StatelessWidget {
                 size: 10,
                 color: Colors.red,
               ),
-              SizedBox(width: 5), // Add spacing between the dot and text
+              SizedBox(width: 5),
               Text(
                 'Live Now',
                 style: TextStyle(
@@ -354,7 +349,7 @@ class CourseCard extends StatelessWidget {
               ),
             ],
           )
-        : const SizedBox(); // Return an empty SizedBox if not live
+        : const SizedBox();
   }
 
   Widget _buildCourseColor() {

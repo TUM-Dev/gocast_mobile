@@ -58,7 +58,7 @@ class CourseSection extends StatelessWidget {
             sectionKind: sectionKind,
             onViewAll: onViewAll,
             courses: courses,
-            streams: streams, //TODO add mock streams
+            streams: streams,
           ),
         ],
       ),
@@ -198,7 +198,6 @@ class CourseSection extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  //TODO - is chat enabled in live mode?
                   builder: (context) => VideoPlayerPage(
                     stream: stream,
                   ),
