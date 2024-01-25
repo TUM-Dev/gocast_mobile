@@ -29,6 +29,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       }
       // Fetch public courses regardless of user's login status
       userViewModelNotifier.fetchPublicCourses();
+      userViewModelNotifier.fetchSemesters();
     });
   }
 

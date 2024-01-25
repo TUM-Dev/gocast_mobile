@@ -151,7 +151,7 @@ final ThemeData darkAppTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
     hintStyle: TextStyle(
-      color: Colors.grey[400],
+      color: Colors.grey[100],
       fontSize: 14,
       fontWeight: FontWeight.w500,
     ),

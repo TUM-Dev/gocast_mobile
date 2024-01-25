@@ -18,7 +18,7 @@ class BaseView extends ConsumerStatefulWidget {
     required this.child,
     this.title,
     this.actions,
-    this.showLeading = true,
+    this.showLeading = false,
     this.customAppBar,
     this.bottomNavigationBar = const CustomBottomNavBar(),
     this.settingsHamburgerMenu = const SettingsScreen(),
@@ -64,8 +64,8 @@ class BaseViewState extends ConsumerState<BaseView> {
             : widget.actions,
       ),
       body: widget.child,
-      drawer: !_isTablet(context) ? _buildHamburgerMenu(context) : null,
-      endDrawer: _isTablet(context) ? _buildHamburgerMenu(context) : null,
+      drawer: !_isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
+      endDrawer: _isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
       bottomNavigationBar: widget.bottomNavigationBar,
       onEndDrawerChanged: (isOpen) {
         if (isOpen) {
