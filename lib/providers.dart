@@ -14,7 +14,7 @@ import 'package:gocast_mobile/view_models/setting_view_model.dart';
 import 'package:gocast_mobile/view_models/stream_view_model.dart';
 import 'package:gocast_mobile/view_models/user_view_model.dart';
 import 'base/networking/api/handler/grpc_handler.dart';
-import 'models/download_state_model.dart';
+import 'models/download/download_state_model.dart';
 import 'models/video/stream_state_model.dart';
 
 final grpcHandlerProvider =
