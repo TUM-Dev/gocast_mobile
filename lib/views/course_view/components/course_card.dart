@@ -359,7 +359,6 @@ class CourseCard extends StatelessWidget {
   }
 
   Color _colorPicker() {
-    //TODO what are all the TUM faculties?
     /** Colors:
      * Informatik - IN: blue
      * Mathe - MA: purple
@@ -367,14 +366,10 @@ class CourseCard extends StatelessWidget {
      * Physik - PH
      * Maschinenwesen - MW
      * nothing/ other: gray
-     *
-     * Elektrotechnick - EL
-     * Management -
-     * Engineering
+     * Elektrotechnik - EL
      *
      */
     if (tumID.length < 2) return Colors.grey;
-
     switch (tumID.substring(0, 2)) {
       case 'IN':
         return Colors.blue;
@@ -384,6 +379,10 @@ class CourseCard extends StatelessWidget {
         return Colors.green;
       case 'PH':
         return Colors.orange;
+      case 'MW':
+        return Colors.red;
+      case 'EL':
+        return Colors.black87;
       default:
         return Colors.grey;
     }

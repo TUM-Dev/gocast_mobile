@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gocast_mobile/utils/theme.dart';
 
 class BaseCard extends StatelessWidget {
   final String imageName;
-
   final VoidCallback onTap;
 
   const BaseCard({
@@ -18,16 +18,17 @@ class BaseCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        elevation: 1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
         color: themeData.cardTheme.color,
         shadowColor: themeData.shadowColor,
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
-            ...buildCardContent(), // Call to the overridable method
-          ],
+          children: buildCardContent(),
         ),
       ),
     );
@@ -45,7 +46,7 @@ class BaseCard extends StatelessWidget {
     Widget? trailing,
   }) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,16 +57,17 @@ class BaseCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16.0,
+                  style:  TextStyle(
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold,
+                    color: appTheme.cardTheme.color,
                   ),
                   maxLines: 2,
                 ),
                 const SizedBox(height: 8.0),
                 Text(
                   subtitle,
-                  style: const TextStyle(fontSize: 14.0, color: Colors.grey),
+                  style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -104,7 +106,7 @@ class BaseCard extends StatelessWidget {
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           return Image.asset(
-            'assets/images/default_image.png',
+            'assets/images/course1.png',
             fit: BoxFit.cover,
           );
         },

@@ -89,7 +89,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
             final isPinned =
                 userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return PinnedCourseCard(
-              imageName: 'assets/images/course2.png',
+              imageName: 'assets/images/course1.png',
               course: course,
               onTap: () => _handleCourseTap(course, context),
               isPinned: isPinned,
