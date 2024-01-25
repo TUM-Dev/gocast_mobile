@@ -41,11 +41,11 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
           isChatActive: _isChatActive,
-          onDownload: () => _downloadVideo(widget.stream),
+          onDownload: (type) => _downloadVideo(widget.stream,type),
         ),
         Expanded(
-          child:
-          ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
+            child:
+                ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
       ],
     );
   }
@@ -62,9 +62,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       await ref
           .read(courseViewModelProvider.notifier)
           .getCourseWithID(widget.stream.courseID);
-      Course? course = ref
-          .read(courseViewModelProvider)
-          .course;
+      Course? course = ref.read(courseViewModelProvider).course;
       if (course != null) {
         if ((course.chatEnabled || course.vodChatEnabled) &&
             widget.stream.chatEnabled) {
@@ -92,9 +90,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.stream.name)),
-      body: ref
-          .read(videoViewModelProvider)
-          .isLoading
+      body: ref.read(videoViewModelProvider).isLoading
           ? const Center(child: CircularProgressIndicator())
           : _buildVideoLayout(),
     );
@@ -136,12 +132,10 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 // Seek to the last progress.
   Future<void> _seekToLastProgress() async {
     Progress progress =
-        ref
-            .read(videoViewModelProvider)
-            .progress ?? Progress(progress: 0.0);
+        ref.read(videoViewModelProvider).progress ?? Progress(progress: 0.0);
     final position = Duration(
       seconds: (progress.progress *
-          _controllerManager.videoPlayerController.value.duration.inSeconds)
+              _controllerManager.videoPlayerController.value.duration.inSeconds)
           .round(),
     );
     await _controllerManager.videoPlayerController.seekTo(position);
@@ -206,9 +200,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   void _switchPlaylist(String newPlaylistUrl) async {
-    if (ref
-        .read(videoViewModelProvider)
-        .videoSource == newPlaylistUrl) {
+    if (ref.read(videoViewModelProvider).videoSource == newPlaylistUrl) {
       Logger().i("Already displaying $newPlaylistUrl");
       return;
     }
@@ -244,24 +236,24 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     });
   }
 
-  void _downloadVideo(Stream stream) {
+  void _downloadVideo(Stream stream,String type) {
     final isDownloadWithWifiOnly = ref
         .watch(settingViewModelProvider)
         .isDownloadWithWifiOnly;
 
     // Extract the "Combined" download URL from the Stream object
-    String? combinedDownloadUrl;
+    String? downloadUrl;
     for (var download in stream.downloads) {
-      if (download.friendlyName == "Combined") {
-        combinedDownloadUrl = download.downloadURL;
+      if (download.friendlyName == type) {
+     downloadUrl = download.downloadURL;
         break;
       }
     }
-
+    //combinedDownloadUrl="https://file-examples.com/storage/fe5048eb7365a64ba96daa9/2017/04/file_example_MP4_480_1_5MG.mp4";
     // Check if the Combined URL is found
-    if (combinedDownloadUrl == null) {
+    if (downloadUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Combined download URL not found')),
+        SnackBar(content: Text('Download type "$type" not available for this lecture')),
       );
       return;
     }
@@ -271,13 +263,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Starting download...')),
     );
+    // Call the download function from the StreamViewModel
 
-    // Call the download function from the DownloadViewModel
-    // Call the download function from the DownloadViewModel
     ref
         .read(downloadViewModelProvider.notifier)
-        .downloadVideo(combinedDownloadUrl, stream.id, fileName,
-        downloadOverWifiOnly: isDownloadWithWifiOnly,)
+        .downloadVideo(downloadUrl, stream.id, fileName,
+      downloadOverWifiOnly: isDownloadWithWifiOnly,)
         .then((localPath) {
       if (localPath.isNotEmpty) {
         // Download successful
@@ -300,7 +291,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
             return AlertDialog(
               title: const Text("Download Failed"),
               content: const Text(
-                  "You are not connected to Wi-Fi. Please connect to Wi-Fi to download the video.",),
+                "You are not connected to Wi-Fi. Please connect to Wi-Fi to download the video.",),
               actions: <Widget>[
                 TextButton(
                   child: const Text("OK"),
@@ -320,4 +311,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       }
     });
   }
-}
+  }
+
+
+
