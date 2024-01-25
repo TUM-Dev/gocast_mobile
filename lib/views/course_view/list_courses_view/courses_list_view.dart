@@ -36,24 +36,6 @@ class CoursesList extends ConsumerWidget {
         backgroundColor: Colors.white,
         strokeWidth: 2.0,
         displacement: 20.0,
-/*        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            courses.isEmpty
-                ? SliverFillRemaining(child: _buildPlaceholder())
-                : _buildCourseListView(),
-          ],*/
         child: SingleChildScrollView(
           child: courses.isEmpty
               ? _buildPlaceholder()
