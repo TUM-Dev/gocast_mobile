@@ -7,23 +7,25 @@ void showAddCustomSpeedDialog(
   double customSpeed = 1.0;
   String errorMessage = '';
 
-  void validateAndSetSpeed(String value) {
-    errorMessage = '';
-
-    if (value.isEmpty) {
+  void validateAndSetSpeed(String value, BuildContext context) {
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
       errorMessage = '';
-    } else {
-      double? parsedValue = double.tryParse(value);
-      if (parsedValue != null && parsedValue >= 0.25 && parsedValue <= 4.0) {
-        List<String> splitValue = value.split('.');
-        if ((splitValue[0].length > 1) ||
-            (splitValue.length > 1 && splitValue[1].length > 2)) {
-          errorMessage = 'Number is too long';
-        } else {
-          customSpeed = parsedValue;
-        }
+
+      if (value.isEmpty) {
+        errorMessage = '';
       } else {
-        errorMessage = 'Please enter a number between\n0.25 and 4.0';
+        double? parsedValue = double.tryParse(value);
+        if (parsedValue != null && parsedValue >= 0.25 && parsedValue <= 4.0) {
+          List<String> splitValue = value.split('.');
+          if ((splitValue[0].length > 1) ||
+              (splitValue.length > 1 && splitValue[1].length > 2)) {
+            errorMessage = 'Number is too long';
+          } else {
+            customSpeed = parsedValue;
+          }
+        } else {
+          errorMessage = 'Please enter a number between\n0.25 and 4.0';
+        }
       }
     }
   }
@@ -51,7 +53,7 @@ void showAddCustomSpeedDialog(
                       const TextInputType.numberWithOptions(decimal: true),
                   onChanged: (value) {
                     setState(() {
-                      validateAndSetSpeed(value);
+                      validateAndSetSpeed(value, context);
                     });
                   },
                 ),

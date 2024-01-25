@@ -27,10 +27,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   }
 
   Future<String> downloadVideo(
-    String videoUrl,
-    Int64 streamId,
-    String fileName,
-  ) async {
+      String videoUrl, Int64 streamId, String fileName,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -45,11 +42,9 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
       // Save to SharedPreferences
       await prefs.setString(
-        'downloadedVideos',
-        json.encode(
-          downloadedVideos.map((key, value) => MapEntry(key.toString(), value)),
-        ),
-      );
+          'downloadedVideos',
+          json.encode(downloadedVideos
+              .map((key, value) => MapEntry(key.toString(), value)),),);
       state = state.copyWith(downloadedVideos: downloadedVideos);
       _logger.d('Downloaded videos: ${state.downloadedVideos}');
       return filePath;
@@ -85,12 +80,9 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
           // Save updated list to SharedPreferences
           await prefs.setString(
-            'downloadedVideos',
-            json.encode(
-              updatedDownloads
-                  .map((key, value) => MapEntry(key.toString(), value)),
-            ),
-          );
+              'downloadedVideos',
+              json.encode(updatedDownloads
+                  .map((key, value) => MapEntry(key.toString(), value)),),);
           state = state.copyWith(downloadedVideos: updatedDownloads);
         } else {
           _logger.w('File not found: $filePath');

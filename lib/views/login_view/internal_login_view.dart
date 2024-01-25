@@ -130,6 +130,7 @@ class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
           usernameController.text,
           passwordController.text,
         );
+        ref.read(settingViewModelProvider.notifier).fetchUserSettings();
       },
       child: userState.isLoading
           ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)

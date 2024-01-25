@@ -12,16 +12,13 @@ class SettingsHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
-  /// Creates a new instance of the `SettingsHandler` class.
-  ///
-  /// The [GrpcHandler] is required.
   SettingsHandler(this._grpcHandler);
 
-  /// Fetches the current user's settings.
+  /// Fetches the user settings.
   ///
-  /// This method sends a `getUserSettings` gRPC call to fetch the user's settings.
+  /// This method sends a `getUserSettings` gRPC call to fetch the user's settings from the server.
   ///
-  /// Returns a [List<UserSetting>] instance that represents the user's settings.
+  /// Returns a [List] of [UserSetting]s.
   Future<List<UserSetting>> fetchUserSettings() async {
     try {
       _logger.i('Fetching user settings');
@@ -43,16 +40,60 @@ class SettingsHandler {
 
   /// Updates the user settings.
   ///
-  /// This method sends an `updateUserSettings` gRPC call to update the user's settings on the server.
-  ///
-  /// [updatedSettings] - The updated user settings to be saved.
-  ///
-  /// Returns a [bool] indicating whether the update was successful or not.
+  /// This method sends a `patchUserSettings` gRPC call to update the user's settings on the server.
+  ///   * [updatedSettings] - The updated settings.
+  /// Returns `true` if the update was successful.
   Future<bool> updateUserSettings(List<UserSetting> updatedSettings) async {
+    try {
+      _logger.i('Updating user settings');
+      final request = PatchUserSettingsRequest()
+        ..userSettings.addAll(updatedSettings);
+      await _grpcHandler.callGrpcMethod(
+        (client) async {
+          await client.patchUserSettings(request);
+          _logger.i('User settings updated successfully');
+        },
+      );
+      return true;
+    } catch (e) {
+      _logger.e('Error updating user settings: $e');
+      rethrow;
+    }
+  }
+
+  /// Updates the user's preferred name.
+  ///
+  /// This method sends a `patchUserSettings` gRPC call to update the user's preferred name on the server.
+  ///   * [newName] - The new preferred name.
+  /// Returns `true` if the update was successful.
+  Future<bool> updatePreferredName(String newName) async {
     try {
       _logger.i('Updating user settings...');
       final request = PatchUserSettingsRequest()
-        ..userSettings.addAll(updatedSettings);
+        ..userSettings.add(UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName));
+      await _grpcHandler.callGrpcMethod(
+        (client) async {
+          await client.patchUserSettings(request);
+          _logger.i('User settings updated successfully');
+        },
+      );
+      return true;
+    } catch (e) {
+      _logger.e('Error updating user settings: $e');
+      rethrow;
+    }
+  }
+
+  /// Updates the user's preferred greeting.
+  ///
+  /// This method sends a `patchUserSettings` gRPC call to update the user's preferred greeting on the server.
+  ///  * [newGreeting] - The new preferred greeting.
+  ///  Returns `true` if the update was successful.
+  Future<bool> updateGreeting(String newGreeting) async {
+    try {
+      _logger.i('Updating user settings...');
+      final request = PatchUserSettingsRequest()
+        ..userSettings.add(UserSetting(type: UserSettingType.GREETING, value: newGreeting));
 
       await _grpcHandler.callGrpcMethod(
         (client) async {
@@ -60,7 +101,6 @@ class SettingsHandler {
           _logger.i('User settings updated successfully');
         },
       );
-
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
@@ -69,6 +109,10 @@ class SettingsHandler {
   }
 
   /// Parses playback speeds from the user settings.
+  ///
+  /// This method parses the playback speeds from the user settings and returns them as a [List] of [double]s.
+  ///  * [userSettings] - The user settings.
+  ///  Returns a [List] of [double]s.
   List<double> parsePlaybackSpeeds(List<UserSetting>? userSettings) {
     final playbackSpeedSetting = userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.CUSTOM_PLAYBACK_SPEEDS,
@@ -78,10 +122,12 @@ class SettingsHandler {
     if (playbackSpeedSetting != null && playbackSpeedSetting.value.isNotEmpty) {
       try {
         final List<dynamic> speedsJson = jsonDecode(playbackSpeedSetting.value);
-        return speedsJson
+        var sortedSpeeds = speedsJson
             .where((item) => item['enabled'] == true)
             .map((item) => double.parse(item['speed'].toString()))
             .toList();
+        sortedSpeeds.sort();
+        return sortedSpeeds;
       } catch (e) {
         _logger.e('Error parsing playback speeds: $e');
         return [];
@@ -90,47 +136,13 @@ class SettingsHandler {
     return [];
   }
 
-  /// Updates the preferred greeting in user settings.
-  Future<bool> updatePreferredGreeting(
-    String newGreeting,
-    List<UserSetting> currentSettings,
-  ) async {
-    try {
-      var greetingSetting = currentSettings.firstWhere(
-        (setting) => setting.type == UserSettingType.GREETING,
-        orElse: () =>
-            UserSetting(type: UserSettingType.GREETING, value: newGreeting),
-      );
-      greetingSetting.value = newGreeting;
-
-      if (!currentSettings.contains(greetingSetting)) {
-        currentSettings.add(greetingSetting);
-      }
-      await updateUserSettings(currentSettings);
-      return true;
-    } catch (e) {
-      _logger.e('Error updating greeting: $e');
-      return false;
-    }
-  }
-
-  /// Updates the preferred name in user settings.
-  Future<bool> updatePreferredName(
-    String newName,
-    List<UserSetting> currentSettings,
-  ) async {
-    try {
-      var newSetting =
-          UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName);
-      await updateUserSettings([newSetting]);
-      return true;
-    } catch (e) {
-      _logger.e('Error updating preferred name: $e');
-      return false;
-    }
-  }
-
   /// Updates the selected speeds in user settings.
+  ///
+  /// This method updates the selected speeds in user settings and sends a `patchUserSettings` gRPC call to update the user's settings on the server.
+  /// * [speed] - The speed to update.
+  /// * [isSelected] - Whether the speed is selected or not.
+  /// * [currentSettings] - The current user settings.
+  /// Returns `true` if the update was successful.
   Future<void> updateSelectedSpeeds(
     double speed,
     bool isSelected,
@@ -153,9 +165,6 @@ class SettingsHandler {
     playbackSpeedSetting.value = jsonEncode(
       speeds.map((s) => {"speed": s, "enabled": true}).toList(),
     );
-    if (!currentSettings.contains(playbackSpeedSetting)) {
-      currentSettings.add(playbackSpeedSetting);
-    }
-    await updateUserSettings(currentSettings);
+    await updateUserSettings([playbackSpeedSetting]);
   }
 }

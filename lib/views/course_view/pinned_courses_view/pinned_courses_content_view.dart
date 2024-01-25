@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
+
 import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 
 /// PinnedCoursesContentView
@@ -12,17 +13,16 @@ import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 /// course-related content, including pinned courses or downloaded courses.
 ///
 /// Parameters:
-///   [title] - The title of the content section.
 ///   [pinnedCourseCards] - A list of cards representing pinned courses.
 ///
 class PinnedCoursesContentView extends ConsumerWidget {
-  final String title;
   final List<BaseCard> pinnedCourseCards;
+  final CustomSearchTopNavBar customAppBar;
 
   const PinnedCoursesContentView({
     super.key,
-    required this.title,
     required this.pinnedCourseCards,
+    required this.customAppBar,
   });
 
   @override
@@ -31,10 +31,7 @@ class PinnedCoursesContentView extends ConsumerWidget {
     double width = MediaQuery.of(context).size.width;
 
     return BaseView(
-      customAppBar: CustomSearchTopNavBar(
-        searchController: searchController,
-        title: title,
-      ),
+      customAppBar: customAppBar,
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
         child: Padding(
@@ -51,8 +48,13 @@ class PinnedCoursesContentView extends ConsumerWidget {
                     padding: AppPadding.sectionPadding,
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 295.0),
-                        child: Text('No Pinned Courses'),
+                        padding: AppPadding.sectionPadding,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 295.0),
+                            child: Text('No Pinned Courses'),
+                          ),
+                        ),
                       ),
                     ),
                   ),
