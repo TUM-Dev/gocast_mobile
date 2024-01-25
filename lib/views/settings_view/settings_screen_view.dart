@@ -7,6 +7,7 @@ import 'package:gocast_mobile/views/settings_view/preferred_greeting_view.dart';
 import 'package:gocast_mobile/views/settings_view/edit_profile_screen_view.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -25,8 +26,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-      ref.read(settingViewModelProvider.notifier).fetchUserSettings(),
+    Future.microtask(
+      () => ref.read(settingViewModelProvider.notifier).fetchUserSettings(),
     );
   }
 
@@ -92,15 +93,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _buildLogoutTile(context),
               const Divider(),
               _buildSectionTitle('More'),
-              _buildNavigableListTile('About us', () {
-                // TODO: Navigate to about us screen
-              }),
-              _buildNavigableListTile('Privacy policy', () {
-                // TODO: Navigate to privacy policy screen
-              }),
-              _buildNavigableListTile('Terms and conditions', () {
-                // TODO: Navigate to terms and conditions screen
-              }),
+              _buildNavigableListTile('About us', ""),
+              _buildNavigableListTile(
+                'Privacy policy',
+                "https://live.rbg.tum.de/privacy",
+              ),
+              _buildNavigableListTile(
+                'Terms and conditions',
+                "https://live.rbg.tum.de/imprint",
+              ),
             ],
           );
         },
@@ -121,7 +122,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   ListTile _buildProfileTile(userState) {
-     final settingState = ref.watch(settingViewModelProvider);
+    final settingState = ref.watch(settingViewModelProvider);
     final preferredNameSetting = settingState.userSettings?.firstWhere(
       (setting) => setting.type == UserSettingType.PREFERRED_NAME,
       orElse: () => UserSetting(value: ''),
@@ -202,11 +203,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           content: const Text('Would you like to delete all your downloads?'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.of(context).pop(false), // User chooses not to delete downloads
+              onPressed: () => Navigator.of(context).pop(false),
+              // User chooses not to delete downloads
               child: const Text('No'),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(true), // User chooses to delete downloads
+              onPressed: () => Navigator.of(context).pop(true),
+              // User chooses to delete downloads
               child: const Text('Yes'),
             ),
           ],
@@ -223,16 +226,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     // Use the captured Navigator state
     navigator.pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-          (Route<dynamic> route) => false,
+      (Route<dynamic> route) => false,
     );
   }
 
+  ListTile _buildNavigableListTile(String title, String redirectTo) {
+    final Uri url = Uri.parse(redirectTo);
 
-  ListTile _buildNavigableListTile(String title, VoidCallback onTap) {
     return ListTile(
       title: Text(title),
       trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: onTap,
+      onTap: () async {
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url);
+        } else {
+          throw 'Could not launch $url';
+        }
+      },
     );
   }
 }

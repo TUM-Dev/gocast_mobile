@@ -54,14 +54,14 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       temp = List.from(displayedCourses);
       isSearchInitialized = true;
     }
-      if (searchInput.isEmpty) {
+    if (searchInput.isEmpty) {
       userViewModelNotifier.updatedDisplayedCourses(temp);
       isSearchInitialized = false;
     } else {
       displayedCourses = displayedCourses.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
-        }).toList();
+      }).toList();
       userViewModelNotifier.updatedDisplayedCourses(displayedCourses);
     }
   }
