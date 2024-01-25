@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
@@ -13,6 +14,7 @@ import 'package:gocast_mobile/view_models/download_view_model.dart';
 import 'package:gocast_mobile/view_models/setting_view_model.dart';
 import 'package:gocast_mobile/view_models/stream_view_model.dart';
 import 'package:gocast_mobile/view_models/user_view_model.dart';
+import 'base/networking/api/gocast/api_v2.pb.dart';
 import 'base/networking/api/handler/grpc_handler.dart';
 import 'models/download/download_state_model.dart';
 import 'models/video/stream_state_model.dart';
@@ -58,3 +60,12 @@ final settingViewModelProvider =
     StateNotifierProvider<SettingViewModel, SettingState>((ref) {
   return SettingViewModel(ref.watch(grpcHandlerProvider));
 });
+
+final progressProvider = FutureProvider.autoDispose.family<Progress, Int64>(
+      (ref, streamId) async {
+    final videoViewModel = ref.watch(videoViewModelProvider.notifier);
+    return videoViewModel.fetchProgressForStream(streamId);
+  },
+);
+
+

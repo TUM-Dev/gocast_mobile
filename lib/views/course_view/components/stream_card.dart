@@ -28,17 +28,14 @@ class StreamCardState extends ConsumerState<StreamCard> {
   @override
   void initState() {
     super.initState();
-    final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
-    Future.microtask(() {
-      videoViewModelNotifier.fetchProgress(widget.stream.id);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    onTap() {
-      Navigator.push(
+    final progressAsyncValue = ref.watch(progressProvider(widget.stream.id));
+    onTap() async {
+      await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => VideoPlayerPage(
@@ -46,9 +43,8 @@ class StreamCardState extends ConsumerState<StreamCard> {
           ),
         ),
       );
+      var _ = ref.refresh(progressProvider(widget.stream.id));
     }
-
-    final videoProgress = ref.watch(videoViewModelProvider).progress;
 
     return InkWell(
       onTap: onTap,
@@ -80,14 +76,16 @@ class StreamCardState extends ConsumerState<StreamCard> {
                   themeData: themeData,
                 ),
                 _buildThumbnail(themeData),
-                LinearProgressIndicator(
-                  value: videoProgress != null ? videoProgress.progress : 0.0,
-                  minHeight: 10.0,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    Colors.blue,
-                  ),
-                ),
+            progressAsyncValue.when(
+              loading: () => const LinearProgressIndicator(),
+              error: (e, st) => Text('Error: $e'),
+              data: (progress) => LinearProgressIndicator(
+                value: progress.progress,
+                minHeight: 10.0,
+                backgroundColor: Colors.grey[300],
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
               ],
             ),
           ),
