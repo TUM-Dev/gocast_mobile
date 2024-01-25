@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomVideoControlBar extends StatelessWidget {
   final VoidCallback onToggleChat;
-  final VoidCallback onDownload;
+  final Function(String) onDownload;
   final VoidCallback onOpenQuizzes;
   final Stream currentStream;
   final bool isChatVisible;
@@ -24,6 +24,43 @@ class CustomVideoControlBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    void showDownloadOptions() {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(Icons.download),
+                  title: const Text('Combined'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onDownload('Combined');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.present_to_all),
+                  title: const Text('Presentation Only'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onDownload('Presentation');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.videocam),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onDownload('Camera Only');
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
 
     List<Map<String, IconData>> getMenuItems(bool isPinned, bool isDownloaded) {
       List<Map<String, IconData>> items = [
@@ -77,7 +114,7 @@ class CustomVideoControlBar extends StatelessWidget {
                             .read(userViewModelProvider.notifier)
                             .pinCourse(currentStream.courseID);
                   } else if (choice == 'Download') {
-                    onDownload();
+                    showDownloadOptions();
                   }
                 },
                 itemBuilder: (BuildContext context) {
