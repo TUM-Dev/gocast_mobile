@@ -39,6 +39,8 @@ class SettingState {
       userSettings: userSettings ?? this.userSettings,
       error: error ?? this.error,
       isDarkMode: isDarkMode ?? this.isDarkMode,
+      isLightMode: isLightMode ?? this.isLightMode,
+      isSystemDefault: isSystemDefault ?? this.isSystemDefault,
       isPushNotificationsEnabled:
       isPushNotificationsEnabled ?? this.isPushNotificationsEnabled,
       isDownloadWithWifiOnly:
