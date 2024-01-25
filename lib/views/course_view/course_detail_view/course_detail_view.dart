@@ -6,6 +6,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
 import 'package:gocast_mobile/views/course_view/components/stream_card.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 import 'package:tuple/tuple.dart';
 
@@ -37,6 +38,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     _initializeStreams();
     searchController.addListener(_searchCourses);
   }
+
   // set the thumbnails streams and search results
   void _initializeStreams() {
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
@@ -151,37 +153,37 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     return Expanded(
       child: streamsWithThumb.isNotEmpty
           ? Padding(
-      padding: EdgeInsets.symmetric(horizontal: isTablet ? width * 0.15 : 0),
-    child: ListView.builder(
-              itemCount: streamsWithThumb.length,
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              itemBuilder: (context, index) => _streamCardBuilder(
-                context,
-                index,
-                streamsWithThumb,
-                scaffoldMessenger,
+              padding:
+                  EdgeInsets.symmetric(horizontal: isTablet ? width * 0.15 : 0),
+              child: ListView.builder(
+                itemCount: streamsWithThumb.length,
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                itemBuilder: (context, index) => _streamCardBuilder(
+                  context,
+                  index,
+                  streamsWithThumb,
+                  scaffoldMessenger,
+                ),
               ),
-            ),)
+            )
           : const Center(child: Text('No courses available')),
     );
   }
 
   /// Builds individual stream cards.
-  Widget _streamCardBuilder(BuildContext context,
-      int index,
-      List<Tuple2<Stream, String>> streamsWithThumb,
-      ScaffoldMessengerState scaffoldMessenger,) {
+  Widget _streamCardBuilder(
+    BuildContext context,
+    int index,
+    List<Tuple2<Stream, String>> streamsWithThumb,
+    ScaffoldMessengerState scaffoldMessenger,
+  ) {
     final streamWithThumb = streamsWithThumb[index];
     final stream = streamWithThumb.item1;
     final thumbnail = _getThumbnailUrl(streamWithThumb.item2);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: StreamCard(
-        imageName: thumbnail,
-        stream: stream,
-        onTap: () => _handleStreamTap(context, scaffoldMessenger, stream),
-      ),
+      child: StreamCard(stream: stream),
     );
   }
 

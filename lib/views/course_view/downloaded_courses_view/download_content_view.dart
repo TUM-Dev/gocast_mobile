@@ -17,7 +17,6 @@ class DownloadCoursesContentView extends ConsumerWidget {
   final List<VideoCard> videoCards;
   final CustomSearchTopNavBar customAppBar;
 
-
   const DownloadCoursesContentView({
     super.key,
     required this.videoCards,
@@ -32,61 +31,36 @@ class DownloadCoursesContentView extends ConsumerWidget {
     double width = MediaQuery.of(context).size.width;
 
     return BaseView(
-      customAppBar: CustomSearchTopNavBar(
-        searchController: searchController,
-        title: title,
-      ),
-      showLeading: false,
-      child: RefreshIndicator(
-        onRefresh: onRefresh ??
-            () async {
-              // Ensure the correct provider is used here
-              await ref
-                  .read(downloadViewModelProvider.notifier)
-                  .fetchDownloadedVideos();
-            },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal:
-                  width >= 600 ? MediaQuery.of(context).size.width * 0.15 : 0,
-            ),
-            child: ListView.builder(
-              itemCount: videoCards.isEmpty ? 1 : videoCards.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (videoCards.isEmpty) {
-                  return const Center(
-/*    return BaseView(
       customAppBar: customAppBar,
-        child: ListView.builder(
-          itemCount: videoCards.isEmpty ? 1 : videoCards.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (videoCards.isEmpty) {
-              return const Center(
-                child: Padding(
-                  padding: AppPadding.sectionPadding,
-                  child: Center(*/
-                    child: Padding(
-                      padding: AppPadding.sectionPadding,
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 295.0),
-                          child: Text('No Downloaded Courses'),
-                        ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal:
+                width >= 600 ? MediaQuery.of(context).size.width * 0.15 : 0,
+          ),
+          child: ListView.builder(
+            itemCount: videoCards.isEmpty ? 1 : videoCards.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (videoCards.isEmpty) {
+                return const Center(
+                  child: Padding(
+                    padding: AppPadding.sectionPadding,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 295.0),
+                        child: Text('No Downloaded Courses'),
                       ),
                     ),
-                  );
-                } else {
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: width * 0.02),
-                    child: videoCards[index],
-                  );
-                }
-              },
-            ),
+                  ),
+                );
+              } else {
+                return videoCards[index];
+              }
+            },
           ),
         ),
+      ),
     );
   }
 }
