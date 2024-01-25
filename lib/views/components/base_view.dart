@@ -62,6 +62,7 @@ class BaseViewState extends ConsumerState<BaseView> {
           ),
         ]
             : widget.actions,
+        surfaceTintColor: Colors.transparent,
       ),
       body: widget.child,
       drawer: !_isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
