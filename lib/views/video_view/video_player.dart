@@ -249,7 +249,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     // Check if the Combined URL is found
     if (downloadUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Downloads not allowed for this lecture')),
+        SnackBar(content: Text('Download type "$type" not available for this lecture')),
       );
       return;
     }

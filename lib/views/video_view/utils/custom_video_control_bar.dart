@@ -21,46 +21,47 @@ class CustomVideoControlBar extends StatelessWidget {
     required this.onDownload,
   });
 
+  void _showDownloadOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.download),
+                title: const Text('Combined'),
+                onTap: () {
+                  Navigator.pop(context);
+                  onDownload('Combined');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.present_to_all),
+                title: const Text('Presentation Only'),
+                onTap: () {
+                  Navigator.pop(context);
+                  onDownload('Presentation');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.videocam),
+                title: const Text('Camera'),
+                onTap: () {
+                  Navigator.pop(context);
+                  onDownload('Camera Only');
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    void showDownloadOptions() {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(Icons.download),
-                  title: const Text('Combined'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onDownload('Combined');
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.present_to_all),
-                  title: const Text('Presentation Only'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onDownload('Presentation');
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.videocam),
-                  title: const Text('Camera'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onDownload('Camera Only');
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
 
     List<Map<String, IconData>> getMenuItems(bool isPinned, bool isDownloaded) {
       List<Map<String, IconData>> items = [
@@ -114,7 +115,7 @@ class CustomVideoControlBar extends StatelessWidget {
                             .read(userViewModelProvider.notifier)
                             .pinCourse(currentStream.courseID);
                   } else if (choice == 'Download') {
-                    showDownloadOptions();
+                    _showDownloadOptions(context);
                   }
                 },
                 itemBuilder: (BuildContext context) {
