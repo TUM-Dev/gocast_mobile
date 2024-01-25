@@ -27,7 +27,6 @@ class DownloadCoursesContentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController searchController = TextEditingController();
     double width = MediaQuery.of(context).size.width;
 
     return BaseView(

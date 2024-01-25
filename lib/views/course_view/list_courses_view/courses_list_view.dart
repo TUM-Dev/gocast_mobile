@@ -6,7 +6,6 @@ import 'package:gocast_mobile/utils/constants.dart';
 
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
-import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
 /// CoursesScreen
 ///

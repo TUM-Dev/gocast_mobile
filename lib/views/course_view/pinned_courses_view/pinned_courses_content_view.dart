@@ -27,7 +27,6 @@ class PinnedCoursesContentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    TextEditingController searchController = TextEditingController();
     double width = MediaQuery.of(context).size.width;
 
     return BaseView(
