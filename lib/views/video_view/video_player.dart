@@ -44,8 +44,8 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           onDownload: () => _downloadVideo(widget.stream),
         ),
         Expanded(
-            child:
-                ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
+          child:
+          ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
       ],
     );
   }
@@ -62,7 +62,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       await ref
           .read(courseViewModelProvider.notifier)
           .getCourseWithID(widget.stream.courseID);
-      Course? course = ref.read(courseViewModelProvider).course;
+      Course? course = ref
+          .read(courseViewModelProvider)
+          .course;
       if (course != null) {
         if ((course.chatEnabled || course.vodChatEnabled) &&
             widget.stream.chatEnabled) {
@@ -90,7 +92,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.stream.name)),
-      body: ref.read(videoViewModelProvider).isLoading
+      body: ref
+          .read(videoViewModelProvider)
+          .isLoading
           ? const Center(child: CircularProgressIndicator())
           : _buildVideoLayout(),
     );
@@ -132,10 +136,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 // Seek to the last progress.
   Future<void> _seekToLastProgress() async {
     Progress progress =
-        ref.read(videoViewModelProvider).progress ?? Progress(progress: 0.0);
+        ref
+            .read(videoViewModelProvider)
+            .progress ?? Progress(progress: 0.0);
     final position = Duration(
       seconds: (progress.progress *
-              _controllerManager.videoPlayerController.value.duration.inSeconds)
+          _controllerManager.videoPlayerController.value.duration.inSeconds)
           .round(),
     );
     await _controllerManager.videoPlayerController.seekTo(position);
@@ -200,7 +206,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   void _switchPlaylist(String newPlaylistUrl) async {
-    if (ref.read(videoViewModelProvider).videoSource == newPlaylistUrl) {
+    if (ref
+        .read(videoViewModelProvider)
+        .videoSource == newPlaylistUrl) {
       Logger().i("Already displaying $newPlaylistUrl");
       return;
     }
@@ -235,8 +243,11 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       _isChatVisible = !_isChatVisible;
     });
   }
+
   void _downloadVideo(Stream stream) {
-    final isDownloadWithWifiOnly = ref.watch(settingViewModelProvider).isDownloadWithWifiOnly;
+    final isDownloadWithWifiOnly = ref
+        .watch(settingViewModelProvider)
+        .isDownloadWithWifiOnly;
 
     // Extract the "Combined" download URL from the Stream object
     String? combinedDownloadUrl;
@@ -262,31 +273,51 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     );
 
     // Call the download function from the DownloadViewModel
+    // Call the download function from the DownloadViewModel
     ref
         .read(downloadViewModelProvider.notifier)
-        .downloadVideo(combinedDownloadUrl, stream.id, fileName, downloadOverWifiOnly: isDownloadWithWifiOnly)
+        .downloadVideo(combinedDownloadUrl, stream.id, fileName,
+        downloadOverWifiOnly: isDownloadWithWifiOnly,)
         .then((localPath) {
       if (localPath.isNotEmpty) {
+        // Download successful
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Video Downloaded')),
         );
       } else {
+        // Download failed, but not due to Wi-Fi (since it would throw an exception)
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Download failed')),
         );
       }
     }).catchError((error) {
-      // Handle specific error from 'downloadVideo'
-      if (error.toString() == "Not connected to Wi-Fi. Download cancelled.") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please connect to Wi-Fi to download videos')),
+      // _logger.d('Caught error: ${error.toString()}');
+      if (error.toString().contains("Not connected to Wi-Fi")) {
+        // Show a dialog for Wi-Fi error
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Download Failed"),
+              content: const Text(
+                  "You are not connected to Wi-Fi. Please connect to Wi-Fi to download the video.",),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                ),
+              ],
+            );
+          },
         );
       } else {
+        // For other errors, show a snackbar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${error.toString()}')),
         );
       }
     });
   }
-
 }
