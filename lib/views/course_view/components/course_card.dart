@@ -322,8 +322,7 @@ class CourseCard extends StatelessWidget {
             ),
           );
         } else {
-          //TODO how to handle this error case?
-          throw FlutterError("Navigation skipped: Widget is not mounted.");
+          return;
         }
       }
     };
