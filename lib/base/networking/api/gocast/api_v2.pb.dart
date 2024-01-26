@@ -1203,6 +1203,521 @@ class MarkChatMessageAsUnresolvedResponse extends $pb.GeneratedMessage {
   ChatMessage ensureMessage() => $_ensure(0);
 }
 
+class Poll extends $pb.GeneratedMessage {
+  factory Poll({
+    $core.int? id,
+    $core.int? streamID,
+    $core.String? question,
+    $core.bool? active,
+    $core.Iterable<PollOption>? pollOptions,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (streamID != null) {
+      $result.streamID = streamID;
+    }
+    if (question != null) {
+      $result.question = question;
+    }
+    if (active != null) {
+      $result.active = active;
+    }
+    if (pollOptions != null) {
+      $result.pollOptions.addAll(pollOptions);
+    }
+    return $result;
+  }
+
+  Poll._() : super();
+
+  factory Poll.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+
+  factory Poll.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Poll',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..aOS(3, _omitFieldNames ? '' : 'question')
+    ..aOB(4, _omitFieldNames ? '' : 'active')
+    ..pc<PollOption>(
+        5, _omitFieldNames ? '' : 'pollOptions', $pb.PbFieldType.PM,
+        protoName: 'pollOptions', subBuilder: PollOption.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  Poll clone() => Poll()..mergeFromMessage(this);
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  Poll copyWith(void Function(Poll) updates) =>
+      super.copyWith((message) => updates(message as Poll)) as Poll;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Poll create() => Poll._();
+
+  Poll createEmptyInstance() => create();
+
+  static $pb.PbList<Poll> createRepeated() => $pb.PbList<Poll>();
+
+  @$core.pragma('dart2js:noInline')
+  static Poll getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Poll>(create);
+  static Poll? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get id => $_getIZ(0);
+
+  @$pb.TagNumber(1)
+  set id($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get streamID => $_getIZ(1);
+
+  @$pb.TagNumber(2)
+  set streamID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasStreamID() => $_has(1);
+
+  @$pb.TagNumber(2)
+  void clearStreamID() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get question => $_getSZ(2);
+
+  @$pb.TagNumber(3)
+  set question($core.String v) {
+    $_setString(2, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasQuestion() => $_has(2);
+
+  @$pb.TagNumber(3)
+  void clearQuestion() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.bool get active => $_getBF(3);
+
+  @$pb.TagNumber(4)
+  set active($core.bool v) {
+    $_setBool(3, v);
+  }
+
+  @$pb.TagNumber(4)
+  $core.bool hasActive() => $_has(3);
+
+  @$pb.TagNumber(4)
+  void clearActive() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<PollOption> get pollOptions => $_getList(4);
+}
+
+class PollOption extends $pb.GeneratedMessage {
+  factory PollOption({
+    $core.int? id,
+    $core.String? answer,
+    $core.int? votes,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (answer != null) {
+      $result.answer = answer;
+    }
+    if (votes != null) {
+      $result.votes = votes;
+    }
+    return $result;
+  }
+
+  PollOption._() : super();
+
+  factory PollOption.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+
+  factory PollOption.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PollOption',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
+    ..aOS(2, _omitFieldNames ? '' : 'answer')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'votes', $pb.PbFieldType.OU3)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  PollOption clone() => PollOption()..mergeFromMessage(this);
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PollOption copyWith(void Function(PollOption) updates) =>
+      super.copyWith((message) => updates(message as PollOption)) as PollOption;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PollOption create() => PollOption._();
+
+  PollOption createEmptyInstance() => create();
+
+  static $pb.PbList<PollOption> createRepeated() => $pb.PbList<PollOption>();
+
+  @$core.pragma('dart2js:noInline')
+  static PollOption getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PollOption>(create);
+  static PollOption? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get id => $_getIZ(0);
+
+  @$pb.TagNumber(1)
+  set id($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get answer => $_getSZ(1);
+
+  @$pb.TagNumber(2)
+  set answer($core.String v) {
+    $_setString(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasAnswer() => $_has(1);
+
+  @$pb.TagNumber(2)
+  void clearAnswer() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get votes => $_getIZ(2);
+
+  @$pb.TagNumber(3)
+  set votes($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasVotes() => $_has(2);
+
+  @$pb.TagNumber(3)
+  void clearVotes() => clearField(3);
+}
+
+class GetPollsRequest extends $pb.GeneratedMessage {
+  factory GetPollsRequest({
+    $fixnum.Int64? streamID,
+  }) {
+    final $result = create();
+    if (streamID != null) {
+      $result.streamID = streamID;
+    }
+    return $result;
+  }
+
+  GetPollsRequest._() : super();
+
+  factory GetPollsRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+
+  factory GetPollsRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetPollsRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..a<$fixnum.Int64>(
+        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
+        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  GetPollsRequest clone() => GetPollsRequest()..mergeFromMessage(this);
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  GetPollsRequest copyWith(void Function(GetPollsRequest) updates) =>
+      super.copyWith((message) => updates(message as GetPollsRequest))
+          as GetPollsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetPollsRequest create() => GetPollsRequest._();
+
+  GetPollsRequest createEmptyInstance() => create();
+
+  static $pb.PbList<GetPollsRequest> createRepeated() =>
+      $pb.PbList<GetPollsRequest>();
+
+  @$core.pragma('dart2js:noInline')
+  static GetPollsRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetPollsRequest>(create);
+  static GetPollsRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get streamID => $_getI64(0);
+
+  @$pb.TagNumber(1)
+  set streamID($fixnum.Int64 v) {
+    $_setInt64(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasStreamID() => $_has(0);
+
+  @$pb.TagNumber(1)
+  void clearStreamID() => clearField(1);
+}
+
+class PostPollVoteRequest extends $pb.GeneratedMessage {
+  factory PostPollVoteRequest({
+    $fixnum.Int64? streamID,
+    $fixnum.Int64? pollOptionID,
+  }) {
+    final $result = create();
+    if (streamID != null) {
+      $result.streamID = streamID;
+    }
+    if (pollOptionID != null) {
+      $result.pollOptionID = pollOptionID;
+    }
+    return $result;
+  }
+
+  PostPollVoteRequest._() : super();
+
+  factory PostPollVoteRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+
+  factory PostPollVoteRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PostPollVoteRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..a<$fixnum.Int64>(
+        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
+        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(
+        2, _omitFieldNames ? '' : 'pollOptionID', $pb.PbFieldType.OU6,
+        protoName: 'pollOptionID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  PostPollVoteRequest clone() => PostPollVoteRequest()..mergeFromMessage(this);
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PostPollVoteRequest copyWith(void Function(PostPollVoteRequest) updates) =>
+      super.copyWith((message) => updates(message as PostPollVoteRequest))
+          as PostPollVoteRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PostPollVoteRequest create() => PostPollVoteRequest._();
+
+  PostPollVoteRequest createEmptyInstance() => create();
+
+  static $pb.PbList<PostPollVoteRequest> createRepeated() =>
+      $pb.PbList<PostPollVoteRequest>();
+
+  @$core.pragma('dart2js:noInline')
+  static PostPollVoteRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PostPollVoteRequest>(create);
+  static PostPollVoteRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get streamID => $_getI64(0);
+
+  @$pb.TagNumber(1)
+  set streamID($fixnum.Int64 v) {
+    $_setInt64(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasStreamID() => $_has(0);
+
+  @$pb.TagNumber(1)
+  void clearStreamID() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get pollOptionID => $_getI64(1);
+
+  @$pb.TagNumber(2)
+  set pollOptionID($fixnum.Int64 v) {
+    $_setInt64(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasPollOptionID() => $_has(1);
+
+  @$pb.TagNumber(2)
+  void clearPollOptionID() => clearField(2);
+}
+
+class GetPollsResponse extends $pb.GeneratedMessage {
+  factory GetPollsResponse({
+    $core.Iterable<Poll>? polls,
+  }) {
+    final $result = create();
+    if (polls != null) {
+      $result.polls.addAll(polls);
+    }
+    return $result;
+  }
+
+  GetPollsResponse._() : super();
+
+  factory GetPollsResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+
+  factory GetPollsResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetPollsResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..pc<Poll>(1, _omitFieldNames ? '' : 'polls', $pb.PbFieldType.PM,
+        subBuilder: Poll.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  GetPollsResponse clone() => GetPollsResponse()..mergeFromMessage(this);
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  GetPollsResponse copyWith(void Function(GetPollsResponse) updates) =>
+      super.copyWith((message) => updates(message as GetPollsResponse))
+          as GetPollsResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetPollsResponse create() => GetPollsResponse._();
+
+  GetPollsResponse createEmptyInstance() => create();
+
+  static $pb.PbList<GetPollsResponse> createRepeated() =>
+      $pb.PbList<GetPollsResponse>();
+
+  @$core.pragma('dart2js:noInline')
+  static GetPollsResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetPollsResponse>(create);
+  static GetPollsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Poll> get polls => $_getList(0);
+}
+
+class PostPollVoteResponse extends $pb.GeneratedMessage {
+  factory PostPollVoteResponse() => create();
+
+  PostPollVoteResponse._() : super();
+
+  factory PostPollVoteResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+
+  factory PostPollVoteResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PostPollVoteResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  PostPollVoteResponse clone() =>
+      PostPollVoteResponse()..mergeFromMessage(this);
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PostPollVoteResponse copyWith(void Function(PostPollVoteResponse) updates) =>
+      super.copyWith((message) => updates(message as PostPollVoteResponse))
+          as PostPollVoteResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PostPollVoteResponse create() => PostPollVoteResponse._();
+
+  PostPollVoteResponse createEmptyInstance() => create();
+
+  static $pb.PbList<PostPollVoteResponse> createRepeated() =>
+      $pb.PbList<PostPollVoteResponse>();
+
+  @$core.pragma('dart2js:noInline')
+  static PostPollVoteResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PostPollVoteResponse>(create);
+  static PostPollVoteResponse? _defaultInstance;
+}
+
 class User extends $pb.GeneratedMessage {
   factory User({
     $core.int? id,

@@ -279,6 +279,101 @@ final $typed_data.Uint8List markChatMessageAsUnresolvedResponseDescriptor = $con
     'CiNNYXJrQ2hhdE1lc3NhZ2VBc1VucmVzb2x2ZWRSZXNwb25zZRIvCgdtZXNzYWdlGAEgASgLMh'
     'UucHJvdG9idWYuQ2hhdE1lc3NhZ2VSB21lc3NhZ2U=');
 
+@$core.Deprecated('Use pollDescriptor instead')
+const Poll$json = {
+  '1': 'Poll',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'streamID', '3': 2, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'question', '3': 3, '4': 1, '5': 9, '10': 'question'},
+    {'1': 'active', '3': 4, '4': 1, '5': 8, '10': 'active'},
+    {
+      '1': 'pollOptions',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.PollOption',
+      '10': 'pollOptions'
+    },
+  ],
+};
+
+/// Descriptor for `Poll`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pollDescriptor = $convert.base64Decode(
+    'CgRQb2xsEg4KAmlkGAEgASgNUgJpZBIaCghzdHJlYW1JRBgCIAEoDVIIc3RyZWFtSUQSGgoIcX'
+    'Vlc3Rpb24YAyABKAlSCHF1ZXN0aW9uEhYKBmFjdGl2ZRgEIAEoCFIGYWN0aXZlEjYKC3BvbGxP'
+    'cHRpb25zGAUgAygLMhQucHJvdG9idWYuUG9sbE9wdGlvblILcG9sbE9wdGlvbnM=');
+
+@$core.Deprecated('Use pollOptionDescriptor instead')
+const PollOption$json = {
+  '1': 'PollOption',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'answer', '3': 2, '4': 1, '5': 9, '10': 'answer'},
+    {'1': 'votes', '3': 3, '4': 1, '5': 13, '10': 'votes'},
+  ],
+};
+
+/// Descriptor for `PollOption`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pollOptionDescriptor = $convert.base64Decode(
+    'CgpQb2xsT3B0aW9uEg4KAmlkGAEgASgNUgJpZBIWCgZhbnN3ZXIYAiABKAlSBmFuc3dlchIUCg'
+    'V2b3RlcxgDIAEoDVIFdm90ZXM=');
+
+@$core.Deprecated('Use getPollsRequestDescriptor instead')
+const GetPollsRequest$json = {
+  '1': 'GetPollsRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 4, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetPollsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPollsRequestDescriptor = $convert.base64Decode(
+    'Cg9HZXRQb2xsc1JlcXVlc3QSGgoIc3RyZWFtSUQYASABKARSCHN0cmVhbUlE');
+
+@$core.Deprecated('Use postPollVoteRequestDescriptor instead')
+const PostPollVoteRequest$json = {
+  '1': 'PostPollVoteRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 4, '10': 'streamID'},
+    {'1': 'pollOptionID', '3': 2, '4': 1, '5': 4, '10': 'pollOptionID'},
+  ],
+};
+
+/// Descriptor for `PostPollVoteRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPollVoteRequestDescriptor = $convert.base64Decode(
+    'ChNQb3N0UG9sbFZvdGVSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgEUghzdHJlYW1JRBIiCgxwb2'
+    'xsT3B0aW9uSUQYAiABKARSDHBvbGxPcHRpb25JRA==');
+
+@$core.Deprecated('Use getPollsResponseDescriptor instead')
+const GetPollsResponse$json = {
+  '1': 'GetPollsResponse',
+  '2': [
+    {
+      '1': 'polls',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Poll',
+      '10': 'polls'
+    },
+  ],
+};
+
+/// Descriptor for `GetPollsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPollsResponseDescriptor = $convert.base64Decode(
+    'ChBHZXRQb2xsc1Jlc3BvbnNlEiQKBXBvbGxzGAEgAygLMg4ucHJvdG9idWYuUG9sbFIFcG9sbH'
+    'M=');
+
+@$core.Deprecated('Use postPollVoteResponseDescriptor instead')
+const PostPollVoteResponse$json = {
+  '1': 'PostPollVoteResponse',
+};
+
+/// Descriptor for `PostPollVoteResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPollVoteResponseDescriptor =
+    $convert.base64Decode('ChRQb3N0UG9sbFZvdGVSZXNwb25zZQ==');
+
 @$core.Deprecated('Use userDescriptor instead')
 const User$json = {
   '1': 'User',
