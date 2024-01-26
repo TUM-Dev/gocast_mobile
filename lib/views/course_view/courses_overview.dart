@@ -41,8 +41,9 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
 
     bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
-
-    return BaseView(
+    return PopScope(
+      canPop: false,
+        child: BaseView(
       showLeading: false,
       title: 'GoCast',
       actions: [
@@ -57,7 +58,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       child: RefreshIndicator(
         onRefresh: () async {
           final userViewModelNotifier =
-              ref.read(userViewModelProvider.notifier);
+          ref.read(userViewModelProvider.notifier);
           await userViewModelNotifier.fetchUserCourses();
           await userViewModelNotifier.fetchPublicCourses();
         },
@@ -73,46 +74,47 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 ),
               isTablet
                   ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _buildSection(
-                            "My Courses",
-                            1,
-                            userCourses,
-                            liveStreams,
-                          ),
-                        ),
-                        Expanded(
-                          child: _buildSection(
-                            "Public Courses",
-                            2,
-                            publicCourses,
-                            liveStreams,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        _buildSection(
-                          "My Courses",
-                          1,
-                          userCourses,
-                          liveStreams,
-                        ),
-                        _buildSection(
-                          "Public Courses",
-                          2,
-                          publicCourses,
-                          liveStreams,
-                        ),
-                      ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _buildSection(
+                      "My Courses",
+                      1,
+                      userCourses,
+                      liveStreams,
                     ),
+                  ),
+                  Expanded(
+                    child: _buildSection(
+                      "Public Courses",
+                      2,
+                      publicCourses,
+                      liveStreams,
+                    ),
+                  ),
+                ],
+              )
+                  : Column(
+                children: [
+                  _buildSection(
+                    "My Courses",
+                    1,
+                    userCourses,
+                    liveStreams,
+                  ),
+                  _buildSection(
+                    "Public Courses",
+                    2,
+                    publicCourses,
+                    liveStreams,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
+    )
     );
   }
 
