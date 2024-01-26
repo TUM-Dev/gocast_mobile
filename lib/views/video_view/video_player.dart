@@ -6,6 +6,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/chat_view.dart';
+import 'package:gocast_mobile/views/chat_view/inactive_view.dart';
 import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.dart';
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
@@ -30,6 +31,8 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   Timer? _progressTimer;
   bool _isChatVisible = false;
   bool _isChatActive = false;
+  bool _isPollsVisible = false;
+  bool _isPollActive = false;
 
   Widget _buildVideoLayout() {
     return Column(
@@ -37,15 +40,20 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         Expanded(child: _controllerManager.buildVideoPlayer()),
         CustomVideoControlBar(
           onToggleChat: _videoPlayerHandlers.handleToggleChat,
-          onOpenQuizzes: _videoPlayerHandlers.handleOpenQuizzes,
+          onOpenPolls: _videoPlayerHandlers.handleOpenPolls,
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
           isChatActive: _isChatActive,
+          isPollActive: _isPollActive,
+          isPollVisible: _isPollsVisible,
           onDownload: (type) => _downloadVideo(widget.stream,type),
         ),
         Expanded(
-            child:
-                ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
+            child: _isChatVisible
+              ? ChatView(isActive: _isChatVisible, streamID: widget.stream.id)
+              : InactiveView(
+                  isActive: !_isChatVisible, streamID: widget.stream.id),
+        ),
       ],
     );
   }
@@ -56,6 +64,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     _videoPlayerHandlers = VideoPlayerHandlers(
       switchPlaylist: _switchPlaylist,
       onToggleChat: _handleToggleChat,
+      onTogglePolls: _handleTogglePolls,
     );
     _initializeControllerManager();
     Future.microtask(() async {
@@ -68,6 +77,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
             widget.stream.chatEnabled) {
           setState(() {
             _isChatActive = true;
+            _isPollActive = true;
           });
         }
       }
@@ -233,6 +243,14 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   void _handleToggleChat() {
     setState(() {
       _isChatVisible = !_isChatVisible;
+      _isPollsVisible = false;
+    });
+  }
+
+  void _handleTogglePolls() {
+    setState(() {
+      _isChatVisible = false;
+      _isPollsVisible = !_isPollsVisible;
     });
   }
 

@@ -7,9 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/chat_view.dart';
-import 'package:gocast_mobile/views/chat_view/suggested_streams_list.dart';
-import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:logger/logger.dart';
 
 class ChatViewState extends ConsumerState<ChatView> {
@@ -68,8 +65,9 @@ class ChatViewState extends ConsumerState<ChatView> {
         );
       });
     }
-    return widget.isActive ? buildActiveChat(isIOS) :
-    buildInactiveChatOverlay(isIOS, suggestedStreams);
+    return buildActiveChat(isIOS);
+    //return widget.isActive ? buildActiveChat(isIOS) :
+    //buildInactiveChatOverlay(isIOS, suggestedStreams);
   }
 
   Widget buildActiveChat(bool isIOS) {
@@ -197,51 +195,6 @@ class ChatViewState extends ConsumerState<ChatView> {
     );
   }
 
-  Widget buildInactiveChatOverlay(bool isIOS, List<Stream> suggestedStreams) {
-    var chatState = ref.watch(chatViewModelProvider);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-          decoration: BoxDecoration(
-            color: isIOS ? CupertinoColors.systemBackground.withOpacity(0.9) : Colors.white.withOpacity(0.9),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child:  Text(
-            chatState.accessDenied ? 'Chat is disabled for this lecture' : 'Chat is Hidden',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Expanded(
-          child: SuggestedStreamsWidget(
-            suggestedStreams: suggestedStreams,
-            onStreamSelected: (Stream stream) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => VideoPlayerPage(stream: stream)),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (!_isCooldownActive && message.isNotEmpty && message.trim().isNotEmpty) {
       final Int64? streamId = widget.streamID;
@@ -273,6 +226,4 @@ class ChatViewState extends ConsumerState<ChatView> {
       _isInitialScrollDone = true;
     }
   }
-
-
 }

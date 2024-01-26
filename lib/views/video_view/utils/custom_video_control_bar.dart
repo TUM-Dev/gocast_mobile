@@ -6,18 +6,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CustomVideoControlBar extends StatelessWidget {
   final VoidCallback onToggleChat;
   final Function(String) onDownload;
-  final VoidCallback onOpenQuizzes;
+  final VoidCallback onOpenPolls;
   final Stream currentStream;
   final bool isChatVisible;
   final bool isChatActive;
+  final bool isPollVisible;
+  final bool isPollActive;
 
   const CustomVideoControlBar({
     super.key,
     required this.onToggleChat,
-    required this.onOpenQuizzes,
+    required this.onOpenPolls,
     required this.currentStream,
     this.isChatActive = false,
     this.isChatVisible = false,
+    this.isPollActive = false,
+    this.isPollVisible = false,
     required this.onDownload,
   });
 
@@ -98,9 +102,12 @@ class CustomVideoControlBar extends StatelessWidget {
                     onPressed: isChatActive ? onToggleChat : null,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.quiz_outlined),
+                    icon: isPollVisible
+                        ? Icon(Icons.quiz_outlined,
+                            color: themeData.primaryColor)
+                        : const Icon(Icons.quiz_outlined),
                     color: themeData.iconTheme.color,
-                    onPressed: onOpenQuizzes,
+                    onPressed: isPollActive ? onOpenPolls : null,
                   ),
                 ],
               ),
