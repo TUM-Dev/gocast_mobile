@@ -72,7 +72,6 @@ class CoursesList extends ConsumerWidget {
             courseId: course.id,
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
-            lastLectureId: Int64(course.lastRecordingID),
             isCourse: true,
             onTap: () {
               Navigator.push(

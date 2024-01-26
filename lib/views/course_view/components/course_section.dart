@@ -144,7 +144,6 @@ class CourseSection extends StatelessWidget {
             ref: ref,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            lastLectureId: Int64(course.lastRecordingID),
             path: imagePath,
             live: streams.any((stream) => stream.courseID == course.id),
             semester:

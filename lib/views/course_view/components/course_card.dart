@@ -25,7 +25,6 @@ class CourseCard extends StatelessWidget {
 
   //for displaying courses
   final bool? live;
-  final Int64? lastLectureId;
   final String? semester;
 
   //for displaying livestreams
@@ -49,16 +48,8 @@ class CourseCard extends StatelessWidget {
     required this.courseId,
     required this.onTap,
     this.live,
-    this.lastLectureId,
     this.semester,
   });
-
-  Future<void> fetchDataAsync(BuildContext context) async {
-    if (lastLectureId != null) {
-      final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
-      videoViewModelNotifier.fetchStream(lastLectureId!);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +159,6 @@ class CourseCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 3.0),
                     child: _buildCourseTitle(themeData.textTheme),
                   ),
-                  _buildLastLecture(context),
                 ],
               ),
             ),
@@ -294,39 +284,7 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLastLecture(BuildContext context) {
-    if (lastLectureId == null) return const SizedBox();
 
-    return ViewAllButton(
-      icon: Icons.north_east,
-      onViewAll: _buildLastStream(context, lastLectureId!),
-      text: 'Last Lecture',
-    );
-  }
-
-  VoidCallback _buildLastStream(BuildContext context, Int64 lastLectureId) {
-    return () async {
-      await fetchDataAsync(context);
-
-      final List<Stream>? lastLectureStream =
-          ref!.watch(videoViewModelProvider).streams;
-
-      if (lastLectureStream != null || lastLectureStream!.isNotEmpty) {
-        if (context.mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VideoPlayerPage(
-                stream: lastLectureStream.first,
-              ),
-            ),
-          );
-        } else {
-          return;
-        }
-      }
-    };
-  }
 
   Widget _buildCourseIsLive() {
     if (live == null) return const SizedBox();
