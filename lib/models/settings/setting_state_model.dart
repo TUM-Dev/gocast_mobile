@@ -21,7 +21,7 @@ class SettingState {
     this.isLightMode =false,
     this.isSystemDefault =true,
     this.isPushNotificationsEnabled = true,
-    this.isDownloadWithWifiOnly = true,
+    this.isDownloadWithWifiOnly = false,
   });
 
   SettingState copyWith({
