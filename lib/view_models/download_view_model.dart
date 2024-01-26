@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/models/download/download_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'dart:io';
-import '../models/download_state_model.dart';
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
 

@@ -1,9 +1,11 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
+import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 
 /// CoursesScreen
 ///
@@ -34,24 +36,10 @@ class CoursesList extends ConsumerWidget {
         backgroundColor: Colors.white,
         strokeWidth: 2.0,
         displacement: 20.0,
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            courses.isEmpty
-                ? SliverFillRemaining(child: _buildPlaceholder())
-                : _buildCourseListView(),
-          ],
+        child: SingleChildScrollView(
+          child: courses.isEmpty
+              ? _buildPlaceholder()
+              : _buildCourseListView(context),
         ),
       ),
     );
@@ -64,26 +52,41 @@ class CoursesList extends ConsumerWidget {
     );
   }
 
-  Widget _buildCourseListView() {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+  Widget _buildCourseListView(BuildContext context) {
+    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: courses.length,
+        itemBuilder: (BuildContext context, int index) {
           final course = courses[index];
           return CourseCard(
             title: course.name,
-            subtitle: course.slug,
+            tumID: course.tUMOnlineIdentifier,
             path: 'assets/images/course2.png',
             live: course.streams.any((stream) => stream.liveNow),
             courseId: course.id,
+            semester:
+                course.semester.teachingTerm + course.semester.year.toString(),
+            lastLectureId: Int64(course.lastRecordingID),
+            isCourse: true,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseDetail(
+                    title: course.name,
+                    courseId: course.id,
+                  ),
+                ),
+              );
+            },
           );
         },
-        childCount: courses.length,
       ),
     );
   }

@@ -50,18 +50,28 @@ class SettingViewModel extends StateNotifier<SettingState> {
   }
 
   Future<void> loadThemePreference(SharedPreferences prefs) async {
-    final themePreference = prefs.getString('themeMode') ?? 'light';
-    state = state.copyWith(isDarkMode: themePreference == 'dark');
+    // Default to 'system' if no preference is set
+    final themePreference = prefs.getString('themeMode') ?? 'system';
+    updateThemeMode(themePreference);
   }
 
   Future<void> saveThemePreference(String theme, WidgetRef ref) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('themeMode', theme);
+    updateThemeMode(theme);
 
-    state = state.copyWith(isDarkMode: theme == 'dark');
-
+    // Update the UI theme mode based on the selected preference
     ref.read(themeModeProvider.notifier).state =
-    theme == 'dark' ? ThemeMode.dark : ThemeMode.light;
+    theme == 'dark' ? ThemeMode.dark : theme == 'light' ? ThemeMode.light : ThemeMode.system;
+  }
+
+  void updateThemeMode(String themePreference) {
+    // Update the state with the new theme preference
+    state = state.copyWith(
+        isDarkMode: themePreference == 'dark',
+        isLightMode: themePreference == 'light',
+        isSystemDefault: themePreference == 'system',
+    );
   }
 
   Future<void> loadNotificationPreference(SharedPreferences prefs) async {

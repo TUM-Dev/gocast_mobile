@@ -5,7 +5,7 @@ import 'package:gocast_mobile/providers.dart';
 
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
-import 'package:gocast_mobile/views/course_view/course_detail_view/stream_card.dart';
+import 'package:gocast_mobile/views/course_view/components/stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 import 'package:tuple/tuple.dart';
@@ -13,8 +13,14 @@ import 'package:tuple/tuple.dart';
 class CourseDetail extends ConsumerStatefulWidget {
   final String title;
   final int courseId;
+  final String? courseTumId;
 
-  const CourseDetail({super.key, required this.title, required this.courseId});
+  const CourseDetail({
+    super.key,
+    required this.title,
+    required this.courseId,
+    this.courseTumId,
+  });
 
   @override
   CourseDetailState createState() => CourseDetailState();
@@ -32,6 +38,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     _initializeStreams();
     searchController.addListener(_searchCourses);
   }
+
   // set the thumbnails streams and search results
   void _initializeStreams() {
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
@@ -113,7 +120,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     bool isPinned = _checkPinStatus();
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -141,16 +148,22 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     List<Tuple2<Stream, String>> streamsWithThumb,
     ScaffoldMessengerState scaffoldMessenger,
   ) {
+    double width = MediaQuery.of(context).size.width;
+    bool isTablet = width >= 600 ? true : false;
     return Expanded(
       child: streamsWithThumb.isNotEmpty
-          ? ListView.builder(
-              itemCount: streamsWithThumb.length,
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              itemBuilder: (context, index) => _streamCardBuilder(
-                context,
-                index,
-                streamsWithThumb,
-                scaffoldMessenger,
+          ? Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: isTablet ? width * 0.15 : 0),
+              child: ListView.builder(
+                itemCount: streamsWithThumb.length,
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                itemBuilder: (context, index) => _streamCardBuilder(
+                  context,
+                  index,
+                  streamsWithThumb,
+                  scaffoldMessenger,
+                ),
               ),
             )
           : const Center(child: Text('No courses available')),
@@ -158,10 +171,12 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   /// Builds individual stream cards.
-  Widget _streamCardBuilder(BuildContext context,
-      int index,
-      List<Tuple2<Stream, String>> streamsWithThumb,
-      ScaffoldMessengerState scaffoldMessenger,) {
+  Widget _streamCardBuilder(
+    BuildContext context,
+    int index,
+    List<Tuple2<Stream, String>> streamsWithThumb,
+    ScaffoldMessengerState scaffoldMessenger,
+  ) {
     final streamWithThumb = streamsWithThumb[index];
     final stream = streamWithThumb.item1;
     final thumbnail = _getThumbnailUrl(streamWithThumb.item2);
