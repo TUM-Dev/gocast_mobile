@@ -42,33 +42,33 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     var userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     ref
         .read(userViewModelProvider.notifier)
-        .updateSelectedSemester(selectedSemester, userPinned);
+        .updateSelectedPinnedSemester(selectedSemester, userPinned);
   }
 
   void _searchCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     final searchInput = searchController.text.toLowerCase();
     var displayedCourses =
-        ref.watch(userViewModelProvider).displayedCourses ?? [];
+        ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
     if (!isSearchInitialized) {
       temp = List.from(displayedCourses);
       isSearchInitialized = true;
     }
     if (searchInput.isEmpty) {
-      userViewModelNotifier.updatedDisplayedCourses(temp);
+      userViewModelNotifier.updatedDisplayedPinnedCourses(temp);
       isSearchInitialized = false;
     } else {
       displayedCourses = displayedCourses.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();
-      userViewModelNotifier.updatedDisplayedCourses(displayedCourses);
+      userViewModelNotifier.updatedDisplayedPinnedCourses(displayedCourses);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final userPinned = ref.watch(userViewModelProvider).displayedCourses ?? [];
+    final userPinned = ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
     List<Course> liveCourses = userPinned.where((course) => liveCourseIds.contains(course.id)).toList();

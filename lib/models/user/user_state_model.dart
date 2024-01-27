@@ -18,6 +18,8 @@ class UserState {
   final Semester? current;
   final String? currentAsString;
   final List<Course>? displayedCourses;
+  final List<Course>? displayedPinnedCourses;
+
   const UserState({
     this.isLoading = false,
     this.user,
@@ -33,6 +35,7 @@ class UserState {
     this.current,
     this.currentAsString,
     this.displayedCourses,
+    this.displayedPinnedCourses,
   });
 
   UserState copyWith({
@@ -49,7 +52,8 @@ class UserState {
     List<String>? semestersAsString,
     Semester? current,
     String? currentAsString,
-    List<Course>? displayedCourses,}) {
+    List<Course>? displayedCourses,
+    List<Course>? displayedPinnedCourses,}) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
@@ -65,6 +69,7 @@ class UserState {
       current: current ?? this.current,
       currentAsString: currentAsString ?? this.currentAsString,
       displayedCourses: displayedCourses ?? this.displayedCourses,
+      displayedPinnedCourses: displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
 
@@ -77,6 +82,8 @@ class UserState {
     List<Course>? publicCourses,
     AppError? error,
     List<Course>? downloadedCourses,
+    List<Course>? displayedCourses,
+    List<Course>? displayedPinnedCourses,
     List<Semester>? semesters,
   }) {
     return UserState(
@@ -89,6 +96,12 @@ class UserState {
       error: null,
       downloadedCourses: downloadedCourses ?? this.downloadedCourses,
       semesters: semesters ?? this.semesters,
+      selectedSemester: selectedSemester,
+      semestersAsString: semestersAsString,
+      current: current,
+      currentAsString: currentAsString,
+      displayedCourses: displayedCourses ?? this.displayedCourses,
+      displayedPinnedCourses: displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
 }

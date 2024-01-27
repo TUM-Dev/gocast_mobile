@@ -134,7 +134,7 @@ class UserViewModel extends StateNotifier<UserState> {
     try {
       var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
       state = state.copyWith(userPinned: courses, isLoading: false);
-      setUpDisplayedCourses(state.userPinned ?? []);
+      setUpDisplayedPinnedCourses(state.userPinned ?? []);
     } catch (e) {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
@@ -216,6 +216,15 @@ class UserViewModel extends StateNotifier<UserState> {
     );
   }
 
+  void updateSelectedPinnedSemester(String? semester, List<Course> allCourses) {
+    state = state.copyWith(selectedSemester: semester);
+    updatedDisplayedPinnedCourses(CourseUtils.filterCoursesBySemester(
+      allCourses,
+      state.selectedSemester ?? 'All',
+    ),
+    );
+  }
+
   void setSemestersAsString(List<Semester> semesters) {
     state = state.copyWith(
         semestersAsString: CourseUtils.convertAndSortSemesters(semesters, true),
@@ -226,6 +235,11 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(displayedCourses: displayedCourses);
   }
 
+  void updatedDisplayedPinnedCourses(List<Course> displayedPinnedCourses) {
+    state = state.copyWith(displayedPinnedCourses: displayedPinnedCourses);
+  }
+
+
   void setUpDisplayedCourses(List<Course> allCourses) {
     CourseUtils.sortCourses(allCourses, 'Newest First');
     updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
@@ -233,7 +247,14 @@ class UserViewModel extends StateNotifier<UserState> {
         state.selectedSemester ?? 'All',
       ),
     );
-    
   }
-  
+
+  void setUpDisplayedPinnedCourses(List<Course> allCourses) {
+    CourseUtils.sortCourses(allCourses, 'Newest First');
+    updatedDisplayedPinnedCourses(CourseUtils.filterCoursesBySemester(
+        allCourses,
+        state.selectedSemester ?? 'All',
+      ),
+    );
+  }
 }
