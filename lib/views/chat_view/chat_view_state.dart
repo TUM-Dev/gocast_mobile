@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,21 +17,24 @@ class ChatViewState extends ConsumerState<ChatView> {
   bool _isCooldownActive = false;
   bool _isInitialScrollDone = false;
 
-
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _updateTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       if (mounted) {
-        if(widget.streamID != null) {
-          ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID!);
+        if (widget.streamID != null) {
+          ref
+              .read(chatViewModelProvider.notifier)
+              .fetchChatMessages(widget.streamID!);
         }
       }
     });
-    if(widget.streamID != null) {
+    if (widget.streamID != null) {
       Future.microtask(
-            () => ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID!),
+        () => ref
+            .read(chatViewModelProvider.notifier)
+            .fetchChatMessages(widget.streamID!),
       );
     }
   }
@@ -48,14 +50,19 @@ class ChatViewState extends ConsumerState<ChatView> {
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatViewModelProvider);
     var suggestedStreams = ref.watch(videoViewModelProvider).streams ?? [];
-    suggestedStreams = suggestedStreams.where((element) => element.id != widget.streamID).toList();
-    suggestedStreams.sort((a, b) => a.start.toDateTime().compareTo(b.start.toDateTime()));
+    suggestedStreams = suggestedStreams
+        .where((element) => element.id != widget.streamID)
+        .toList();
+    suggestedStreams
+        .sort((a, b) => a.start.toDateTime().compareTo(b.start.toDateTime()));
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    if(chatState.isRateLimitReached){
+    if (chatState.isRateLimitReached) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('You are sending messages too fast. Please wait a 10 seconds.'),
+            content: Text(
+              'You are sending messages too fast. Please wait a 10 seconds.',
+            ),
           ),
         );
       });
@@ -63,13 +70,16 @@ class ChatViewState extends ConsumerState<ChatView> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('You are sending messages too fast. Please wait a 60 seconds.'),
+            content: Text(
+              'You are sending messages too fast. Please wait a 60 seconds.',
+            ),
           ),
         );
       });
     }
-    return widget.isActive ? buildActiveChat(isIOS) :
-    buildInactiveChatOverlay(isIOS, suggestedStreams);
+    return widget.isActive
+        ? buildActiveChat(isIOS)
+        : buildInactiveChatOverlay(isIOS, suggestedStreams);
   }
 
   Widget buildActiveChat(bool isIOS) {
@@ -89,7 +99,6 @@ class ChatViewState extends ConsumerState<ChatView> {
       ),
     );
   }
-
 
   BoxDecoration getChatDecoration(bool isIOS) {
     return BoxDecoration(
@@ -143,7 +152,9 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   BoxDecoration getMessageBubbleStyle(bool isSentByMe, bool isIOS) {
     return BoxDecoration(
-      color: isSentByMe ? (isIOS ? CupertinoColors.activeBlue : Colors.blue) : (isIOS ? CupertinoColors.systemGrey6 : Colors.grey[300]),
+      color: isSentByMe
+          ? (isIOS ? CupertinoColors.activeBlue : Colors.blue)
+          : (isIOS ? CupertinoColors.systemGrey6 : Colors.grey[300]),
       borderRadius: BorderRadius.circular(18),
     );
   }
@@ -152,20 +163,27 @@ class ChatViewState extends ConsumerState<ChatView> {
     TextEditingController controller = TextEditingController();
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 15.0),
-      child: isIOS ? buildIOSMessageInputField(controller) : buildNonIOSMessageInputField(controller),
+      child: isIOS
+          ? buildIOSMessageInputField(controller)
+          : buildNonIOSMessageInputField(controller),
     );
   }
 
   Widget buildIOSMessageInputField(TextEditingController controller) {
     return CupertinoTextField(
       controller: controller,
-      placeholder: _isCooldownActive ? 'Wait 30 seconds before sending another message' : 'Type a message...',
+      placeholder: _isCooldownActive
+          ? 'Wait 30 seconds before sending another message'
+          : 'Type a message...',
       enabled: !_isCooldownActive,
       suffix: GestureDetector(
         onTap: () => postMessage(context, ref, controller.text),
         child: _isCooldownActive
             ? const CupertinoActivityIndicator()
-            : const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.activeBlue,),
+            : const Icon(
+                CupertinoIcons.arrow_up_circle_fill,
+                color: CupertinoColors.activeBlue,
+              ),
       ),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
@@ -179,7 +197,9 @@ class ChatViewState extends ConsumerState<ChatView> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        hintText: _isCooldownActive ? 'Wait 30 seconds before sending another message' : 'Type a message...',
+        hintText: _isCooldownActive
+            ? 'Wait 30 seconds before sending another message'
+            : 'Type a message...',
         enabled: !_isCooldownActive,
         suffixIcon: GestureDetector(
           onTap: () => postMessage(context, ref, controller.text),
@@ -206,7 +226,9 @@ class ChatViewState extends ConsumerState<ChatView> {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
           decoration: BoxDecoration(
-            color: isIOS ? CupertinoColors.systemBackground.withOpacity(0.9) : Colors.white.withOpacity(0.9),
+            color: isIOS
+                ? CupertinoColors.systemBackground.withOpacity(0.9)
+                : Colors.white.withOpacity(0.9),
             borderRadius: BorderRadius.circular(12),
             boxShadow: const [
               BoxShadow(
@@ -216,8 +238,10 @@ class ChatViewState extends ConsumerState<ChatView> {
               ),
             ],
           ),
-          child:  Text(
-            chatState.accessDenied ? 'Chat is disabled for this lecture' : 'Chat is Hidden',
+          child: Text(
+            chatState.accessDenied
+                ? 'Chat is disabled for this lecture'
+                : 'Chat is Hidden',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
@@ -233,7 +257,9 @@ class ChatViewState extends ConsumerState<ChatView> {
             onStreamSelected: (Stream stream) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => VideoPlayerPage(stream: stream)),
+                MaterialPageRoute(
+                  builder: (context) => VideoPlayerPage(stream: stream),
+                ),
               );
             },
           ),
@@ -244,8 +270,10 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (!_isCooldownActive && message.isNotEmpty && message.trim().isNotEmpty) {
-      final Int64? streamId = widget.streamID;
-      ref.read(chatViewModelProvider.notifier).postChatMessage(streamId!, message);
+      final int? streamId = widget.streamID;
+      ref
+          .read(chatViewModelProvider.notifier)
+          .postChatMessage(streamId!, message);
       // Start cooldown
       Logger().i('Cooldown started');
       setState(() {
@@ -262,7 +290,6 @@ class ChatViewState extends ConsumerState<ChatView> {
     }
   }
 
-
   void _scrollToBottom() {
     if (!_isInitialScrollDone && mounted && _scrollController.hasClients) {
       _scrollController.animateTo(
@@ -273,6 +300,4 @@ class ChatViewState extends ConsumerState<ChatView> {
       _isInitialScrollDone = true;
     }
   }
-
-
 }

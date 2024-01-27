@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +26,10 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   }
 
   Future<String> downloadVideo(
-      String videoUrl, Int64 streamId, String fileName,) async {
+    String videoUrl,
+    int streamId,
+    String fileName,
+  ) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -42,9 +44,11 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
       // Save to SharedPreferences
       await prefs.setString(
-          'downloadedVideos',
-          json.encode(downloadedVideos
-              .map((key, value) => MapEntry(key.toString(), value)),),);
+        'downloadedVideos',
+        json.encode(
+          downloadedVideos.map((key, value) => MapEntry(key.toString(), value)),
+        ),
+      );
       state = state.copyWith(downloadedVideos: downloadedVideos);
       _logger.d('Downloaded videos: ${state.downloadedVideos}');
       return filePath;
@@ -80,9 +84,12 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
           // Save updated list to SharedPreferences
           await prefs.setString(
-              'downloadedVideos',
-              json.encode(updatedDownloads
-                  .map((key, value) => MapEntry(key.toString(), value)),),);
+            'downloadedVideos',
+            json.encode(
+              updatedDownloads
+                  .map((key, value) => MapEntry(key.toString(), value)),
+            ),
+          );
           state = state.copyWith(downloadedVideos: updatedDownloads);
         } else {
           _logger.w('File not found: $filePath');
@@ -120,8 +127,8 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  bool isStreamDownloaded(Int64 id) {
-    final int streamIdInt = id.toInt(); // Convert Int64 to int
+  bool isStreamDownloaded(id) {
+    final int streamIdInt = id.toInt();
     return state.downloadedVideos.containsKey(streamIdInt);
   }
 }

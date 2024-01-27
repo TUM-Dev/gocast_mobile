@@ -1,7 +1,7 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
@@ -18,31 +18,19 @@ import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail
 class CoursesList extends ConsumerWidget {
   final String title;
   final List<Course> courses;
-  final Future<void> Function() onRefresh;
 
   const CoursesList({
     super.key,
     required this.title,
     required this.courses,
-    required this.onRefresh,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: onRefresh,
-        color: Colors.blue,
-        backgroundColor: Colors.white,
-        strokeWidth: 2.0,
-        displacement: 20.0,
-        child: SingleChildScrollView(
-          child: courses.isEmpty
-              ? _buildPlaceholder()
-              : _buildCourseListView(context),
-        ),
-      ),
-    );
+    bool isTablet = MediaQuery.of(context).size.width >= 600;
+    return courses.isEmpty
+        ? _buildPlaceholder()
+        : _buildCourseListView(context, isTablet, ref);
   }
 
   Padding _buildPlaceholder() {
@@ -52,27 +40,45 @@ class CoursesList extends ConsumerWidget {
     );
   }
 
-  Widget _buildCourseListView(BuildContext context) {
-    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
-
+  Widget _buildCourseListView(
+    BuildContext context,
+    bool isTablet,
+    WidgetRef ref,
+  ) {
+    final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
+    var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
+    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    List<Course> liveCourses =
+        courses.where((course) => liveCourseIds.contains(course.id)).toList();
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
       child: ListView.builder(
-        physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         itemCount: courses.length,
         itemBuilder: (BuildContext context, int index) {
           final course = courses[index];
+          final isPinned = userPinned.contains(course);
           return CourseCard(
+            course: course,
+            isPinned: isPinned,
+            onPinUnpin: (course) {
+              final userViewModelNotifier =
+                  ref.read(userViewModelProvider.notifier);
+              if (isPinned) {
+                userViewModelNotifier.unpinCourse(course.id);
+              } else {
+                userViewModelNotifier.pinCourse(course.id);
+              }
+            },
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
             path: 'assets/images/course2.png',
-            live: course.streams.any((stream) => stream.liveNow),
+            live: liveCourses.contains(course),
             courseId: course.id,
             semester:
                 course.semester.teachingTerm + course.semester.year.toString(),
-            lastLectureId: Int64(course.lastRecordingID),
             isCourse: true,
             onTap: () {
               Navigator.push(

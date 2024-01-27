@@ -41,11 +41,14 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           currentStream: widget.stream,
           isChatVisible: _isChatVisible,
           isChatActive: _isChatActive,
-          onDownload: (type) => _downloadVideo(widget.stream,type),
+          onDownload: (type) => _downloadVideo(widget.stream, type),
         ),
         Expanded(
-            child:
-                ChatView(isActive: _isChatVisible, streamID: widget.stream.id),),
+          child: ChatView(
+            isActive: _isChatVisible,
+            streamID: widget.stream.id,
+          ),
+        ),
       ],
     );
   }
@@ -236,12 +239,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     });
   }
 
-  void _downloadVideo(Stream stream,String type) {
+  void _downloadVideo(Stream stream, String type) {
     // Extract the "Combined" download URL from the Stream object
     String? downloadUrl;
     for (var download in stream.downloads) {
       if (download.friendlyName == type) {
-     downloadUrl = download.downloadURL;
+        downloadUrl = download.downloadURL;
         break;
       }
     }
@@ -249,7 +252,9 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     // Check if the Combined URL is found
     if (downloadUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Download type "$type" not available for this lecture')),
+        SnackBar(
+          content: Text('Download type "$type" not available for this lecture'),
+        ),
       );
       return;
     }
