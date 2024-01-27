@@ -108,7 +108,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
               ],
             ),
           ),
-    )
+    ),
     );
   }
 
