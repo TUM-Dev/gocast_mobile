@@ -75,10 +75,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _refreshPinnedCourses,
-        color: Colors.blue,
-        backgroundColor: Colors.white,
-        strokeWidth: 2.0,
-        displacement: 20.0,
         child: PinnedCoursesContentView(
           customAppBar: CustomSearchTopNavBar(
             searchController: searchController,

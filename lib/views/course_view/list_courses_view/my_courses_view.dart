@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
@@ -78,16 +79,28 @@ class MyCoursesState extends ConsumerState<MyCourses> {
         onClick: filterCoursesBySemester,
       ),
       body: RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
         onRefresh: _refreshMyCourses,
-        child: CoursesList(
-          title: 'My Courses',
-          courses: myCourses,
-          onRefresh: () async {
-            await ref.read(userViewModelProvider.notifier).fetchUserCourses();
-          },
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          dragStartBehavior: DragStartBehavior.down,
+          children: [
+            CoursesList(
+              title: 'My Courses',
+              courses: myCourses,
+            ),
+          ],
         ),
       ),
+
     );
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
 }

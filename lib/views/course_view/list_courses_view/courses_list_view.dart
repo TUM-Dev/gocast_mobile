@@ -18,31 +18,19 @@ import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail
 class CoursesList extends ConsumerWidget {
   final String title;
   final List<Course> courses;
-  final Future<void> Function() onRefresh;
 
   const CoursesList({
     super.key,
     required this.title,
     required this.courses,
-    required this.onRefresh,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: onRefresh,
-        color: Colors.blue,
-        backgroundColor: Colors.white,
-        strokeWidth: 2.0,
-        displacement: 20.0,
-        child: SingleChildScrollView(
-          child: courses.isEmpty
+    bool isTablet = MediaQuery.of(context).size.width >= 600;
+    return  courses.isEmpty
               ? _buildPlaceholder()
-              : _buildCourseListView(context),
-        ),
-      ),
-    );
+              : _buildCourseListView(context, isTablet);
   }
 
   Padding _buildPlaceholder() {
@@ -52,14 +40,12 @@ class CoursesList extends ConsumerWidget {
     );
   }
 
-  Widget _buildCourseListView(BuildContext context) {
-    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
-
+  Widget _buildCourseListView(BuildContext context, bool isTablet) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
       child: ListView.builder(
-        physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         itemCount: courses.length,
         itemBuilder: (BuildContext context, int index) {
