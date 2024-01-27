@@ -44,7 +44,7 @@ class CourseCard extends StatelessWidget {
     this.roomName,
     this.roomNumber,
     this.viewerCount,
-    required this.path,
+    this.path,
     required this.courseId,
     required this.onTap,
     this.live,

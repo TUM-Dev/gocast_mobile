@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
+import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_content_view.dart';
@@ -88,12 +89,13 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
           pinnedCourseCards: userPinned.map((course) {
             final isPinned =
                 userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
-            return PinnedCourseCard(
-              imageName: 'assets/images/course1.png',
-              course: course,
+            return CourseCard(
+              isCourse: true,
+              title: course.name,
+              courseId: course.id,
+              subtitle: course.tUMOnlineIdentifier,
+              tumID: course.tUMOnlineIdentifier,
               onTap: () => _handleCourseTap(course, context),
-              isPinned: isPinned,
-              onPinToggle: () => _togglePin(course, isPinned),
             );
           }).toList(),
         ),
