@@ -1,19 +1,10 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
-import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Course card view
-///
-/// A reusable stateless widget to display a course card.
-///
-/// It takes a [title], [tumID] and [path] to display the course details.
-/// This widget can be reused for various course sections by providing different
-/// titles, subtitles and paths.
 class CourseCard extends StatelessWidget {
   final String title;
   final String tumID;
@@ -25,8 +16,10 @@ class CourseCard extends StatelessWidget {
 
   //for displaying courses
   final bool? live;
-  final Int64? lastLectureId;
   final String? semester;
+  final Course? course;
+  final Function(Course)? onPinUnpin;
+  final bool? isPinned;
 
   //for displaying livestreams
   final String? subtitle;
@@ -45,20 +38,15 @@ class CourseCard extends StatelessWidget {
     this.roomName,
     this.roomNumber,
     this.viewerCount,
-    required this.path,
+    this.path,
     required this.courseId,
     required this.onTap,
     this.live,
-    this.lastLectureId,
     this.semester,
+    this.course,
+    this.onPinUnpin,
+    this.isPinned,
   });
-
-  Future<void> fetchDataAsync(BuildContext context) async {
-    if (lastLectureId != null) {
-      final videoViewModelNotifier = ref!.read(videoViewModelProvider.notifier);
-      videoViewModelNotifier.fetchStream(lastLectureId!);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +62,6 @@ class CourseCard extends StatelessWidget {
         elevation: 1,
         shadowColor: themeData.shadowColor,
         color: themeData.cardTheme.color,
-        // Use card color from theme
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
@@ -88,7 +75,14 @@ class CourseCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: isCourse
-              ? _buildCourseCard(themeData, cardWidth, context)
+              ? _buildCourseCard(
+                  themeData,
+                  cardWidth,
+                  context,
+                  course!,
+                  onPinUnpin!,
+                  isPinned!,
+                )
               : _buildStreamCard(
                   themeData,
                   cardWidth,
@@ -130,7 +124,6 @@ class CourseCard extends StatelessWidget {
                     _buildCourseSubtitle(themeData.textTheme),
                     const SizedBox(height: 15),
                     _buildLocation(),
-                    //_buildCourseIsLive(),
                   ],
                 ),
               ),
@@ -145,37 +138,94 @@ class CourseCard extends StatelessWidget {
     ThemeData themeData,
     double cardWidth,
     BuildContext context,
+    Course course,
+    Function(Course) onPinUnpin,
+    bool isPinned,
   ) {
-    return IntrinsicHeight(
-      child: Row(
+    return Slidable(
+      key: ValueKey(course.id),
+      closeOnScroll: true,
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        dragDismissible: true,
         children: [
-          _buildCourseColor(),
-          Expanded(
-            child: Container(
-              color: themeData.cardColor,
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildCourseTumID(),
-                      _buildCourseIsLive(),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3.0),
-                    child: _buildCourseTitle(themeData.textTheme),
-                  ),
-                  _buildLastLecture(context),
-                ],
-              ),
+          if (isPinned)
+            SlidableAction(
+              autoClose: true,
+              onPressed: (_) async {
+                bool confirmUnpin = await _confirmUnpin(context);
+                if (confirmUnpin) onPinUnpin(course);
+              },
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              icon: Icons.push_pin_outlined,
+              label: 'Unpin',
             ),
-          ),
+          if (!isPinned)
+            SlidableAction(
+              autoClose: true,
+              onPressed: (_) => onPinUnpin(course),
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              icon: Icons.push_pin,
+              label: 'Pin',
+            ),
         ],
       ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            _buildCourseColor(),
+            Expanded(
+              child: Container(
+                color: themeData.cardColor,
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildCourseTumID(),
+                        _buildCourseIsLive(),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3.0),
+                      child: _buildCourseTitle(themeData.textTheme),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  Future<bool> _confirmUnpin(BuildContext context) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Confirm Unpin'),
+              content:
+                  const Text('Are you sure you want to unpin this course?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Unpin'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
 
   Widget _buildCourseImage() {
@@ -192,11 +242,6 @@ class CourseCard extends StatelessWidget {
             ),
           ),
         ),
-        /*Positioned(
-          bottom: 3, // Adjust this value based on your layout
-          right: 3, // Adjust this value based on your layout
-          child: _buildCourseViewerCount(),
-        ),*/
       ],
     );
   }
@@ -222,7 +267,6 @@ class CourseCard extends StatelessWidget {
             size: 20,
           ),
           Text(roomName ?? "Location"),
-          //const SizedBox(width: 2),
           Transform.scale(
             scale: 0.6, // Adjust the scale factor as needed
             child: ViewAllButton(onViewAll: () {}),
@@ -249,7 +293,6 @@ class CourseCard extends StatelessWidget {
       title,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
-      //if courses are ever no longer displayed as list, check this for overflows
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
             fontSize: 16,
@@ -294,40 +337,6 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLastLecture(BuildContext context) {
-    if (lastLectureId == null) return const SizedBox();
-
-    return ViewAllButton(
-      icon: Icons.north_east,
-      onViewAll: _buildLastStream(context, lastLectureId!),
-      text: 'Last Lecture',
-    );
-  }
-
-  VoidCallback _buildLastStream(BuildContext context, Int64 lastLectureId) {
-    return () async {
-      await fetchDataAsync(context);
-
-      final List<Stream>? lastLectureStream =
-          ref!.watch(videoViewModelProvider).streams;
-
-      if (lastLectureStream != null || lastLectureStream!.isNotEmpty) {
-        if (context.mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VideoPlayerPage(
-                stream: lastLectureStream.first,
-              ),
-            ),
-          );
-        } else {
-          return;
-        }
-      }
-    };
-  }
-
   Widget _buildCourseIsLive() {
     if (live == null) return const SizedBox();
     return live!
@@ -359,16 +368,6 @@ class CourseCard extends StatelessWidget {
   }
 
   Color _colorPicker() {
-    /** Colors:
-     * Informatik - IN: blue
-     * Mathe - MA: purple
-     * Chemie - CH
-     * Physik - PH
-     * Maschinenwesen - MW
-     * nothing/ other: gray
-     * Elektrotechnik - EL
-     *
-     */
     if (tumID.length < 2) return Colors.grey;
     switch (tumID.substring(0, 2)) {
       case 'IN':

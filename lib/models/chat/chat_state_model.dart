@@ -78,7 +78,7 @@ class ChatState {
     );
   }
 
-ChatState addReaction(ChatReaction reaction) {
+  ChatState addReaction(ChatReaction reaction) {
     return ChatState(
       isLoading: isLoading,
       messages: messages,

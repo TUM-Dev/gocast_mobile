@@ -70,7 +70,9 @@ class SettingsHandler {
     try {
       _logger.i('Updating user settings...');
       final request = PatchUserSettingsRequest()
-        ..userSettings.add(UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName));
+        ..userSettings.add(
+          UserSetting(type: UserSettingType.PREFERRED_NAME, value: newName),
+        );
       await _grpcHandler.callGrpcMethod(
         (client) async {
           await client.patchUserSettings(request);
@@ -93,7 +95,9 @@ class SettingsHandler {
     try {
       _logger.i('Updating user settings...');
       final request = PatchUserSettingsRequest()
-        ..userSettings.add(UserSetting(type: UserSettingType.GREETING, value: newGreeting));
+        ..userSettings.add(
+          UserSetting(type: UserSettingType.GREETING, value: newGreeting),
+        );
 
       await _grpcHandler.callGrpcMethod(
         (client) async {

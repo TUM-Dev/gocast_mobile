@@ -18,8 +18,8 @@ class SettingState {
     this.userSettings,
     this.error,
     this.isDarkMode = false,
-    this.isLightMode =false,
-    this.isSystemDefault =true,
+    this.isLightMode = false,
+    this.isSystemDefault = true,
     this.isPushNotificationsEnabled = true,
     this.isDownloadWithWifiOnly = false,
   });
@@ -42,9 +42,9 @@ class SettingState {
       isLightMode: isLightMode ?? this.isLightMode,
       isSystemDefault: isSystemDefault ?? this.isSystemDefault,
       isPushNotificationsEnabled:
-      isPushNotificationsEnabled ?? this.isPushNotificationsEnabled,
+          isPushNotificationsEnabled ?? this.isPushNotificationsEnabled,
       isDownloadWithWifiOnly:
-      isDownloadWithWifiOnly ?? this.isDownloadWithWifiOnly,
+          isDownloadWithWifiOnly ?? this.isDownloadWithWifiOnly,
     );
   }
 
@@ -62,9 +62,9 @@ class SettingState {
       error: null,
       isDarkMode: isDarkMode ?? this.isDarkMode,
       isPushNotificationsEnabled:
-      isPushNotificationsEnabled ?? this.isPushNotificationsEnabled,
+          isPushNotificationsEnabled ?? this.isPushNotificationsEnabled,
       isDownloadWithWifiOnly:
-      isDownloadWithWifiOnly ?? this.isDownloadWithWifiOnly,
+          isDownloadWithWifiOnly ?? this.isDownloadWithWifiOnly,
     );
   }
 }
