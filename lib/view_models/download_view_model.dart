@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +29,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
 
   Future<String> downloadVideo(
-      String videoUrl, Int64 streamId, String fileName,) async {
+      String videoUrl, int streamId, String fileName,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -127,7 +126,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  bool isStreamDownloaded(Int64 id) {
+  bool isStreamDownloaded(int id) {
     final int streamIdInt = id.toInt(); // Convert Int64 to int
     return state.downloadedVideos.containsKey(streamIdInt);
   }
