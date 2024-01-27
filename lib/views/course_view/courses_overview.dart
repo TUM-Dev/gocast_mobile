@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
+import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 
@@ -123,16 +124,28 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       ref: ref,
       sectionTitle: title,
       sectionKind: sectionKind,
-      onViewAll: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PublicCourses(),
-        ),
-      ),
+      onViewAll: () {
+        switch (title) {
+          case "My Courses":
+            _navigateTo(const MyCourses());
+            break;
+          case "Public Courses":
+            _navigateTo(const PublicCourses());
+            break;
+        }
+      },
       courses: courses ?? [],
       streams: streams ?? [],
     );
   }
+
+  void _navigateTo(Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
+
 
   void _navigateToScreen(BuildContext context, Widget screen) {
     Navigator.push(
