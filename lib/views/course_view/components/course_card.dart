@@ -25,7 +25,7 @@ class CourseCard extends StatelessWidget {
 
   //for displaying courses
   final bool? live;
-  final Int64? lastLectureId;
+  final int? lastLectureId;
   final String? semester;
 
   //for displaying livestreams
@@ -304,7 +304,7 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  VoidCallback _buildLastStream(BuildContext context, Int64 lastLectureId) {
+  VoidCallback _buildLastStream(BuildContext context, int lastLectureId) {
     return () async {
       await fetchDataAsync(context);
 

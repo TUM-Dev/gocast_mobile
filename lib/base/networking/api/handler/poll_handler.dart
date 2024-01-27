@@ -10,7 +10,7 @@ class PollHandlers {
 
   PollHandlers(this._grpcHandler);
 
-  Future<List<Poll>> getPolls(Int64 streamID) async {
+  Future<List<Poll>> getPolls(int streamID) async {
     _logger.i('Fetching polls for streamID: $streamID');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -22,7 +22,7 @@ class PollHandlers {
     );
   }
 
-  Future<void> postPollVote(Int64 streamID, Int64 pollOptionID) async {
+  Future<void> postPollVote(int streamID, int pollOptionID) async {
     _logger.i(
         'Posting poll vote for streamID: $streamID, pollOptionID: $pollOptionID');
     return _grpcHandler.callGrpcMethod(

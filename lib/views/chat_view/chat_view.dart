@@ -5,7 +5,7 @@ import 'package:gocast_mobile/views/chat_view/chat_view_state.dart';
 
 
 class ChatView extends ConsumerStatefulWidget {
-  final Int64? streamID;
+  final int? streamID;
 
   const ChatView({
     super.key,

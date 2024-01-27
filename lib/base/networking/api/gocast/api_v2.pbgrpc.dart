@@ -476,9 +476,9 @@ abstract class APIServiceBase extends $grpc.Service {
     $addMethod(
         $grpc.ServiceMethod<$0.GetUserPinnedRequest, $0.GetUserPinnedResponse>(
             'getUserPinned',
-        getUserPinned_Pre,
-        false,
-        false,
+            getUserPinned_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetUserPinnedRequest.fromBuffer(value),
             ($0.GetUserPinnedResponse value) => value.writeToBuffer()));
@@ -492,18 +492,18 @@ abstract class APIServiceBase extends $grpc.Service {
     $addMethod(
         $grpc.ServiceMethod<$0.DeletePinnedRequest, $0.DeletePinnedResponse>(
             'deleteUserPinned',
-        deleteUserPinned_Pre,
-        false,
-        false,
+            deleteUserPinned_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.DeletePinnedRequest.fromBuffer(value),
             ($0.DeletePinnedResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.GetUserAdminRequest, $0.GetUserAdminResponse>(
             'getUserAdminCourses',
-        getUserAdminCourses_Pre,
-        false,
-        false,
+            getUserAdminCourses_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetUserAdminRequest.fromBuffer(value),
             ($0.GetUserAdminResponse value) => value.writeToBuffer()));
@@ -528,27 +528,27 @@ abstract class APIServiceBase extends $grpc.Service {
     $addMethod(
         $grpc.ServiceMethod<$0.GetBookmarksRequest, $0.GetBookmarksResponse>(
             'getUserBookmarks',
-        getUserBookmarks_Pre,
-        false,
-        false,
+            getUserBookmarks_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetBookmarksRequest.fromBuffer(value),
             ($0.GetBookmarksResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.PutBookmarkRequest, $0.PutBookmarkResponse>(
             'putUserBookmark',
-        putUserBookmark_Pre,
-        false,
-        false,
+            putUserBookmark_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.PutBookmarkRequest.fromBuffer(value),
             ($0.PutBookmarkResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.PatchBookmarkRequest, $0.PatchBookmarkResponse>(
             'patchUserBookmark',
-        patchUserBookmark_Pre,
-        false,
-        false,
+            patchUserBookmark_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.PatchBookmarkRequest.fromBuffer(value),
             ($0.PatchBookmarkResponse value) => value.writeToBuffer()));
@@ -609,9 +609,9 @@ abstract class APIServiceBase extends $grpc.Service {
     $addMethod(
         $grpc.ServiceMethod<$0.GetSemestersRequest, $0.GetSemestersResponse>(
             'getSemesters',
-        getSemesters_Pre,
-        false,
-        false,
+            getSemesters_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetSemestersRequest.fromBuffer(value),
             ($0.GetSemestersResponse value) => value.writeToBuffer()));
@@ -641,45 +641,45 @@ abstract class APIServiceBase extends $grpc.Service {
     $addMethod(
         $grpc.ServiceMethod<$0.GetThumbsVODRequest, $0.GetThumbsVODResponse>(
             'getThumbsVOD',
-        getThumbsVOD_Pre,
-        false,
-        false,
+            getThumbsVOD_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetThumbsVODRequest.fromBuffer(value),
             ($0.GetThumbsVODResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.GetThumbsLiveRequest, $0.GetThumbsLiveResponse>(
             'getThumbsLive',
-        getThumbsLive_Pre,
-        false,
-        false,
+            getThumbsLive_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetThumbsLiveRequest.fromBuffer(value),
             ($0.GetThumbsLiveResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.GetProgressRequest, $0.GetProgressResponse>(
             'getProgress',
-        getProgress_Pre,
-        false,
-        false,
+            getProgress_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.GetProgressRequest.fromBuffer(value),
             ($0.GetProgressResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.PutProgressRequest, $0.PutProgressResponse>(
             'putProgress',
-        putProgress_Pre,
-        false,
-        false,
+            putProgress_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.PutProgressRequest.fromBuffer(value),
             ($0.PutProgressResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.MarkAsWatchedRequest, $0.MarkAsWatchedResponse>(
             'markAsWatched',
-        markAsWatched_Pre,
-        false,
-        false,
+            markAsWatched_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.MarkAsWatchedRequest.fromBuffer(value),
             ($0.MarkAsWatchedResponse value) => value.writeToBuffer()));
@@ -722,9 +722,9 @@ abstract class APIServiceBase extends $grpc.Service {
     $addMethod(
         $grpc.ServiceMethod<$0.PostChatReplyRequest, $0.PostChatReplyResponse>(
             'postChatReply',
-        postChatReply_Pre,
-        false,
-        false,
+            postChatReply_Pre,
+            false,
+            false,
             ($core.List<$core.int> value) =>
                 $0.PostChatReplyRequest.fromBuffer(value),
             ($0.PostChatReplyResponse value) => value.writeToBuffer()));

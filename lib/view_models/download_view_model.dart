@@ -27,7 +27,10 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   }
 
   Future<String> downloadVideo(
-      String videoUrl, Int64 streamId, String fileName,) async {
+    String videoUrl,
+    int streamId,
+    String fileName,
+  ) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -120,8 +123,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  bool isStreamDownloaded(Int64 id) {
-    final int streamIdInt = id.toInt(); // Convert Int64 to int
-    return state.downloadedVideos.containsKey(streamIdInt);
+  bool isStreamDownloaded(int id) {
+    return state.downloadedVideos.containsKey(id);
   }
 }

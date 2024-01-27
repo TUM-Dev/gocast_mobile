@@ -35,7 +35,7 @@ class StreamHandler {
   /// Takes [streamId] as a parameter.
   ///
   /// Returns a [Stream] instance that represents the stream of the course.
-  Future<Stream> fetchStream(Int64 streamId) async {
+  Future<Stream> fetchStream(int streamId) async {
     _logger.i('Fetching stream');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -69,7 +69,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail stream.
-  Future<String> fetchThumbnailStreams(Int64 streamId) async {
+  Future<String> fetchThumbnailStreams(int streamId) async {
     _logger.i('Fetching thumbnail stream');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -87,7 +87,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail VOD.
-  Future<String> fetchThumbnailVOD(Int64 streamId) async {
+  Future<String> fetchThumbnailVOD(int streamId) async {
     _logger.i('Fetching thumbnail VOD');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -105,7 +105,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [Progress] instance that represents the progress of the stream.
-  Future<Progress> fetchProgress(Int64 streamId) async {
+  Future<Progress> fetchProgress(int streamId) async {
     _logger.i('Fetching progress');
     try {
       return _grpcHandler.callGrpcMethod(
@@ -128,7 +128,7 @@ class StreamHandler {
   /// This method sends a `putProgress` gRPC call to update the progress of a stream.
   ///
   /// Takes [streamId] and [progress] as parameters.
-  Future<void> putProgress(Int64 streamId, Progress progress) async {
+  Future<void> putProgress(int streamId, Progress progress) async {
     _logger.i('Updating progress');
     await _grpcHandler.callGrpcMethod(
       (client) async {
@@ -148,7 +148,7 @@ class StreamHandler {
   /// This method sends a `markAsWatched` gRPC call to mark a stream as watched.
   ///
   /// Takes [streamId] as a parameter.
-  Future<void> markAsWatched(Int64 streamId) async {
+  Future<void> markAsWatched(int streamId) async {
     _logger.i('Marking stream as watched');
     await _grpcHandler.callGrpcMethod(
       (client) async {

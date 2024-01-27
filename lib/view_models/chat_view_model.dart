@@ -13,7 +13,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
 
   ChatViewModel(this._grpcHandler) : super(const ChatState());
 
-  Future<void> fetchChatMessages(Int64 streamId) async {
+  Future<void> fetchChatMessages(int streamId) async {
     state = state.copyWith(isLoading: true);
     state = state.clearError();
     try {
@@ -25,7 +25,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postChatMessage(Int64 streamId, String message) async {
+  Future<void> postChatMessage(int streamId, String message) async {
     try {
       fetchChatMessages(streamId);
       var chatMessage = await ChatHandlers(_grpcHandler).postChatMessage(streamId, message);
@@ -50,7 +50,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postMessageReaction(Int64 messageId, Int64 streamId, String emoji) async {
+  Future<void> postMessageReaction(
+      int messageId, int streamId, String emoji) async {
     try {
       var reaction= await ChatHandlers(_grpcHandler).postMessageReaction(messageId, streamId, emoji);
       state = state.addReaction(reaction);
@@ -60,7 +61,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> deleteMessageReaction(Int64 messageId, Int64 streamId, Int64 reactionId) async {
+  Future<void> deleteMessageReaction(
+      int messageId, int streamId, int reactionId) async {
     try {
       await ChatHandlers(_grpcHandler).deleteMessageReaction(messageId, streamId, reactionId);
     } catch (e) {
@@ -69,7 +71,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postChatReply(Int64 messageId, Int64 streamId, String message) async {
+  Future<void> postChatReply(
+      int messageId, int streamId, String message) async {
     try {
       var replay = await ChatHandlers(_grpcHandler).postChatReply(messageId, streamId, message);
       state = state.addReply(replay);
@@ -79,7 +82,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> markChatMessageAsResolved(Int64 messageId, Int64 streamId) async {
+  Future<void> markChatMessageAsResolved(int messageId, int streamId) async {
     try {
       await ChatHandlers(_grpcHandler).markChatMessageAsResolved(messageId, streamId);
     } catch (e) {
@@ -87,7 +90,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
       state = state.copyWith(error: e as AppError);
     }
   }
-  Future<void> markChatMessageAsUnresolved(Int64 messageId, Int64 streamId) async {
+
+  Future<void> markChatMessageAsUnresolved(int messageId, int streamId) async {
     try {
       await ChatHandlers(_grpcHandler).markChatMessageAsUnresolved(messageId, streamId);
     } catch (e) {

@@ -192,7 +192,7 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (!_isCooldownActive && message.isNotEmpty && message.trim().isNotEmpty) {
-      final Int64? streamId = widget.streamID;
+      final int? streamId = widget.streamID;
       ref.read(chatViewModelProvider.notifier).postChatMessage(streamId!, message);
       // Start cooldown
       Logger().i('Cooldown started');

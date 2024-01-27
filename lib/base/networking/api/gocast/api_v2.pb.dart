@@ -11,7 +11,6 @@
 
 import 'dart:core' as $core;
 
-import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import '../google/protobuf/timestamp.pb.dart' as $1;
@@ -393,7 +392,7 @@ class ChatMessage extends $pb.GeneratedMessage {
 
 class GetChatMessagesRequest extends $pb.GeneratedMessage {
   factory GetChatMessagesRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -406,7 +405,8 @@ class GetChatMessagesRequest extends $pb.GeneratedMessage {
   factory GetChatMessagesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetChatMessagesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -432,9 +432,12 @@ class GetChatMessagesRequest extends $pb.GeneratedMessage {
   static GetChatMessagesRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
@@ -444,7 +447,7 @@ class GetChatMessagesRequest extends $pb.GeneratedMessage {
 class PostChatMessageRequest extends $pb.GeneratedMessage {
   factory PostChatMessageRequest({
     $core.String? message,
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (message != null) {
@@ -461,7 +464,8 @@ class PostChatMessageRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PostChatMessageRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'message')
-    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -496,9 +500,12 @@ class PostChatMessageRequest extends $pb.GeneratedMessage {
   void clearMessage() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get streamID => $_getI64(1);
+  $core.int get streamID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set streamID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasStreamID() => $_has(1);
   @$pb.TagNumber(2)
@@ -508,8 +515,8 @@ class PostChatMessageRequest extends $pb.GeneratedMessage {
 class PostChatReactionRequest extends $pb.GeneratedMessage {
   factory PostChatReactionRequest({
     $core.String? emoji,
-    $fixnum.Int64? streamID,
-    $fixnum.Int64? chatID,
+    $core.int? streamID,
+    $core.int? chatID,
   }) {
     final $result = create();
     if (emoji != null) {
@@ -529,8 +536,10 @@ class PostChatReactionRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PostChatReactionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'emoji')
-    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(3, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU6, protoName: 'chatID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+        protoName: 'chatID')
     ..hasRequiredFields = false
   ;
 
@@ -565,18 +574,24 @@ class PostChatReactionRequest extends $pb.GeneratedMessage {
   void clearEmoji() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get streamID => $_getI64(1);
+  $core.int get streamID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set streamID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasStreamID() => $_has(1);
   @$pb.TagNumber(2)
   void clearStreamID() => clearField(2);
 
   @$pb.TagNumber(3)
-  $fixnum.Int64 get chatID => $_getI64(2);
+  $core.int get chatID => $_getIZ(2);
   @$pb.TagNumber(3)
-  set chatID($fixnum.Int64 v) { $_setInt64(2, v); }
+  set chatID($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasChatID() => $_has(2);
   @$pb.TagNumber(3)
@@ -585,9 +600,9 @@ class PostChatReactionRequest extends $pb.GeneratedMessage {
 
 class DeleteChatReactionRequest extends $pb.GeneratedMessage {
   factory DeleteChatReactionRequest({
-    $fixnum.Int64? streamID,
-    $fixnum.Int64? chatID,
-    $fixnum.Int64? reactionID,
+    $core.int? streamID,
+    $core.int? chatID,
+    $core.int? reactionID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -606,9 +621,12 @@ class DeleteChatReactionRequest extends $pb.GeneratedMessage {
   factory DeleteChatReactionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteChatReactionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU6, protoName: 'chatID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(3, _omitFieldNames ? '' : 'reactionID', $pb.PbFieldType.OU6, protoName: 'reactionID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+        protoName: 'chatID')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'reactionID', $pb.PbFieldType.OU3,
+        protoName: 'reactionID')
     ..hasRequiredFields = false
   ;
 
@@ -634,27 +652,36 @@ class DeleteChatReactionRequest extends $pb.GeneratedMessage {
   static DeleteChatReactionRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
   void clearStreamID() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get chatID => $_getI64(1);
+  $core.int get chatID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set chatID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set chatID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasChatID() => $_has(1);
   @$pb.TagNumber(2)
   void clearChatID() => clearField(2);
 
   @$pb.TagNumber(3)
-  $fixnum.Int64 get reactionID => $_getI64(2);
+  $core.int get reactionID => $_getIZ(2);
   @$pb.TagNumber(3)
-  set reactionID($fixnum.Int64 v) { $_setInt64(2, v); }
+  set reactionID($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasReactionID() => $_has(2);
   @$pb.TagNumber(3)
@@ -664,8 +691,8 @@ class DeleteChatReactionRequest extends $pb.GeneratedMessage {
 class PostChatReplyRequest extends $pb.GeneratedMessage {
   factory PostChatReplyRequest({
     $core.String? message,
-    $fixnum.Int64? streamID,
-    $fixnum.Int64? chatID,
+    $core.int? streamID,
+    $core.int? chatID,
   }) {
     final $result = create();
     if (message != null) {
@@ -685,8 +712,10 @@ class PostChatReplyRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PostChatReplyRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'message')
-    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(3, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU6, protoName: 'chatID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+        protoName: 'chatID')
     ..hasRequiredFields = false
   ;
 
@@ -721,18 +750,24 @@ class PostChatReplyRequest extends $pb.GeneratedMessage {
   void clearMessage() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get streamID => $_getI64(1);
+  $core.int get streamID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set streamID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasStreamID() => $_has(1);
   @$pb.TagNumber(2)
   void clearStreamID() => clearField(2);
 
   @$pb.TagNumber(3)
-  $fixnum.Int64 get chatID => $_getI64(2);
+  $core.int get chatID => $_getIZ(2);
   @$pb.TagNumber(3)
-  set chatID($fixnum.Int64 v) { $_setInt64(2, v); }
+  set chatID($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasChatID() => $_has(2);
   @$pb.TagNumber(3)
@@ -741,8 +776,8 @@ class PostChatReplyRequest extends $pb.GeneratedMessage {
 
 class MarkChatMessageAsResolvedRequest extends $pb.GeneratedMessage {
   factory MarkChatMessageAsResolvedRequest({
-    $fixnum.Int64? streamID,
-    $fixnum.Int64? chatID,
+    $core.int? streamID,
+    $core.int? chatID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -758,8 +793,10 @@ class MarkChatMessageAsResolvedRequest extends $pb.GeneratedMessage {
   factory MarkChatMessageAsResolvedRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MarkChatMessageAsResolvedRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU6, protoName: 'chatID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+        protoName: 'chatID')
     ..hasRequiredFields = false
   ;
 
@@ -785,18 +822,24 @@ class MarkChatMessageAsResolvedRequest extends $pb.GeneratedMessage {
   static MarkChatMessageAsResolvedRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
   void clearStreamID() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get chatID => $_getI64(1);
+  $core.int get chatID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set chatID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set chatID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasChatID() => $_has(1);
   @$pb.TagNumber(2)
@@ -805,8 +848,8 @@ class MarkChatMessageAsResolvedRequest extends $pb.GeneratedMessage {
 
 class MarkChatMessageAsUnresolvedRequest extends $pb.GeneratedMessage {
   factory MarkChatMessageAsUnresolvedRequest({
-    $fixnum.Int64? streamID,
-    $fixnum.Int64? chatID,
+    $core.int? streamID,
+    $core.int? chatID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -822,8 +865,10 @@ class MarkChatMessageAsUnresolvedRequest extends $pb.GeneratedMessage {
   factory MarkChatMessageAsUnresolvedRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MarkChatMessageAsUnresolvedRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU6, protoName: 'chatID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+        protoName: 'chatID')
     ..hasRequiredFields = false
   ;
 
@@ -849,18 +894,24 @@ class MarkChatMessageAsUnresolvedRequest extends $pb.GeneratedMessage {
   static MarkChatMessageAsUnresolvedRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
   void clearStreamID() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get chatID => $_getI64(1);
+  $core.int get chatID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set chatID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set chatID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasChatID() => $_has(1);
   @$pb.TagNumber(2)
@@ -1229,7 +1280,6 @@ class Poll extends $pb.GeneratedMessage {
     }
     return $result;
   }
-
   Poll._() : super();
 
   factory Poll.fromBuffer($core.List<$core.int> i,
@@ -1269,11 +1319,8 @@ class Poll extends $pb.GeneratedMessage {
 
   @$core.pragma('dart2js:noInline')
   static Poll create() => Poll._();
-
   Poll createEmptyInstance() => create();
-
   static $pb.PbList<Poll> createRepeated() => $pb.PbList<Poll>();
-
   @$core.pragma('dart2js:noInline')
   static Poll getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Poll>(create);
@@ -1281,7 +1328,6 @@ class Poll extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.int get id => $_getIZ(0);
-
   @$pb.TagNumber(1)
   set id($core.int v) {
     $_setUnsignedInt32(0, v);
@@ -1289,13 +1335,11 @@ class Poll extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
-
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get streamID => $_getIZ(1);
-
   @$pb.TagNumber(2)
   set streamID($core.int v) {
     $_setUnsignedInt32(1, v);
@@ -1303,13 +1347,11 @@ class Poll extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.bool hasStreamID() => $_has(1);
-
   @$pb.TagNumber(2)
   void clearStreamID() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get question => $_getSZ(2);
-
   @$pb.TagNumber(3)
   set question($core.String v) {
     $_setString(2, v);
@@ -1317,13 +1359,11 @@ class Poll extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(3)
   $core.bool hasQuestion() => $_has(2);
-
   @$pb.TagNumber(3)
   void clearQuestion() => clearField(3);
 
   @$pb.TagNumber(4)
   $core.bool get active => $_getBF(3);
-
   @$pb.TagNumber(4)
   set active($core.bool v) {
     $_setBool(3, v);
@@ -1331,7 +1371,6 @@ class Poll extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(4)
   $core.bool hasActive() => $_has(3);
-
   @$pb.TagNumber(4)
   void clearActive() => clearField(4);
 
@@ -1344,6 +1383,7 @@ class PollOption extends $pb.GeneratedMessage {
     $core.int? id,
     $core.String? answer,
     $core.int? votes,
+    $core.bool? voted,
   }) {
     final $result = create();
     if (id != null) {
@@ -1355,9 +1395,11 @@ class PollOption extends $pb.GeneratedMessage {
     if (votes != null) {
       $result.votes = votes;
     }
+    if (voted != null) {
+      $result.voted = voted;
+    }
     return $result;
   }
-
   PollOption._() : super();
 
   factory PollOption.fromBuffer($core.List<$core.int> i,
@@ -1375,6 +1417,7 @@ class PollOption extends $pb.GeneratedMessage {
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'answer')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'votes', $pb.PbFieldType.OU3)
+    ..aOB(4, _omitFieldNames ? '' : 'voted')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1392,11 +1435,8 @@ class PollOption extends $pb.GeneratedMessage {
 
   @$core.pragma('dart2js:noInline')
   static PollOption create() => PollOption._();
-
   PollOption createEmptyInstance() => create();
-
   static $pb.PbList<PollOption> createRepeated() => $pb.PbList<PollOption>();
-
   @$core.pragma('dart2js:noInline')
   static PollOption getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PollOption>(create);
@@ -1404,7 +1444,6 @@ class PollOption extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.int get id => $_getIZ(0);
-
   @$pb.TagNumber(1)
   set id($core.int v) {
     $_setUnsignedInt32(0, v);
@@ -1412,13 +1451,11 @@ class PollOption extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
-
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get answer => $_getSZ(1);
-
   @$pb.TagNumber(2)
   set answer($core.String v) {
     $_setString(1, v);
@@ -1426,13 +1463,11 @@ class PollOption extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.bool hasAnswer() => $_has(1);
-
   @$pb.TagNumber(2)
   void clearAnswer() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.int get votes => $_getIZ(2);
-
   @$pb.TagNumber(3)
   set votes($core.int v) {
     $_setUnsignedInt32(2, v);
@@ -1440,14 +1475,27 @@ class PollOption extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(3)
   $core.bool hasVotes() => $_has(2);
-
   @$pb.TagNumber(3)
   void clearVotes() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.bool get voted => $_getBF(3);
+
+  @$pb.TagNumber(4)
+  set voted($core.bool v) {
+    $_setBool(3, v);
+  }
+
+  @$pb.TagNumber(4)
+  $core.bool hasVoted() => $_has(3);
+
+  @$pb.TagNumber(4)
+  void clearVoted() => clearField(4);
 }
 
 class GetPollsRequest extends $pb.GeneratedMessage {
   factory GetPollsRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -1455,7 +1503,6 @@ class GetPollsRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-
   GetPollsRequest._() : super();
 
   factory GetPollsRequest.fromBuffer($core.List<$core.int> i,
@@ -1470,9 +1517,8 @@ class GetPollsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'GetPollsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
       createEmptyInstance: create)
-    ..a<$fixnum.Int64>(
-        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
-        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1491,36 +1537,32 @@ class GetPollsRequest extends $pb.GeneratedMessage {
 
   @$core.pragma('dart2js:noInline')
   static GetPollsRequest create() => GetPollsRequest._();
-
   GetPollsRequest createEmptyInstance() => create();
 
   static $pb.PbList<GetPollsRequest> createRepeated() =>
       $pb.PbList<GetPollsRequest>();
-
   @$core.pragma('dart2js:noInline')
   static GetPollsRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GetPollsRequest>(create);
   static GetPollsRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
-
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) {
-    $_setInt64(0, v);
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
-
   @$pb.TagNumber(1)
   void clearStreamID() => clearField(1);
 }
 
 class PostPollVoteRequest extends $pb.GeneratedMessage {
   factory PostPollVoteRequest({
-    $fixnum.Int64? streamID,
-    $fixnum.Int64? pollOptionID,
+    $core.int? streamID,
+    $core.int? pollOptionID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -1531,7 +1573,6 @@ class PostPollVoteRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-
   PostPollVoteRequest._() : super();
 
   factory PostPollVoteRequest.fromBuffer($core.List<$core.int> i,
@@ -1546,12 +1587,11 @@ class PostPollVoteRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'PostPollVoteRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
       createEmptyInstance: create)
-    ..a<$fixnum.Int64>(
-        1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6,
-        protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(
-        2, _omitFieldNames ? '' : 'pollOptionID', $pb.PbFieldType.OU6,
-        protoName: 'pollOptionID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
+    ..a<$core.int>(
+        2, _omitFieldNames ? '' : 'pollOptionID', $pb.PbFieldType.OU3,
+        protoName: 'pollOptionID')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1570,42 +1610,36 @@ class PostPollVoteRequest extends $pb.GeneratedMessage {
 
   @$core.pragma('dart2js:noInline')
   static PostPollVoteRequest create() => PostPollVoteRequest._();
-
   PostPollVoteRequest createEmptyInstance() => create();
 
   static $pb.PbList<PostPollVoteRequest> createRepeated() =>
       $pb.PbList<PostPollVoteRequest>();
-
   @$core.pragma('dart2js:noInline')
   static PostPollVoteRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PostPollVoteRequest>(create);
   static PostPollVoteRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
-
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) {
-    $_setInt64(0, v);
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
-
   @$pb.TagNumber(1)
   void clearStreamID() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get pollOptionID => $_getI64(1);
-
+  $core.int get pollOptionID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set pollOptionID($fixnum.Int64 v) {
-    $_setInt64(1, v);
+  set pollOptionID($core.int v) {
+    $_setUnsignedInt32(1, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasPollOptionID() => $_has(1);
-
   @$pb.TagNumber(2)
   void clearPollOptionID() => clearField(2);
 }
@@ -1620,7 +1654,6 @@ class GetPollsResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-
   GetPollsResponse._() : super();
 
   factory GetPollsResponse.fromBuffer($core.List<$core.int> i,
@@ -1655,12 +1688,10 @@ class GetPollsResponse extends $pb.GeneratedMessage {
 
   @$core.pragma('dart2js:noInline')
   static GetPollsResponse create() => GetPollsResponse._();
-
   GetPollsResponse createEmptyInstance() => create();
 
   static $pb.PbList<GetPollsResponse> createRepeated() =>
       $pb.PbList<GetPollsResponse>();
-
   @$core.pragma('dart2js:noInline')
   static GetPollsResponse getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GetPollsResponse>(create);
@@ -1672,7 +1703,6 @@ class GetPollsResponse extends $pb.GeneratedMessage {
 
 class PostPollVoteResponse extends $pb.GeneratedMessage {
   factory PostPollVoteResponse() => create();
-
   PostPollVoteResponse._() : super();
 
   factory PostPollVoteResponse.fromBuffer($core.List<$core.int> i,
@@ -1706,12 +1736,10 @@ class PostPollVoteResponse extends $pb.GeneratedMessage {
 
   @$core.pragma('dart2js:noInline')
   static PostPollVoteResponse create() => PostPollVoteResponse._();
-
   PostPollVoteResponse createEmptyInstance() => create();
 
   static $pb.PbList<PostPollVoteResponse> createRepeated() =>
       $pb.PbList<PostPollVoteResponse>();
-
   @$core.pragma('dart2js:noInline')
   static PostPollVoteResponse getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PostPollVoteResponse>(create);
@@ -2015,10 +2043,10 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
   factory GetUserCoursesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetUserCoursesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'term')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'skip', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.OU3)
+    ..a<$core.int>(4, _omitFieldNames ? '' : 'skip', $pb.PbFieldType.OU3)
     ..hasRequiredFields = false
   ;
 
@@ -2046,7 +2074,10 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get year => $_getIZ(0);
   @$pb.TagNumber(1)
-  set year($core.int v) { $_setSignedInt32(0, v); }
+  set year($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasYear() => $_has(0);
   @$pb.TagNumber(1)
@@ -2064,7 +2095,10 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get limit => $_getIZ(2);
   @$pb.TagNumber(3)
-  set limit($core.int v) { $_setSignedInt32(2, v); }
+  set limit($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasLimit() => $_has(2);
   @$pb.TagNumber(3)
@@ -2073,7 +2107,10 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get skip => $_getIZ(3);
   @$pb.TagNumber(4)
-  set skip($core.int v) { $_setSignedInt32(3, v); }
+  set skip($core.int v) {
+    $_setUnsignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasSkip() => $_has(3);
   @$pb.TagNumber(4)
@@ -2107,10 +2144,10 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
   factory GetUserPinnedRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetUserPinnedRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'term')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'skip', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.OU3)
+    ..a<$core.int>(4, _omitFieldNames ? '' : 'skip', $pb.PbFieldType.OU3)
     ..hasRequiredFields = false
   ;
 
@@ -2138,7 +2175,10 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get year => $_getIZ(0);
   @$pb.TagNumber(1)
-  set year($core.int v) { $_setSignedInt32(0, v); }
+  set year($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasYear() => $_has(0);
   @$pb.TagNumber(1)
@@ -2156,7 +2196,10 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get limit => $_getIZ(2);
   @$pb.TagNumber(3)
-  set limit($core.int v) { $_setSignedInt32(2, v); }
+  set limit($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasLimit() => $_has(2);
   @$pb.TagNumber(3)
@@ -2165,7 +2208,10 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get skip => $_getIZ(3);
   @$pb.TagNumber(4)
-  set skip($core.int v) { $_setSignedInt32(3, v); }
+  set skip($core.int v) {
+    $_setUnsignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasSkip() => $_has(3);
   @$pb.TagNumber(4)
@@ -2339,7 +2385,8 @@ class PostPinnedRequest extends $pb.GeneratedMessage {
   factory PostPinnedRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PostPinnedRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.O3, protoName: 'courseID')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+        protoName: 'courseID')
     ..hasRequiredFields = false
   ;
 
@@ -2367,7 +2414,10 @@ class PostPinnedRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get courseID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set courseID($core.int v) { $_setSignedInt32(0, v); }
+  set courseID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasCourseID() => $_has(0);
   @$pb.TagNumber(1)
@@ -2389,7 +2439,8 @@ class DeletePinnedRequest extends $pb.GeneratedMessage {
   factory DeletePinnedRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeletePinnedRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.O3, protoName: 'courseID')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+        protoName: 'courseID')
     ..hasRequiredFields = false
   ;
 
@@ -2417,7 +2468,10 @@ class DeletePinnedRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get courseID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set courseID($core.int v) { $_setSignedInt32(0, v); }
+  set courseID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasCourseID() => $_has(0);
   @$pb.TagNumber(1)
@@ -2865,7 +2919,8 @@ class GetBookmarksRequest extends $pb.GeneratedMessage {
   factory GetBookmarksRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetBookmarksRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.O3, protoName: 'streamID')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -2893,7 +2948,10 @@ class GetBookmarksRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($core.int v) { $_setSignedInt32(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
@@ -4203,10 +4261,10 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
   factory GetPublicCoursesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetPublicCoursesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'term')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'skip', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.OU3)
+    ..a<$core.int>(4, _omitFieldNames ? '' : 'skip', $pb.PbFieldType.OU3)
     ..hasRequiredFields = false
   ;
 
@@ -4234,7 +4292,10 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get year => $_getIZ(0);
   @$pb.TagNumber(1)
-  set year($core.int v) { $_setSignedInt32(0, v); }
+  set year($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasYear() => $_has(0);
   @$pb.TagNumber(1)
@@ -4252,7 +4313,10 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get limit => $_getIZ(2);
   @$pb.TagNumber(3)
-  set limit($core.int v) { $_setSignedInt32(2, v); }
+  set limit($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasLimit() => $_has(2);
   @$pb.TagNumber(3)
@@ -4261,7 +4325,10 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get skip => $_getIZ(3);
   @$pb.TagNumber(4)
-  set skip($core.int v) { $_setSignedInt32(3, v); }
+  set skip($core.int v) {
+    $_setUnsignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasSkip() => $_has(3);
   @$pb.TagNumber(4)
@@ -4315,7 +4382,8 @@ class GetCourseStreamsRequest extends $pb.GeneratedMessage {
   factory GetCourseStreamsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCourseStreamsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.O3, protoName: 'courseID')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+        protoName: 'courseID')
     ..hasRequiredFields = false
   ;
 
@@ -4343,7 +4411,10 @@ class GetCourseStreamsRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get courseID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set courseID($core.int v) { $_setSignedInt32(0, v); }
+  set courseID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasCourseID() => $_has(0);
   @$pb.TagNumber(1)
@@ -4500,7 +4571,7 @@ class GetCourseStreamsResponse extends $pb.GeneratedMessage {
 
 class Stream extends $pb.GeneratedMessage {
   factory Stream({
-    $fixnum.Int64? id,
+    $core.int? id,
     $core.String? name,
     $core.String? description,
     $core.int? courseID,
@@ -4621,7 +4692,7 @@ class Stream extends $pb.GeneratedMessage {
   factory Stream.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Stream', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(4, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3, protoName: 'courseID')
@@ -4641,10 +4712,14 @@ class Stream extends $pb.GeneratedMessage {
     ..aOB(18, _omitFieldNames ? '' : 'recording')
     ..aOB(19, _omitFieldNames ? '' : 'premiere')
     ..aOB(20, _omitFieldNames ? '' : 'ended')
-    ..a<$core.int>(21, _omitFieldNames ? '' : 'vodViews', $pb.PbFieldType.OU3, protoName: 'vodViews')
-    ..a<$core.int>(22, _omitFieldNames ? '' : 'startOffset', $pb.PbFieldType.OU3, protoName: 'startOffset')
-    ..a<$core.int>(23, _omitFieldNames ? '' : 'endOffset', $pb.PbFieldType.OU3, protoName: 'endOffset')
-    ..a<$core.int>(28, _omitFieldNames ? '' : 'duration', $pb.PbFieldType.O3)
+    ..a<$core.int>(21, _omitFieldNames ? '' : 'vodViews', $pb.PbFieldType.OU3,
+        protoName: 'vodViews')
+    ..a<$core.int>(
+        22, _omitFieldNames ? '' : 'startOffset', $pb.PbFieldType.OU3,
+        protoName: 'startOffset')
+    ..a<$core.int>(23, _omitFieldNames ? '' : 'endOffset', $pb.PbFieldType.OU3,
+        protoName: 'endOffset')
+    ..a<$core.int>(28, _omitFieldNames ? '' : 'duration', $pb.PbFieldType.OU3)
     ..pc<Download>(29, _omitFieldNames ? '' : 'downloads', $pb.PbFieldType.PM, subBuilder: Download.create)
     ..aOB(30, _omitFieldNames ? '' : 'isPlanned', protoName: 'isPlanned')
     ..aOB(31, _omitFieldNames ? '' : 'isComingUp', protoName: 'isComingUp')
@@ -4674,9 +4749,12 @@ class Stream extends $pb.GeneratedMessage {
   static Stream? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get id => $_getI64(0);
+  $core.int get id => $_getIZ(0);
   @$pb.TagNumber(1)
-  set id($fixnum.Int64 v) { $_setInt64(0, v); }
+  set id($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
@@ -4889,7 +4967,10 @@ class Stream extends $pb.GeneratedMessage {
   @$pb.TagNumber(28)
   $core.int get duration => $_getIZ(23);
   @$pb.TagNumber(28)
-  set duration($core.int v) { $_setSignedInt32(23, v); }
+  set duration($core.int v) {
+    $_setUnsignedInt32(23, v);
+  }
+
   @$pb.TagNumber(28)
   $core.bool hasDuration() => $_has(23);
   @$pb.TagNumber(28)
@@ -4928,7 +5009,7 @@ class Stream extends $pb.GeneratedMessage {
 
 class GetStreamRequest extends $pb.GeneratedMessage {
   factory GetStreamRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -4941,7 +5022,8 @@ class GetStreamRequest extends $pb.GeneratedMessage {
   factory GetStreamRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStreamRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -4967,9 +5049,12 @@ class GetStreamRequest extends $pb.GeneratedMessage {
   static GetStreamRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
@@ -5010,7 +5095,7 @@ class GetNowLiveRequest extends $pb.GeneratedMessage {
 
 class GetThumbsLiveRequest extends $pb.GeneratedMessage {
   factory GetThumbsLiveRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -5023,7 +5108,8 @@ class GetThumbsLiveRequest extends $pb.GeneratedMessage {
   factory GetThumbsLiveRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetThumbsLiveRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -5049,9 +5135,12 @@ class GetThumbsLiveRequest extends $pb.GeneratedMessage {
   static GetThumbsLiveRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
@@ -5060,7 +5149,7 @@ class GetThumbsLiveRequest extends $pb.GeneratedMessage {
 
 class GetThumbsVODRequest extends $pb.GeneratedMessage {
   factory GetThumbsVODRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -5073,7 +5162,8 @@ class GetThumbsVODRequest extends $pb.GeneratedMessage {
   factory GetThumbsVODRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetThumbsVODRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -5099,9 +5189,12 @@ class GetThumbsVODRequest extends $pb.GeneratedMessage {
   static GetThumbsVODRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
@@ -5462,7 +5555,7 @@ class Progress extends $pb.GeneratedMessage {
 
 class GetProgressRequest extends $pb.GeneratedMessage {
   factory GetProgressRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -5475,7 +5568,8 @@ class GetProgressRequest extends $pb.GeneratedMessage {
   factory GetProgressRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetProgressRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -5501,9 +5595,12 @@ class GetProgressRequest extends $pb.GeneratedMessage {
   static GetProgressRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)
@@ -5513,7 +5610,7 @@ class GetProgressRequest extends $pb.GeneratedMessage {
 class PutProgressRequest extends $pb.GeneratedMessage {
   factory PutProgressRequest({
     $core.double? progress,
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (progress != null) {
@@ -5530,7 +5627,8 @@ class PutProgressRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PutProgressRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
     ..a<$core.double>(1, _omitFieldNames ? '' : 'progress', $pb.PbFieldType.OF)
-    ..a<$fixnum.Int64>(3, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -5565,9 +5663,12 @@ class PutProgressRequest extends $pb.GeneratedMessage {
   void clearProgress() => clearField(1);
 
   @$pb.TagNumber(3)
-  $fixnum.Int64 get streamID => $_getI64(1);
+  $core.int get streamID => $_getIZ(1);
   @$pb.TagNumber(3)
-  set streamID($fixnum.Int64 v) { $_setInt64(1, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(1, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasStreamID() => $_has(1);
   @$pb.TagNumber(3)
@@ -5576,7 +5677,7 @@ class PutProgressRequest extends $pb.GeneratedMessage {
 
 class MarkAsWatchedRequest extends $pb.GeneratedMessage {
   factory MarkAsWatchedRequest({
-    $fixnum.Int64? streamID,
+    $core.int? streamID,
   }) {
     final $result = create();
     if (streamID != null) {
@@ -5589,7 +5690,8 @@ class MarkAsWatchedRequest extends $pb.GeneratedMessage {
   factory MarkAsWatchedRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MarkAsWatchedRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU6, protoName: 'streamID', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+        protoName: 'streamID')
     ..hasRequiredFields = false
   ;
 
@@ -5615,9 +5717,12 @@ class MarkAsWatchedRequest extends $pb.GeneratedMessage {
   static MarkAsWatchedRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get streamID => $_getI64(0);
+  $core.int get streamID => $_getIZ(0);
   @$pb.TagNumber(1)
-  set streamID($fixnum.Int64 v) { $_setInt64(0, v); }
+  set streamID($core.int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStreamID() => $_has(0);
   @$pb.TagNumber(1)

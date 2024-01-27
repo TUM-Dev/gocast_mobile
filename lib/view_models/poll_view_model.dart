@@ -12,7 +12,7 @@ class PollViewModel extends StateNotifier<PollState> {
 
   PollViewModel(this._grpcHandler) : super(const PollState());
 
-  Future<void> fetchPolls(Int64 streamId) async {
+  Future<void> fetchPolls(int streamId) async {
     state = state.copyWith(isLoading: true);
     state = state.clearError();
     try {
@@ -24,7 +24,7 @@ class PollViewModel extends StateNotifier<PollState> {
     }
   }
 
-  Future<void> postPollVote(Int64 streamId, Int64 pollOptionId) async {
+  Future<void> postPollVote(int streamId, int pollOptionId) async {
     try {
       await PollHandlers(_grpcHandler).postPollVote(streamId, pollOptionId);
     } catch (e) {
