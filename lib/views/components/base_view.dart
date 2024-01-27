@@ -65,7 +65,6 @@ class BaseViewState extends ConsumerState<BaseView> {
         surfaceTintColor: Colors.transparent,
       ),
       body: widget.child,
-      drawer: !_isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
       endDrawer: _isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
       bottomNavigationBar: widget.bottomNavigationBar,
       onEndDrawerChanged: (isOpen) {
