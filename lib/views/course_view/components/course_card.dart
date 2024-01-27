@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,6 +24,9 @@ class CourseCard extends StatelessWidget {
   //for displaying courses
   final bool? live;
   final String? semester;
+  final Course? course;
+  final Function(Course)? onPinUnpin;
+  final bool? isPinned;
 
   //for displaying livestreams
   final String? subtitle;
@@ -45,6 +50,9 @@ class CourseCard extends StatelessWidget {
     required this.onTap,
     this.live,
     this.semester,
+    this.course,
+    this.onPinUnpin,
+    this.isPinned,
   });
 
   @override
@@ -75,7 +83,7 @@ class CourseCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: isCourse
-              ? _buildCourseCard(themeData, cardWidth, context)
+              ? _buildCourseCard(themeData, cardWidth, context, course!, onPinUnpin!, isPinned!)
               : _buildStreamCard(
                   themeData,
                   cardWidth,
@@ -129,40 +137,97 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseCard(
-    ThemeData themeData,
-    double cardWidth,
-    BuildContext context,
-  ) {
-    return IntrinsicHeight(
-      child: Row(
+      ThemeData themeData,
+      double cardWidth,
+      BuildContext context,
+      Course course,
+      Function(Course) onPinUnpin,
+      bool isPinned,
+      ) {
+    return Slidable(
+      key: ValueKey(course.id),
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        dragDismissible: true,
         children: [
-          _buildCourseColor(),
-          Expanded(
-            child: Container(
-              color: themeData.cardColor,
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildCourseTumID(),
-                      _buildCourseIsLive(),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3.0),
-                    child: _buildCourseTitle(themeData.textTheme),
-                  ),
-                ],
+          if (isPinned)
+            SlidableAction(
+              autoClose: true,
+              onPressed: (_) async {
+                bool confirmUnpin = await _confirmUnpin(context);
+                if (confirmUnpin) onPinUnpin(course);
+              },
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              icon: Icons.push_pin_outlined,
+              label: 'Unpin',
+            ),
+          if (!isPinned)
+            SlidableAction(
+              autoClose: true,
+              onPressed: (_) => onPinUnpin(course),
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              icon: Icons.push_pin,
+              label: 'Pin',
+            ),
+        ],
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            _buildCourseColor(),
+            Expanded(
+              child: Container(
+                color: themeData.cardColor,
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildCourseTumID(),
+                        _buildCourseIsLive(),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3.0),
+                      child: _buildCourseTitle(themeData.textTheme),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  Future<bool> _confirmUnpin(BuildContext context) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Unpin'),
+          content: const Text('Are you sure you want to unpin this course?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Unpin'),
+            ),
+          ],
+        );
+      },
+    ) ?? false;
+  }
+
+
 
   Widget _buildCourseImage() {
     if (path == null) return const SizedBox();

@@ -85,9 +85,12 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
             onClick: filterCoursesBySemester,
           ),
           pinnedCourseCards: userPinned.map((course) {
-            //final isPinned =
-              //  userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
+            final isPinned =
+               userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return CourseCard(
+              course: course,
+              isPinned: isPinned,
+              onPinUnpin: (course) => _togglePin(course, isPinned),
               live: liveCourses.contains(course),
               isCourse: true,
               title: course.name,
@@ -114,7 +117,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     );
   }
 
-  /*Future<void> _togglePin(Course course, bool isPinned) async {
+  Future<void> _togglePin(Course course, bool isPinned) async {
     final viewModel = ref.read(userViewModelProvider.notifier);
     if (isPinned) {
       await viewModel.unpinCourse(course.id);
@@ -122,7 +125,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       await viewModel.pinCourse(course.id);
     }
     await _refreshPinnedCourses();
-  }*/
+  }
 
   VideoSourceType determineSourceType(String videoSource) {
     return videoSource.startsWith('http')

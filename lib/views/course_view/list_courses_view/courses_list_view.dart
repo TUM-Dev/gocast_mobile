@@ -43,6 +43,7 @@ class CoursesList extends ConsumerWidget {
   Widget _buildCourseListView(BuildContext context, bool isTablet, WidgetRef ref) {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
+    final userPinned = ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
     List<Course> liveCourses = courses.where((course) => liveCourseIds.contains(course.id)).toList();
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
@@ -53,7 +54,18 @@ class CoursesList extends ConsumerWidget {
         itemCount: courses.length,
         itemBuilder: (BuildContext context, int index) {
           final course = courses[index];
+          final isPinned = userPinned.contains(course);
           return CourseCard(
+            course: course,
+            isPinned: isPinned,
+            onPinUnpin: (course) {
+              final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+              if (isPinned) {
+                userViewModelNotifier.unpinCourse(course.id);
+              } else {
+                userViewModelNotifier.pinCourse(course.id);
+              }
+            },
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
             path: 'assets/images/course2.png',
@@ -78,4 +90,5 @@ class CoursesList extends ConsumerWidget {
       ),
     );
   }
+
 }
