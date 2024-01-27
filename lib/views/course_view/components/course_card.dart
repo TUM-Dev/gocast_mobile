@@ -5,13 +5,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Course card view
-///
-/// A reusable stateless widget to display a course card.
-///
-/// It takes a [title], [tumID] and [path] to display the course details.
-/// This widget can be reused for various course sections by providing different
-/// titles, subtitles and paths.
+
 class CourseCard extends StatelessWidget {
   final String title;
   final String tumID;
@@ -69,7 +63,6 @@ class CourseCard extends StatelessWidget {
         elevation: 1,
         shadowColor: themeData.shadowColor,
         color: themeData.cardTheme.color,
-        // Use card color from theme
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: BorderSide(
@@ -125,7 +118,6 @@ class CourseCard extends StatelessWidget {
                     _buildCourseSubtitle(themeData.textTheme),
                     const SizedBox(height: 15),
                     _buildLocation(),
-                    //_buildCourseIsLive(),
                   ],
                 ),
               ),
@@ -146,6 +138,7 @@ class CourseCard extends StatelessWidget {
       ) {
     return Slidable(
       key: ValueKey(course.id),
+      closeOnScroll: true,
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
         dragDismissible: true,
@@ -243,11 +236,6 @@ class CourseCard extends StatelessWidget {
             ),
           ),
         ),
-        /*Positioned(
-          bottom: 3, // Adjust this value based on your layout
-          right: 3, // Adjust this value based on your layout
-          child: _buildCourseViewerCount(),
-        ),*/
       ],
     );
   }
@@ -273,7 +261,6 @@ class CourseCard extends StatelessWidget {
             size: 20,
           ),
           Text(roomName ?? "Location"),
-          //const SizedBox(width: 2),
           Transform.scale(
             scale: 0.6, // Adjust the scale factor as needed
             child: ViewAllButton(onViewAll: () {}),
@@ -300,7 +287,6 @@ class CourseCard extends StatelessWidget {
       title,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
-      //if courses are ever no longer displayed as list, check this for overflows
       softWrap: true,
       style: textTheme.titleMedium?.copyWith(
             fontSize: 16,
@@ -378,16 +364,6 @@ class CourseCard extends StatelessWidget {
   }
 
   Color _colorPicker() {
-    /** Colors:
-     * Informatik - IN: blue
-     * Mathe - MA: purple
-     * Chemie - CH
-     * Physik - PH
-     * Maschinenwesen - MW
-     * nothing/ other: gray
-     * Elektrotechnik - EL
-     *
-     */
     if (tumID.length < 2) return Colors.grey;
     switch (tumID.substring(0, 2)) {
       case 'IN':

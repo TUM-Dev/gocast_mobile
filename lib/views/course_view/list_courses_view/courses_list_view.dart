@@ -43,7 +43,7 @@ class CoursesList extends ConsumerWidget {
   Widget _buildCourseListView(BuildContext context, bool isTablet, WidgetRef ref) {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
-    final userPinned = ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
+    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
     List<Course> liveCourses = courses.where((course) => liveCourseIds.contains(course.id)).toList();
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
