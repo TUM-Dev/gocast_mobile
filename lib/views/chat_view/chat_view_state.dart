@@ -44,9 +44,6 @@ class ChatViewState extends ConsumerState<ChatView> {
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatViewModelProvider);
-    var suggestedStreams = ref.watch(videoViewModelProvider).streams ?? [];
-    suggestedStreams = suggestedStreams.where((element) => element.id != widget.streamID).toList();
-    suggestedStreams.sort((a, b) => a.start.toDateTime().compareTo(b.start.toDateTime()));
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if(chatState.isRateLimitReached){
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -66,8 +63,6 @@ class ChatViewState extends ConsumerState<ChatView> {
       });
     }
     return buildActiveChat(isIOS);
-    //return widget.isActive ? buildActiveChat(isIOS) :
-    //buildInactiveChatOverlay(isIOS, suggestedStreams);
   }
 
   Widget buildActiveChat(bool isIOS) {

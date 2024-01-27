@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/views/poll_view/poll_view.dart';
+import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 
 class PollViewState extends ConsumerState<PollView> {
   @override

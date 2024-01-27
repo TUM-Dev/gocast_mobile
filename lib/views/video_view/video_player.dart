@@ -7,6 +7,7 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/chat_view.dart';
 import 'package:gocast_mobile/views/chat_view/inactive_view.dart';
+import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.dart';
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
@@ -46,13 +47,14 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           isChatActive: _isChatActive,
           isPollActive: _isPollActive,
           isPollVisible: _isPollsVisible,
-          onDownload: (type) => _downloadVideo(widget.stream,type),
+          onDownload: (type) => _downloadVideo(widget.stream, type),
         ),
         Expanded(
-            child: _isChatVisible
-              ? ChatView(isActive: _isChatVisible, streamID: widget.stream.id)
-              : InactiveView(
-                  isActive: !_isChatVisible, streamID: widget.stream.id),
+          child: _isChatVisible
+              ? ChatView(streamID: widget.stream.id)
+              : _isPollsVisible
+                  ? PollView(streamID: widget.stream.id)
+                  : InactiveView(streamID: widget.stream.id),
         ),
       ],
     );

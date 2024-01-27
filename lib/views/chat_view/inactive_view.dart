@@ -8,12 +8,10 @@ import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 class InactiveView extends ConsumerStatefulWidget {
-  final bool isActive;
   final Int64? streamID;
 
   const InactiveView({
     super.key,
-    required this.isActive,
     this.streamID,
   });
 
