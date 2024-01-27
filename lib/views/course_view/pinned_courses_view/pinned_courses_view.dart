@@ -69,6 +69,9 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   @override
   Widget build(BuildContext context) {
     final userPinned = ref.watch(userViewModelProvider).displayedCourses ?? [];
+    final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
+    var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
+    List<Course> liveCourses = userPinned.where((course) => liveCourseIds.contains(course.id)).toList();
     final filterOptions =
         ref.watch(userViewModelProvider).semestersAsString ?? [];
     return Scaffold(
@@ -85,6 +88,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
             final isPinned =
                 userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return CourseCard(
+              live: liveCourses.contains(course),
               isCourse: true,
               title: course.name,
               courseId: course.id,
@@ -110,7 +114,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
     );
   }
 
-  Future<void> _togglePin(Course course, bool isPinned) async {
+  /*Future<void> _togglePin(Course course, bool isPinned) async {
     final viewModel = ref.read(userViewModelProvider.notifier);
     if (isPinned) {
       await viewModel.unpinCourse(course.id);
@@ -118,7 +122,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       await viewModel.pinCourse(course.id);
     }
     await _refreshPinnedCourses();
-  }
+  }*/
 
   VideoSourceType determineSourceType(String videoSource) {
     return videoSource.startsWith('http')
