@@ -56,47 +56,42 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
           ),
         ),
       ],
-      child: RefreshIndicator(
-        onRefresh: () async {
-          final userViewModelNotifier =
-          ref.read(userViewModelProvider.notifier);
-          await userViewModelNotifier.fetchUserCourses();
-          await userViewModelNotifier.fetchPublicCourses();
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (isLoggedIn)
-                _buildSection(
-                  "Live Now",
-                  0,
-                  (userCourses ?? []) + (publicCourses ?? []),
-                  liveStreams,
-                ),
-              isTablet
-                  ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
+          child: RefreshIndicator(
+            onRefresh: _refreshData,
+            child: ListView(
+              children: [
+                if (isLoggedIn)
+                  Center(
                     child: _buildSection(
-                      "My Courses",
-                      1,
-                      userCourses,
+                      "Live Now",
+                      0,
+                      (userCourses ?? []) + (publicCourses ?? []),
                       liveStreams,
                     ),
                   ),
-                  Expanded(
-                    child: _buildSection(
-                      "Public Courses",
-                      2,
-                      publicCourses,
-                      liveStreams,
-                    ),
-                  ),
-                ],
-              )
-                  : Column(
-                children: [
+                if (isTablet)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildSection(
+                          "My Courses",
+                          1,
+                          userCourses,
+                          liveStreams,
+                        ),
+                      ),
+                      Expanded(
+                        child: _buildSection(
+                          "Public Courses",
+                          2,
+                          publicCourses,
+                          liveStreams,
+                        ),
+                      ),
+                    ],
+                  )
+                else ...[
                   _buildSection(
                     "My Courses",
                     1,
@@ -110,11 +105,9 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     liveStreams,
                   ),
                 ],
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
     )
     );
   }
@@ -153,4 +146,11 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       MaterialPageRoute(builder: (context) => screen),
     );
   }
+
+  Future<void> _refreshData() async {
+    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    await userViewModelNotifier.fetchUserCourses();
+    await userViewModelNotifier.fetchPublicCourses();
+  }
+
 }
