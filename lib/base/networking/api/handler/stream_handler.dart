@@ -1,4 +1,3 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
@@ -16,7 +15,7 @@ class StreamHandler {
   ///
   /// Takes [courseID] as a parameter.
   /// Returns a [List<Stream>] instance that represents the user's streams.
-  Future<List<Stream>> fetchCourseStreams(int courseID) async {
+  Future<List<Stream>> fetchCourseStreams(courseID) async {
     _logger.i('Fetching streams');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -35,12 +34,12 @@ class StreamHandler {
   /// Takes [streamId] as a parameter.
   ///
   /// Returns a [Stream] instance that represents the stream of the course.
-  Future<Stream> fetchStream(Int64 streamId) async {
+  Future<Stream> fetchStream(streamId) async {
     _logger.i('Fetching stream');
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response =
-            await client.getStream(GetStreamRequest(streamID: streamId));
+            await client.getStream(GetStreamRequest(streamID: (streamId)));
         _logger.d('Stream: ${response.stream}');
         return response.stream;
       },
@@ -69,7 +68,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail stream.
-  Future<String> fetchThumbnailStreams(Int64 streamId) async {
+  Future<String> fetchThumbnailStreams(streamId) async {
     _logger.i('Fetching thumbnail stream');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -87,7 +86,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail VOD.
-  Future<String> fetchThumbnailVOD(Int64 streamId) async {
+  Future<String> fetchThumbnailVOD(streamId) async {
     _logger.i('Fetching thumbnail VOD');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -105,7 +104,7 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [Progress] instance that represents the progress of the stream.
-  Future<Progress> fetchProgress(Int64 streamId) async {
+  Future<Progress> fetchProgress(streamId) async {
     _logger.i('Fetching progress');
     try {
       return _grpcHandler.callGrpcMethod(
@@ -128,7 +127,7 @@ class StreamHandler {
   /// This method sends a `putProgress` gRPC call to update the progress of a stream.
   ///
   /// Takes [streamId] and [progress] as parameters.
-  Future<void> putProgress(Int64 streamId, Progress progress) async {
+  Future<void> putProgress(streamId, Progress progress) async {
     _logger.i('Updating progress');
     await _grpcHandler.callGrpcMethod(
       (client) async {
@@ -148,7 +147,7 @@ class StreamHandler {
   /// This method sends a `markAsWatched` gRPC call to mark a stream as watched.
   ///
   /// Takes [streamId] as a parameter.
-  Future<void> markAsWatched(Int64 streamId) async {
+  Future<void> markAsWatched(streamId) async {
     _logger.i('Marking stream as watched');
     await _grpcHandler.callGrpcMethod(
       (client) async {

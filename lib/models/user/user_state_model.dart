@@ -53,7 +53,8 @@ class UserState {
     Semester? current,
     String? currentAsString,
     List<Course>? displayedCourses,
-    List<Course>? displayedPinnedCourses,}) {
+    List<Course>? displayedPinnedCourses,
+  }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
@@ -69,7 +70,8 @@ class UserState {
       current: current ?? this.current,
       currentAsString: currentAsString ?? this.currentAsString,
       displayedCourses: displayedCourses ?? this.displayedCourses,
-      displayedPinnedCourses: displayedPinnedCourses ?? this.displayedPinnedCourses,
+      displayedPinnedCourses:
+          displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
 
@@ -101,7 +103,8 @@ class UserState {
       current: current,
       currentAsString: currentAsString,
       displayedCourses: displayedCourses ?? this.displayedCourses,
-      displayedPinnedCourses: displayedPinnedCourses ?? this.displayedPinnedCourses,
+      displayedPinnedCourses:
+          displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
 }

@@ -138,7 +138,8 @@ class CourseSection extends StatelessWidget {
             AppImages.course2,
           ];
           imagePath = imagePaths[random.nextInt(imagePaths.length)];
-          final userPinned = ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
+          final userPinned =
+              ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
           final isPinned = userPinned.contains(course);
           return CourseCard(
             course: course,
@@ -240,7 +241,7 @@ class CourseSection extends StatelessWidget {
             ? Row(
                 children: [
                   icon != null
-                      ?  Row(
+                      ? Row(
                           children: [
                             Icon(icon),
                             const SizedBox(width: 10),

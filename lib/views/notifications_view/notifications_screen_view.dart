@@ -70,7 +70,9 @@ class NotificationsScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(child: Center(child: Text('No Notifications found.'))),
+                  Expanded(
+                    child: Center(child: Text('No Notifications found.')),
+                  ),
                 ],
               ),
             ),
@@ -79,7 +81,6 @@ class NotificationsScreen extends ConsumerWidget {
       ),
     );
   }
-
 
   List<Widget> _buildAppBarActions(BuildContext context, WidgetRef ref) {
     return [

@@ -44,71 +44,71 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
     return PopScope(
       canPop: false,
-        child: BaseView(
-      showLeading: false,
-      title: 'GoCast',
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () => _navigateToScreen(
-            context,
-            const SettingsScreen(),
-          ),
-        ),
-      ],
-          child: RefreshIndicator(
-            onRefresh: _refreshData,
-            child: ListView(
-              children: [
-                if (isLoggedIn)
-                  Center(
-                    child: _buildSection(
-                      "Live Now",
-                      0,
-                      (userCourses ?? []) + (publicCourses ?? []),
-                      liveStreams,
-                    ),
-                  ),
-                if (isTablet)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _buildSection(
-                          "My Courses",
-                          1,
-                          userCourses,
-                          liveStreams,
-                        ),
-                      ),
-                      Expanded(
-                        child: _buildSection(
-                          "Public Courses",
-                          2,
-                          publicCourses,
-                          liveStreams,
-                        ),
-                      ),
-                    ],
-                  )
-                else ...[
-                  _buildSection(
-                    "My Courses",
-                    1,
-                    userCourses,
-                    liveStreams,
-                  ),
-                  _buildSection(
-                    "Public Courses",
-                    2,
-                    publicCourses,
-                    liveStreams,
-                  ),
-                ],
-              ],
+      child: BaseView(
+        showLeading: false,
+        title: 'GoCast',
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => _navigateToScreen(
+              context,
+              const SettingsScreen(),
             ),
           ),
-    ),
+        ],
+        child: RefreshIndicator(
+          onRefresh: _refreshData,
+          child: ListView(
+            children: [
+              if (isLoggedIn)
+                Center(
+                  child: _buildSection(
+                    "Live Now",
+                    0,
+                    (userCourses ?? []) + (publicCourses ?? []),
+                    liveStreams,
+                  ),
+                ),
+              if (isTablet)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: _buildSection(
+                        "My Courses",
+                        1,
+                        userCourses,
+                        liveStreams,
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildSection(
+                        "Public Courses",
+                        2,
+                        publicCourses,
+                        liveStreams,
+                      ),
+                    ),
+                  ],
+                )
+              else ...[
+                _buildSection(
+                  "My Courses",
+                  1,
+                  userCourses,
+                  liveStreams,
+                ),
+                _buildSection(
+                  "Public Courses",
+                  2,
+                  publicCourses,
+                  liveStreams,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -139,7 +139,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     );
   }
 
-
   void _navigateToScreen(BuildContext context, Widget screen) {
     Navigator.push(
       context,
@@ -152,5 +151,4 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     await userViewModelNotifier.fetchUserCourses();
     await userViewModelNotifier.fetchPublicCourses();
   }
-
 }

@@ -68,10 +68,13 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
 
   @override
   Widget build(BuildContext context) {
-    final userPinned = ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
+    final userPinned =
+        ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
-    List<Course> liveCourses = userPinned.where((course) => liveCourseIds.contains(course.id)).toList();
+    List<Course> liveCourses = userPinned
+        .where((course) => liveCourseIds.contains(course.id))
+        .toList();
     final filterOptions =
         ref.watch(userViewModelProvider).semestersAsString ?? [];
     return Scaffold(
@@ -86,7 +89,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
           ),
           pinnedCourseCards: userPinned.map((course) {
             final isPinned =
-               userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
+                userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return CourseCard(
               course: course,
               isPinned: isPinned,

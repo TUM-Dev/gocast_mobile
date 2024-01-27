@@ -28,9 +28,9 @@ class CoursesList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isTablet = MediaQuery.of(context).size.width >= 600;
-    return  courses.isEmpty
-              ? _buildPlaceholder()
-              : _buildCourseListView(context, isTablet, ref);
+    return courses.isEmpty
+        ? _buildPlaceholder()
+        : _buildCourseListView(context, isTablet, ref);
   }
 
   Padding _buildPlaceholder() {
@@ -40,11 +40,17 @@ class CoursesList extends ConsumerWidget {
     );
   }
 
-  Widget _buildCourseListView(BuildContext context, bool isTablet, WidgetRef ref) {
+  Widget _buildCourseListView(
+    BuildContext context,
+    bool isTablet,
+    WidgetRef ref,
+  ) {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
-    final userPinned = ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
-    List<Course> liveCourses = courses.where((course) => liveCourseIds.contains(course.id)).toList();
+    final userPinned =
+        ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
+    List<Course> liveCourses =
+        courses.where((course) => liveCourseIds.contains(course.id)).toList();
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
       child: ListView.builder(
@@ -59,7 +65,8 @@ class CoursesList extends ConsumerWidget {
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) {
-              final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+              final userViewModelNotifier =
+                  ref.read(userViewModelProvider.notifier);
               if (isPinned) {
                 userViewModelNotifier.unpinCourse(course.id);
               } else {
@@ -90,5 +97,4 @@ class CoursesList extends ConsumerWidget {
       ),
     );
   }
-
 }

@@ -62,8 +62,10 @@ class CustomSearchTopNavBarWithBackButton extends ConsumerWidget
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Search',
-          prefixIcon: Icon(Icons.search,
-              color: Theme.of(context).inputDecorationTheme.hintStyle?.color,),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Theme.of(context).inputDecorationTheme.hintStyle?.color,
+          ),
           hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
           hintMaxLines: 1,

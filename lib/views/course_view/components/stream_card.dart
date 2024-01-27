@@ -76,16 +76,17 @@ class StreamCardState extends ConsumerState<StreamCard> {
                   themeData: themeData,
                 ),
                 _buildThumbnail(themeData),
-            progressAsyncValue.when(
-              loading: () => const LinearProgressIndicator(),
-              error: (e, st) => Text('Error: $e'),
-              data: (progress) => LinearProgressIndicator(
-                value: progress.progress,
-                minHeight: 10.0,
-                backgroundColor: Colors.grey[300],
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-              ),
-            ),
+                progressAsyncValue.when(
+                  loading: () => const LinearProgressIndicator(),
+                  error: (e, st) => Text('Error: $e'),
+                  data: (progress) => LinearProgressIndicator(
+                    value: progress.progress,
+                    minHeight: 10.0,
+                    backgroundColor: Colors.grey[300],
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  ),
+                ),
               ],
             ),
           ),

@@ -83,7 +83,14 @@ class CourseCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: isCourse
-              ? _buildCourseCard(themeData, cardWidth, context, course!, onPinUnpin!, isPinned!)
+              ? _buildCourseCard(
+                  themeData,
+                  cardWidth,
+                  context,
+                  course!,
+                  onPinUnpin!,
+                  isPinned!,
+                )
               : _buildStreamCard(
                   themeData,
                   cardWidth,
@@ -137,13 +144,13 @@ class CourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseCard(
-      ThemeData themeData,
-      double cardWidth,
-      BuildContext context,
-      Course course,
-      Function(Course) onPinUnpin,
-      bool isPinned,
-      ) {
+    ThemeData themeData,
+    double cardWidth,
+    BuildContext context,
+    Course course,
+    Function(Course) onPinUnpin,
+    bool isPinned,
+  ) {
     return Slidable(
       key: ValueKey(course.id),
       endActionPane: ActionPane(
@@ -207,27 +214,27 @@ class CourseCard extends StatelessWidget {
 
   Future<bool> _confirmUnpin(BuildContext context) async {
     return await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Confirm Unpin'),
-          content: const Text('Are you sure you want to unpin this course?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Unpin'),
-            ),
-          ],
-        );
-      },
-    ) ?? false;
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Confirm Unpin'),
+              content:
+                  const Text('Are you sure you want to unpin this course?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Unpin'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
-
-
 
   Widget _buildCourseImage() {
     if (path == null) return const SizedBox();
@@ -344,8 +351,6 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
-
-
 
   Widget _buildCourseIsLive() {
     if (live == null) return const SizedBox();

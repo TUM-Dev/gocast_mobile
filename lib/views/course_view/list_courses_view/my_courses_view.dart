@@ -37,7 +37,6 @@ class MyCoursesState extends ConsumerState<MyCourses> {
     await ref.read(userViewModelProvider.notifier).fetchUserCourses();
   }
 
-
   void filterCoursesBySemester(String selectedSemester) {
     var allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
     ref
@@ -93,7 +92,6 @@ class MyCoursesState extends ConsumerState<MyCourses> {
           ],
         ),
       ),
-
     );
   }
 
@@ -102,5 +100,4 @@ class MyCoursesState extends ConsumerState<MyCourses> {
     searchController.dispose();
     super.dispose();
   }
-
 }

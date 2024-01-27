@@ -1,5 +1,3 @@
-import 'package:fixnum/fixnum.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
@@ -59,14 +57,18 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
     updatedDisplayedStreams(
-        CourseUtils.sortStreams(allStreams, state.selectedFilterOption),);
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
   }
 
   void updateSelectedFilterOption(
-      String option, List<Tuple2<Stream, String>> allStreams,) {
+    String option,
+    List<Tuple2<Stream, String>> allStreams,
+  ) {
     state = state.copyWith(selectedFilterOption: option);
     updatedDisplayedStreams(
-        CourseUtils.sortStreams(allStreams, state.selectedFilterOption),);
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
   }
 
   /// Fetches a thumbnail for a given stream.
@@ -86,7 +88,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
   /// Fetches the thumbnail for a live stream.
   /// Parameters:
   ///   [streamId] - The identifier of the stream.
-  Future<String> fetchStreamThumbnail(Int64 streamId) async {
+  Future<String> fetchStreamThumbnail(streamId) async {
     try {
       _logger.i('Fetching thumbnail for live stream ID: $streamId');
       return await StreamHandler(_grpcHandler).fetchThumbnailStreams(streamId);
@@ -99,7 +101,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
   /// Fetches the thumbnail for a recorded stream.
   /// Parameters:
   ///   [streamId] - The identifier of the stream.
-  Future<String> fetchVODThumbnail(Int64 streamId) async {
+  Future<String> fetchVODThumbnail(streamId) async {
     try {
       _logger.i('Fetching thumbnail for VOD stream ID: $streamId');
       return await StreamHandler(_grpcHandler).fetchThumbnailVOD(streamId);
@@ -109,7 +111,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> fetchStream(Int64 streamId) async {
+  Future<void> fetchStream(streamId) async {
     _logger.i('Fetching stream');
     state = state.copyWith(isLoading: true);
     try {
@@ -133,7 +135,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> fetchProgress(Int64 streamId) async {
+  Future<void> fetchProgress(streamId) async {
     state = state.copyWith(isLoading: true);
     try {
       final progress =
@@ -148,17 +150,17 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<Progress> fetchProgressForStream(Int64 streamId) async {
+  Future<Progress> fetchProgressForStream(streamId) async {
     try {
       final progress =
-      await StreamHandler(_grpcHandler).fetchProgress(streamId);
+          await StreamHandler(_grpcHandler).fetchProgress(streamId);
       return progress;
     } catch (e) {
       return Progress(progress: 0.0);
     }
   }
 
-  Future<void> updateProgress(Int64 streamId, Progress progress) async {
+  Future<void> updateProgress(streamId, Progress progress) async {
     _logger.i('Updating progress');
     state = state.copyWith(isLoading: true);
     try {
@@ -170,7 +172,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> markAsWatched(Int64 streamId) async {
+  Future<void> markAsWatched(streamId) async {
     _logger.i('Marking stream as watched');
     state = state.copyWith(isLoading: true);
     try {
