@@ -85,8 +85,8 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
             onClick: filterCoursesBySemester,
           ),
           pinnedCourseCards: userPinned.map((course) {
-            final isPinned =
-                userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
+            //final isPinned =
+              //  userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return CourseCard(
               live: liveCourses.contains(course),
               isCourse: true,
