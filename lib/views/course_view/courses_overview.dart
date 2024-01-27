@@ -27,6 +27,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       if (ref.read(userViewModelProvider).user != null) {
         userViewModelNotifier.fetchUserCourses();
         videoViewModelNotifier.fetchLiveNowStreams();
+        userViewModelNotifier.fetchUserPinned();
       }
       // Fetch public courses regardless of user's login status
       userViewModelNotifier.fetchPublicCourses();
