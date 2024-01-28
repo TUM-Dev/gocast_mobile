@@ -16,7 +16,6 @@ import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:logger/logger.dart';
 
-
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
 
@@ -72,7 +71,6 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-
   Future<void> fetchUserBookmarks() async {
     state = state.copyWith(isLoading: true);
     try {
@@ -92,8 +90,7 @@ class UserViewModel extends StateNotifier<UserState> {
     _logger.i('Logged out user and cleared tokens.');
   }
 
-
- bool  isCoursePinned(int id) {
+  bool isCoursePinned(int id) {
     if (state.userPinned == null) {
       return false;
     }
@@ -108,7 +105,7 @@ class UserViewModel extends StateNotifier<UserState> {
   void setLoading(bool loading) {
     state = state.copyWith(isLoading: loading);
   }
-  
+
   Future<void> fetchSemesters() async {
     state = state.copyWith(isLoading: true);
     try {
@@ -128,20 +125,18 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  
   Future<void> fetchUserPinned() async {
     state = state.copyWith(isLoading: true);
     try {
       var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
       state = state.copyWith(userPinned: courses, isLoading: false);
-      setUpDisplayedCourses(state.userPinned ?? []);
+      setUpDisplayedPinnedCourses(state.userPinned ?? []);
     } catch (e) {
       _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
 
-  
   Future<void> fetchPublicCourses() async {
     state = state.copyWith(isLoading: true);
     try {
@@ -209,7 +204,18 @@ class UserViewModel extends StateNotifier<UserState> {
 
   void updateSelectedSemester(String? semester, List<Course> allCourses) {
     state = state.copyWith(selectedSemester: semester);
-    updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
+    updatedDisplayedCourses(
+      CourseUtils.filterCoursesBySemester(
+        allCourses,
+        state.selectedSemester ?? 'All',
+      ),
+    );
+  }
+
+  void updateSelectedPinnedSemester(String? semester, List<Course> allCourses) {
+    state = state.copyWith(selectedSemester: semester);
+    updatedDisplayedPinnedCourses(
+      CourseUtils.filterCoursesBySemester(
         allCourses,
         state.selectedSemester ?? 'All',
       ),
@@ -218,7 +224,7 @@ class UserViewModel extends StateNotifier<UserState> {
 
   void setSemestersAsString(List<Semester> semesters) {
     state = state.copyWith(
-        semestersAsString: CourseUtils.convertAndSortSemesters(semesters, true),
+      semestersAsString: CourseUtils.convertAndSortSemesters(semesters, true),
     );
   }
 
@@ -226,14 +232,27 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(displayedCourses: displayedCourses);
   }
 
+  void updatedDisplayedPinnedCourses(List<Course> displayedPinnedCourses) {
+    state = state.copyWith(displayedPinnedCourses: displayedPinnedCourses);
+  }
+
   void setUpDisplayedCourses(List<Course> allCourses) {
     CourseUtils.sortCourses(allCourses, 'Newest First');
-    updatedDisplayedCourses(CourseUtils.filterCoursesBySemester(
+    updatedDisplayedCourses(
+      CourseUtils.filterCoursesBySemester(
         allCourses,
         state.selectedSemester ?? 'All',
       ),
     );
-    
   }
-  
+
+  void setUpDisplayedPinnedCourses(List<Course> allCourses) {
+    CourseUtils.sortCourses(allCourses, 'Newest First');
+    updatedDisplayedPinnedCourses(
+      CourseUtils.filterCoursesBySemester(
+        allCourses,
+        state.selectedSemester ?? 'All',
+      ),
+    );
+  }
 }

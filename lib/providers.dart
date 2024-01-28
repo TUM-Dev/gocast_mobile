@@ -1,4 +1,3 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
@@ -61,11 +60,9 @@ final settingViewModelProvider =
   return SettingViewModel(ref.watch(grpcHandlerProvider));
 });
 
-final progressProvider = FutureProvider.autoDispose.family<Progress, Int64>(
-      (ref, streamId) async {
+final progressProvider = FutureProvider.autoDispose.family<Progress, int>(
+  (ref, streamId) async {
     final videoViewModel = ref.watch(videoViewModelProvider.notifier);
     return videoViewModel.fetchProgressForStream(streamId);
   },
 );
-
-

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +13,12 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   DownloadViewModel() : super(const DownloadState()) {
     initDownloads();
   }
+
+  bool isStreamDownloaded(int id) {
+    final int streamIdInt = id.toInt(); // Convert Int64 to int
+    return state.downloadedVideos.containsKey(streamIdInt);
+  }
+
 
   Future<void> initDownloads() async {
     final prefs = await SharedPreferences.getInstance();
@@ -30,13 +35,13 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           duration: videoDetailsMap['duration'],
         );
         return MapEntry(int.parse(key), videoDetails);
-      }).cast<int, VideoDetails>();  // Ensure the map has the correct type
+      }).cast<int, VideoDetails>(); // Ensure the map has the correct type
       state = state.copyWith(downloadedVideos: downloadedVideos);
     }
   }
 
-  Future<String> downloadVideo(
-      String videoUrl, Int64 streamId, String fileName, String streamName, int streamDuration,) async {
+  Future<String> downloadVideo(String videoUrl, int streamId, String fileName,
+      String streamName, int streamDuration,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -63,7 +68,8 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
       await prefs.setString(
         'downloadedVideos',
-        json.encode(downloadedVideosJson.map((key, value) => MapEntry(key.toString(), value))),
+        json.encode(downloadedVideosJson.map((key, value) =>
+            MapEntry(key.toString(), value),),),
       );
 
       // Convert the JSON strings back to VideoDetails objects for the state
@@ -94,6 +100,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error fetching downloaded videos: $e');
     }
   }
+
   Future<void> deleteDownload(int videoId) async {
     _logger.i('Deleting downloaded video with ID: $videoId');
 
@@ -106,28 +113,30 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
         if (await file.exists()) {
           await file.delete();
           _logger.d('Deleted video file at: $filePath');
-
-          final prefs = await SharedPreferences.getInstance();
-          final updatedDownloads = Map<int, VideoDetails>.from(state.downloadedVideos);
-          updatedDownloads.remove(videoId);
-
-          // Save updated list to SharedPreferences
-          // Convert VideoDetails objects to JSON strings before saving
-          await prefs.setString(
-              'downloadedVideos',
-              json.encode(updatedDownloads.map((key, value) => MapEntry(key.toString(), json.encode(value))))
-          ,);
-          state = state.copyWith(downloadedVideos: updatedDownloads);
         } else {
           _logger.w('File not found: $filePath');
         }
-      } else {
-        _logger.w('No details found for video ID: $videoId');
+
+        final prefs = await SharedPreferences.getInstance();
+        final updatedDownloads = Map<int, VideoDetails>.from(
+            state.downloadedVideos,);
+        updatedDownloads.remove(videoId);
+
+        // Save updated list to SharedPreferences
+        // Convert VideoDetails objects to JSON strings before saving
+        await prefs.setString(
+          'downloadedVideos',
+          json.encode(updatedDownloads.map((key, value) =>
+              MapEntry(key.toString(), json.encode(value)),),)
+          ,);
+        state = state.copyWith(downloadedVideos: updatedDownloads);
       }
-    } catch (e) {
-      _logger.e('Error deleting video with ID $videoId: $e');
+    }
+    catch (e) {
+    _logger.e('Error deleting video with ID $videoId: $e');
     }
   }
+
 
   Future<void> deleteAllDownloads() async {
     _logger.i('Deleting all downloaded videos');
@@ -154,8 +163,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  bool isStreamDownloaded(Int64 id) {
-    final int streamIdInt = id.toInt(); // Convert Int64 to int
-    return state.downloadedVideos.containsKey(streamIdInt);
-  }
+
 }
+

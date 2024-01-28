@@ -1,4 +1,3 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
@@ -30,7 +29,8 @@ class CourseViewModel extends StateNotifier<CourseState> {
     if (state.allCourses == null) {
       await fetchAllCourses();
     }
-    var course = state.allCourses!.firstWhere((course) => course.id == courseID);
+    var course =
+        state.allCourses!.firstWhere((course) => course.id == courseID);
     state = state.copyWith(course: course);
     return course;
   }

@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.1.5 <4.0.0'
 
 dependencies:
+  connectivity_plus: ^5.0.2
   tuple: ^2.0.1
   bloc: ^8.1.2
   cookie_jar: ^4.0.8
@@ -24,6 +25,7 @@ dependencies:
   grpc: ^3.2.4
   dio: ^5.4.0
   fixnum: ^1.1.0
+  flutter_slidable: ^3.0.1
   protobuf: ^3.1.0
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0

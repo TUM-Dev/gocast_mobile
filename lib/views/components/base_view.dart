@@ -34,6 +34,7 @@ class BaseViewState extends ConsumerState<BaseView> {
   bool _isTablet(BuildContext context) {
     return MediaQuery.of(context).size.width >= 600;
   }
+
   Widget _buildHamburgerMenu(BuildContext context) {
     final double drawerWidth = MediaQuery.of(context).size.width * 0.5;
     return Drawer(
@@ -49,24 +50,26 @@ class BaseViewState extends ConsumerState<BaseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: widget.customAppBar ?? AppBar(
-        automaticallyImplyLeading: widget.showLeading,
-        title: widget.title != null ? Text(widget.title!) : null,
-        actions: _isTablet(context)
-            ? [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              scaffoldKey.currentState?.openEndDrawer();
-            },
+      appBar: widget.customAppBar ??
+          AppBar(
+            automaticallyImplyLeading: widget.showLeading,
+            title: widget.title != null ? Text(widget.title!) : null,
+            actions: _isTablet(context)
+                ? [
+                    IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () {
+                        scaffoldKey.currentState?.openEndDrawer();
+                      },
+                    ),
+                  ]
+                : widget.actions,
+            surfaceTintColor: Colors.transparent,
           ),
-        ]
-            : widget.actions,
-        surfaceTintColor: Colors.transparent,
-      ),
       body: widget.child,
-      drawer: !_isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
-      endDrawer: _isTablet(context) && widget.customAppBar==null ? _buildHamburgerMenu(context) : null,
+      endDrawer: _isTablet(context) && widget.customAppBar == null
+          ? _buildHamburgerMenu(context)
+          : null,
       bottomNavigationBar: widget.bottomNavigationBar,
       onEndDrawerChanged: (isOpen) {
         if (isOpen) {
