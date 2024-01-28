@@ -279,7 +279,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
     ref
         .read(downloadViewModelProvider.notifier)
-        .downloadVideo(downloadUrl, stream.id, fileName,stream.name,stream.duration)
+        .downloadVideo(downloadUrl, stream.id, fileName,stream.name,stream.duration,stream.description,)
         .then((localPath) {
       if (localPath.isNotEmpty) {
         // Download successful

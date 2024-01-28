@@ -33,6 +33,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           filePath: videoDetailsMap['filePath'],
           name: videoDetailsMap['name'],
           duration: videoDetailsMap['duration'],
+          description: videoDetailsMap['description'],
         );
         return MapEntry(int.parse(key), videoDetails);
       }).cast<int, VideoDetails>(); // Ensure the map has the correct type
@@ -41,7 +42,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   }
 
   Future<String> downloadVideo(String videoUrl, int streamId, String fileName,
-      String streamName, int streamDuration,) async {
+      String streamName, int streamDuration, String description,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -57,6 +58,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
         'filePath': filePath,
         'name': streamName,
         'duration': streamDuration,
+        'description': description,
       };
 
       // Convert video details map to JSON string
@@ -79,6 +81,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           filePath: videoDetailsMap['filePath'],
           name: videoDetailsMap['name'],
           duration: videoDetailsMap['duration'],
+          description: videoDetailsMap['description'],
         );
         return MapEntry(key, videoDetails);
       }).cast<int, VideoDetails>();
