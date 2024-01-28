@@ -76,7 +76,6 @@ class VideoPlayerControllerManager {
     );
   }
 
-
   List<OptionItem> _getAdditionalOptions() {
     List<OptionItem> items = [];
     if (currentStream.hasPlaylistUrl()) {
@@ -185,8 +184,8 @@ class VideoPlayerControllerManager {
   List<double> _filteredPlaybackSpeeds() {
     final playbackSpeeds = _getPlaybackSpeeds();
     var filteredSpeeds = playbackSpeeds.where((speed) => speed <= 2.0).toList();
-    return filteredSpeeds.isEmpty ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] : filteredSpeeds;
+    return filteredSpeeds.isEmpty
+        ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+        : filteredSpeeds;
   }
-
-
 }

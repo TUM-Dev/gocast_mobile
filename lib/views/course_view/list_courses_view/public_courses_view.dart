@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
@@ -77,10 +78,20 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
         filterOptions: filterOptions,
         onClick: filterCoursesBySemester,
       ),
-      body: CoursesList(
-        title: 'Public Courses',
-        courses: publicCourses,
+      body: RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
         onRefresh: _refreshPublicCourses,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          dragStartBehavior: DragStartBehavior.down,
+          children: [
+            CoursesList(
+              courses: publicCourses,
+              title: 'Public Courses',
+            ),
+          ],
+        ),
       ),
     );
   }

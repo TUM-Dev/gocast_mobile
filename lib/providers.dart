@@ -1,4 +1,3 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
@@ -72,5 +71,3 @@ final progressProvider = FutureProvider.autoDispose.family<Progress, int>(
     return videoViewModel.fetchProgressForStream(streamId);
   },
 );
-
-

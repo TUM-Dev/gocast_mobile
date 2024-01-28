@@ -1,4 +1,3 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/poll_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
@@ -31,6 +30,23 @@ class PollViewModel extends StateNotifier<PollState> {
       _logger.e(e);
       state = state.copyWith(error: e as AppError);
     }
+  }
+
+  void postAnsweredPoll(int pollId, int pollOptionId) {
+    state = state.addAnsweredPoll(pollId, pollOptionId);
+  }
+
+  void getAnsweredPolls() {
+    Map<int, int> answeredPolls = {};
+    for (var poll in state.polls ?? []) {
+      for (var option in poll.pollOptions) {
+        if (option.voted) {
+          answeredPolls[poll.id] = option.id;
+          break;
+        }
+      }
+    }
+    state = state.copyWith(answeredPolls: answeredPolls);
   }
 
   void clearError() {

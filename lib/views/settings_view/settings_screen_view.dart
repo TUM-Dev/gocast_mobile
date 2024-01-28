@@ -143,21 +143,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ListTile(
                 title: const Text('System Default'),
                 onTap: () {
-                  ref.read(settingViewModelProvider.notifier).saveThemePreference('system', ref);
+                  ref
+                      .read(settingViewModelProvider.notifier)
+                      .saveThemePreference('system', ref);
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 title: const Text('Dark Mode'),
                 onTap: () {
-                  ref.read(settingViewModelProvider.notifier).saveThemePreference('dark', ref);
+                  ref
+                      .read(settingViewModelProvider.notifier)
+                      .saveThemePreference('dark', ref);
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 title: const Text('Light Mode'),
                 onTap: () {
-                  ref.read(settingViewModelProvider.notifier).saveThemePreference('light', ref);
+                  ref
+                      .read(settingViewModelProvider.notifier)
+                      .saveThemePreference('light', ref);
                   Navigator.pop(context);
                 },
               ),
@@ -167,6 +173,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       },
     );
   }
+
   ListTile _buildProfileTile(userState) {
     final settingState = ref.watch(settingViewModelProvider);
     final preferredNameSetting = settingState.userSettings?.firstWhere(

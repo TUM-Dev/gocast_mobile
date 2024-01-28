@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:fixnum/fixnum.dart';
+
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';

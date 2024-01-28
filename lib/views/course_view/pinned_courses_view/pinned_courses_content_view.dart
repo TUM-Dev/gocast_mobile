@@ -4,7 +4,7 @@ import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 
-import 'package:gocast_mobile/views/course_view/components/base_card.dart';
+import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 
 /// PinnedCoursesContentView
 ///
@@ -16,7 +16,7 @@ import 'package:gocast_mobile/views/course_view/components/base_card.dart';
 ///   [pinnedCourseCards] - A list of cards representing pinned courses.
 ///
 class PinnedCoursesContentView extends ConsumerWidget {
-  final List<BaseCard> pinnedCourseCards;
+  final List<CourseCard> pinnedCourseCards;
   final CustomSearchTopNavBar customAppBar;
 
   const PinnedCoursesContentView({

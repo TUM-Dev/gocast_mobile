@@ -1,5 +1,3 @@
-import 'package:fixnum/fixnum.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
@@ -59,14 +57,18 @@ class StreamViewModel extends StateNotifier<StreamState> {
 
   void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
     updatedDisplayedStreams(
-        CourseUtils.sortStreams(allStreams, state.selectedFilterOption),);
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
   }
 
   void updateSelectedFilterOption(
-      String option, List<Tuple2<Stream, String>> allStreams,) {
+    String option,
+    List<Tuple2<Stream, String>> allStreams,
+  ) {
     state = state.copyWith(selectedFilterOption: option);
     updatedDisplayedStreams(
-        CourseUtils.sortStreams(allStreams, state.selectedFilterOption),);
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
   }
 
   /// Fetches a thumbnail for a given stream.
@@ -151,7 +153,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
   Future<Progress> fetchProgressForStream(int streamId) async {
     try {
       final progress =
-      await StreamHandler(_grpcHandler).fetchProgress(streamId);
+          await StreamHandler(_grpcHandler).fetchProgress(streamId);
       return progress;
     } catch (e) {
       return Progress(progress: 0.0);

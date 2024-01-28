@@ -15,5 +15,3 @@ class ChatView extends ConsumerStatefulWidget {
   @override
   ChatViewState createState() => ChatViewState();
 }
-
-

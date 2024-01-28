@@ -7,6 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/chat_view.dart';
+import 'package:gocast_mobile/views/chat_view/suggested_streams_list.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:logger/logger.dart';
 
 class ChatViewState extends ConsumerState<ChatView> {
@@ -22,14 +25,18 @@ class ChatViewState extends ConsumerState<ChatView> {
     _scrollController = ScrollController();
     _updateTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       if (mounted) {
-        if(widget.streamID != null) {
-          ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID!);
+        if (widget.streamID != null) {
+          ref
+              .read(chatViewModelProvider.notifier)
+              .fetchChatMessages(widget.streamID!);
         }
       }
     });
-    if(widget.streamID != null) {
+    if (widget.streamID != null) {
       Future.microtask(
-            () => ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.streamID!),
+        () => ref
+            .read(chatViewModelProvider.notifier)
+            .fetchChatMessages(widget.streamID!),
       );
     }
   }
@@ -45,11 +52,13 @@ class ChatViewState extends ConsumerState<ChatView> {
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatViewModelProvider);
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    if(chatState.isRateLimitReached){
+    if (chatState.isRateLimitReached) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('You are sending messages too fast. Please wait a 10 seconds.'),
+            content: Text(
+              'You are sending messages too fast. Please wait a 10 seconds.',
+            ),
           ),
         );
       });
@@ -221,4 +230,6 @@ class ChatViewState extends ConsumerState<ChatView> {
       _isInitialScrollDone = true;
     }
   }
+
+
 }

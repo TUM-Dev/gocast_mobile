@@ -7,8 +7,7 @@ import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 
 class PollViewState extends ConsumerState<PollView> {
   Timer? _updateTimer;
-  final Map<int, int> _selectedOptions = {};
-  final Set<int> _submittedPolls = {};
+  Map<int, int> selectedOptions = {};
 
   @override
   void initState() {
@@ -23,16 +22,20 @@ class PollViewState extends ConsumerState<PollView> {
   }
 
   void _initializeTimer() {
-    _updateTimer = Timer.periodic(const Duration(seconds: 30), (_) {
+    _updateTimer = Timer.periodic(const Duration(seconds: 60), (_) {
       if (mounted && widget.streamID != null) {
         ref.read(pollViewModelProvider.notifier).fetchPolls(widget.streamID!);
       }
     });
 
     if (widget.streamID != null) {
-      Future.microtask(() => ref
-          .read(pollViewModelProvider.notifier)
-          .fetchPolls(widget.streamID!));
+      Future.microtask(() async {
+        // Fetch the polls first
+        await ref
+            .read(pollViewModelProvider.notifier)
+            .fetchPolls(widget.streamID!);
+        ref.read(pollViewModelProvider.notifier).getAnsweredPolls();
+      });
     }
   }
 
@@ -44,38 +47,179 @@ class PollViewState extends ConsumerState<PollView> {
             ?.where((poll) => poll.active)
             .toList() ??
         [];
+    final answeredPolls = ref.watch(pollViewModelProvider).answeredPolls;
+
     return Scaffold(
-      body: _buildPollsList(polls),
+      body: _buildPollsList(polls, answeredPolls),
     );
   }
 
-  Widget _buildPollsList(List<Poll> polls) {
+  Widget _buildPollsList(List<Poll> polls, Map<int, int> answeredPolls) {
     return polls.isEmpty
         ? const Center(child: Text('No active polls'))
         : ListView.builder(
             itemCount: polls.length,
             itemBuilder: (context, index) =>
-                _buildPollCard(context, polls[index]),
+                _buildPollCard(context, polls[index], answeredPolls),
           );
   }
 
-  Widget _buildPollCard(BuildContext context, Poll poll) {
-    bool isSubmitted = _submittedPolls.contains(poll.id);
+  Widget _buildPollCard(
+      BuildContext context, Poll poll, Map<int, int> answeredPolls,) {
+    bool isAnswered = answeredPolls.containsKey(poll.id);
+    return isAnswered
+        ? _buildAnsweredPollCard(context, poll, answeredPolls[poll.id])
+        : _buildUnansweredPollCard(context, poll);
+  }
+
+  Widget _buildAnsweredPollCard(
+      BuildContext context, Poll poll, int? answeredOptionId,) {
+    ThemeData themeData = Theme.of(context);
     return Opacity(
-      opacity: isSubmitted ? 0.5 : 1,
-      // Make the card semi-transparent if submitted
+      opacity: 0.5,
+      // You might want to adjust this value based on your design needs
       child: Card(
-        margin: const EdgeInsets.all(8.0),
-        color: isSubmitted ? Colors.grey.shade200 : null,
-        // Change background if submitted
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildPollQuestion(poll),
-            ...poll.pollOptions
-                .map((option) => _buildPollOption(context, poll, option)),
-            _buildSubmitButton(poll),
-          ],
+        elevation: 1,
+        shadowColor: themeData.shadowColor,
+        color: themeData.cardTheme.color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          side: BorderSide(
+            color: themeData
+                    .inputDecorationTheme.enabledBorder?.borderSide.color
+                    .withOpacity(0.2) ??
+                Colors.grey.withOpacity(0.2),
+            width: 1.0,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Container(
+            color: themeData.cardColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildPollQuestion(poll),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  // to disable GridView's scrolling
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio:
+                        3, // Adjust the aspect ratio to fit the content
+                  ),
+                  itemCount: poll.pollOptions.length,
+                  itemBuilder: (context, index) {
+                    return _buildInactivePollOption(context, poll,
+                        poll.pollOptions[index], answeredOptionId,);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInactivePollOption(BuildContext context, Poll poll,
+      PollOption option, int? selectedOptionId,) {
+    bool isSelected = option.id == selectedOptionId;
+    return Container(
+      margin: const EdgeInsets.all(4.0), // Add some spacing around each button
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.grey : Colors.white,
+        // Use grey for the selected option, white for others
+        borderRadius: BorderRadius.circular(8.0),
+        border:
+            Border.all(color: Colors.grey), // Use grey border for all options
+      ),
+      child: Center(
+        child: Text(
+          option.answer,
+          style: const TextStyle(
+            color:
+                Colors.black, // Text color remains black to ensure readability
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUnansweredPollCard(BuildContext context, Poll poll) {
+    ThemeData themeData = Theme.of(context);
+    return Card(
+      elevation: 1,
+      shadowColor: themeData.shadowColor,
+      color: themeData.cardTheme.color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        side: BorderSide(
+          color: themeData.inputDecorationTheme.enabledBorder?.borderSide.color
+                  .withOpacity(0.2) ??
+              Colors.grey.withOpacity(0.2),
+          width: 1.0,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Container(
+          color: themeData.cardColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildPollQuestion(poll),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                // to disable GridView's scrolling
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio:
+                      3, // Adjust the aspect ratio to fit the content
+                ),
+                itemCount: poll.pollOptions.length,
+                itemBuilder: (context, index) {
+                  return _buildActivePollOption(
+                      context, poll, poll.pollOptions[index],);
+                },
+              ),
+              _buildSubmitButton(poll),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActivePollOption(
+      BuildContext context, Poll poll, PollOption option,) {
+    bool isSelected = selectedOptions[poll.id] == option.id;
+    ThemeData themeData = Theme.of(context);
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedOptions[poll.id] = option.id;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.all(4.0), // Add some spacing around each button
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.blue : Colors.white,
+          // Change color based on selection
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: isSelected ? Colors.blue : Colors.grey),
+        ),
+        child: Center(
+          child: Text(
+            option.answer,
+            style: TextStyle(
+              color: isSelected
+                  ? Colors.white
+                  : Colors.black, // Change text color based on selection
+            ),
+          ),
         ),
       ),
     );
@@ -83,58 +227,64 @@ class PollViewState extends ConsumerState<PollView> {
 
   Widget _buildPollQuestion(Poll poll) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Text(
-        poll.question,
-        style: Theme.of(context).textTheme.titleLarge,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget _buildPollOption(BuildContext context, Poll poll, PollOption option) {
-    bool isSubmitted = _submittedPolls.contains(poll.id);
-    return ListTile(
-      title: Text(option.answer),
-      leading: Radio<int>(
-        value: option.id,
-        groupValue: _selectedOptions[poll.id],
-        onChanged: isSubmitted
-            ? null
-            : (int? value) {
-                // Disable if submitted
-                setState(() {
-                  _selectedOptions[poll.id] = value!;
-                });
-              },
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        // Center the question since there's no subtitle or trailing widget
+        children: [
+          Expanded(
+            child: Text(
+              poll.question,
+              style: const TextStyle(
+                fontSize: 16.0, // Match the font size used in _buildHeader
+                fontWeight: FontWeight
+                    .bold, // Match the font weight used in _buildHeader
+              ),
+              textAlign: TextAlign.center,
+              // Keep text alignment to center as it's a question
+              maxLines: 2,
+              // Optional: Use if you want to limit the number of lines for the question
+              overflow: TextOverflow
+                  .ellipsis, // Optional: Use to handle text overflow
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSubmitButton(Poll poll) {
-    bool isSubmitted = _submittedPolls.contains(poll.id);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: !isSubmitted && _selectedOptions.containsKey(poll.id)
-            ? () {
-                // Add poll to submitted set
-                setState(() {
-                  _submittedPolls.add(poll.id);
-                });
+    final pollViewModel = ref.read(pollViewModelProvider.notifier);
 
-                ref
-                    .read(pollViewModelProvider.notifier)
-                    .postPollVote(poll.streamID, _selectedOptions[poll.id]!);
-              }
+    return Padding(
+      padding: const EdgeInsets.all(8.0), // Consistent padding with the rest of the layout
+      child: ElevatedButton(
+        onPressed: selectedOptions.containsKey(poll.id)
+            ? () {
+          final int? pollOptionId = selectedOptions[poll.id];
+          if (pollOptionId != null) {
+            setState(() {
+              pollViewModel.postPollVote(poll.streamID, pollOptionId);
+              pollViewModel.postAnsweredPoll(poll.id, pollOptionId);
+            });
+          }
+        }
             : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSubmitted
-              ? Colors.grey
-              : null, // Change color to grey if submitted
+          backgroundColor: Theme.of(context).primaryColor, // Use the primary color of your theme
+          foregroundColor: Colors.white, // Text color is white for better contrast
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0), // Less rounded corners for a more rectangular look
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 30.0), // Adjust padding to control the button's shape
+          minimumSize: const Size(double.infinity, 48), // Ensuring full width and a consistent height
+          elevation: 2, // Slight elevation for a subtle shadow, adjust as needed
         ),
-        child: Text(isSubmitted ? 'Submitted' : 'Submit'),
+        child: const Text(
+          'Submit',
+          style: TextStyle(fontSize: 16), // Adjust font size as needed
+        ),
       ),
     );
   }
+
 }

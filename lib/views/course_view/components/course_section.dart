@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
@@ -106,7 +106,7 @@ class CourseSection extends StatelessWidget {
               : _buildSectionTitle(
                   context,
                   title,
-                  sectionKind == 1 ? Icons.school : null,
+                  sectionKind == 1 ? Icons.school : Icons.public,
                   onViewAll,
                 ),
           if (sectionKind == 1 || sectionKind == 2)
@@ -138,13 +138,16 @@ class CourseSection extends StatelessWidget {
             AppImages.course2,
           ];
           imagePath = imagePaths[random.nextInt(imagePaths.length)];
-
+          final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+          final isPinned = userPinned.contains(course);
           return CourseCard(
+            course: course,
+            isPinned: isPinned,
+            onPinUnpin: (course) => _togglePin(course, isPinned),
             isCourse: true,
             ref: ref,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            lastLectureId: course.lastRecordingID,
             path: imagePath,
             live: streams.any((stream) => stream.courseID == course.id),
             semester:
@@ -165,6 +168,20 @@ class CourseSection extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _togglePin(Course course, bool isPinned) async {
+    final viewModel = ref.read(userViewModelProvider.notifier);
+    if (isPinned) {
+      await viewModel.unpinCourse(course.id);
+    } else {
+      await viewModel.pinCourse(course.id);
+    }
+    await _refreshPinnedCourses();
+  }
+
+  Future<void> _refreshPinnedCourses() async {
+    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
   }
 
   Widget _buildStreamList(BuildContext context) {
@@ -223,10 +240,10 @@ class CourseSection extends StatelessWidget {
             ? Row(
                 children: [
                   icon != null
-                      ? const Row(
+                      ? Row(
                           children: [
-                            Icon(Icons.school),
-                            SizedBox(width: 10),
+                            Icon(icon),
+                            const SizedBox(width: 10),
                           ],
                         )
                       : const SizedBox(),

@@ -15,8 +15,8 @@ class ChatHandlers {
     _logger.i('Fetching chat messages');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-        final response =
-            await client.getChatMessages(GetChatMessagesRequest(streamID: streamID));
+        final response = await client
+            .getChatMessages(GetChatMessagesRequest(streamID: streamID));
         _logger.d('Chat messages: ${response.messages}');
         return response.messages;
       },
@@ -27,8 +27,12 @@ class ChatHandlers {
     _logger.i('Posting chat message');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-        final response =
-            await client.postChatMessage(PostChatMessageRequest(streamID: streamID, message: message));
+        final response = await client.postChatMessage(
+          PostChatMessageRequest(
+            streamID: streamID,
+            message: message,
+          ),
+        );
         _logger.i('Chat message posted: ${response.message}');
         return response.message;
       },
@@ -40,7 +44,13 @@ class ChatHandlers {
     _logger.i('Posting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-           final response = await client.postChatReaction(PostChatReactionRequest(emoji: emoji, streamID:streamID, chatID: messageID));
+        final response = await client.postChatReaction(
+          PostChatReactionRequest(
+            emoji: emoji,
+            streamID: streamID,
+            chatID: messageID,
+          ),
+        );
         _logger.i('Chat reaction ${response.reaction} posted');
         return response.reaction;
       },
@@ -52,7 +62,13 @@ class ChatHandlers {
     _logger.i('Deleting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-          await client.deleteChatReaction(DeleteChatReactionRequest(chatID: messageID, streamID: streamID, reactionID: reactionID));
+        await client.deleteChatReaction(
+          DeleteChatReactionRequest(
+            chatID: messageID,
+            streamID: streamID,
+            reactionID: reactionID,
+          ),
+        );
         _logger.i('Chat reaction deleted');
       },
     );
@@ -63,7 +79,13 @@ class ChatHandlers {
     _logger.i('Posting chat reply');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-           final response = await client.postChatReply(PostChatReplyRequest(chatID: messageID, streamID: streamID, message: message));
+        final response = await client.postChatReply(
+          PostChatReplyRequest(
+            chatID: messageID,
+            streamID: streamID,
+            message: message,
+          ),
+        );
         _logger.i('Chat reply ${response.reply} posted');
         return response.reply;
       },
@@ -74,7 +96,12 @@ class ChatHandlers {
     _logger.i('Marking chat message as resolved');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-           await client.markChatMessageAsResolved(MarkChatMessageAsResolvedRequest(chatID: messageID, streamID: streamID));
+        await client.markChatMessageAsResolved(
+          MarkChatMessageAsResolvedRequest(
+            chatID: messageID,
+            streamID: streamID,
+          ),
+        );
         _logger.i('Chat message marked as resolved');
       },
     );
@@ -84,7 +111,12 @@ class ChatHandlers {
     _logger.i('Marking chat message as unresolved');
     return _grpcHandler.callGrpcMethod(
       (client) async {
-           await client.markChatMessageAsUnresolved(MarkChatMessageAsUnresolvedRequest(chatID: messageID, streamID: streamID));
+        await client.markChatMessageAsUnresolved(
+          MarkChatMessageAsUnresolvedRequest(
+            chatID: messageID,
+            streamID: streamID,
+          ),
+        );
         _logger.i('Chat message marked as unresolved');
       },
     );
