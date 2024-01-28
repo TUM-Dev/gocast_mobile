@@ -31,7 +31,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       await userViewModelNotifier.fetchUserCourses();
       await videoViewModelNotifier.fetchLiveNowStreams();
       await videoViewModelNotifier.fetchLiveThumbnails();
-      await userViewModelNotifier.fetchUserPinned();
+      await pinnedViewModelNotifier.fetchUserPinned();
       await userViewModelNotifier.fetchPublicCourses();
       await userViewModelNotifier.fetchSemesters();
 
