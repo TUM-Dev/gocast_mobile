@@ -5,10 +5,12 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 class VideoPlayerHandlers {
   final Function(String newPlaylistUrl) switchPlaylist;
   final VoidCallback onToggleChat;
+  final VoidCallback onTogglePolls;
 
   VideoPlayerHandlers({
     required this.switchPlaylist,
     required this.onToggleChat,
+    required this.onTogglePolls,
   });
 
   void handleMenuSelection(String choice, Stream stream) {
@@ -29,8 +31,8 @@ class VideoPlayerHandlers {
     }
   }
 
-  void handleOpenQuizzes() {
-    // TODO: Implement quizzes
+  void handleOpenPolls() {
+    onTogglePolls();
   }
 
   void handleToggleChat() {

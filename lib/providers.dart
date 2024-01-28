@@ -4,12 +4,14 @@ import 'package:gocast_mobile/config/app_config.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
 import 'package:gocast_mobile/models/course/course_state_model.dart';
 import 'package:gocast_mobile/models/notifications/notification_state_model.dart';
+import 'package:gocast_mobile/models/poll/poll_state_model.dart';
 import 'package:gocast_mobile/models/settings/setting_state_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/view_models/chat_view_model.dart';
 import 'package:gocast_mobile/view_models/course_view_model.dart';
 import 'package:gocast_mobile/view_models/notification_view_model.dart';
 import 'package:gocast_mobile/view_models/download_view_model.dart';
+import 'package:gocast_mobile/view_models/poll_view_model.dart';
 import 'package:gocast_mobile/view_models/setting_view_model.dart';
 import 'package:gocast_mobile/view_models/stream_view_model.dart';
 import 'package:gocast_mobile/view_models/user_view_model.dart';
@@ -59,6 +61,9 @@ final settingViewModelProvider =
     StateNotifierProvider<SettingViewModel, SettingState>((ref) {
   return SettingViewModel(ref.watch(grpcHandlerProvider));
 });
+final pollViewModelProvider = StateNotifierProvider<PollViewModel, PollState>(
+  (ref) => PollViewModel(ref.watch(grpcHandlerProvider)),
+);
 
 final progressProvider = FutureProvider.autoDispose.family<Progress, int>(
   (ref, streamId) async {
