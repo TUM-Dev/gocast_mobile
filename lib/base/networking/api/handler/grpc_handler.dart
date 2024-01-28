@@ -19,7 +19,6 @@ class GrpcHandler {
   /// The [host] and [port] are required.
   GrpcHandler(this.host, this.port) {
     _logger.i('Creating GrpcHandler: Connecting to gRPC server at $host:$port');
-
     _channel = ClientChannel(
       host,
       port: port,

@@ -71,5 +71,7 @@ class AppError implements Exception {
 
   /// Represents an unknown error.
   factory AppError.unknownError(String? message) =>
-      AppError('❓ An unknown error occurred {message: $message}');
+      AppError('❓An unknown error occurred {message: $message}');
+
+  factory AppError.userError() => AppError('🥱Username or password are incorrect');
 }

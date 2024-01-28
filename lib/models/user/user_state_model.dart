@@ -107,4 +107,24 @@ class UserState {
           displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
+
+  UserState reset() {
+    return const UserState(
+      isLoading: false,
+      user: null,
+      userCourses: null,
+      userPinned: null,
+      userBookmarks: null,
+      publicCourses: null,
+      error: null,
+      downloadedCourses: null,
+      semesters: null,
+      selectedSemester: 'All',
+      semestersAsString: null,
+      current: null,
+      currentAsString: null,
+      displayedCourses: null,
+      displayedPinnedCourses: null,
+    );
+  }
 }

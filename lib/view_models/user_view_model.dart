@@ -27,20 +27,15 @@ class UserViewModel extends StateNotifier<UserState> {
   /// If the authentication is successful, it navigates to the courses screen.
   /// If the authentication fails, it shows an error message.
   Future<void> handleBasicLogin(String email, String password) async {
-    state = state.copyWith(isLoading: true);
+    state = state.reset();
     try {
-      _logger.i('Logging in user with email: $email');
+      state = state.copyWith(isLoading: true);
       await AuthHandler.basicAuth(email, password);
       await fetchUser();
-      _logger.i('Logged in user with basic auth');
-
       if (state.user != null) {
-        _logger.i('Logged in user ${state.user} with basic auth');
         navigatorKey.currentState?.pushNamed('/navigationTab');
       }
-      state = state.copyWith(isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
@@ -71,22 +66,12 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchUserBookmarks() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Fetching user bookmarks');
-      var bookmarks = await BooKMarkHandler(_grpcHandler).fetchUserBookmarks();
-      state = state.copyWith(userBookmarks: bookmarks, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
 
   Future<void> logout() async {
     await TokenHandler.deleteToken('jwt');
     await TokenHandler.deleteToken('device_token');
-    state = const UserState(); // Resets the state to its initial value
+    await TokenHandler.deleteToken('jwt_token');
+    state=state.reset();
     _logger.i('Logged out user and cleared tokens.');
   }
 
