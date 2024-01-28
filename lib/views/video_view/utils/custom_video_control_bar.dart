@@ -104,7 +104,8 @@ class CustomVideoControlBar extends StatelessWidget {
                   IconButton(
                     icon: isPollVisible
                         ? Icon(Icons.quiz_outlined,
-                            color: themeData.primaryColor)
+                            color: themeData.primaryColor,
+                          )
                         : const Icon(Icons.quiz_outlined),
                     color: themeData.iconTheme.color,
                     onPressed: isPollActive ? onOpenPolls : null,

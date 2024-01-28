@@ -1,4 +1,3 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/handler/chat_handler.dart';
 
@@ -56,8 +55,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postMessageReaction(
-      int messageId, int streamId, String emoji) async {
+  Future<void> postMessageReaction(int messageId, int streamId,
+      String emoji,) async {
     try {
       var reaction = await ChatHandlers(_grpcHandler)
           .postMessageReaction(messageId, streamId, emoji);
@@ -68,8 +67,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> deleteMessageReaction(
-      int messageId, int streamId, int reactionId) async {
+  Future<void> deleteMessageReaction(int messageId, int streamId,
+      int reactionId,) async {
     try {
       await ChatHandlers(_grpcHandler)
           .deleteMessageReaction(messageId, streamId, reactionId);
@@ -79,8 +78,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postChatReply(
-      int messageId, int streamId, String message) async {
+  Future<void> postChatReply(int messageId, int streamId,
+      String message,) async {
     try {
       var replay = await ChatHandlers(_grpcHandler)
           .postChatReply(messageId, streamId, message);
