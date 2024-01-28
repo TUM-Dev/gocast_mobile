@@ -162,7 +162,7 @@ class ChatViewState extends ConsumerState<ChatView> {
       suffix: GestureDetector(
         onTap: () => postMessage(context, ref, controller.text),
         child: _isCooldownActive
-            ? const CupertinoActivityIndicator()
+            ? const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.systemGrey,)
             : const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.activeBlue,),
       ),
       decoration: BoxDecoration(

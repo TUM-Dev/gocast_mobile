@@ -125,12 +125,16 @@ class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
         ),
       ),
       onPressed: () {
-        final viewModel = ref.read(userViewModelProvider.notifier);
-        viewModel.handleBasicLogin(
+        final userStateNotifier = ref.read(userViewModelProvider.notifier);
+        userStateNotifier.handleBasicLogin(
           usernameController.text,
           passwordController.text,
         );
-        ref.read(settingViewModelProvider.notifier).fetchUserSettings();
+        if ( userState.user != null) {
+          ref.read(settingViewModelProvider.notifier).fetchUserSettings();
+        } else {
+          userState.copyWith(isLoading: false);
+        }
       },
       child: userState.isLoading
           ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)

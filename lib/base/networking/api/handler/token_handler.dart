@@ -31,7 +31,6 @@ class TokenHandler {
       }
     }
     _logger.w("Token not found in cookies.");
-    // Handle error when no jwt cookie is found
     throw AppError.authenticationError();
   }
 
@@ -107,7 +106,7 @@ class TokenHandler {
       _logger.i('Token successfully deleted for key: $key');
     } catch (e) {
       _logger.e('Error deleting token: $e');
-      throw AppError.authenticationError();
+      throw AppError.notFound();
     }
   }
 }

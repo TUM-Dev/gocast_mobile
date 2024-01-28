@@ -20,6 +20,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   void initState() {
     super.initState();
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final pinnedViewModelNotifier =
+        ref.read(pinnedCourseViewModelProvider.notifier);
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
     Future.microtask(() {
@@ -27,7 +29,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       if (ref.read(userViewModelProvider).user != null) {
         userViewModelNotifier.fetchUserCourses();
         videoViewModelNotifier.fetchLiveNowStreams();
-        userViewModelNotifier.fetchUserPinned();
+        pinnedViewModelNotifier.fetchUserPinned();
       }
       // Fetch public courses regardless of user's login status
       userViewModelNotifier.fetchPublicCourses();

@@ -81,9 +81,9 @@ class CustomVideoControlBar extends StatelessWidget {
 
     return Consumer(
       builder: (context, ref, child) {
-        final userViewModel = ref.read(userViewModelProvider.notifier);
+        final pinnedViewModel = ref.read(pinnedCourseViewModelProvider.notifier);
         final downloadViewModel = ref.read(downloadViewModelProvider.notifier);
-        final isPinned = userViewModel.isCoursePinned(currentStream.courseID);
+        final isPinned = pinnedViewModel.isCoursePinned(currentStream.courseID);
         final isDownloaded =
             downloadViewModel.isStreamDownloaded(currentStream.id);
 
@@ -117,10 +117,10 @@ class CustomVideoControlBar extends StatelessWidget {
                   if (choice == 'Pin Course') {
                     isPinned
                         ? await ref
-                            .read(userViewModelProvider.notifier)
+                            .read(pinnedCourseViewModelProvider.notifier)
                             .unpinCourse(currentStream.courseID)
                         : await ref
-                            .read(userViewModelProvider.notifier)
+                            .read(pinnedCourseViewModelProvider.notifier)
                             .pinCourse(currentStream.courseID);
                   } else if (choice == 'Download') {
                     _showDownloadOptions(context);
