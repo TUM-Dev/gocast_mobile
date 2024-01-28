@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/chat_view/chat_view.dart';
+import 'package:gocast_mobile/views/chat_view/inactive_view.dart';
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +31,7 @@ class OfflineVideoPlayerPageState
     return Column(
       children: <Widget>[
         Expanded(child: _controllerManager.buildVideoPlayer()),
-        const Expanded(child: ChatView(isActive: false)),
+        const Expanded(child: InactiveView()),
       ],
     );
   }

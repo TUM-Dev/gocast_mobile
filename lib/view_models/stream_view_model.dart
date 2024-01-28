@@ -88,7 +88,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
   /// Fetches the thumbnail for a live stream.
   /// Parameters:
   ///   [streamId] - The identifier of the stream.
-  Future<String> fetchStreamThumbnail(streamId) async {
+  Future<String> fetchStreamThumbnail(int streamId) async {
     try {
       _logger.i('Fetching thumbnail for live stream ID: $streamId');
       return await StreamHandler(_grpcHandler).fetchThumbnailStreams(streamId);
@@ -101,7 +101,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
   /// Fetches the thumbnail for a recorded stream.
   /// Parameters:
   ///   [streamId] - The identifier of the stream.
-  Future<String> fetchVODThumbnail(streamId) async {
+  Future<String> fetchVODThumbnail(int streamId) async {
     try {
       _logger.i('Fetching thumbnail for VOD stream ID: $streamId');
       return await StreamHandler(_grpcHandler).fetchThumbnailVOD(streamId);
@@ -111,7 +111,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> fetchStream(streamId) async {
+  Future<void> fetchStream(int streamId) async {
     _logger.i('Fetching stream');
     state = state.copyWith(isLoading: true);
     try {
@@ -135,7 +135,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> fetchProgress(streamId) async {
+  Future<void> fetchProgress(int streamId) async {
     state = state.copyWith(isLoading: true);
     try {
       final progress =
@@ -150,7 +150,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<Progress> fetchProgressForStream(streamId) async {
+  Future<Progress> fetchProgressForStream(int streamId) async {
     try {
       final progress =
           await StreamHandler(_grpcHandler).fetchProgress(streamId);
@@ -160,7 +160,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> updateProgress(streamId, Progress progress) async {
+  Future<void> updateProgress(int streamId, Progress progress) async {
     _logger.i('Updating progress');
     state = state.copyWith(isLoading: true);
     try {
@@ -172,7 +172,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> markAsWatched(streamId) async {
+  Future<void> markAsWatched(int streamId) async {
     _logger.i('Marking stream as watched');
     state = state.copyWith(isLoading: true);
     try {

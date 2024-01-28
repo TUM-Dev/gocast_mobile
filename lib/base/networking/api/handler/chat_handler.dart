@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
@@ -10,7 +9,7 @@ class ChatHandlers {
 
   ChatHandlers(this._grpcHandler);
 
-  Future<List<ChatMessage>> getChatMessages(streamID) async {
+  Future<List<ChatMessage>> getChatMessages(int streamID) async {
     _logger.i('Fetching chat messages');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -22,7 +21,7 @@ class ChatHandlers {
     );
   }
 
-  Future<ChatMessage> postChatMessage(streamID, String message) async {
+  Future<ChatMessage> postChatMessage(int streamID, String message) async {
     _logger.i('Posting chat message');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -38,11 +37,9 @@ class ChatHandlers {
     );
   }
 
-  Future<ChatReaction> postMessageReaction(
-    messageID,
-    streamID,
-    String emoji,
-  ) async {
+  Future<ChatReaction> postMessageReaction(int messageID,
+      int streamID,
+      String emoji,) async {
     _logger.i('Posting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -59,11 +56,9 @@ class ChatHandlers {
     );
   }
 
-  Future<void> deleteMessageReaction(
-    messageID,
-    streamID,
-    reactionID,
-  ) async {
+  Future<void> deleteMessageReaction(int messageID,
+      int streamID,
+      int reactionID,) async {
     _logger.i('Deleting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -79,11 +74,9 @@ class ChatHandlers {
     );
   }
 
-  Future<ChatMessage> postChatReply(
-    messageID,
-    streamID,
-    String message,
-  ) async {
+  Future<ChatMessage> postChatReply(int messageID,
+      int streamID,
+      String message,) async {
     _logger.i('Posting chat reply');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -100,10 +93,7 @@ class ChatHandlers {
     );
   }
 
-  Future<void> markChatMessageAsResolved(
-    messageID,
-    streamID,
-  ) async {
+  Future<void> markChatMessageAsResolved(int messageID, int streamID) async {
     _logger.i('Marking chat message as resolved');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -118,10 +108,7 @@ class ChatHandlers {
     );
   }
 
-  Future<void> markChatMessageAsUnresolved(
-    messageID,
-    streamID,
-  ) async {
+  Future<void> markChatMessageAsUnresolved(int messageID, int streamID) async {
     _logger.i('Marking chat message as unresolved');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -135,4 +122,5 @@ class ChatHandlers {
       },
     );
   }
+
 }

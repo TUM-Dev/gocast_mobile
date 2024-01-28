@@ -12,7 +12,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
 
   ChatViewModel(this._grpcHandler) : super(const ChatState());
 
-  Future<void> fetchChatMessages(streamId) async {
+  Future<void> fetchChatMessages(int streamId) async {
     state = state.copyWith(isLoading: true);
     state = state.clearError();
     try {
@@ -29,7 +29,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postChatMessage(streamId, message) async {
+  Future<void> postChatMessage(int streamId, String message) async {
     try {
       fetchChatMessages(streamId);
       var chatMessage =
@@ -55,11 +55,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postMessageReaction(
-    messageId,
-    streamId,
-    emoji,
-  ) async {
+  Future<void> postMessageReaction(int messageId, int streamId,
+      String emoji,) async {
     try {
       var reaction = await ChatHandlers(_grpcHandler)
           .postMessageReaction(messageId, streamId, emoji);
@@ -70,11 +67,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> deleteMessageReaction(
-    messageId,
-    streamId,
-    reactionId,
-  ) async {
+  Future<void> deleteMessageReaction(int messageId, int streamId,
+      int reactionId,) async {
     try {
       await ChatHandlers(_grpcHandler)
           .deleteMessageReaction(messageId, streamId, reactionId);
@@ -84,11 +78,8 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> postChatReply(
-    messageId,
-    streamId,
-    message,
-  ) async {
+  Future<void> postChatReply(int messageId, int streamId,
+      String message,) async {
     try {
       var replay = await ChatHandlers(_grpcHandler)
           .postChatReply(messageId, streamId, message);
@@ -99,10 +90,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> markChatMessageAsResolved(
-    messageId,
-    streamId,
-  ) async {
+  Future<void> markChatMessageAsResolved(int messageId, int streamId) async {
     try {
       await ChatHandlers(_grpcHandler)
           .markChatMessageAsResolved(messageId, streamId);
@@ -112,10 +100,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> markChatMessageAsUnresolved(
-    messageId,
-    streamId,
-  ) async {
+  Future<void> markChatMessageAsUnresolved(int messageId, int streamId) async {
     try {
       await ChatHandlers(_grpcHandler)
           .markChatMessageAsUnresolved(messageId, streamId);
@@ -128,6 +113,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
   void clearError() {
     state = state.clearError();
   }
+
 
   bool _isRateLimitError(dynamic error) {
     return error.toString().contains("posting too fast");
