@@ -18,30 +18,38 @@ class CourseOverview extends ConsumerStatefulWidget {
 }
 
 class CourseOverviewState extends ConsumerState<CourseOverview> {
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
-    Future.microtask(() {
-      // Fetch user courses if the user is logged in
-      if (ref.read(userViewModelProvider).user != null) {
-        userViewModelNotifier.fetchUserCourses();
-        videoViewModelNotifier.fetchLiveNowStreams();
-        userViewModelNotifier.fetchUserPinned();
-      }
-      // Fetch public courses regardless of user's login status
-      userViewModelNotifier.fetchPublicCourses();
-      userViewModelNotifier.fetchSemesters();
+    Future.microtask(() async {
+      await userViewModelNotifier.fetchUserCourses();
+      await videoViewModelNotifier.fetchLiveNowStreams();
+      await videoViewModelNotifier.fetchLiveThumbnails();
+      await userViewModelNotifier.fetchUserPinned();
+      await userViewModelNotifier.fetchPublicCourses();
+      await userViewModelNotifier.fetchSemesters();
+
+      setState(() {
+        isLoading = false; // Set loading to false once data is fetched
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final userCourses = ref.watch(userViewModelProvider).userCourses;
-    final publicCourses = ref.watch(userViewModelProvider).publicCourses;
+    if (isLoading) {
+      // Show a loading spinner when data is being fetched
+      return Center(child: CircularProgressIndicator());
+    }
+    final userCourses = ref.watch(userViewModelProvider).userCourses ?? [];
+    final publicCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
+    final liveStreamWithThumb =
+        ref.watch(videoViewModelProvider).liveStreamsWithThumb ?? [];
 
     bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
     return PopScope(
@@ -66,8 +74,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     child: LiveStreamSection(
                   ref: ref,
                   sectionTitle: "Live Now",
-                  courses: (userCourses ?? []) + (publicCourses ?? []),
-                  streams: liveStreams ?? [],
+                  courses: (userCourses) + (publicCourses),
+                  streams: liveStreamWithThumb,
                 ),
               ),
               if (isTablet)
@@ -122,8 +130,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       sectionTitle: title,
       sectionKind: sectionKind,
       onViewAll: () => _onViewAllPressed(title),
-      courses: courses ?? [],
-      streams: streams ?? [],
+      courses: courses,
+      streams: streams,
     );
   }
 
@@ -154,9 +162,16 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   }
 
   Future<void> _refreshData() async {
+    setState(
+        () => isLoading = true); // Set loading to true at the start of refresh
+
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     await userViewModelNotifier.fetchUserCourses();
     await userViewModelNotifier.fetchPublicCourses();
     await ref.read(videoViewModelProvider.notifier).fetchLiveNowStreams();
+    await ref.read(videoViewModelProvider.notifier).fetchLiveThumbnails();
+
+    setState(() =>
+        isLoading = false); // Set loading to false once refresh is complete
   }
 }

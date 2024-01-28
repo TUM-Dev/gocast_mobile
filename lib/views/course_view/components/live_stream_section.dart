@@ -1,13 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/utils/constants.dart';
 
 import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
 import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
+import 'package:tuple/tuple.dart';
 
 /// CourseSection
 ///
@@ -27,7 +25,7 @@ import 'package:gocast_mobile/views/video_view/video_player.dart';
 class LiveStreamSection extends StatelessWidget {
   final String sectionTitle;
   final List<Course> courses;
-  final List<Stream> streams;
+  final List<Tuple2<Stream, String>> streams;
   final VoidCallback? onViewAll;
   final WidgetRef ref;
   final String baseUrl = 'https://live.rbg.tum.de';
@@ -76,24 +74,20 @@ class LiveStreamSection extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: streams.map((stream) {
-          final Random random = Random();
           String imagePath;
-          List<String> imagePaths = [
-            AppImages.course1,
-            AppImages.course2,
-          ];
-          imagePath = imagePaths[random.nextInt(imagePaths.length)];
 
-          final course =
-              courses.where((course) => course.id == stream.courseID).first;
+          imagePath = _getThumbnailUrl(stream.item2);
+
+          final course = courses
+              .where((course) => course.id == stream.item1.courseID)
+              .first;
 
           return SmallStreamCard(
-            title: stream.name,
+            title: stream.item1.name,
             subtitle: course.name,
             tumID: course.tUMOnlineIdentifier,
-            roomName: stream.roomName,
-            roomNumber: stream.roomCode,
-            viewerCount: stream.vodViews,
+            roomName: stream.item1.roomName,
+            roomNumber: stream.item1.roomCode,
             path: imagePath,
             courseId: course.id,
             onTap: () {
@@ -101,7 +95,7 @@ class LiveStreamSection extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => VideoPlayerPage(
-                    stream: stream,
+                    stream: stream.item1,
                   ),
                 ),
               );
@@ -138,5 +132,12 @@ class LiveStreamSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getThumbnailUrl(String thumbnail) {
+    if (!thumbnail.startsWith('http')) {
+      thumbnail = '$baseUrl$thumbnail';
+    }
+    return thumbnail;
   }
 }

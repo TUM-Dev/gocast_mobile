@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SmallStreamCard extends StatelessWidget {
@@ -17,7 +18,7 @@ class SmallStreamCard extends StatelessWidget {
   final String? subtitle;
   final String? roomName;
   final String? roomNumber;
-  final int viewerCount;
+
   final String? path;
 
   const SmallStreamCard({
@@ -27,7 +28,6 @@ class SmallStreamCard extends StatelessWidget {
     required this.tumID,
     this.roomName,
     this.roomNumber,
-    required this.viewerCount,
     this.path,
     required this.courseId,
     required this.onTap,
@@ -82,7 +82,6 @@ class SmallStreamCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildCourseTumID(),
-              _buildCourseViewerCount(themeData),
             ],
           ),
           const SizedBox(height: 2),
@@ -113,18 +112,41 @@ class SmallStreamCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
+    // Assuming `path` is now a URL string
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 16 / 12,
+          aspectRatio: 16 / 12, // Maintain the same aspect ratio
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              path!,
-              fit: BoxFit.cover,
+            // Keep the rounded corners
+            child: Image.network(
+              path!, // Use the image URL
+              fit: BoxFit.cover, // Maintain the cover fit
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null)
+                  return child; // Image is fully loaded
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            (loadingProgress.expectedTotalBytes ?? 1)
+                        : null,
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                // Provide a fallback asset image in case of error
+                return Image.asset(
+                  AppImages.course1,
+                  // Path to your default/fallback image asset
+                  fit: BoxFit.cover,
+                );
+              },
             ),
           ),
         ),
+        // If you have additional overlays like in the thumbnail widget, add them here
       ],
     );
   }
@@ -208,24 +230,6 @@ class SmallStreamCard extends StatelessWidget {
             height: 1,
           ) ??
           const TextStyle(),
-    );
-  }
-
-  Widget _buildCourseViewerCount(ThemeData themeData) {
-    return Container(
-      decoration: BoxDecoration(
-        color: themeData.shadowColor.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      padding: const EdgeInsets.all(3),
-      child: Text(
-        "$viewerCount viewers",
-        style: themeData.textTheme.labelSmall?.copyWith(
-              fontSize: 12,
-              height: 1,
-            ) ??
-            const TextStyle(),
-      ),
     );
   }
 }
