@@ -41,7 +41,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
         }
       } else if (_isCoolDownError(e)) {
         state = state.copyWith(isCoolDown: true);
-        await Future.delayed(const Duration(seconds: 60));
+        await Future.delayed(const Duration(seconds: 30));
         if (mounted) {
           state = state.copyWith(isCoolDown: false);
         }
