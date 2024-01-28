@@ -17,7 +17,7 @@ class SmallStreamCard extends StatelessWidget {
   final String? subtitle;
   final String? roomName;
   final String? roomNumber;
-  final String? viewerCount;
+  final int viewerCount;
   final String? path;
 
   const SmallStreamCard({
@@ -27,7 +27,7 @@ class SmallStreamCard extends StatelessWidget {
     required this.tumID,
     this.roomName,
     this.roomNumber,
-    this.viewerCount,
+    required this.viewerCount,
     this.path,
     required this.courseId,
     required this.onTap,
@@ -212,7 +212,6 @@ class SmallStreamCard extends StatelessWidget {
   }
 
   Widget _buildCourseViewerCount(ThemeData themeData) {
-    if (viewerCount == null) return const SizedBox();
     return Container(
       decoration: BoxDecoration(
         color: themeData.shadowColor.withOpacity(0.15),
@@ -220,7 +219,7 @@ class SmallStreamCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(3),
       child: Text(
-        "${viewerCount!} viewers",
+        "$viewerCount viewers",
         style: themeData.textTheme.labelSmall?.copyWith(
               fontSize: 12,
               height: 1,

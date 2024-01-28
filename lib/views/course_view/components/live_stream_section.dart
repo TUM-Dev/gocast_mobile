@@ -93,7 +93,7 @@ class LiveStreamSection extends StatelessWidget {
             tumID: course.tUMOnlineIdentifier,
             roomName: stream.roomName,
             roomNumber: stream.roomCode,
-            viewerCount: stream.vodViews.toString(),
+            viewerCount: stream.vodViews,
             path: imagePath,
             courseId: course.id,
             onTap: () {

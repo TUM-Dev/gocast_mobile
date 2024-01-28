@@ -39,7 +39,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = ref.watch(userViewModelProvider).user != null;
     final userCourses = ref.watch(userViewModelProvider).userCourses;
     final publicCourses = ref.watch(userViewModelProvider).publicCourses;
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
@@ -63,14 +62,14 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
           onRefresh: _refreshData,
           child: ListView(
             children: [
-              if (isLoggedIn)
                 Center(
                     child: LiveStreamSection(
                   ref: ref,
                   sectionTitle: "Live Now",
                   courses: (userCourses ?? []) + (publicCourses ?? []),
                   streams: liveStreams ?? [],
-                )),
+                ),
+              ),
               if (isTablet)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,8 +113,10 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     );
   }
 
-  Widget _buildSection(
-      String title, SectionKind sectionKind, courses, streams) {
+  Widget _buildSection(String title,
+      SectionKind sectionKind,
+      courses,
+      streams,) {
     return CourseSection(
       ref: ref,
       sectionTitle: title,
@@ -156,5 +157,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     await userViewModelNotifier.fetchUserCourses();
     await userViewModelNotifier.fetchPublicCourses();
+    await ref.read(videoViewModelProvider.notifier).fetchLiveNowStreams();
   }
 }
