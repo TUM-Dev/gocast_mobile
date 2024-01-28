@@ -84,7 +84,8 @@ class CourseSection extends StatelessWidget {
         itemCount: courses.length,
         itemBuilder: (BuildContext context, int index) {
           final course = courses[index];
-          final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+          final userPinned =
+              ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
 
           final isPinned = userPinned.contains(course);
           return CourseCard(
