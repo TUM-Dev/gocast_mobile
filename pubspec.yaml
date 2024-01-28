@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.1.5 <4.0.0'
 
 dependencies:
+  connectivity_plus: ^5.0.2
   tuple: ^2.0.1
   bloc: ^8.1.2
   cookie_jar: ^4.0.8

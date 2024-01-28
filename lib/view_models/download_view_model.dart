@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'dart:io';
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
+
   final Logger _logger = Logger();
 
   DownloadViewModel() : super(const DownloadState()) {
@@ -25,11 +26,10 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
+
+
   Future<String> downloadVideo(
-    String videoUrl,
-    int streamId,
-    String fileName,
-  ) async {
+      String videoUrl, int streamId, String fileName,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -44,11 +44,9 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
       // Save to SharedPreferences
       await prefs.setString(
-        'downloadedVideos',
-        json.encode(
-          downloadedVideos.map((key, value) => MapEntry(key.toString(), value)),
-        ),
-      );
+          'downloadedVideos',
+          json.encode(downloadedVideos
+              .map((key, value) => MapEntry(key.toString(), value)),),);
       state = state.copyWith(downloadedVideos: downloadedVideos);
       _logger.d('Downloaded videos: ${state.downloadedVideos}');
       return filePath;
@@ -65,35 +63,35 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error fetching downloaded videos: $e');
     }
   }
-
   Future<void> deleteDownload(int videoId) async {
     _logger.i('Deleting downloaded video with ID: $videoId');
+    _logger.d('Current state before deletion: ${state.downloadedVideos}');
 
     try {
       String? filePath = state.downloadedVideos[videoId];
+      _logger.d('File path to delete: $filePath');
+
       if (filePath != null && filePath.isNotEmpty) {
         final file = File(filePath);
         if (await file.exists()) {
           await file.delete();
           _logger.d('Deleted video file at: $filePath');
-
-          final prefs = await SharedPreferences.getInstance();
-          final updatedDownloads =
-              Map<int, String>.from(state.downloadedVideos);
-          updatedDownloads.remove(videoId);
-
-          // Save updated list to SharedPreferences
-          await prefs.setString(
-            'downloadedVideos',
-            json.encode(
-              updatedDownloads
-                  .map((key, value) => MapEntry(key.toString(), value)),
-            ),
-          );
-          state = state.copyWith(downloadedVideos: updatedDownloads);
         } else {
           _logger.w('File not found: $filePath');
         }
+
+        // Update the state and SharedPreferences after deletion
+        final updatedDownloads = Map<int, String>.from(state.downloadedVideos);
+        updatedDownloads.remove(videoId);
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+          'downloadedVideos',
+          json.encode(updatedDownloads.map((key, value) => MapEntry(key.toString(), value))),
+        );
+
+        state = state.copyWith(downloadedVideos: updatedDownloads);
+        _logger.d('Updated state after deletion: ${state.downloadedVideos}');
       } else {
         _logger.w('No file path found for video ID: $videoId');
       }
@@ -101,6 +99,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error deleting video with ID $videoId: $e');
     }
   }
+
 
   Future<void> deleteAllDownloads() async {
     _logger.i('Deleting all downloaded videos');
@@ -127,8 +126,8 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  bool isStreamDownloaded(id) {
-    final int streamIdInt = id.toInt();
+  bool isStreamDownloaded(int id) {
+    final int streamIdInt = id.toInt(); // Convert Int64 to int
     return state.downloadedVideos.containsKey(streamIdInt);
   }
 }
