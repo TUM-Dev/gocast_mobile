@@ -68,7 +68,6 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail stream.
-
   Future<String> fetchThumbnailStreams(int streamId) async {
     _logger.i('Fetching thumbnail stream');
     return _grpcHandler.callGrpcMethod(
@@ -87,7 +86,6 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [String] instance that represents the thumbnail VOD.
-
   Future<String> fetchThumbnailVOD(int streamId) async {
     _logger.i('Fetching thumbnail VOD');
     return _grpcHandler.callGrpcMethod(
@@ -106,7 +104,6 @@ class StreamHandler {
   ///
   /// Takes [streamId] as a parameter.
   /// Returns a [Progress] instance that represents the progress of the stream.
-
   Future<Progress> fetchProgress(int streamId) async {
     _logger.i('Fetching progress');
     try {
@@ -130,7 +127,6 @@ class StreamHandler {
   /// This method sends a `putProgress` gRPC call to update the progress of a stream.
   ///
   /// Takes [streamId] and [progress] as parameters.
-
   Future<void> putProgress(streamId, Progress progress) async {
     _logger.i('Updating progress');
     await _grpcHandler.callGrpcMethod(

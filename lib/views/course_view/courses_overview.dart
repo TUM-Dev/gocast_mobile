@@ -23,6 +23,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   void initState() {
     super.initState();
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final pinnedViewModelNotifier =
+        ref.read(pinnedCourseViewModelProvider.notifier);
     final videoViewModelNotifier = ref.read(videoViewModelProvider.notifier);
 
     Future.microtask(() async {

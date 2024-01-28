@@ -20,7 +20,6 @@ class PinnedHandler {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.getUserPinned(GetUserPinnedRequest());
-        _logger.i('User pinned fetched successfully');
         _logger.d('User pinned: ${response.courses}');
         return response.courses;
       },

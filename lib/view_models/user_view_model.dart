@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
-import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
-import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/token_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
@@ -27,20 +25,15 @@ class UserViewModel extends StateNotifier<UserState> {
   /// If the authentication is successful, it navigates to the courses screen.
   /// If the authentication fails, it shows an error message.
   Future<void> handleBasicLogin(String email, String password) async {
-    state = state.copyWith(isLoading: true);
+    state = state.reset();
     try {
-      _logger.i('Logging in user with email: $email');
+      state = state.copyWith(isLoading: true);
       await AuthHandler.basicAuth(email, password);
       await fetchUser();
-      _logger.i('Logged in user with basic auth');
-
       if (state.user != null) {
-        _logger.i('Logged in user ${state.user} with basic auth');
         navigatorKey.currentState?.pushNamed('/navigationTab');
       }
-      state = state.copyWith(isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
@@ -62,7 +55,6 @@ class UserViewModel extends StateNotifier<UserState> {
 
   Future<void> fetchUser() async {
     try {
-      _logger.i('Fetching user');
       var user = await UserHandler(_grpcHandler).fetchUser();
       state = state.copyWith(user: user, isLoading: false);
     } catch (e) {
@@ -71,35 +63,13 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchUserBookmarks() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Fetching user bookmarks');
-      var bookmarks = await BooKMarkHandler(_grpcHandler).fetchUserBookmarks();
-      state = state.copyWith(userBookmarks: bookmarks, isLoading: false);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
 
   Future<void> logout() async {
     await TokenHandler.deleteToken('jwt');
     await TokenHandler.deleteToken('device_token');
-    state = const UserState(); // Resets the state to its initial value
+    await TokenHandler.deleteToken('jwt_token');
+    state=state.reset();
     _logger.i('Logged out user and cleared tokens.');
-  }
-
-  bool isCoursePinned(int id) {
-    if (state.userPinned == null) {
-      return false;
-    }
-    for (var course in state.userPinned!) {
-      if (course.id == id) {
-        return true;
-      }
-    }
-    return false;
   }
 
   void setLoading(bool loading) {
@@ -109,7 +79,6 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchSemesters() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching Semesters');
       var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
       semesters.item1.add(semesters.item2);
       state = state.copyWith(current: semesters.item2, isLoading: false);
@@ -125,22 +94,9 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchUserPinned() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      var courses = await PinnedHandler(_grpcHandler).fetchUserPinned();
-      state = state.copyWith(userPinned: courses, isLoading: false);
-      setUpDisplayedPinnedCourses(state.userPinned ?? []);
-    } catch (e) {
-      _logger.e(e);
-      state = state.copyWith(error: e as AppError, isLoading: false);
-    }
-  }
-
   Future<void> fetchPublicCourses() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching public courses');
       var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
       state = state.copyWith(publicCourses: courses, isLoading: false);
       setUpDisplayedCourses(state.publicCourses ?? []);
@@ -152,7 +108,6 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchUserCourses() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching user courses');
       var courses = await UserHandler(_grpcHandler).fetchUserCourses();
       state = state.copyWith(userCourses: courses, isLoading: false);
       setUpDisplayedCourses(state.userCourses ?? []);
@@ -162,59 +117,9 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-  Future<bool> pinCourse(int courseID) async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Pinning course with id: $courseID');
-      bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
-      if (success) {
-        await fetchUserPinned();
-        _logger.i('Course pinned successfully');
-      } else {
-        _logger.e('Failed to pin course');
-      }
-      state = state.copyWith(isLoading: false);
-      return success;
-    } catch (e) {
-      _logger.e('Error pinning course: $e');
-      state = state.copyWith(error: e as AppError, isLoading: false);
-      return false;
-    }
-  }
-
-  Future<bool> unpinCourse(int courseID) async {
-    state = state.copyWith(isLoading: true);
-    try {
-      _logger.i('Unpinning course with id: $courseID');
-      bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
-      if (success) {
-        await fetchUserPinned();
-        _logger.i('Course unpinned successfully');
-      } else {
-        _logger.e('Failed to unpin course');
-      }
-      state = state.copyWith(isLoading: false);
-      return success;
-    } catch (e) {
-      _logger.e('Error unpinning course: $e');
-      state = state.copyWith(error: e as AppError, isLoading: false);
-      return false;
-    }
-  }
-
   void updateSelectedSemester(String? semester, List<Course> allCourses) {
     state = state.copyWith(selectedSemester: semester);
     updatedDisplayedCourses(
-      CourseUtils.filterCoursesBySemester(
-        allCourses,
-        state.selectedSemester ?? 'All',
-      ),
-    );
-  }
-
-  void updateSelectedPinnedSemester(String? semester, List<Course> allCourses) {
-    state = state.copyWith(selectedSemester: semester);
-    updatedDisplayedPinnedCourses(
       CourseUtils.filterCoursesBySemester(
         allCourses,
         state.selectedSemester ?? 'All',
@@ -232,9 +137,6 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(displayedCourses: displayedCourses);
   }
 
-  void updatedDisplayedPinnedCourses(List<Course> displayedPinnedCourses) {
-    state = state.copyWith(displayedPinnedCourses: displayedPinnedCourses);
-  }
 
   void setUpDisplayedCourses(List<Course> allCourses) {
     CourseUtils.sortCourses(allCourses, 'Newest First');
@@ -246,13 +148,8 @@ class UserViewModel extends StateNotifier<UserState> {
     );
   }
 
-  void setUpDisplayedPinnedCourses(List<Course> allCourses) {
-    CourseUtils.sortCourses(allCourses, 'Newest First');
-    updatedDisplayedPinnedCourses(
-      CourseUtils.filterCoursesBySemester(
-        allCourses,
-        state.selectedSemester ?? 'All',
-      ),
-    );
+  void setSelectedSemester(String choice) {
+    state = state.copyWith(selectedSemester: choice);
   }
+
 }

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -28,48 +29,50 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   void _initializeCourses() {
-    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final pinnedCourseViewModelNotifier =
+        ref.read(pinnedCourseViewModelProvider.notifier);
     Future.microtask(() async {
-      await userViewModelNotifier.fetchUserPinned();
+      await pinnedCourseViewModelNotifier.fetchUserPinned();
     });
   }
 
   Future<void> _refreshPinnedCourses() async {
-    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+    await ref.read(pinnedCourseViewModelProvider.notifier).fetchUserPinned();
   }
 
   void filterCoursesBySemester(String selectedSemester) {
-    var userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    var userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     ref
-        .read(userViewModelProvider.notifier)
+        .read(pinnedCourseViewModelProvider.notifier)
         .updateSelectedPinnedSemester(selectedSemester, userPinned);
   }
 
   void _searchCourses() {
-    final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
+    final pinnedViewModelNotifier =
+        ref.read(pinnedCourseViewModelProvider.notifier);
     final searchInput = searchController.text.toLowerCase();
     var displayedCourses =
-        ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
+        ref.watch(pinnedCourseViewModelProvider).displayedPinnedCourses ?? [];
     if (!isSearchInitialized) {
       temp = List.from(displayedCourses);
       isSearchInitialized = true;
     }
     if (searchInput.isEmpty) {
-      userViewModelNotifier.updatedDisplayedPinnedCourses(temp);
+      pinnedViewModelNotifier.updatedDisplayedPinnedCourses(temp);
       isSearchInitialized = false;
     } else {
       displayedCourses = displayedCourses.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();
-      userViewModelNotifier.updatedDisplayedPinnedCourses(displayedCourses);
+      pinnedViewModelNotifier.updatedDisplayedPinnedCourses(displayedCourses);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final userPinned =
-        ref.watch(userViewModelProvider).displayedPinnedCourses ?? [];
+        ref.watch(pinnedCourseViewModelProvider).displayedPinnedCourses ?? [];
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
     List<Course> liveCourses = userPinned
@@ -120,11 +123,11 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   Future<void> _togglePin(Course course, bool isPinned) async {
-    final viewModel = ref.read(userViewModelProvider.notifier);
+    final pinnedViewModel = ref.read(pinnedCourseViewModelProvider.notifier);
     if (isPinned) {
-      await viewModel.unpinCourse(course.id);
+      await pinnedViewModel.unpinCourse(course.id);
     } else {
-      await viewModel.pinCourse(course.id);
+      await pinnedViewModel.pinCourse(course.id);
     }
     await _refreshPinnedCourses();
   }
