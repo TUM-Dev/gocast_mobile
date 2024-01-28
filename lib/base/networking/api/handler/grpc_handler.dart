@@ -43,13 +43,21 @@ class GrpcHandler {
   ) async {
     _logger.d('callGrpcMethod: Initiating gRPC call');
     try {
-      String token = await TokenHandler.loadToken('jwt');
-      final metadata = <String, String>{
-        'grpcgateway-cookie': 'jwt=$token',
-      };
-
-      final callOptions = CallOptions(metadata: metadata);
-
+      String token = '';
+      try {
+        token = await TokenHandler.loadToken('jwt');
+      }catch(e) {
+        token = '';
+      }
+      CallOptions callOptions;
+      if(token.isNotEmpty) {
+        final metadata = <String, String>{
+          'grpcgateway-cookie': 'jwt=$token',
+        };
+         callOptions = CallOptions(metadata: metadata);
+      }else {
+         callOptions = CallOptions();
+      }
       return await grpcMethod(APIClient(_channel, options: callOptions));
     } on SocketException catch (socketException) {
       _logger
