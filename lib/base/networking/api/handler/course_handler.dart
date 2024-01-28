@@ -41,8 +41,10 @@ class CourseHandler {
   }
 
   Future<List<Course>> fetchAllCourses() async {
-    List<Course> userCourses = await UserHandler(_grpcHandler).fetchUserCourses();
-    List<Course> publicCourses = await CourseHandler(_grpcHandler).fetchPublicCourses();
+    List<Course> userCourses =
+        await UserHandler(_grpcHandler).fetchUserCourses();
+    List<Course> publicCourses =
+        await CourseHandler(_grpcHandler).fetchPublicCourses();
     return [...userCourses, ...publicCourses];
   }
 }

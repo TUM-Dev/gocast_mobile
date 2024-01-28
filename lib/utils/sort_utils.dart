@@ -2,10 +2,10 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:tuple/tuple.dart';
 
 class CourseUtils {
-
-
-  static List<String> convertAndSortSemesters(List<Semester> semesters,
-      bool isNewestFirst,) {
+  static List<String> convertAndSortSemesters(
+    List<Semester> semesters,
+    bool isNewestFirst,
+  ) {
     List<Semester> sortedSemesters = List<Semester>.from(semesters);
 
     sortedSemesters.sort((a, b) {
@@ -30,8 +30,10 @@ class CourseUtils {
     return semesterStrings;
   }
 
-  static List<Course> filterCoursesBySemester(List<Course> courses,
-      String selectedSemester,) {
+  static List<Course> filterCoursesBySemester(
+    List<Course> courses,
+    String selectedSemester,
+  ) {
     if (selectedSemester == 'All') {
       return courses;
     } else {
@@ -47,22 +49,24 @@ class CourseUtils {
   }
 
   static void sortCourses(List<Course> courses, String sortOption) {
-      bool isNewestFirst = sortOption == 'Newest First';
-      courses.sort((a, b) {
-        int yearComparison = a.semester.year.compareTo(b.semester.year);
-        if (yearComparison != 0) {
-          return isNewestFirst ? -yearComparison : yearComparison;
-        }
+    bool isNewestFirst = sortOption == 'Newest First';
+    courses.sort((a, b) {
+      int yearComparison = a.semester.year.compareTo(b.semester.year);
+      if (yearComparison != 0) {
+        return isNewestFirst ? -yearComparison : yearComparison;
+      }
 
-        if (a.semester.teachingTerm == b.semester.teachingTerm) {
-          return 0;
-        }
-        return a.semester.teachingTerm == 'W' ? -1 : 1;
-      });
+      if (a.semester.teachingTerm == b.semester.teachingTerm) {
+        return 0;
+      }
+      return a.semester.teachingTerm == 'W' ? -1 : 1;
+    });
   }
 
   static List<Tuple2<Stream, String>> sortStreams(
-      List<Tuple2<Stream, String>> streamsWithThumb, String sortOption,) {
+    List<Tuple2<Stream, String>> streamsWithThumb,
+    String sortOption,
+  ) {
     bool isNewestFirst = sortOption == 'Newest First';
     streamsWithThumb.sort((a, b) {
       DateTime startA = a.item1.start.toDateTime();

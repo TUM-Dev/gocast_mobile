@@ -34,8 +34,10 @@ class NotificationsScreen extends ConsumerWidget {
         child: pushNotifications.isEmpty &&
                 featureNotifications.isEmpty &&
                 bannerAlerts.isEmpty
-            ? _buildPlaceholder()
+            ? _buildPlaceholder(context)
             : ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
                 children: [
                   _buildSectionHeader('Banner Alerts'),
                   for (var alert in bannerAlerts) _buildBannerAlert(alert),
@@ -51,10 +53,32 @@ class NotificationsScreen extends ConsumerWidget {
     );
   }
 
-  Padding _buildPlaceholder() {
-    return const Padding(
+  Padding _buildPlaceholder(BuildContext context) {
+    return Padding(
       padding: AppPadding.sectionPadding,
-      child: Center(child: Text('No Notifications found.')),
+      child: Center(
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top -
+                  MediaQuery.of(context).padding.bottom -
+                  kToolbarHeight,
+            ),
+            child: const IntrinsicHeight(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Center(child: Text('No Notifications found.')),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 

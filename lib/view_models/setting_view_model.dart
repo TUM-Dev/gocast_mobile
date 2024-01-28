@@ -18,7 +18,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
     try {
       _logger.i('Fetching user settings..');
       final userSettings =
-      await SettingsHandler(_grpcHandler).fetchUserSettings();
+          await SettingsHandler(_grpcHandler).fetchUserSettings();
       state = state.copyWith(userSettings: userSettings);
       _logger.i('User settings fetched successfully');
     } catch (e) {
@@ -61,16 +61,19 @@ class SettingViewModel extends StateNotifier<SettingState> {
     updateThemeMode(theme);
 
     // Update the UI theme mode based on the selected preference
-    ref.read(themeModeProvider.notifier).state =
-    theme == 'dark' ? ThemeMode.dark : theme == 'light' ? ThemeMode.light : ThemeMode.system;
+    ref.read(themeModeProvider.notifier).state = theme == 'dark'
+        ? ThemeMode.dark
+        : theme == 'light'
+            ? ThemeMode.light
+            : ThemeMode.system;
   }
 
   void updateThemeMode(String themePreference) {
     // Update the state with the new theme preference
     state = state.copyWith(
-        isDarkMode: themePreference == 'dark',
-        isLightMode: themePreference == 'light',
-        isSystemDefault: themePreference == 'system',
+      isDarkMode: themePreference == 'dark',
+      isLightMode: themePreference == 'light',
+      isSystemDefault: themePreference == 'system',
     );
   }
 
@@ -98,8 +101,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
 
   Future<void> updatePreferredGreeting(String newGreeting) async {
     try {
-      await SettingsHandler(_grpcHandler)
-          .updateGreeting(newGreeting);
+      await SettingsHandler(_grpcHandler).updateGreeting(newGreeting);
       await fetchUserSettings();
     } catch (e) {
       _logger.e('Error updating greeting: $e');
@@ -108,8 +110,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
 
   Future<bool> updatePreferredName(String newName) async {
     try {
-      await SettingsHandler(_grpcHandler)
-          .updatePreferredName(newName);
+      await SettingsHandler(_grpcHandler).updatePreferredName(newName);
       await fetchUserSettings();
       return true;
     } catch (e) {
@@ -129,7 +130,6 @@ class SettingViewModel extends StateNotifier<SettingState> {
         .parsePlaybackSpeeds(state.userSettings);
   }
 
-
   List<UserSetting>? getUserSettings() {
     return state.userSettings;
   }
@@ -137,5 +137,4 @@ class SettingViewModel extends StateNotifier<SettingState> {
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }
-
 }
