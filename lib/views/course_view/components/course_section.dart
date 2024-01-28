@@ -1,16 +1,12 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/utils/section_kind.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
-import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
-import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 /// CourseSection
 ///
@@ -65,14 +61,12 @@ class CourseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          sectionKind == SectionKind.livestreams
-              ? const PulsingBackground()
-              : _buildSectionTitle(context),
-          if (sectionKind == SectionKind.myCourses ||
-              sectionKind == SectionKind.publicCourses)
-            _buildCourseList(context)
-          else if (sectionKind == SectionKind.livestreams)
-            _buildStreamList(context),
+          _buildCoursesTitle(context),
+          courses.isEmpty
+              ? _buildNoCoursesMessage(
+                  context,
+                ) // If streams are empty, show no courses message
+              : _buildCourseList(context),
         ],
       ),
     );
@@ -132,61 +126,6 @@ class CourseSection extends StatelessWidget {
     await ref.read(userViewModelProvider.notifier).fetchUserPinned();
   }
 
-  Widget _buildStreamList(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: streams.map((stream) {
-          final Random random = Random();
-          String imagePath;
-          List<String> imagePaths = [
-            AppImages.course1,
-            AppImages.course2,
-          ];
-          imagePath = imagePaths[random.nextInt(imagePaths.length)];
-
-          final course =
-              courses.where((course) => course.id == stream.courseID).first;
-
-          return CourseCard(
-            isCourse: false,
-            title: stream.name,
-            subtitle: course.name,
-            tumID: course.tUMOnlineIdentifier,
-            roomName: stream.roomName,
-            roomNumber: stream.roomCode,
-            viewerCount: stream.vodViews.toString(),
-            path: imagePath,
-            courseId: course.id,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VideoPlayerPage(
-                    stream: stream,
-                  ),
-                ),
-              );
-            },
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildLivestreamsTitle(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          sectionTitle,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(),
-      ],
-    );
-  }
-
   Widget _buildCoursesTitle(BuildContext context) {
     IconData icon =
         sectionKind == SectionKind.myCourses ? Icons.school : Icons.public;
@@ -209,24 +148,31 @@ class CourseSection extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context) {
-    if (sectionKind == SectionKind.livestreams) {
-      return _buildLivestreamsTitle(context);
-    } else {
-      return _buildCoursesTitle(context);
-    }
-  }
-
-  String _buttonText(String title) {
-    switch (title) {
-      case 'My courses':
-        return 'Enroll in a Course';
-      case 'Live Now':
-        return 'No courses currently live';
-      case 'Public courses':
-        return 'No public courses found';
-      default:
-        return 'Discover Courses';
-    }
+  Widget _buildNoCoursesMessage(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          const Center(
+            child: Icon(Icons.not_interested, size: 50, color: Colors.grey),
+          ),
+          const SizedBox(height: 8),
+          Center(
+            child: Text(
+              'No $sectionTitle found',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
   }
 }

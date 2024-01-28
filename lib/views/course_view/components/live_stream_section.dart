@@ -118,19 +118,9 @@ class LiveStreamSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                sectionTitle,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const Spacer(),
-            ],
-          ),
           const SizedBox(height: 20),
           const Center(
-            child: Icon(Icons.folder_open, size: 50, color: Colors.grey),
+            child: Icon(Icons.not_interested, size: 50, color: Colors.grey),
           ),
           const SizedBox(height: 8),
           Center(
@@ -145,29 +135,8 @@ class LiveStreamSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                _buttonText(sectionTitle),
-              ),
-            ),
-          ),
         ],
       ),
     );
-  }
-
-  String _buttonText(String title) {
-    switch (title) {
-      case 'My courses':
-        return 'Enroll in a Course';
-      case 'Live Now':
-        return 'No courses currently live';
-      case 'Public courses':
-        return 'No public courses found';
-      default:
-        return 'Discover Courses';
-    }
   }
 }
