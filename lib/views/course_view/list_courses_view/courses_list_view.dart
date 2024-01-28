@@ -74,10 +74,8 @@ class CoursesList extends ConsumerWidget {
             },
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            path: 'assets/images/course2.png',
             live: liveCourses.contains(course),
             courseId: course.id,
-            isCourse: true,
             onTap: () {
               Navigator.push(
                 context,

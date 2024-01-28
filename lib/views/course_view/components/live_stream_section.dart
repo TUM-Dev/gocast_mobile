@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
-import 'package:gocast_mobile/views/course_view/components/course_card.dart';
+
 import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
+import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 
 /// CourseSection
@@ -86,8 +87,7 @@ class LiveStreamSection extends StatelessWidget {
           final course =
               courses.where((course) => course.id == stream.courseID).first;
 
-          return CourseCard(
-            isCourse: false,
+          return SmallStreamCard(
             title: stream.name,
             subtitle: course.name,
             tumID: course.tUMOnlineIdentifier,

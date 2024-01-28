@@ -90,7 +90,6 @@ class CourseSection extends StatelessWidget {
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) => _togglePin(course, isPinned),
-            isCourse: true,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
             live: streams.any((stream) => stream.courseID == course.id),

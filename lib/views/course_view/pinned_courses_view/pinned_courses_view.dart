@@ -95,7 +95,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
               isPinned: isPinned,
               onPinUnpin: (course) => _togglePin(course, isPinned),
               live: liveCourses.contains(course),
-              isCourse: true,
               title: course.name,
               courseId: course.id,
               subtitle: course.tUMOnlineIdentifier,
