@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/section_kind.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
@@ -65,7 +66,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 Center(
                   child: _buildSection(
                     "Live Now",
-                    0,
+                    SectionKind.livestreams,
                     (userCourses ?? []) + (publicCourses ?? []),
                     liveStreams,
                   ),
@@ -77,7 +78,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     Expanded(
                       child: _buildSection(
                         "My Courses",
-                        1,
+                        SectionKind.myCourses,
                         userCourses,
                         liveStreams,
                       ),
@@ -85,7 +86,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     Expanded(
                       child: _buildSection(
                         "Public Courses",
-                        2,
+                        SectionKind.publicCourses,
                         publicCourses,
                         liveStreams,
                       ),
@@ -95,13 +96,13 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
               else ...[
                 _buildSection(
                   "My Courses",
-                  1,
+                  SectionKind.myCourses,
                   userCourses,
                   liveStreams,
                 ),
                 _buildSection(
                   "Public Courses",
-                  2,
+                  SectionKind.publicCourses,
                   publicCourses,
                   liveStreams,
                 ),
@@ -113,7 +114,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     );
   }
 
-  Widget _buildSection(String title, int sectionKind, courses, streams) {
+  Widget _buildSection(
+      String title, SectionKind sectionKind, courses, streams) {
     return CourseSection(
       ref: ref,
       sectionTitle: title,

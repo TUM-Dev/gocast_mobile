@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
+import 'package:gocast_mobile/utils/section_kind.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
@@ -28,7 +29,7 @@ import 'package:gocast_mobile/views/video_view/video_player.dart';
 /// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
-  final int
+  final SectionKind
       sectionKind; //0 for livestreams, 1 cor mycourses, 2 for puliccourses
   final List<Course> courses;
   final List<Stream> streams;
@@ -69,7 +70,7 @@ class CourseSection extends StatelessWidget {
     required WidgetRef ref,
     required BuildContext context,
     required String title,
-    required int sectionKind,
+    required SectionKind sectionKind,
     VoidCallback? onViewAll,
     required List<Course> courses,
     required List<Stream> streams,
@@ -94,24 +95,27 @@ class CourseSection extends StatelessWidget {
     VoidCallback? onViewAll,
     required List<Course> courses,
     required List<Stream> streams,
-    required int sectionKind,
+    required SectionKind sectionKind,
   }) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          sectionKind == 0
+          sectionKind == SectionKind.livestreams
               ? const PulsingBackground()
               : _buildSectionTitle(
                   context,
                   title,
-                  sectionKind == 1 ? Icons.school : Icons.public,
+                  sectionKind == SectionKind.myCourses
+                      ? Icons.school
+                      : Icons.public,
                   onViewAll,
                 ),
-          if (sectionKind == 1 || sectionKind == 2)
+          if (sectionKind == SectionKind.myCourses ||
+              sectionKind == SectionKind.publicCourses)
             _buildCourseList(context)
-          else if (sectionKind == 0)
+          else if (sectionKind == SectionKind.livestreams)
             _buildStreamList(context),
         ],
       ),
