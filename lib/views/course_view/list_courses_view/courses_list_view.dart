@@ -77,8 +77,6 @@ class CoursesList extends ConsumerWidget {
             path: 'assets/images/course2.png',
             live: liveCourses.contains(course),
             courseId: course.id,
-            semester:
-                course.semester.teachingTerm + course.semester.year.toString(),
             isCourse: true,
             onTap: () {
               Navigator.push(

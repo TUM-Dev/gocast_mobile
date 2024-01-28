@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
@@ -12,11 +11,10 @@ class CourseCard extends StatelessWidget {
   final int courseId;
 
   final bool isCourse; //true: course, false: stream
-  final WidgetRef? ref;
 
   //for displaying courses
   final bool? live;
-  final String? semester;
+
   final Course? course;
   final Function(Course)? onPinUnpin;
   final bool? isPinned;
@@ -30,7 +28,6 @@ class CourseCard extends StatelessWidget {
 
   const CourseCard({
     super.key,
-    this.ref,
     required this.isCourse,
     required this.title,
     this.subtitle,
@@ -42,7 +39,6 @@ class CourseCard extends StatelessWidget {
     required this.courseId,
     required this.onTap,
     this.live,
-    this.semester,
     this.course,
     this.onPinUnpin,
     this.isPinned,

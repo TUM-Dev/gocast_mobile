@@ -4,6 +4,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/section_kind.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
+import 'package:gocast_mobile/views/course_view/components/live_stream_section.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
@@ -64,13 +65,12 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
             children: [
               if (isLoggedIn)
                 Center(
-                  child: _buildSection(
-                    "Live Now",
-                    SectionKind.livestreams,
-                    (userCourses ?? []) + (publicCourses ?? []),
-                    liveStreams,
-                  ),
-                ),
+                    child: LiveStreamSection(
+                  ref: ref,
+                  sectionTitle: "Live Now",
+                  courses: (userCourses ?? []) + (publicCourses ?? []),
+                  streams: liveStreams ?? [],
+                )),
               if (isTablet)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,19 +120,22 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       ref: ref,
       sectionTitle: title,
       sectionKind: sectionKind,
-      onViewAll: () {
-        switch (title) {
-          case "My Courses":
-            _navigateTo(const MyCourses());
-            break;
-          case "Public Courses":
-            _navigateTo(const PublicCourses());
-            break;
-        }
-      },
+      onViewAll: () => _onViewAllPressed(title),
       courses: courses ?? [],
       streams: streams ?? [],
     );
+  }
+
+  void _onViewAllPressed(String title) {
+    switch (title) {
+      case "My Courses":
+        _navigateTo(const MyCourses());
+        break;
+      case "Public Courses":
+        _navigateTo(const PublicCourses());
+        break;
+      // Add more cases as needed
+    }
   }
 
   void _navigateTo(Widget page) {

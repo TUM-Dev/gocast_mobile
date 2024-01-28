@@ -35,6 +35,7 @@ class CourseSection extends StatelessWidget {
   final List<Stream> streams;
   final VoidCallback? onViewAll;
   final WidgetRef ref;
+  final String baseUrl = 'https://live.rbg.tum.de';
 
   const CourseSection({
     super.key,
@@ -52,51 +53,13 @@ class CourseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildCourseSectionOrMessage(
-            ref: ref,
-            context: context,
-            title: sectionTitle,
-            sectionKind: sectionKind,
-            onViewAll: onViewAll,
-            courses: courses,
-            streams: streams,
-          ),
+          _buildCourseSection(context),
         ],
       ),
     );
   }
 
-  Widget _buildCourseSectionOrMessage({
-    required WidgetRef ref,
-    required BuildContext context,
-    required String title,
-    required SectionKind sectionKind,
-    VoidCallback? onViewAll,
-    required List<Course> courses,
-    required List<Stream> streams,
-  }) {
-    return (streams.isNotEmpty
-        ? _buildCourseSection(
-            ref: ref,
-            context: context,
-            title: title,
-            onViewAll: onViewAll,
-            courses: courses,
-            streams: streams,
-            sectionKind: sectionKind,
-          )
-        : _buildNoCoursesMessage(context, title));
-  }
-
-  Widget _buildCourseSection({
-    required WidgetRef ref,
-    required BuildContext context,
-    required String title,
-    VoidCallback? onViewAll,
-    required List<Course> courses,
-    required List<Stream> streams,
-    required SectionKind sectionKind,
-  }) {
+  Widget _buildCourseSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -104,14 +67,7 @@ class CourseSection extends StatelessWidget {
         children: [
           sectionKind == SectionKind.livestreams
               ? const PulsingBackground()
-              : _buildSectionTitle(
-                  context,
-                  title,
-                  sectionKind == SectionKind.myCourses
-                      ? Icons.school
-                      : Icons.public,
-                  onViewAll,
-                ),
+              : _buildSectionTitle(context),
           if (sectionKind == SectionKind.myCourses ||
               sectionKind == SectionKind.publicCourses)
             _buildCourseList(context)
@@ -133,15 +89,7 @@ class CourseSection extends StatelessWidget {
         scrollDirection: Axis.vertical,
         itemCount: courses.length,
         itemBuilder: (BuildContext context, int index) {
-          /// Those are temporary values until we get the real data from the API
-          final Random random = Random();
           final course = courses[index];
-          String imagePath;
-          List<String> imagePaths = [
-            AppImages.course1,
-            AppImages.course2,
-          ];
-          imagePath = imagePaths[random.nextInt(imagePaths.length)];
           final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
           final isPinned = userPinned.contains(course);
           return CourseCard(
@@ -149,13 +97,9 @@ class CourseSection extends StatelessWidget {
             isPinned: isPinned,
             onPinUnpin: (course) => _togglePin(course, isPinned),
             isCourse: true,
-            ref: ref,
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            path: imagePath,
             live: streams.any((stream) => stream.courseID == course.id),
-            semester:
-                course.semester.teachingTerm + course.semester.year.toString(),
             courseId: course.id,
             onTap: () {
               Navigator.push(
@@ -206,7 +150,6 @@ class CourseSection extends StatelessWidget {
 
           return CourseCard(
             isCourse: false,
-            ref: ref,
             title: stream.name,
             subtitle: course.name,
             tumID: course.tUMOnlineIdentifier,
@@ -231,84 +174,47 @@ class CourseSection extends StatelessWidget {
     );
   }
 
-  Row _buildSectionTitle(
-    BuildContext context,
-    String title,
-    IconData? icon,
-    VoidCallback? onViewAll,
-  ) {
+  Widget _buildLivestreamsTitle(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        onViewAll != null
-            ? Row(
-                children: [
-                  icon != null
-                      ? Row(
-                          children: [
-                            Icon(icon),
-                            const SizedBox(width: 10),
-                          ],
-                        )
-                      : const SizedBox(),
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
-              )
-            : const PulsingBackground(),
-        onViewAll != null
-            ? ViewAllButton(onViewAll: onViewAll)
-            : const SizedBox(),
+        Text(
+          sectionTitle,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(),
       ],
     );
   }
 
-  Widget _buildNoCoursesMessage(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const Spacer(),
-            ],
-          ),
-          const SizedBox(height: 20),
-          const Center(
-            child: Icon(Icons.folder_open, size: 50, color: Colors.grey),
-          ),
-          const SizedBox(height: 8),
-          Center(
-            child: Text(
-              'No $title found',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
+  Widget _buildCoursesTitle(BuildContext context) {
+    IconData icon =
+        sectionKind == SectionKind.myCourses ? Icons.school : Icons.public;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Icon(icon),
+            const SizedBox(width: 10),
+            Text(
+              sectionTitle,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-          ),
-          const SizedBox(height: 12),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                _buttonText(title),
-              ),
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        ViewAllButton(onViewAll: onViewAll),
+      ],
     );
+  }
+
+  Widget _buildSectionTitle(BuildContext context) {
+    if (sectionKind == SectionKind.livestreams) {
+      return _buildLivestreamsTitle(context);
+    } else {
+      return _buildCoursesTitle(context);
+    }
   }
 
   String _buttonText(String title) {
