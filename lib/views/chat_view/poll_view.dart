@@ -1,4 +1,3 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gocast_mobile/views/chat_view/poll_view_state.dart';

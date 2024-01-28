@@ -196,7 +196,6 @@ class PollViewState extends ConsumerState<PollView> {
   Widget _buildActivePollOption(
       BuildContext context, Poll poll, PollOption option,) {
     bool isSelected = selectedOptions[poll.id] == option.id;
-    ThemeData themeData = Theme.of(context);
     return GestureDetector(
       onTap: () {
         setState(() {

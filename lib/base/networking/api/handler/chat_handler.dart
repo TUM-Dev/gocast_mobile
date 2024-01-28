@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:fixnum/fixnum.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:logger/logger.dart';
@@ -39,8 +37,9 @@ class ChatHandlers {
     );
   }
 
-  Future<ChatReaction> postMessageReaction(
-      int messageID, int streamID, String emoji) async {
+  Future<ChatReaction> postMessageReaction(int messageID,
+      int streamID,
+      String emoji,) async {
     _logger.i('Posting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -57,8 +56,9 @@ class ChatHandlers {
     );
   }
 
-  Future<void> deleteMessageReaction(
-      int messageID, int streamID, int reactionID) async {
+  Future<void> deleteMessageReaction(int messageID,
+      int streamID,
+      int reactionID,) async {
     _logger.i('Deleting chat reaction');
     return _grpcHandler.callGrpcMethod(
       (client) async {
@@ -74,8 +74,9 @@ class ChatHandlers {
     );
   }
 
-  Future<ChatMessage> postChatReply(
-      int messageID, int streamID, String message) async {
+  Future<ChatMessage> postChatReply(int messageID,
+      int streamID,
+      String message,) async {
     _logger.i('Posting chat reply');
     return _grpcHandler.callGrpcMethod(
       (client) async {

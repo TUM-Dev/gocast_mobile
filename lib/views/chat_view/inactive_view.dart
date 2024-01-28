@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fixnum/fixnum.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/suggested_streams_list.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
@@ -81,7 +80,8 @@ class InactiveViewState extends ConsumerState<InactiveView> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => VideoPlayerPage(stream: stream)),
+                  builder: (context) => VideoPlayerPage(stream: stream),
+                ),
               );
             },
           ),

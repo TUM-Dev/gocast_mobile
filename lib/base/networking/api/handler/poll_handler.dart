@@ -24,13 +24,18 @@ class PollHandlers {
 
   Future<void> postPollVote(int streamID, int pollOptionID) async {
     _logger.i(
-        'Posting poll vote for streamID: $streamID, pollOptionID: $pollOptionID');
+      'Posting poll vote for streamID: $streamID, pollOptionID: $pollOptionID',
+    );
     return _grpcHandler.callGrpcMethod(
       (client) async {
         await client.postPollVote(PostPollVoteRequest(
-            streamID: streamID, pollOptionID: pollOptionID));
+            streamID: streamID,
+            pollOptionID: pollOptionID,
+          ),
+        );
         _logger.i(
-            'Poll vote posted successfully for option $pollOptionID in stream $streamID');
+          'Poll vote posted successfully for option $pollOptionID in stream $streamID',
+        );
         // Assuming PostPollVoteResponse doesn't have a field to return, just logging the success
       },
     );
