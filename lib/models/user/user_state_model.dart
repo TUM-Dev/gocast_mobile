@@ -7,7 +7,6 @@ class UserState {
   final bool isLoading;
   final User? user;
   final List<Course>? userCourses;
-  final List<Course>? userPinned;
   final List<Bookmark>? userBookmarks;
   final List<Course>? publicCourses;
   final AppError? error;
@@ -18,13 +17,11 @@ class UserState {
   final Semester? current;
   final String? currentAsString;
   final List<Course>? displayedCourses;
-  final List<Course>? displayedPinnedCourses;
 
   const UserState({
     this.isLoading = false,
     this.user,
     this.userCourses,
-    this.userPinned,
     this.userBookmarks,
     this.publicCourses,
     this.error,
@@ -35,14 +32,12 @@ class UserState {
     this.current,
     this.currentAsString,
     this.displayedCourses,
-    this.displayedPinnedCourses,
   });
 
   UserState copyWith({
     bool? isLoading,
     User? user,
     List<Course>? userCourses,
-    List<Course>? userPinned,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
     AppError? error,
@@ -53,13 +48,11 @@ class UserState {
     Semester? current,
     String? currentAsString,
     List<Course>? displayedCourses,
-    List<Course>? displayedPinnedCourses,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
       userCourses: userCourses ?? this.userCourses,
-      userPinned: userPinned ?? this.userPinned,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
       error: error ?? this.error,
@@ -70,8 +63,6 @@ class UserState {
       current: current ?? this.current,
       currentAsString: currentAsString ?? this.currentAsString,
       displayedCourses: displayedCourses ?? this.displayedCourses,
-      displayedPinnedCourses:
-          displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
 
@@ -79,20 +70,17 @@ class UserState {
     bool? isLoading,
     User? user,
     List<Course>? userCourses,
-    List<Course>? userPinned,
     List<Bookmark>? userBookmarks,
     List<Course>? publicCourses,
     AppError? error,
     List<Course>? downloadedCourses,
     List<Course>? displayedCourses,
-    List<Course>? displayedPinnedCourses,
     List<Semester>? semesters,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
       userCourses: userCourses ?? this.userCourses,
-      userPinned: userPinned ?? this.userPinned,
       userBookmarks: userBookmarks ?? this.userBookmarks,
       publicCourses: publicCourses ?? this.publicCourses,
       error: null,
@@ -103,8 +91,6 @@ class UserState {
       current: current,
       currentAsString: currentAsString,
       displayedCourses: displayedCourses ?? this.displayedCourses,
-      displayedPinnedCourses:
-          displayedPinnedCourses ?? this.displayedPinnedCourses,
     );
   }
 
@@ -113,7 +99,6 @@ class UserState {
       isLoading: false,
       user: null,
       userCourses: null,
-      userPinned: null,
       userBookmarks: null,
       publicCourses: null,
       error: null,
@@ -124,7 +109,6 @@ class UserState {
       current: null,
       currentAsString: null,
       displayedCourses: null,
-      displayedPinnedCourses: null,
     );
   }
 }

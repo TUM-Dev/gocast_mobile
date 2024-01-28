@@ -24,11 +24,12 @@ class PinButton extends ConsumerWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () async {
-            final viewModel = ref.read(userViewModelProvider.notifier);
+            final pinnedViewModel =
+                ref.read(pinnedCourseViewModelProvider.notifier);
             if (isInitiallyPinned) {
-              await viewModel.unpinCourse(courseId);
+              await pinnedViewModel.unpinCourse(courseId);
             } else {
-              await viewModel.pinCourse(courseId);
+              await pinnedViewModel.pinCourse(courseId);
             }
             setState(() {}); // Trigger rebuild to update icon
             onPinStatusChanged();
