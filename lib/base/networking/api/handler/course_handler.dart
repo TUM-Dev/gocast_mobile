@@ -4,15 +4,14 @@ import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
-/// Handles course-related data operations.
-///
-/// This class is responsible for fetching and posting course-related data, such as fetching public courses and semesters.
+
 class CourseHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   CourseHandler(this._grpcHandler);
 
+  /// Fetches the public courses.
   Future<List<Course>> fetchPublicCourses() async {
     _logger.i('Fetching public courses');
     return _grpcHandler.callGrpcMethod(
@@ -24,22 +23,20 @@ class CourseHandler {
       },
     );
   }
-
+/// fetches the semesters and the current semester.
   Future<Tuple2<List<Semester>, Semester>> fetchSemesters() async {
     _logger.i('Fetching semesters');
-
     final response = await _grpcHandler.callGrpcMethod(
       (client) async {
         return await client.getSemesters(GetSemestersRequest());
       },
     );
-
-    _logger.d('Semesters: ${response.semesters}');
-    _logger.d('Current Semester: ${response.current}');
-
+    _logger.i('Semesters: ${response.semesters}');
+    _logger.i('Current Semester: ${response.current}');
     return Tuple2(response.semesters, response.current);
   }
 
+  /// Fetches all the courses. (public + user)
   Future<List<Course>> fetchAllCourses() async {
     List<Course> userCourses =
         await UserHandler(_grpcHandler).fetchUserCourses();

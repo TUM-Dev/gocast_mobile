@@ -4,10 +4,8 @@ import 'package:gocast_mobile/base/networking/api/handler/chat_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/chat/chat_state_model.dart';
-import 'package:logger/logger.dart';
 
 class ChatViewModel extends StateNotifier<ChatState> {
-  final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   ChatViewModel(this._grpcHandler) : super(const ChatState());
@@ -20,7 +18,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
           await ChatHandlers(_grpcHandler).getChatMessages(streamId);
       state = state.copyWith(messages: messages, isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(
         error: e as AppError,
         isLoading: false,
@@ -36,7 +33,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
           await ChatHandlers(_grpcHandler).postChatMessage(streamId, message);
       state = state.addMessage(chatMessage);
     } catch (e) {
-      _logger.e(e);
       if (_isRateLimitError(e)) {
         state = state.copyWith(isRateLimitReached: true);
         await Future.delayed(const Duration(seconds: 10));
@@ -62,7 +58,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
           .postMessageReaction(messageId, streamId, emoji);
       state = state.addReaction(reaction);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError);
     }
   }
@@ -73,7 +68,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
       await ChatHandlers(_grpcHandler)
           .deleteMessageReaction(messageId, streamId, reactionId);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError);
     }
   }
@@ -85,7 +79,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
           .postChatReply(messageId, streamId, message);
       state = state.addReply(replay);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError);
     }
   }
@@ -95,7 +88,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
       await ChatHandlers(_grpcHandler)
           .markChatMessageAsResolved(messageId, streamId);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError);
     }
   }
@@ -105,7 +97,6 @@ class ChatViewModel extends StateNotifier<ChatState> {
       await ChatHandlers(_grpcHandler)
           .markChatMessageAsUnresolved(messageId, streamId);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError);
     }
   }

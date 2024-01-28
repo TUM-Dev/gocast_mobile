@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/base/networking/api/handler/auth_handler.dart';
-import 'package:gocast_mobile/base/networking/api/handler/bookmarks_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/pinned_handler.dart';
@@ -57,7 +56,6 @@ class UserViewModel extends StateNotifier<UserState> {
 
   Future<void> fetchUser() async {
     try {
-      _logger.i('Fetching user');
       var user = await UserHandler(_grpcHandler).fetchUser();
       state = state.copyWith(user: user, isLoading: false);
     } catch (e) {
@@ -94,7 +92,6 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchSemesters() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching Semesters');
       var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
       semesters.item1.add(semesters.item2);
       state = state.copyWith(current: semesters.item2, isLoading: false);
@@ -125,7 +122,6 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchPublicCourses() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching public courses');
       var courses = await CourseHandler(_grpcHandler).fetchPublicCourses();
       state = state.copyWith(publicCourses: courses, isLoading: false);
       setUpDisplayedCourses(state.publicCourses ?? []);
@@ -137,7 +133,6 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> fetchUserCourses() async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Fetching user courses');
       var courses = await UserHandler(_grpcHandler).fetchUserCourses();
       state = state.copyWith(userCourses: courses, isLoading: false);
       setUpDisplayedCourses(state.userCourses ?? []);
@@ -150,11 +145,9 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<bool> pinCourse(int courseID) async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Pinning course with id: $courseID');
       bool success = await PinnedHandler(_grpcHandler).pinCourse(courseID);
       if (success) {
         await fetchUserPinned();
-        _logger.i('Course pinned successfully');
       } else {
         _logger.e('Failed to pin course');
       }
@@ -170,7 +163,6 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<bool> unpinCourse(int courseID) async {
     state = state.copyWith(isLoading: true);
     try {
-      _logger.i('Unpinning course with id: $courseID');
       bool success = await PinnedHandler(_grpcHandler).unpinCourse(courseID);
       if (success) {
         await fetchUserPinned();
@@ -181,7 +173,6 @@ class UserViewModel extends StateNotifier<UserState> {
       state = state.copyWith(isLoading: false);
       return success;
     } catch (e) {
-      _logger.e('Error unpinning course: $e');
       state = state.copyWith(error: e as AppError, isLoading: false);
       return false;
     }
