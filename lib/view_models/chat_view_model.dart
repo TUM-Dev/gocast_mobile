@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/base/networking/api/handler/chat_handler.dart';
 
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
@@ -16,13 +17,34 @@ class ChatViewModel extends StateNotifier<ChatState> {
     try {
       final messages =
           await ChatHandlers(_grpcHandler).getChatMessages(streamId);
-      state = state.copyWith(messages: messages, isLoading: false);
+      state = state.copyWith(messages: messages, isLoading: false, accessDenied: false);
     } catch (e) {
       state = state.copyWith(
         error: e as AppError,
         isLoading: false,
         accessDenied: true,
       );
+    }
+  }
+
+  Future<void> updateMessages(int streamId) async {
+    state = state.copyWith(isLoading: true);
+    state = state.clearError();
+    if(state.messages == null) {
+     fetchChatMessages(streamId);
+    }else {
+      try {
+        final messages = await ChatHandlers(_grpcHandler).getChatMessages(streamId);
+        final combinedMessages = List<ChatMessage>.from(state.messages ?? [])
+          ..addAll(messages.where((newMessage) => !state.messages!.contains(newMessage)));
+        state = state.copyWith(messages: combinedMessages, isLoading: false, accessDenied: false);
+      } catch (e) {
+        state = state.copyWith(
+          error: e as AppError,
+          isLoading: false,
+          accessDenied: true,
+        );
+      }
     }
   }
 

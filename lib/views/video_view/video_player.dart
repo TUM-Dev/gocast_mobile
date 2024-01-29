@@ -74,12 +74,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       await ref
           .read(courseViewModelProvider.notifier)
           .getCourseWithID(widget.stream.courseID);
+      await ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.stream.id);
       Course? course = ref
           .read(courseViewModelProvider)
           .course;
       if (course != null) {
-        if ((course.chatEnabled || course.vodChatEnabled) &&
-            widget.stream.chatEnabled) {
+        if (course.chatEnabled && course.vodChatEnabled && widget.stream.chatEnabled) {
           setState(() {
             _isChatActive = true;
             _isPollActive = true;
@@ -208,7 +208,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   bool _shouldMarkAsWatched(double progress) {
-    const watchedThreshold = 0.9; // 80%
+    const watchedThreshold = 0.9;
     return progress >= watchedThreshold;
   }
 
