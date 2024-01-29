@@ -16,6 +16,12 @@ class PinButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isLoggedIn = ref.read(userViewModelProvider).user != null;
+    if (!isLoggedIn) {
+      return const Icon(
+        Icons.push_pin_outlined,
+        color: Colors.transparent,);
+    }
     return StatefulBuilder(
       builder: (context, setState) {
         return IconButton(
@@ -24,11 +30,12 @@ class PinButton extends ConsumerWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () async {
-            final viewModel = ref.read(userViewModelProvider.notifier);
+            final pinnedViewModel =
+                ref.read(pinnedCourseViewModelProvider.notifier);
             if (isInitiallyPinned) {
-              await viewModel.unpinCourse(courseId);
+              await pinnedViewModel.unpinCourse(courseId);
             } else {
-              await viewModel.pinCourse(courseId);
+              await pinnedViewModel.pinCourse(courseId);
             }
             setState(() {}); // Trigger rebuild to update icon
             onPinStatusChanged();

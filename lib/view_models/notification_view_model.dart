@@ -27,9 +27,12 @@ class NotificationViewModel extends StateNotifier<NotificationState> {
     // Request permission from user
     await _firebaseMessaging.requestPermission();
 
-    // Fetch device_token
-    final deviceToken = await _firebaseMessaging.getToken();
-
+    String? deviceToken;
+    try {
+      deviceToken = await _firebaseMessaging.getToken();
+    }catch(e){
+      throw AppError.notificationNotAvailableYet();
+    }
     // Send device_token to API
     if (deviceToken != null) await postDeviceToken(deviceToken);
 

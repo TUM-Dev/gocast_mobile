@@ -47,12 +47,10 @@ class CoursesList extends ConsumerWidget {
   ) {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
-    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     List<Course> liveCourses =
         courses.where((course) => liveCourseIds.contains(course.id)).toList();
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
-      child: ListView.builder(
+    return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -61,25 +59,22 @@ class CoursesList extends ConsumerWidget {
           final course = courses[index];
           final isPinned = userPinned.contains(course);
           return CourseCard(
+            isLoggedIn: ref.read(userViewModelProvider).user != null,
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) {
-              final userViewModelNotifier =
-                  ref.read(userViewModelProvider.notifier);
+              final pinnedViewModelNotifier =
+                  ref.read(pinnedCourseViewModelProvider.notifier);
               if (isPinned) {
-                userViewModelNotifier.unpinCourse(course.id);
+                pinnedViewModelNotifier.unpinCourse(course.id);
               } else {
-                userViewModelNotifier.pinCourse(course.id);
+                pinnedViewModelNotifier.pinCourse(course.id);
               }
             },
             title: course.name,
             tumID: course.tUMOnlineIdentifier,
-            path: 'assets/images/course2.png',
             live: liveCourses.contains(course),
             courseId: course.id,
-            semester:
-                course.semester.teachingTerm + course.semester.year.toString(),
-            isCourse: true,
             onTap: () {
               Navigator.push(
                 context,
@@ -92,8 +87,6 @@ class CoursesList extends ConsumerWidget {
               );
             },
           );
-        },
-      ),
-    );
+        },);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:intl/intl.dart';
 
@@ -119,7 +120,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
             },
             errorBuilder: (context, error, stackTrace) {
               return Image.asset(
-                'assets/images/default_image.png',
+                AppImages.course1,
                 fit: BoxFit.cover,
               );
             },

@@ -6,18 +6,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CustomVideoControlBar extends StatelessWidget {
   final VoidCallback onToggleChat;
   final Function(String) onDownload;
-  final VoidCallback onOpenQuizzes;
+  final VoidCallback onOpenPolls;
   final Stream currentStream;
   final bool isChatVisible;
   final bool isChatActive;
+  final bool isPollVisible;
+  final bool isPollActive;
 
   const CustomVideoControlBar({
     super.key,
     required this.onToggleChat,
-    required this.onOpenQuizzes,
+    required this.onOpenPolls,
     required this.currentStream,
     this.isChatActive = false,
     this.isChatVisible = false,
+    this.isPollActive = false,
+    this.isPollVisible = false,
     required this.onDownload,
   });
 
@@ -77,9 +81,9 @@ class CustomVideoControlBar extends StatelessWidget {
 
     return Consumer(
       builder: (context, ref, child) {
-        final userViewModel = ref.read(userViewModelProvider.notifier);
+        final pinnedViewModel = ref.read(pinnedCourseViewModelProvider.notifier);
         final downloadViewModel = ref.read(downloadViewModelProvider.notifier);
-        final isPinned = userViewModel.isCoursePinned(currentStream.courseID);
+        final isPinned = pinnedViewModel.isCoursePinned(currentStream.courseID);
         final isDownloaded =
             downloadViewModel.isStreamDownloaded(currentStream.id);
 
@@ -98,9 +102,13 @@ class CustomVideoControlBar extends StatelessWidget {
                     onPressed: isChatActive ? onToggleChat : null,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.quiz_outlined),
+                    icon: isPollVisible
+                        ? Icon(Icons.quiz_outlined,
+                            color: themeData.primaryColor,
+                          )
+                        : const Icon(Icons.quiz_outlined),
                     color: themeData.iconTheme.color,
-                    onPressed: onOpenQuizzes,
+                    onPressed: isPollActive ? onOpenPolls : null,
                   ),
                 ],
               ),
@@ -109,10 +117,10 @@ class CustomVideoControlBar extends StatelessWidget {
                   if (choice == 'Pin Course') {
                     isPinned
                         ? await ref
-                            .read(userViewModelProvider.notifier)
+                            .read(pinnedCourseViewModelProvider.notifier)
                             .unpinCourse(currentStream.courseID)
                         : await ref
-                            .read(userViewModelProvider.notifier)
+                            .read(pinnedCourseViewModelProvider.notifier)
                             .pinCourse(currentStream.courseID);
                   } else if (choice == 'Download') {
                     _showDownloadOptions(context);

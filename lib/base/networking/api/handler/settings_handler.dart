@@ -5,9 +5,7 @@ import 'package:logger/logger.dart';
 
 import 'grpc_handler.dart';
 
-/// Handles user settings-related data operations.
-///
-/// This class is responsible for fetching and updating user settings.
+
 class SettingsHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
@@ -57,7 +55,7 @@ class SettingsHandler {
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
-      rethrow;
+      return false;
     }
   }
 
@@ -66,7 +64,7 @@ class SettingsHandler {
   /// This method sends a `patchUserSettings` gRPC call to update the user's preferred name on the server.
   ///   * [newName] - The new preferred name.
   /// Returns `true` if the update was successful.
-  Future<bool> updatePreferredName(String newName) async {
+  Future<void> updatePreferredName(String newName) async {
     try {
       _logger.i('Updating user settings...');
       final request = PatchUserSettingsRequest()
@@ -79,7 +77,6 @@ class SettingsHandler {
           _logger.i('User settings updated successfully');
         },
       );
-      return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
       rethrow;
@@ -108,7 +105,7 @@ class SettingsHandler {
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
-      rethrow;
+      return false;
     }
   }
 

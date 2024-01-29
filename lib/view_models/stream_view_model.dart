@@ -10,22 +10,41 @@ import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
 class StreamViewModel extends StateNotifier<StreamState> {
-  final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   StreamViewModel(this._grpcHandler) : super(const StreamState());
 
   Future<void> fetchCourseStreams(int courseID) async {
-    _logger.i('Fetching streams');
     state = state.copyWith(isLoading: true);
     try {
       final streams =
           await StreamHandler(_grpcHandler).fetchCourseStreams(courseID);
       state = state.copyWith(streams: streams, isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
+  }
+
+
+
+  void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
+    state = state.copyWith(displayedStreams: allStreams);
+  }
+
+  void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
+    updatedDisplayedStreams(
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
+  }
+
+  void updateSelectedFilterOption(
+    String option,
+    List<Tuple2<Stream, String>> allStreams,
+  ) {
+    state = state.copyWith(selectedFilterOption: option);
+    updatedDisplayedStreams(
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
   }
 
   /// This asynchronous function fetches thumbnails for all available streams in the current state.
@@ -51,23 +70,25 @@ class StreamViewModel extends StateNotifier<StreamState> {
     setUpDisplayedCourses(fetchedStreamsWithThumbnails);
   }
 
-  void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
-    state = state.copyWith(displayedStreams: allStreams);
-  }
-
-  void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
-    updatedDisplayedStreams(
-      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
-    );
-  }
-
-  void updateSelectedFilterOption(
-    String option,
-    List<Tuple2<Stream, String>> allStreams,
-  ) {
-    state = state.copyWith(selectedFilterOption: option);
-    updatedDisplayedStreams(
-      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+  /// This asynchronous function fetches thumbnails for all available live streams in the current state.
+  /// only if there are live streams in the current state.
+  /// It initiates fetching of thumbnails for each live stream by invoking `fetchThumbnailForStream`.
+  Future<void> fetchLiveThumbnails() async {
+    if (state.liveStreams == null) {
+      return;
+    }
+    var fetchLiveThumbnailTasks = <Future<Tuple2<Stream, String>>>[];
+    for (var stream in state.liveStreams!) {
+      fetchLiveThumbnailTasks.add(
+        fetchStreamThumbnail(stream.id)
+            .then((thumbnail) => Tuple2(stream, thumbnail)),
+      );
+    }
+    var fetchedStreamsWithThumbnails =
+        await Future.wait(fetchLiveThumbnailTasks);
+    state = state.copyWith(
+      liveStreamsWithThumb: fetchedStreamsWithThumbnails,
+      isLoading: false,
     );
   }
 
@@ -80,7 +101,6 @@ class StreamViewModel extends StateNotifier<StreamState> {
           ? fetchStreamThumbnail(stream.id)
           : fetchVODThumbnail(stream.id));
     } catch (e) {
-      _logger.e('Error fetching thumbnail for stream ID ${stream.id}: $e');
       return '/thumb-fallback.png'; // Fallback thumbnail
     }
   }
@@ -88,12 +108,11 @@ class StreamViewModel extends StateNotifier<StreamState> {
   /// Fetches the thumbnail for a live stream.
   /// Parameters:
   ///   [streamId] - The identifier of the stream.
-  Future<String> fetchStreamThumbnail(streamId) async {
+  Future<String> fetchStreamThumbnail(int streamId) async {
     try {
-      _logger.i('Fetching thumbnail for live stream ID: $streamId');
       return await StreamHandler(_grpcHandler).fetchThumbnailStreams(streamId);
     } catch (e) {
-      _logger.e('Error fetching thumbnail for live stream: $e');
+      Logger().e(e);
       rethrow;
     }
   }
@@ -101,41 +120,35 @@ class StreamViewModel extends StateNotifier<StreamState> {
   /// Fetches the thumbnail for a recorded stream.
   /// Parameters:
   ///   [streamId] - The identifier of the stream.
-  Future<String> fetchVODThumbnail(streamId) async {
+  Future<String> fetchVODThumbnail(int streamId) async {
     try {
-      _logger.i('Fetching thumbnail for VOD stream ID: $streamId');
       return await StreamHandler(_grpcHandler).fetchThumbnailVOD(streamId);
     } catch (e) {
-      _logger.e('Error fetching thumbnail for VOD stream: $e');
       rethrow;
     }
   }
 
-  Future<void> fetchStream(streamId) async {
-    _logger.i('Fetching stream');
+  Future<void> fetchStream(int streamId) async {
     state = state.copyWith(isLoading: true);
     try {
       final stream = await StreamHandler(_grpcHandler).fetchStream(streamId);
       state = state.copyWith(streams: [stream], isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
 
   Future<void> fetchLiveNowStreams() async {
-    _logger.i('Fetching live now stream');
     state = state.copyWith(isLoading: true);
     try {
       final streams = await StreamHandler(_grpcHandler).fetchLiveNowStreams();
       state = state.copyWith(liveStreams: streams, isLoading: false);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
 
-  Future<void> fetchProgress(streamId) async {
+  Future<void> fetchProgress(int streamId) async {
     state = state.copyWith(isLoading: true);
     try {
       final progress =
@@ -150,7 +163,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<Progress> fetchProgressForStream(streamId) async {
+  Future<Progress> fetchProgressForStream(int streamId) async {
     try {
       final progress =
           await StreamHandler(_grpcHandler).fetchProgress(streamId);
@@ -160,26 +173,22 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-  Future<void> updateProgress(streamId, Progress progress) async {
-    _logger.i('Updating progress');
+  Future<void> updateProgress(int streamId, Progress progress) async {
     state = state.copyWith(isLoading: true);
     try {
       await StreamHandler(_grpcHandler).putProgress(streamId, progress);
       state = state.copyWith(isLoading: false, progress: progress);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }
 
-  Future<void> markAsWatched(streamId) async {
-    _logger.i('Marking stream as watched');
+  Future<void> markAsWatched(int streamId) async {
     state = state.copyWith(isLoading: true);
     try {
       await StreamHandler(_grpcHandler).markAsWatched(streamId);
       state = state.copyWith(isLoading: false, isWatched: true);
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
     }
   }

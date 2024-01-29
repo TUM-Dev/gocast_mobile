@@ -8,28 +8,41 @@ import 'package:logger/logger.dart';
 import 'dart:io';
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
-
   final Logger _logger = Logger();
 
   DownloadViewModel() : super(const DownloadState()) {
     initDownloads();
   }
 
+  bool isStreamDownloaded(int id) {
+    final int streamIdInt = id.toInt(); // Convert Int64 to int
+    return state.downloadedVideos.containsKey(streamIdInt);
+  }
+
+
   Future<void> initDownloads() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString('downloadedVideos');
     if (jsonString != null) {
       final downloaded = Map<String, dynamic>.from(json.decode(jsonString));
-      final downloadedVideos = downloaded
-          .map((key, value) => MapEntry(int.parse(key), value.toString()));
+      final downloadedVideos = downloaded.map((key, value) {
+        // Decode the JSON string into a Map
+        final videoDetailsMap = json.decode(value);
+        // Create a VideoDetails object from the Map
+        final videoDetails = VideoDetails(
+          filePath: videoDetailsMap['filePath'],
+          name: videoDetailsMap['name'],
+          duration: videoDetailsMap['duration'],
+          description: videoDetailsMap['description'],
+        );
+        return MapEntry(int.parse(key), videoDetails);
+      }).cast<int, VideoDetails>(); // Ensure the map has the correct type
       state = state.copyWith(downloadedVideos: downloadedVideos);
     }
   }
 
-
-
-  Future<String> downloadVideo(
-      String videoUrl, int streamId, String fileName,) async {
+  Future<String> downloadVideo(String videoUrl, int streamId, String fileName,
+      String streamName, int streamDuration, String description,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/$fileName';
@@ -39,14 +52,41 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
       final prefs = await SharedPreferences.getInstance();
       final int streamIdInt = streamId.toInt();
-      final downloadedVideos = Map<int, String>.from(state.downloadedVideos)
-        ..[streamIdInt] = filePath;
 
-      // Save to SharedPreferences
+      // Create a map for the video details
+      final videoDetailsMap = {
+        'filePath': filePath,
+        'name': streamName,
+        'duration': streamDuration,
+        'description': description,
+      };
+
+      // Convert video details map to JSON string
+      final videoDetailsJson = json.encode(videoDetailsMap);
+
+      // Save the JSON string in your SharedPreferences
+      final downloadedVideosJson = Map<int, String>.from(state.downloadedVideos)
+        ..[streamIdInt] = videoDetailsJson;
+
       await prefs.setString(
-          'downloadedVideos',
-          json.encode(downloadedVideos
-              .map((key, value) => MapEntry(key.toString(), value)),),);
+        'downloadedVideos',
+        json.encode(downloadedVideosJson.map((key, value) =>
+            MapEntry(key.toString(), value),),),
+      );
+
+      // Convert the JSON strings back to VideoDetails objects for the state
+      final downloadedVideos = downloadedVideosJson.map((key, value) {
+        final videoDetailsMap = json.decode(value);
+        final videoDetails = VideoDetails(
+          filePath: videoDetailsMap['filePath'],
+          name: videoDetailsMap['name'],
+          duration: videoDetailsMap['duration'],
+          description: videoDetailsMap['description'],
+        );
+        return MapEntry(key, videoDetails);
+      }).cast<int, VideoDetails>();
+
+      // Update the state
       state = state.copyWith(downloadedVideos: downloadedVideos);
       _logger.d('Downloaded videos: ${state.downloadedVideos}');
       return filePath;
@@ -63,15 +103,15 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error fetching downloaded videos: $e');
     }
   }
+
   Future<void> deleteDownload(int videoId) async {
     _logger.i('Deleting downloaded video with ID: $videoId');
-    _logger.d('Current state before deletion: ${state.downloadedVideos}');
 
     try {
-      String? filePath = state.downloadedVideos[videoId];
-      _logger.d('File path to delete: $filePath');
-
-      if (filePath != null && filePath.isNotEmpty) {
+      // Get the VideoDetails object from the state
+      VideoDetails? videoDetails = state.downloadedVideos[videoId];
+      if (videoDetails != null) {
+        final filePath = videoDetails.filePath;
         final file = File(filePath);
         if (await file.exists()) {
           await file.delete();
@@ -80,23 +120,23 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           _logger.w('File not found: $filePath');
         }
 
-        // Update the state and SharedPreferences after deletion
-        final updatedDownloads = Map<int, String>.from(state.downloadedVideos);
+        final prefs = await SharedPreferences.getInstance();
+        final updatedDownloads = Map<int, VideoDetails>.from(
+            state.downloadedVideos,);
         updatedDownloads.remove(videoId);
 
-        final prefs = await SharedPreferences.getInstance();
+        // Save updated list to SharedPreferences
+        // Convert VideoDetails objects to JSON strings before saving
         await prefs.setString(
           'downloadedVideos',
-          json.encode(updatedDownloads.map((key, value) => MapEntry(key.toString(), value))),
-        );
-
+          json.encode(updatedDownloads.map((key, value) =>
+              MapEntry(key.toString(), json.encode(value)),),)
+          ,);
         state = state.copyWith(downloadedVideos: updatedDownloads);
-        _logger.d('Updated state after deletion: ${state.downloadedVideos}');
-      } else {
-        _logger.w('No file path found for video ID: $videoId');
       }
-    } catch (e) {
-      _logger.e('Error deleting video with ID $videoId: $e');
+    }
+    catch (e) {
+    _logger.e('Error deleting video with ID $videoId: $e');
     }
   }
 
@@ -126,8 +166,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  bool isStreamDownloaded(int id) {
-    final int streamIdInt = id.toInt(); // Convert Int64 to int
-    return state.downloadedVideos.containsKey(streamIdInt);
-  }
+
 }
+
