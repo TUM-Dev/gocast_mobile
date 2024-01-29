@@ -16,7 +16,34 @@ class DownloadedCourses extends ConsumerStatefulWidget {
 
 class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
   final TextEditingController searchController = TextEditingController();
-
+  void _showDeleteConfirmationDialog(int videoId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: const Text('Are you sure you want to delete this video?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () async {
+                Navigator.of(context).pop(); // Dismiss the dialog
+                await ref
+                    .read(downloadViewModelProvider.notifier)
+                    .deleteDownload(videoId);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   //TODO: void _handleSortOptionSelected(String choice) {}
 
   @override
@@ -54,7 +81,7 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
               // Update as necessary
               title: videoName,
               // Replace with the appropriate title
-              date: 'Video Date',
+              date: "",
               // Replace with the appropriate date
               onTap: () {
                 Navigator.of(context).push(
@@ -64,10 +91,8 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
                   ),
                 );
               },
-              onDelete: () async {
-                await ref
-                    .read(downloadViewModelProvider.notifier)
-                    .deleteDownload(videoId);
+              onDelete: ()  {
+                _showDeleteConfirmationDialog(videoId);
               },
             );
           }).toList(),

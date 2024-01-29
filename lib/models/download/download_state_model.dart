@@ -43,6 +43,4 @@ class VideoDetails {
       description: description,
     );
   }
-
-// Implement toJson and fromJson if you need to serialize/deserialize the object
 }
