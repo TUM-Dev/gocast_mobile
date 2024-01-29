@@ -87,6 +87,6 @@ class CoursesList extends ConsumerWidget {
               );
             },
           );
-        });
+        },);
   }
 }
