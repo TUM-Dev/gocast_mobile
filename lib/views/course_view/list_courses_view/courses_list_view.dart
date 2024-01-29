@@ -50,9 +50,7 @@ class CoursesList extends ConsumerWidget {
     final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     List<Course> liveCourses =
         courses.where((course) => liveCourseIds.contains(course.id)).toList();
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
-      child: ListView.builder(
+    return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -88,8 +86,6 @@ class CoursesList extends ConsumerWidget {
               );
             },
           );
-        },
-      ),
-    );
+        });
   }
 }
