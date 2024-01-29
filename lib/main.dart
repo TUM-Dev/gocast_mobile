@@ -15,12 +15,12 @@ import 'firebase_options.dart';
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
+  Logger.level = Level.info;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  Logger.level = Level.debug;
   runApp(
-    const ProviderScope(
+     const ProviderScope(
       child: App(),
     ),
   );
@@ -29,11 +29,18 @@ Future<void> main() async {
 bool isPushNotificationListenerSet = false;
 
 class App extends ConsumerWidget {
-  const App({super.key});
+
+   const App({
+    super.key,
+  });
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(userViewModelProvider);
+
+    bool isLoggedIn = ref.watch(userViewModelProvider).user != null;
+
 
     _handleErrors(ref, userState);
     _setupNotifications(ref, userState);
@@ -45,7 +52,7 @@ class App extends ConsumerWidget {
           ref.watch(themeModeProvider), // Use the theme mode from the provider
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
-      home: userState.user == null
+      home: !isLoggedIn
           ? const WelcomeScreen()
           : const NavigationTab(),
       routes: _buildRoutes(),

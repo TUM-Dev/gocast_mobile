@@ -12,6 +12,7 @@ import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/sort_utils.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:logger/logger.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
@@ -19,7 +20,11 @@ class UserViewModel extends StateNotifier<UserState> {
 
   final GrpcHandler _grpcHandler;
 
-  UserViewModel(this._grpcHandler) : super(const UserState());
+  UserViewModel(this._grpcHandler) : super(const UserState()){
+    // Check if the user is already logged in
+    _checkToken();
+  }
+
 
   /// Handles basic authentication.
   /// If the authentication is successful, it navigates to the courses screen.
@@ -150,6 +155,25 @@ class UserViewModel extends StateNotifier<UserState> {
 
   void setSelectedSemester(String choice) {
     state = state.copyWith(selectedSemester: choice);
+  }
+
+  Future<void> _checkToken() async {
+    String token = await _getToken();
+    if(token.isNotEmpty && !Jwt.isExpired(token)) {
+      _logger.i('Token found, fetching user: $token');
+      fetchUser();
+    }else {
+      _logger.i('Token not found or expired');
+    }
+  }
+
+  Future<String> _getToken() async {
+    try {
+      return await TokenHandler.loadToken('jwt');
+    } catch(e){
+      Logger().w("Token not found");
+      return '';
+    }
   }
 
 }
