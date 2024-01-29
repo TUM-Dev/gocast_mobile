@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
+import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
 
-import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
 
 import '../../../utils/constants.dart';
 
@@ -14,7 +14,7 @@ import '../../../utils/constants.dart';
 /// It takes a [title] to display the title of the section and
 /// dynamically generates a horizontal list of courses.
 class DownloadCoursesContentView extends ConsumerWidget {
-  final List<VideoCard> videoCards;
+  final List<SmallStreamCard> videoCards;
   final CustomSearchTopNavBar customAppBar;
 
   const DownloadCoursesContentView({

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,13 +8,13 @@ class SmallStreamCard extends StatelessWidget {
   final String title;
   final String tumID;
   final VoidCallback onTap;
-  final int courseId;
+  final int? courseId;
 
   //for displaying courses
   final bool? live;
-
+  final bool? isDownloaded;
   final Course? course;
-
+  final Function(int)? showDeleteConfirmationDialog;
   //for displaying livestreams
   final String? subtitle;
   final String? roomName;
@@ -29,10 +30,12 @@ class SmallStreamCard extends StatelessWidget {
     this.roomName,
     this.roomNumber,
     this.path,
-    required this.courseId,
+    this.courseId,
     required this.onTap,
     this.live,
     this.course,
+    this.isDownloaded,
+    this.showDeleteConfirmationDialog,
   });
 
   @override
@@ -71,6 +74,32 @@ class SmallStreamCard extends StatelessWidget {
   }
 
   Widget _buildStreamCard(ThemeData themeData, double cardWidth) {
+    return (isDownloaded!=null && showDeleteConfirmationDialog!=null) ? _buildDownloadedCard(themeData, cardWidth) : _buildLiveCard(themeData, cardWidth);
+  }
+
+  Widget _buildDownloadedCard (ThemeData themeData, double cardWidth) {
+    return Slidable(
+        key: Key(courseId.toString()),
+        closeOnScroll: true,
+        endActionPane: ActionPane(
+          motion: const DrawerMotion(),
+          dragDismissible: true,
+          children: [
+            SlidableAction(
+              onPressed: (_) => showDeleteConfirmationDialog!(courseId!),
+              autoClose: true,
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              icon: Icons.delete_rounded,
+              label: 'Delete',
+            ),
+          ],
+        ),
+        child: _buildLiveCard(themeData, cardWidth*1.3),
+    );
+  }
+
+  Widget _buildLiveCard(ThemeData themeData, double cardWidth) {
     return Container(
       width: cardWidth,
       padding: const EdgeInsets.all(8.0),
@@ -118,12 +147,18 @@ class SmallStreamCard extends StatelessWidget {
           aspectRatio: 16 / 12,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              path!,
-              fit: BoxFit.cover,
+            child: path == null
+                ? Image.asset(
+                    AppImages.course1,
+                    fit: BoxFit.cover,
+                  )
+                :
+            Image.network(
+              path!, // Use the image URL
+              fit: BoxFit.cover, // Maintain the cover fit
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
-                  return child;
+                  return child; // Image is fully loaded
                 }
                 return Center(
                   child: CircularProgressIndicator(
