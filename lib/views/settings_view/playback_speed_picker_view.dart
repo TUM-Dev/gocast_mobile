@@ -7,7 +7,7 @@ void showPlaybackSpeedsPicker(
   List<double> selectedSpeeds,
   Function(double, bool) updateSelectedSpeeds,
 ) {
-  List<double> defaultSpeeds = List.generate(14, (index) => (index + 1) * 0.25);
+  List<double> defaultSpeeds = List.generate(8, (index) => (index + 1) * 0.25);
 
   if (!selectedSpeeds.contains(1.0)) {
     selectedSpeeds.add(1.0);
