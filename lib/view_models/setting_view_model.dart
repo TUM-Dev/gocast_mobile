@@ -9,37 +9,25 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingViewModel extends StateNotifier<SettingState> {
-  final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   SettingViewModel(this._grpcHandler) : super(const SettingState());
 
   Future<void> fetchUserSettings() async {
-    try {
-      _logger.i('Fetching user settings..');
       final userSettings =
           await SettingsHandler(_grpcHandler).fetchUserSettings();
       state = state.copyWith(userSettings: userSettings);
-      _logger.i('User settings fetched successfully');
-    } catch (e) {
-      _logger.e('Error fetching user settings: $e');
-    }
   }
 
   Future<void> updateUserSettings(List<UserSetting> updatedSettings) async {
-    _logger.i('Updating user settings..');
-    try {
+
       final success = await SettingsHandler(_grpcHandler)
           .updateUserSettings(updatedSettings);
       if (success) {
         state = state.copyWith(userSettings: updatedSettings);
-        _logger.i('User settings updated successfully');
       } else {
-        _logger.e('Failed to update user settings');
+        Logger().e('Failed to update user settings');
       }
-    } catch (e) {
-      _logger.e('Error updating user settings: $e');
-    }
   }
 
   Future<void> loadPreferences() async {
@@ -100,12 +88,8 @@ class SettingViewModel extends StateNotifier<SettingState> {
   }
 
   Future<void> updatePreferredGreeting(String newGreeting) async {
-    try {
       await SettingsHandler(_grpcHandler).updateGreeting(newGreeting);
       await fetchUserSettings();
-    } catch (e) {
-      _logger.e('Error updating greeting: $e');
-    }
   }
 
   Future<bool> updatePreferredName(String newName) async {
@@ -114,7 +98,6 @@ class SettingViewModel extends StateNotifier<SettingState> {
       await fetchUserSettings();
       return true;
     } catch (e) {
-      _logger.e('Error updating preferred name: $e');
       return false;
     }
   }

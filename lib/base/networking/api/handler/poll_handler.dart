@@ -10,6 +10,12 @@ class PollHandlers {
 
   PollHandlers(this._grpcHandler);
 
+  /// Fetches polls for a stream.
+  ///
+  /// This method sends a `getPolls` gRPC call to fetch the polls for a stream.
+  /// Takes a [streamID] parameter to fetch the polls for a specific stream.
+  ///
+  /// returns a [List<Poll>] instance that represents the polls for a stream.
   Future<List<Poll>> getPolls(int streamID) async {
     _logger.i('Fetching polls for streamID: $streamID');
     return _grpcHandler.callGrpcMethod(
@@ -22,6 +28,11 @@ class PollHandlers {
     );
   }
 
+  /// Post a poll vote.
+  ///
+  /// This method sends a `postPollVote` gRPC call to post a poll vote.
+  /// Takes a [streamID] parameter to post a poll vote for a specific stream.
+  /// Takes a [pollOptionID] parameter to post a poll vote for a specific poll option.
   Future<void> postPollVote(int streamID, int pollOptionID) async {
     _logger.i(
       'Posting poll vote for streamID: $streamID, pollOptionID: $pollOptionID',
@@ -36,9 +47,7 @@ class PollHandlers {
         _logger.i(
           'Poll vote posted successfully for option $pollOptionID in stream $streamID',
         );
-        // Assuming PostPollVoteResponse doesn't have a field to return, just logging the success
       },
     );
   }
-// Add any additional poll-related methods here, similar to the ChatHandlers class
 }

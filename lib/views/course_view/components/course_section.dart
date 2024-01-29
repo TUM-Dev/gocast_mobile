@@ -138,7 +138,7 @@ class CourseSection extends StatelessWidget {
             AppImages.course2,
           ];
           imagePath = imagePaths[random.nextInt(imagePaths.length)];
-          final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+          final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
           final isPinned = userPinned.contains(course);
           return CourseCard(
             course: course,
@@ -171,17 +171,17 @@ class CourseSection extends StatelessWidget {
   }
 
   Future<void> _togglePin(Course course, bool isPinned) async {
-    final viewModel = ref.read(userViewModelProvider.notifier);
+    final pinnedViewModel = ref.read(pinnedCourseViewModelProvider.notifier);
     if (isPinned) {
-      await viewModel.unpinCourse(course.id);
+      await pinnedViewModel.unpinCourse(course.id);
     } else {
-      await viewModel.pinCourse(course.id);
+      await pinnedViewModel.pinCourse(course.id);
     }
     await _refreshPinnedCourses();
   }
 
   Future<void> _refreshPinnedCourses() async {
-    await ref.read(userViewModelProvider.notifier).fetchUserPinned();
+    await ref.read(pinnedCourseViewModelProvider.notifier).fetchUserPinned();
   }
 
   Widget _buildStreamList(BuildContext context) {

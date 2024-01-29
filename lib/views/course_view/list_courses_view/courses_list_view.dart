@@ -47,7 +47,7 @@ class CoursesList extends ConsumerWidget {
   ) {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
-    final userPinned = ref.watch(userViewModelProvider).userPinned ?? [];
+    final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     List<Course> liveCourses =
         courses.where((course) => liveCourseIds.contains(course.id)).toList();
     return ConstrainedBox(
@@ -64,12 +64,12 @@ class CoursesList extends ConsumerWidget {
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) {
-              final userViewModelNotifier =
-                  ref.read(userViewModelProvider.notifier);
+              final pinnedViewModelNotifier =
+                  ref.read(pinnedCourseViewModelProvider.notifier);
               if (isPinned) {
-                userViewModelNotifier.unpinCourse(course.id);
+                pinnedViewModelNotifier.unpinCourse(course.id);
               } else {
-                userViewModelNotifier.pinCourse(course.id);
+                pinnedViewModelNotifier.pinCourse(course.id);
               }
             },
             title: course.name,

@@ -5,9 +5,7 @@ import 'package:logger/logger.dart';
 
 import 'grpc_handler.dart';
 
-/// Handles user settings-related data operations.
-///
-/// This class is responsible for fetching and updating user settings.
+
 class SettingsHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
@@ -57,7 +55,7 @@ class SettingsHandler {
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
-      rethrow;
+      return false;
     }
   }
 
@@ -82,7 +80,7 @@ class SettingsHandler {
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
-      rethrow;
+      return false;
     }
   }
 
@@ -108,7 +106,7 @@ class SettingsHandler {
       return true;
     } catch (e) {
       _logger.e('Error updating user settings: $e');
-      rethrow;
+      return false;
     }
   }
 
