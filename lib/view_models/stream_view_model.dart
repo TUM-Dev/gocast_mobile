@@ -24,6 +24,28 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
+
+
+  void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
+    state = state.copyWith(displayedStreams: allStreams);
+  }
+
+  void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
+    updatedDisplayedStreams(
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
+  }
+
+  void updateSelectedFilterOption(
+    String option,
+    List<Tuple2<Stream, String>> allStreams,
+  ) {
+    state = state.copyWith(selectedFilterOption: option);
+    updatedDisplayedStreams(
+      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+    );
+  }
+
   /// This asynchronous function fetches thumbnails for all available streams in the current state.
   /// only if there are streams in the current state.
   /// It initiates fetching of thumbnails for each stream by invoking `fetchThumbnailForStream`.
@@ -47,23 +69,25 @@ class StreamViewModel extends StateNotifier<StreamState> {
     setUpDisplayedCourses(fetchedStreamsWithThumbnails);
   }
 
-  void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
-    state = state.copyWith(displayedStreams: allStreams);
-  }
-
-  void setUpDisplayedCourses(List<Tuple2<Stream, String>> allStreams) {
-    updatedDisplayedStreams(
-      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
-    );
-  }
-
-  void updateSelectedFilterOption(
-    String option,
-    List<Tuple2<Stream, String>> allStreams,
-  ) {
-    state = state.copyWith(selectedFilterOption: option);
-    updatedDisplayedStreams(
-      CourseUtils.sortStreams(allStreams, state.selectedFilterOption),
+  /// This asynchronous function fetches thumbnails for all available live streams in the current state.
+  /// only if there are live streams in the current state.
+  /// It initiates fetching of thumbnails for each live stream by invoking `fetchThumbnailForStream`.
+  Future<void> fetchLiveThumbnails() async {
+    if (state.liveStreams == null) {
+      return;
+    }
+    var fetchLiveThumbnailTasks = <Future<Tuple2<Stream, String>>>[];
+    for (var stream in state.liveStreams!) {
+      fetchLiveThumbnailTasks.add(
+        fetchStreamThumbnail(stream.id)
+            .then((thumbnail) => Tuple2(stream, thumbnail)),
+      );
+    }
+    var fetchedStreamsWithThumbnails =
+        await Future.wait(fetchLiveThumbnailTasks);
+    state = state.copyWith(
+      liveStreamsWithThumb: fetchedStreamsWithThumbnails,
+      isLoading: false,
     );
   }
 
