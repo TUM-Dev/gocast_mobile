@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
-import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/utils/section_kind.dart';
-import 'package:gocast_mobile/views/components/view_all_button.dart';
-import 'package:gocast_mobile/views/course_view/components/course_card.dart';
-import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
+
+import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
+import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
+import 'package:gocast_mobile/views/video_view/video_player.dart';
+import 'package:tuple/tuple.dart';
 
 /// CourseSection
 ///
@@ -23,21 +22,18 @@ import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail
 /// If no courses are provided, it will display a default list of courses.
 /// This widget can be reused for various course sections by providing
 /// different titles, courses and onViewAll actions.
-class CourseSection extends StatelessWidget {
+class LiveStreamSection extends StatelessWidget {
   final String sectionTitle;
-  final SectionKind
-      sectionKind; //0 for livestreams, 1 cor mycourses, 2 for puliccourses
   final List<Course> courses;
-  final List<Stream> streams;
+  final List<Tuple2<Stream, String>> streams;
   final VoidCallback? onViewAll;
   final WidgetRef ref;
   final String baseUrl = 'https://live.rbg.tum.de';
 
-  const CourseSection({
+  const LiveStreamSection({
     super.key,
     required this.ref,
     required this.sectionTitle,
-    required this.sectionKind,
     required this.streams,
     this.onViewAll,
     required this.courses,
@@ -61,91 +57,52 @@ class CourseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildCoursesTitle(context),
-          courses.isEmpty
+          const PulsingBackground(),
+          // Use the ternary conditional operator for inline conditions
+          streams.isEmpty
               ? _buildNoCoursesMessage(
                   context,
                 ) // If streams are empty, show no courses message
-              : _buildCourseList(context),
+              : _buildStreamList(context), // Otherwise, show the stream list
         ],
       ),
     );
   }
 
-  Widget _buildCourseList(BuildContext context) {
-    bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+  Widget _buildStreamList(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: streams.map((stream) {
+          String imagePath;
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
-      child: ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemCount: courses.length,
-        itemBuilder: (BuildContext context, int index) {
-          final course = courses[index];
-          final userPinned =
-              ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
+          imagePath = _getThumbnailUrl(stream.item2);
 
-          final isPinned = userPinned.contains(course);
-          return CourseCard(
-            course: course,
-            isPinned: isPinned,
-            onPinUnpin: (course) => _togglePin(course, isPinned),
-            title: course.name,
+          final course = courses
+              .where((course) => course.id == stream.item1.courseID)
+              .first;
+
+          return SmallStreamCard(
+            title: stream.item1.name,
+            subtitle: course.name,
             tumID: course.tUMOnlineIdentifier,
-            live: streams.any((stream) => stream.courseID == course.id),
+            roomName: stream.item1.roomName,
+            roomNumber: stream.item1.roomCode,
+            path: imagePath,
             courseId: course.id,
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CourseDetail(
-                    title: course.name,
-                    courseId: course.id,
+                  builder: (context) => VideoPlayerPage(
+                    stream: stream.item1,
                   ),
                 ),
               );
             },
           );
-        },
+        }).toList(),
       ),
-    );
-  }
-
-  Future<void> _togglePin(Course course, bool isPinned) async {
-    final pinnedViewModel = ref.read(pinnedCourseViewModelProvider.notifier);
-    if (isPinned) {
-      await pinnedViewModel.unpinCourse(course.id);
-    } else {
-      await pinnedViewModel.pinCourse(course.id);
-    }
-    await _refreshPinnedCourses();
-  }
-
-  Future<void> _refreshPinnedCourses() async {
-    await ref.read(pinnedCourseViewModelProvider.notifier).fetchUserPinned();
-  }
-
-  Widget _buildCoursesTitle(BuildContext context) {
-    IconData icon =
-        sectionKind == SectionKind.myCourses ? Icons.school : Icons.public;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Icon(icon),
-            const SizedBox(width: 10),
-            Text(
-              sectionTitle,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ],
-        ),
-        ViewAllButton(onViewAll: onViewAll),
-      ],
     );
   }
 
@@ -175,5 +132,12 @@ class CourseSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getThumbnailUrl(String thumbnail) {
+    if (!thumbnail.startsWith('http')) {
+      thumbnail = '$baseUrl$thumbnail';
+    }
+    return thumbnail;
   }
 }
