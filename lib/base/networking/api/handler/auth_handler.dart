@@ -64,7 +64,7 @@ class AuthHandler {
       _logger.i('JWT token saved successfully for user: $username');
     } catch (e) {
       _logger.e('Error saving JWT token for user: $username, Error: $e');
-      throw AppError.tokenSaveError(e);
+      throw AppError.userError();
     }
   }
 

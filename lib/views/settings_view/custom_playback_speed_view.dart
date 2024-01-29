@@ -15,7 +15,7 @@ void showAddCustomSpeedDialog(
         errorMessage = '';
       } else {
         double? parsedValue = double.tryParse(value);
-        if (parsedValue != null && parsedValue >= 0.25 && parsedValue <= 4.0) {
+        if (parsedValue != null && parsedValue >= 0.25 && parsedValue <= 2.0) {
           List<String> splitValue = value.split('.');
           if ((splitValue[0].length > 1) ||
               (splitValue.length > 1 && splitValue[1].length > 2)) {
@@ -24,7 +24,7 @@ void showAddCustomSpeedDialog(
             customSpeed = parsedValue;
           }
         } else {
-          errorMessage = 'Please enter a number between\n0.25 and 4.0';
+          errorMessage = 'Please enter a number between\n0.25 and 2.0';
         }
       }
     }

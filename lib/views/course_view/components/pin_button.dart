@@ -16,6 +16,12 @@ class PinButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isLoggedIn = ref.read(userViewModelProvider).user != null;
+    if (!isLoggedIn) {
+      return const Icon(
+        Icons.push_pin_outlined,
+        color: Colors.transparent,);
+    }
     return StatefulBuilder(
       builder: (context, setState) {
         return IconButton(

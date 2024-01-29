@@ -7,6 +7,8 @@ import 'package:gocast_mobile/utils/section_kind.dart';
 import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
+import 'dart:math' as math;
+
 
 /// CourseSection
 ///
@@ -26,7 +28,7 @@ import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
   final SectionKind
-      sectionKind; //0 for livestreams, 1 cor mycourses, 2 for puliccourses
+      sectionKind;
   final List<Course> courses;
   final List<Stream> streams;
   final VoidCallback? onViewAll;
@@ -74,9 +76,11 @@ class CourseSection extends StatelessWidget {
 
   Widget _buildCourseList(BuildContext context) {
     bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
+    int displayCount = math.min(courses.length, 3);
+    double cardHeight = 75;
 
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: isTablet ? 600 : 400),
+      constraints: BoxConstraints(maxHeight: isTablet ? double.infinity : cardHeight * displayCount,),
       child: ListView.builder(
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
@@ -89,6 +93,7 @@ class CourseSection extends StatelessWidget {
 
           final isPinned = userPinned.contains(course);
           return CourseCard(
+            isLoggedIn: ref.read(userViewModelProvider).user != null,
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) => _togglePin(course, isPinned),

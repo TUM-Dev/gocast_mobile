@@ -6,6 +6,7 @@ import 'package:gocast_mobile/base/networking/api/handler/stream_handler.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/video/stream_state_model.dart';
 import 'package:gocast_mobile/utils/sort_utils.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
 class StreamViewModel extends StateNotifier<StreamState> {
@@ -111,6 +112,7 @@ class StreamViewModel extends StateNotifier<StreamState> {
     try {
       return await StreamHandler(_grpcHandler).fetchThumbnailStreams(streamId);
     } catch (e) {
+      Logger().e(e);
       rethrow;
     }
   }
