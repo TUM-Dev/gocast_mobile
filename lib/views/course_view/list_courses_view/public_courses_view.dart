@@ -30,6 +30,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     Future.microtask(() async {
       await userViewModelNotifier.fetchPublicCourses();
+      await userViewModelNotifier.fetchSemesters();
     });
   }
 

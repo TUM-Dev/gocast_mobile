@@ -4,10 +4,8 @@ import 'package:gocast_mobile/base/networking/api/handler/course_handler.dart';
 import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
 import 'package:gocast_mobile/models/course/course_state_model.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
-import 'package:logger/logger.dart';
 
 class CourseViewModel extends StateNotifier<CourseState> {
-  final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
 
   CourseViewModel(this._grpcHandler) : super(const CourseState());
@@ -19,7 +17,6 @@ class CourseViewModel extends StateNotifier<CourseState> {
       state = state.copyWith(allCourses: courses, isLoading: false);
       return courses;
     } catch (e) {
-      _logger.e(e);
       state = state.copyWith(error: e as AppError, isLoading: false);
       return [];
     }

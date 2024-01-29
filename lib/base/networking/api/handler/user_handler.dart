@@ -25,7 +25,6 @@ class UserHandler {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.getUser(GetUserRequest());
-        _logger.i('User details fetched successfully');
         _logger.d('User details: ${response.user}');
         return response.user;
       },
@@ -43,7 +42,6 @@ class UserHandler {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.getUserCourses(GetUserCoursesRequest());
-        _logger.i('User courses fetched successfully');
         _logger.d('User courses: ${response.courses}');
         return response.courses;
       },
@@ -62,7 +60,6 @@ class UserHandler {
       (client) async {
         final response =
             await client.getUserAdminCourses(GetUserAdminRequest());
-        _logger.i('User admin courses fetched successfully');
         _logger.d('User admin courses: ${response.courses}');
         return response.courses;
       },
@@ -81,7 +78,6 @@ class UserHandler {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.getUserSettings(GetUserSettingsRequest());
-        _logger.i('User settings fetched successfully');
         _logger.d('User settings: ${response.userSettings}');
         return response.userSettings;
       },
