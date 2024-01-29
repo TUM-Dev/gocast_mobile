@@ -112,20 +112,19 @@ class SmallStreamCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
-    // Assuming `path` is now a URL string
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 16 / 12, // Maintain the same aspect ratio
+          aspectRatio: 16 / 12,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            // Keep the rounded corners
             child: Image.network(
-              path!, // Use the image URL
-              fit: BoxFit.cover, // Maintain the cover fit
+              path!,
+              fit: BoxFit.cover,
               loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null)
-                  return child; // Image is fully loaded
+                if (loadingProgress == null) {
+                  return child;
+                }
                 return Center(
                   child: CircularProgressIndicator(
                     value: loadingProgress.expectedTotalBytes != null
@@ -136,17 +135,14 @@ class SmallStreamCard extends StatelessWidget {
                 );
               },
               errorBuilder: (context, error, stackTrace) {
-                // Provide a fallback asset image in case of error
                 return Image.asset(
                   AppImages.course1,
-                  // Path to your default/fallback image asset
                   fit: BoxFit.cover,
                 );
               },
             ),
           ),
         ),
-        // If you have additional overlays like in the thumbnail widget, add them here
       ],
     );
   }

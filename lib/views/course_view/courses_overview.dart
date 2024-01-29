@@ -45,7 +45,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
   Widget build(BuildContext context) {
     if (isLoading) {
       // Show a loading spinner when data is being fetched
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
     final userCourses = ref.watch(userViewModelProvider).userCourses ?? [];
     final publicCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
@@ -165,7 +165,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
 
   Future<void> _refreshData() async {
     setState(
-        () => isLoading = true); // Set loading to true at the start of refresh
+        () => isLoading = true,); // Set loading to true at the start of refresh
 
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     await userViewModelNotifier.fetchUserCourses();
@@ -174,6 +174,6 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     await ref.read(videoViewModelProvider.notifier).fetchLiveThumbnails();
 
     setState(() =>
-        isLoading = false); // Set loading to false once refresh is complete
+        isLoading = false,); // Set loading to false once refresh is complete
   }
 }
