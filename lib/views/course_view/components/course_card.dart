@@ -65,7 +65,7 @@ class CourseCard extends StatelessWidget {
               course!,
                   onPinUnpin!,
                   isPinned!,
-                )
+                ),
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
-import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_card.dart';
+import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player.dart';
 
@@ -16,6 +16,7 @@ class DownloadedCourses extends ConsumerStatefulWidget {
 
 class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
   final TextEditingController searchController = TextEditingController();
+
   void _showDeleteConfirmationDialog(int videoId) {
     showDialog(
       context: context,
@@ -44,6 +45,7 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
       },
     );
   }
+
   //TODO: void _handleSortOptionSelected(String choice) {}
 
   @override
@@ -74,30 +76,31 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
             final String videoName = videoDetails.name;
             final int durationSeconds = videoDetails.duration;
             final String formattedDuration = "${(durationSeconds ~/ 3600).toString().padLeft(2, '0')}:${((durationSeconds % 3600) ~/ 60).toString().padLeft(2, '0')}:${(durationSeconds % 60).toString().padLeft(2, '0')}";
-            return VideoCard(
-              duration:
-              formattedDuration,
-              imageName: 'assets/images/course1.png',
-              // Update as necessary
-              title: videoName,
-              // Replace with the appropriate title
-              date: "",
-              // Replace with the appropriate date
-              onTap: () {
+            return  SmallStreamCard(
+              isDownloaded: true,
+                courseId: videoId,
+                title: videoName,
+                subtitle: formattedDuration,
+                tumID: "TUMID",
+                showDeleteConfirmationDialog: _showDeleteConfirmationDialog,
+                onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        OfflineVideoPlayerPage(localPath: localPath),
-                  ),
-                );
+                MaterialPageRoute(
+               builder: (context) =>
+               OfflineVideoPlayerPage(localPath: localPath),
+               ),
+               );
               },
-              onDelete: ()  {
-                _showDeleteConfirmationDialog(videoId);
-              },
-            );
+    );
           }).toList(),
         ),
       ),
     );
+
   }
 }
+
+
+//              onDelete: ()  {
+//                 _showDeleteConfirmationDialog(videoId);
+//               },
