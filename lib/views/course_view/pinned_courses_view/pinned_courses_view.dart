@@ -94,6 +94,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
             final isPinned =
                 userPinned.any((pinnedCourse) => pinnedCourse.id == course.id);
             return CourseCard(
+              isLoggedIn: true,
               course: course,
               isPinned: isPinned,
               onPinUnpin: (course) => _togglePin(course, isPinned),

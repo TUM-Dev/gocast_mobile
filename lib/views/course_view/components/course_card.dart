@@ -15,6 +15,7 @@ class CourseCard extends StatelessWidget {
   final Course? course;
   final Function(Course)? onPinUnpin;
   final bool? isPinned;
+  final bool isLoggedIn;
 
   //for displaying livestreams
   final String? subtitle;
@@ -30,6 +31,7 @@ class CourseCard extends StatelessWidget {
     this.course,
     this.onPinUnpin,
     this.isPinned,
+    required this.isLoggedIn,
   });
 
   @override
@@ -65,6 +67,7 @@ class CourseCard extends StatelessWidget {
               course!,
                   onPinUnpin!,
                   isPinned!,
+              isLoggedIn,
                 )
         ),
       ),
@@ -78,11 +81,13 @@ class CourseCard extends StatelessWidget {
     Course course,
     Function(Course) onPinUnpin,
     bool isPinned,
+      bool isLoggedIn,
   ) {
+
     return Slidable(
       key: ValueKey(course.id),
       closeOnScroll: true,
-      endActionPane: ActionPane(
+      endActionPane: isLoggedIn ? ActionPane(
         motion: const DrawerMotion(),
         dragDismissible: true,
         children: [
@@ -108,7 +113,7 @@ class CourseCard extends StatelessWidget {
               label: 'Pin',
             ),
         ],
-      ),
+      ) : null,
       child: IntrinsicHeight(
         child: Row(
           children: [

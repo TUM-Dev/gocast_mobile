@@ -93,6 +93,7 @@ class CourseSection extends StatelessWidget {
 
           final isPinned = userPinned.contains(course);
           return CourseCard(
+            isLoggedIn: ref.read(userViewModelProvider).user != null,
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) => _togglePin(course, isPinned),

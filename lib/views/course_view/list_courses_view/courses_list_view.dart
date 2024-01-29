@@ -59,6 +59,7 @@ class CoursesList extends ConsumerWidget {
           final course = courses[index];
           final isPinned = userPinned.contains(course);
           return CourseCard(
+            isLoggedIn: ref.read(userViewModelProvider).user != null,
             course: course,
             isPinned: isPinned,
             onPinUnpin: (course) {
