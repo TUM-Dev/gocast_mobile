@@ -144,7 +144,7 @@ class WelcomeScreen extends ConsumerWidget {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
             )
-          : Text(AppLocalizations.of(context)!.tum_login, style: TextStyle(fontSize: 18)),
+          : Text(AppLocalizations.of(context)!.tum_login, style: const TextStyle(fontSize: 18)),
       onPressed: () => handleSSOLogin(context, ref),
     );
   }
@@ -160,7 +160,7 @@ class WelcomeScreen extends ConsumerWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
-      child: Text(AppLocalizations.of(context)!.continue_without, style: TextStyle(fontSize: 18)),
+      child: Text(AppLocalizations.of(context)!.continue_without, style: const TextStyle(fontSize: 18)),
       onPressed: () {
         Navigator.pushNamed(context, '/publiccourses');
       },

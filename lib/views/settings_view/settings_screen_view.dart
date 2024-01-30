@@ -152,7 +152,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     .map((String lang) => ListTile(
                   title: Text(UserPreferences.getLanguageName(lang)),
                   onTap: () => Navigator.pop(context, lang),
-                ))
+                ),)
                     .toList(),
               ),
             );
