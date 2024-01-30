@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CustomBottomNavBar extends ConsumerWidget {
   const CustomBottomNavBar({super.key});
@@ -25,28 +27,28 @@ class CustomBottomNavBar extends ConsumerWidget {
             items: [
               _buildNavigationBarItem(
                 Icons.home,
-                'Home',
+                AppLocalizations.of(context)!.home,
                 context,
                 currentIndex,
                 0,
               ),
               _buildNavigationBarItem(
                 Icons.download,
-                'Downloads',
+                AppLocalizations.of(context)!.downloads,
                 context,
                 currentIndex,
                 1,
               ),
               _buildNavigationBarItem(
                 Icons.push_pin,
-                'Pinned',
+                AppLocalizations.of(context)!.pinned,
                 context,
                 currentIndex,
                 2,
               ),
               _buildNavigationBarItem(
                 Icons.notifications,
-                'Notifications',
+                AppLocalizations.of(context)!.notifications,
                 context,
                 currentIndex,
                 3,

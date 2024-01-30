@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
-import '../../../utils/constants.dart';
 
 /// CourseListScreen
 ///
@@ -42,13 +43,13 @@ class DownloadCoursesContentView extends ConsumerWidget {
             itemCount: videoCards.isEmpty ? 1 : videoCards.length,
             itemBuilder: (BuildContext context, int index) {
               if (videoCards.isEmpty) {
-                return const Center(
+                return  Center(
                   child: Padding(
                     padding: AppPadding.sectionPadding,
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 295.0),
-                        child: Text('No Downloaded Courses'),
+                        padding: const EdgeInsets.symmetric(vertical: 295.0),
+                        child: Text(AppLocalizations.of(context)!.no_downloaded_courses),
                       ),
                     ),
                   ),

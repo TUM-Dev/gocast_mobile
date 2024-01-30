@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CourseCard extends StatelessWidget {
   final String title;
@@ -101,7 +102,7 @@ class CourseCard extends StatelessWidget {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               icon: Icons.push_pin_outlined,
-              label: 'Unpin',
+              label: AppLocalizations.of(context)!.unpin ,
             ),
           if (!isPinned)
             SlidableAction(
@@ -110,7 +111,7 @@ class CourseCard extends StatelessWidget {
               backgroundColor: Colors.blue,
               foregroundColor: Colors.white,
               icon: Icons.push_pin,
-              label: 'Pin',
+              label: AppLocalizations.of(context)!.pin,
             ),
         ],
       ) : null,
@@ -129,7 +130,7 @@ class CourseCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _buildCourseTumID(),
-                        _buildCourseIsLive(),
+                        _buildCourseIsLive(context),
                       ],
                     ),
                     Padding(
@@ -151,17 +152,16 @@ class CourseCard extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Confirm Unpin'),
-              content:
-                  const Text('Are you sure you want to unpin this course?'),
+              title: Text(AppLocalizations.of(context)!.confirm_unpin_title),
+              content: Text(AppLocalizations.of(context)!.confirm_unpin_message),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: const Text('Unpin'),
+                  child: Text(AppLocalizations.of(context)!.unpin),
                 ),
               ],
             );
@@ -174,20 +174,20 @@ class CourseCard extends StatelessWidget {
 
 
 
-  Widget _buildCourseIsLive() {
+  Widget _buildCourseIsLive(BuildContext context) {
     if (live == null) return const SizedBox();
     return live!
-        ? const Row(
+        ?  Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.circle,
                 size: 10,
                 color: Colors.red,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
-                'Live Now',
-                style: TextStyle(
+                AppLocalizations.of(context)!.live_now,
+                style: const TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
                 ),

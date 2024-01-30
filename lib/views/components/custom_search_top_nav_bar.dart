@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/views/components/filter_popup_menu_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CustomSearchTopNavBar extends ConsumerWidget
     implements PreferredSizeWidget {
@@ -98,7 +100,7 @@ class CustomSearchTopNavBar extends ConsumerWidget
         onChanged: (value) {},
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: 'Search',
+          hintText: AppLocalizations.of(context)!.search,
           prefixIcon: Icon(
             Icons.search,
             color: Theme.of(context).inputDecorationTheme.hintStyle?.color,

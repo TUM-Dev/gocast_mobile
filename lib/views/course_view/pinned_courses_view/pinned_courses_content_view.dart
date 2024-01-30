@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 
@@ -42,7 +43,7 @@ class PinnedCoursesContentView extends ConsumerWidget {
             itemCount: pinnedCourseCards.isEmpty ? 1 : pinnedCourseCards.length,
             itemBuilder: (BuildContext context, int index) {
               if (pinnedCourseCards.isEmpty) {
-                return const Center(
+                return Center(
                   child: Padding(
                     padding: AppPadding.sectionPadding,
                     child: Center(
@@ -50,8 +51,8 @@ class PinnedCoursesContentView extends ConsumerWidget {
                         padding: AppPadding.sectionPadding,
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 295.0),
-                            child: Text('No Pinned Courses'),
+                            padding: const EdgeInsets.symmetric(vertical: 295.0),
+                            child: Text(AppLocalizations.of(context)!.pinned_empty,),
                           ),
                         ),
                       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void showPlaybackSpeedsPicker(
   BuildContext context,
@@ -43,11 +45,11 @@ void showPlaybackSpeedsPicker(
                       if (selectedSpeeds
                           .any((speed) => !defaultSpeeds.contains(speed))) ...[
                         const Divider(),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
+                         Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Custom Playback Speeds',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            AppLocalizations.of(context)!.custom_playback_speed,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         for (var speed in selectedSpeeds

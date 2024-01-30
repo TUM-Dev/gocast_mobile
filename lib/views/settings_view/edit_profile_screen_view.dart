@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -41,7 +43,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         title: Padding(
           padding:
               isLandscape ? const EdgeInsets.only(top: 16.0) : EdgeInsets.zero,
-          child: const Text('Edit Profile'),
+          child:  Text(AppLocalizations.of(context)!.edit_profile),
         ),
       ),
       body: Padding(
@@ -53,16 +55,16 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Preferred Name',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+               Text(
+                AppLocalizations.of(context)!.preferred_name,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: preferredNameController,
                 maxLength: 50,
                 decoration: InputDecoration(
-                  hintText: 'Enter your preferred name',
+                  hintText: AppLocalizations.of(context)!.enter_preferred_name,
                   border: const OutlineInputBorder(),
                   counterText: '${preferredNameController.text.length}/80',
                 ),
@@ -74,11 +76,10 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     color:
                         Theme.of(context).colorScheme.scrim.withOpacity(0.50),
                   ),
-                  children: const [
-                    TextSpan(text: 'You can change this '),
+                  children:  [
                     TextSpan(
-                      text: 'once every three months.',
-                      style: TextStyle(
+                      text: AppLocalizations.of(context)!.name_change_limitation,
+                      style: const TextStyle(
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
                       ),
@@ -93,10 +94,10 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
-                onPressed: () => _onSaveButtonPressed(),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  child: Text('Save'),
+                onPressed: () => _onSaveButtonPressed(context),
+                child:  Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Text(AppLocalizations.of(context)!.save),
                 ),
               ),
               const SizedBox(height: 16),
@@ -115,12 +116,12 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     );
   }
 
-  void _onSaveButtonPressed() {
+  void _onSaveButtonPressed(BuildContext context) {
     if (mounted) {
       if (preferredNameController.text.trim().isNotEmpty) {
         _updatePreferredName(preferredNameController.text);
       } else {
-        _showErrorDialog('Please enter a preferred name');
+        _showErrorDialog(AppLocalizations.of(context)!.enter_preferred_name);
       }
     }
   }
@@ -132,11 +133,11 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           .updatePreferredName(name);
       if (success) {
         setState(() {
-          infoText = 'Preferred name saved: $name';
+          infoText = AppLocalizations.of(context)!.preferred_name_saved(name);
           isError = false;
         });
       } else {
-        _showErrorDialog('Preferred name can only be changed every 3 months');
+        _showErrorDialog('3 months');
       }
     } catch (e) {
       _showErrorDialog('An error occurred');
@@ -150,7 +151,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text("Error"),
-          content: Text(errorMessage),
+          content: Text(errorMessage== '3 months' ? AppLocalizations.of(context)!.name_change_limitation : errorMessage),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),

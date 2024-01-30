@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/UserPreferences.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/theme.dart';
 import 'package:gocast_mobile/navigation_tab.dart';
@@ -11,6 +12,9 @@ import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gocast_mobile/l10n/l10n.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -18,6 +22,7 @@ Future<void> main() async {
   Logger.level = Level.info;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await UserPreferences.init();
 
   runApp(
      const ProviderScope(
@@ -46,6 +51,14 @@ class App extends ConsumerWidget {
     _setupNotifications(ref, userState);
 
     return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: L10n.all,
+      locale: Locale(UserPreferences.getLanguage()),
       theme: appTheme, // Your light theme
       darkTheme: darkAppTheme, // Define your dark theme
       themeMode:

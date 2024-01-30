@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/components/pin_button.dart';
@@ -87,7 +88,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
         onClick: _handleSortOptionSelected,
-        filterOptions: const ['Newest First', 'Oldest First'],
+        filterOptions: [AppLocalizations.of(context)!.newest_first, AppLocalizations.of(context)!.oldest_first],
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshStreams(widget.courseId),
@@ -166,7 +167,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
                 ),
               ),
             )
-          : const Center(child: Text('No courses available')),
+          :  Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
     );
   }
 

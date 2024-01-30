@@ -5,6 +5,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/courses_list_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PublicCourses extends ConsumerStatefulWidget {
   const PublicCourses({super.key});
@@ -89,7 +90,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
           children: [
             CoursesList(
               courses: publicCourses,
-              title: 'Public Courses',
+              title: AppLocalizations.of(context)!.public_courses,
             ),
           ],
         ),

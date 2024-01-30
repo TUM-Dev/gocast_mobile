@@ -5,6 +5,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/custom_search_top_nav_bar_back_button.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/courses_list_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyCourses extends ConsumerStatefulWidget {
   const MyCourses({super.key});
@@ -86,7 +87,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
           dragStartBehavior: DragStartBehavior.down,
           children: [
             CoursesList(
-              title: 'My Courses',
+              title: AppLocalizations.of(context)!.my_courses,
               courses: myCourses,
             ),
           ],

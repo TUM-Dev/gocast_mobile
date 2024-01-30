@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'notifications_screen_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MyNotifications extends ConsumerStatefulWidget {
   const MyNotifications({super.key});
@@ -33,7 +35,7 @@ class MyNotificationsState extends ConsumerState<MyNotifications> {
     final bannerAlerts = notificationState.bannerAlerts ?? [];
 
     return NotificationsScreen(
-      title: 'Notifications',
+      title: AppLocalizations.of(context)!.notifications,
       pushNotifications: pushNotifications,
       featureNotifications: featureNotifications,
       bannerAlerts: bannerAlerts,

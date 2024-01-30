@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void showAddCustomSpeedDialog(
   BuildContext context,
@@ -19,12 +21,12 @@ void showAddCustomSpeedDialog(
           List<String> splitValue = value.split('.');
           if ((splitValue[0].length > 1) ||
               (splitValue.length > 1 && splitValue[1].length > 2)) {
-            errorMessage = 'Number is too long';
+            errorMessage = AppLocalizations.of(context)!.number_too_long;
           } else {
             customSpeed = parsedValue;
           }
         } else {
-          errorMessage = 'Please enter a number between\n0.25 and 2.0';
+          errorMessage = AppLocalizations.of(context)!.enter_number_between;
         }
       }
     }
@@ -40,13 +42,13 @@ void showAddCustomSpeedDialog(
               borderRadius: BorderRadius.circular(12.0),
             ),
             backgroundColor: Theme.of(context).colorScheme.onPrimary,
-            title: const Text('Add Custom Speed'),
+            title: Text(AppLocalizations.of(context)!.add_custom_speed),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Enter speed (e.g., 1.7)',
+                    hintText: AppLocalizations.of(context)!.enter_speed,
                     errorText: errorMessage.isNotEmpty ? errorMessage : null,
                   ),
                   keyboardType:
@@ -61,7 +63,7 @@ void showAddCustomSpeedDialog(
             ),
             actions: <Widget>[
               TextButton(
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -75,7 +77,7 @@ void showAddCustomSpeedDialog(
                         onSpeedAdded(customSpeed);
                       }
                     : null,
-                child: const Text('Add'),
+                child: Text(AppLocalizations.of(context)!.add),
               ),
             ],
           );

@@ -8,6 +8,7 @@ import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'package:gocast_mobile/views/course_view/pinned_courses_view/pinned_courses_content_view.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PinnedCourses extends ConsumerStatefulWidget {
   const PinnedCourses({super.key});
@@ -86,7 +87,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
         child: PinnedCoursesContentView(
           customAppBar: CustomSearchTopNavBar(
             searchController: searchController,
-            title: "Pinned Courses",
+            title: AppLocalizations.of(context)!.pinned_courses,
             filterOptions: filterOptions,
             onClick: filterCoursesBySemester,
           ),

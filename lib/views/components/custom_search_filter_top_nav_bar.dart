@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CustomSearchFilterTopNavBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -32,11 +34,11 @@ class CustomSearchFilterTopNavBar extends StatelessWidget
         ),
         child: TextField(
           controller: searchController,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: 'Search',
-            prefixIcon: Icon(Icons.search, color: Color(0x993C3C43)),
-            hintStyle: TextStyle(
+            hintText: AppLocalizations.of(context)!.search,
+            prefixIcon: const Icon(Icons.search, color: Color(0x993C3C43)),
+            hintStyle: const TextStyle(
               color: Color(0x993C3C43),
               fontSize: 17,
               fontFamily: 'SF Pro Text',

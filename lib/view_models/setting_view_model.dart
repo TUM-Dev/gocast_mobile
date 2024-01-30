@@ -120,4 +120,5 @@ class SettingViewModel extends StateNotifier<SettingState> {
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }
+
 }

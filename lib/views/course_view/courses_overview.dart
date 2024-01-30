@@ -8,8 +8,8 @@ import 'package:gocast_mobile/views/course_view/components/live_stream_section.d
 import 'package:gocast_mobile/views/course_view/list_courses_view/my_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// current index of the bottom navigation bar (0 = My Courses, 1 = Public Courses)
 class CourseOverview extends ConsumerStatefulWidget {
   const CourseOverview({super.key});
 
@@ -75,7 +75,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 Center(
                     child: LiveStreamSection(
                   ref: ref,
-                  sectionTitle: "Live Now",
+                  sectionTitle: AppLocalizations.of(context)!.live_now,
                   courses: (userCourses) + (publicCourses),
                   streams: liveStreamWithThumb,
                 ),
@@ -86,7 +86,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                   children: [
                     Expanded(
                       child: _buildSection(
-                        "My Courses",
+                        AppLocalizations.of(context)!.my_courses,
                         SectionKind.myCourses,
                         userCourses,
                         liveStreams,
@@ -94,7 +94,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     ),
                     Expanded(
                       child: _buildSection(
-                        "Public Courses",
+                        AppLocalizations.of(context)!.public_courses,
                         SectionKind.publicCourses,
                         publicCourses,
                         liveStreams,
@@ -104,13 +104,13 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 )
               else ...[
                 _buildSection(
-                  "My Courses",
+                  AppLocalizations.of(context)!.my_courses,
                   SectionKind.myCourses,
                   userCourses,
                   liveStreams,
                 ),
                 _buildSection(
-                  "Public Courses",
+                  AppLocalizations.of(context)!.public_courses,
                   SectionKind.publicCourses,
                   publicCourses,
                   liveStreams,
@@ -131,21 +131,23 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
       ref: ref,
       sectionTitle: title,
       sectionKind: sectionKind,
-      onViewAll: () => _onViewAllPressed(title),
+      onViewAll: () => _onViewAllPressed(sectionKind),
       courses: courses,
       streams: streams,
     );
   }
 
-  void _onViewAllPressed(String title) {
-    switch (title) {
-      case "My Courses":
+  void _onViewAllPressed(SectionKind sectionKind) {
+    switch (sectionKind) {
+      case SectionKind.myCourses:
         _navigateTo(const MyCourses());
         break;
-      case "Public Courses":
+      case SectionKind.publicCourses:
         _navigateTo(const PublicCourses());
         break;
       // Add more cases as needed
+      case SectionKind.livestreams:
+        break;
     }
   }
 

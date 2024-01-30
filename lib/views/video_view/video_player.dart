@@ -13,6 +13,8 @@ import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.da
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class VideoPlayerPage extends ConsumerStatefulWidget {
   final Stream stream;
@@ -74,12 +76,12 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       await ref
           .read(courseViewModelProvider.notifier)
           .getCourseWithID(widget.stream.courseID);
+      await ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.stream.id);
       Course? course = ref
           .read(courseViewModelProvider)
           .course;
       if (course != null) {
-        if ((course.chatEnabled || course.vodChatEnabled) &&
-            widget.stream.chatEnabled) {
+        if (course.chatEnabled && course.vodChatEnabled && widget.stream.chatEnabled) {
           setState(() {
             _isChatActive = true;
             _isPollActive = true;
@@ -208,7 +210,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   bool _shouldMarkAsWatched(double progress) {
-    const watchedThreshold = 0.9; // 80%
+    const watchedThreshold = 0.9;
     return progress >= watchedThreshold;
   }
 
@@ -292,7 +294,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     String fileName = "stream.mp4";
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Starting download...')),
+       SnackBar(content: Text(AppLocalizations.of(context)!.starting_download)),
     );
     // Call the download function from the StreamViewModel
 

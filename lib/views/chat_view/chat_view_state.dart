@@ -8,6 +8,7 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/chat_view.dart';
 import 'package:logger/logger.dart';
 
+
 class ChatViewState extends ConsumerState<ChatView> {
   late ScrollController _scrollController;
   Timer? _updateTimer;

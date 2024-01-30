@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SmallStreamCard extends StatelessWidget {
   final String title;
@@ -65,6 +66,7 @@ class SmallStreamCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: _buildStreamCard(
+            context,
             themeData,
             cardWidth,
           ),
@@ -73,11 +75,11 @@ class SmallStreamCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStreamCard(ThemeData themeData, double cardWidth) {
-    return (isDownloaded!=null && showDeleteConfirmationDialog!=null) ? _buildDownloadedCard(themeData, cardWidth) : _buildLiveCard(themeData, cardWidth);
+  Widget _buildStreamCard(BuildContext context, ThemeData themeData, double cardWidth) {
+    return (isDownloaded!=null && showDeleteConfirmationDialog!=null) ? _buildDownloadedCard(context, themeData, cardWidth) : _buildLiveCard(themeData, cardWidth);
   }
 
-  Widget _buildDownloadedCard (ThemeData themeData, double cardWidth) {
+  Widget _buildDownloadedCard (BuildContext context, ThemeData themeData, double cardWidth) {
     return Slidable(
         key: Key(courseId.toString()),
         closeOnScroll: true,
@@ -91,7 +93,7 @@ class SmallStreamCard extends StatelessWidget {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               icon: Icons.delete_rounded,
-              label: 'Delete',
+              label: AppLocalizations.of(context)!.delete,
             ),
           ],
         ),
