@@ -72,7 +72,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ref: ref,
               ),
               _buildThemeSelectionTile(context, ref),
-              _builLanguageSelectionTile(context, ref),
+              _buildLanguageSelectionTile(context, ref),
               _buildSwitchListTile(
                 title: AppLocalizations.of(context)!.download_over_wifi_only,
                 value: settingState.isDownloadWithWifiOnly,
@@ -136,31 +136,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  ListTile _builLanguageSelectionTile(BuildContext context, WidgetRef ref) {
+  ListTile _buildLanguageSelectionTile(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(AppLocalizations.of(context)!.language_selection),
       subtitle: Text(UserPreferences.getLanguageName(UserPreferences.getLanguage())),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () async {
-        String? selectedLanguage = await showDialog<String>(
+        final selectedLanguage = await showModalBottomSheet<String>(
           context: context,
           builder: (BuildContext context) {
-            return SimpleDialog(
-              title: Text(AppLocalizations.of(context)!.language_selection_description),
-              children: <String>['en', 'fr', 'de', 'es']
-                  .map((String lang) => SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, lang);
-                },
-                child: Text(UserPreferences.getLanguageName(lang)), // Assuming you have a method to get the language name
-              ))
-                  .toList(),
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <String>['en', 'fr', 'de', 'es']
+                    .map((String lang) => ListTile(
+                  title: Text(UserPreferences.getLanguageName(lang)),
+                  onTap: () => Navigator.pop(context, lang),
+                ))
+                    .toList(),
+              ),
             );
           },
         );
+
         if (selectedLanguage != null) {
           await UserPreferences.setLanguage(selectedLanguage);
-          //to rebuild the app
+          // To rebuild the app
           ref.read(settingViewModelProvider.notifier).setLoading(false);
         }
       },
