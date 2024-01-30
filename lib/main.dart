@@ -56,7 +56,7 @@ class App extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: L10n.all,
-      locale: const Locale('fr'),
+      locale: const Locale('de'),
       theme: appTheme, // Your light theme
       darkTheme: darkAppTheme, // Define your dark theme
       themeMode:

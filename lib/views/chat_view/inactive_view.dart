@@ -5,6 +5,8 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/suggested_streams_list.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class InactiveView extends ConsumerStatefulWidget {
   final int? streamID;
@@ -62,8 +64,8 @@ class InactiveViewState extends ConsumerState<InactiveView> {
           ),
           child: Text(
             chatState.accessDenied
-                ? 'Chat is disabled for this lecture'
-                : 'Chat is Hidden',
+                ? AppLocalizations.of(context)!.chat_is_disabled_for_this_lecture
+                : AppLocalizations.of(context)!.chat_is_hidden,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,

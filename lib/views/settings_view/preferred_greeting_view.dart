@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PreferredGreetingView extends ConsumerWidget {
   const PreferredGreetingView({super.key});
@@ -19,7 +21,7 @@ class PreferredGreetingView extends ConsumerWidget {
         'Default Greeting';
 
     return ListTile(
-      title: const Text('Preferred Greeting'),
+      title: Text(AppLocalizations.of(context)!.preferred_greeting),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -21,12 +21,12 @@ void showAddCustomSpeedDialog(
           List<String> splitValue = value.split('.');
           if ((splitValue[0].length > 1) ||
               (splitValue.length > 1 && splitValue[1].length > 2)) {
-            errorMessage = 'Number is too long';
+            errorMessage = AppLocalizations.of(context)!.number_too_long;
           } else {
             customSpeed = parsedValue;
           }
         } else {
-          errorMessage = 'Please enter a number between\n0.25 and 2.0';
+          errorMessage = AppLocalizations.of(context)!.enter_number_between;
         }
       }
     }

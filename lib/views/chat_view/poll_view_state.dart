@@ -5,6 +5,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 
+
 class PollViewState extends ConsumerState<PollView> {
   Timer? _updateTimer;
   Map<int, int> selectedOptions = {};
@@ -77,7 +78,6 @@ class PollViewState extends ConsumerState<PollView> {
     ThemeData themeData = Theme.of(context);
     return Opacity(
       opacity: 0.5,
-      // You might want to adjust this value based on your design needs
       child: Card(
         elevation: 1,
         shadowColor: themeData.shadowColor,
@@ -103,11 +103,10 @@ class PollViewState extends ConsumerState<PollView> {
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  // to disable GridView's scrolling
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio:
-                        3, // Adjust the aspect ratio to fit the content
+                        3,
                   ),
                   itemCount: poll.pollOptions.length,
                   itemBuilder: (context, index) {
@@ -127,20 +126,19 @@ class PollViewState extends ConsumerState<PollView> {
       PollOption option, int? selectedOptionId,) {
     bool isSelected = option.id == selectedOptionId;
     return Container(
-      margin: const EdgeInsets.all(4.0), // Add some spacing around each button
+      margin: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
         color: isSelected ? Colors.grey : Colors.white,
-        // Use grey for the selected option, white for others
         borderRadius: BorderRadius.circular(8.0),
         border:
-            Border.all(color: Colors.grey), // Use grey border for all options
+            Border.all(color: Colors.grey),
       ),
       child: Center(
         child: Text(
           option.answer,
           style: const TextStyle(
             color:
-                Colors.black, // Text color remains black to ensure readability
+                Colors.black,
           ),
         ),
       ),
@@ -173,11 +171,10 @@ class PollViewState extends ConsumerState<PollView> {
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                // to disable GridView's scrolling
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio:
-                      3, // Adjust the aspect ratio to fit the content
+                      3,
                 ),
                 itemCount: poll.pollOptions.length,
                 itemBuilder: (context, index) {
@@ -228,22 +225,19 @@ class PollViewState extends ConsumerState<PollView> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
-        // Center the question since there's no subtitle or trailing widget
         children: [
           Expanded(
             child: Text(
               poll.question,
               style: const TextStyle(
-                fontSize: 16.0, // Match the font size used in _buildHeader
+                fontSize: 16.0,
                 fontWeight: FontWeight
-                    .bold, // Match the font weight used in _buildHeader
+                    .bold,
               ),
               textAlign: TextAlign.center,
-              // Keep text alignment to center as it's a question
               maxLines: 2,
-              // Optional: Use if you want to limit the number of lines for the question
               overflow: TextOverflow
-                  .ellipsis, // Optional: Use to handle text overflow
+                  .ellipsis,
             ),
           ),
         ],
@@ -269,18 +263,18 @@ class PollViewState extends ConsumerState<PollView> {
         }
             : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).primaryColor, // Use the primary color of your theme
-          foregroundColor: Colors.white, // Text color is white for better contrast
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0), // Less rounded corners for a more rectangular look
+            borderRadius: BorderRadius.circular(8.0),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 30.0), // Adjust padding to control the button's shape
-          minimumSize: const Size(double.infinity, 48), // Ensuring full width and a consistent height
-          elevation: 2, // Slight elevation for a subtle shadow, adjust as needed
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 30.0),
+          minimumSize: const Size(double.infinity, 48),
+          elevation: 2,
         ),
         child: const Text(
           'Submit',
-          style: TextStyle(fontSize: 16), // Adjust font size as needed
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );

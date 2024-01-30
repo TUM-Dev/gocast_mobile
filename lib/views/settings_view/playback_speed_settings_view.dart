@@ -5,6 +5,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/settings_view/playback_speed_picker_view.dart';
 import 'package:gocast_mobile/views/settings_view/custom_playback_speed_view.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlaybackSpeedSettings extends ConsumerWidget {
   const PlaybackSpeedSettings({super.key});
@@ -29,7 +30,7 @@ class PlaybackSpeedSettings extends ConsumerWidget {
     List<double> playbackSpeeds,
   ) {
     return ListTile(
-      title: const Text('Playback Speeds'),
+      title:  Text(AppLocalizations.of(context)!.playback_speed),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () => showPlaybackSpeedsPicker(
         context,
@@ -44,7 +45,7 @@ class PlaybackSpeedSettings extends ConsumerWidget {
 
   ListTile _buildCustomPlaybackSpeedsTile(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: const Text('Add Custom Playback Speed'),
+      title: Text(AppLocalizations.of(context)!.add_custom_playback_speed),
       onTap: () {
         showAddCustomSpeedDialog(context, (double customSpeed) {
           _updateSelectedSpeeds(context, ref, customSpeed, true);

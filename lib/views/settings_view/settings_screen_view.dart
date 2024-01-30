@@ -8,6 +8,8 @@ import 'package:gocast_mobile/views/settings_view/edit_profile_screen_view.dart'
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -45,8 +47,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             children: [
               _buildProfileTile(userState),
               const Divider(),
-              _buildSectionTitle('Account Settings'),
-              _buildEditableListTile('Edit profile', () async {
+              _buildSectionTitle(AppLocalizations.of(context)!.account_settings),
+              _buildEditableListTile(AppLocalizations.of(context)!.edit_profile, () async {
                 bool isAuthenticated =
                     await showAuthenticationErrorCard(context, ref);
                 if (isAuthenticated && mounted) {
@@ -59,7 +61,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }),
               const PreferredGreetingView(),
               _buildSwitchListTile(
-                title: 'Push notifications',
+                title: AppLocalizations.of(context)!.push_notifications,
                 value: settingState.isPushNotificationsEnabled,
                 onChanged: (value) {
                   ref
@@ -70,7 +72,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               _buildThemeSelectionTile(context, ref),
               _buildSwitchListTile(
-                title: 'Download Over Wi-Fi only',
+                title: AppLocalizations.of(context)!.download_over_wifi_only,
                 value: settingState.isDownloadWithWifiOnly,
                 onChanged: (value) {
                   ref
@@ -79,18 +81,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
                 ref: ref,
               ),
-              _buildSectionTitle('Video Playback Speed'),
+              _buildSectionTitle(AppLocalizations.of(context)!.playback_speed),
               const PlaybackSpeedSettings(),
               _buildLogoutTile(context),
               const Divider(),
-              _buildSectionTitle('More'),
-              _buildNavigableListTile('About us', ""),
+              _buildSectionTitle(AppLocalizations.of(context)!.more),
+              _buildNavigableListTile(AppLocalizations.of(context)!.about_us, ""),
               _buildNavigableListTile(
-                'Privacy policy',
+                AppLocalizations.of(context)!.privacy_policy,
                 "https://live.rbg.tum.de/privacy",
               ),
               _buildNavigableListTile(
-                'Terms and conditions',
+                AppLocalizations.of(context)!.terms_and_conditions,
                 "https://live.rbg.tum.de/imprint",
               ),
             ],
@@ -102,7 +104,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Settings'),
+      title: Text(AppLocalizations.of(context)!.settings),
       leading: IconButton(
         icon: !_isTablet(context)
             ? const Icon(Icons.arrow_back_ios)
@@ -118,15 +120,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     String themeModeText;
     if (settingState.isDarkMode) {
-      themeModeText = 'Dark Mode';
+      themeModeText = AppLocalizations.of(context)!.dark;
     } else if (settingState.isLightMode) {
-      themeModeText = 'Light Mode';
+      themeModeText = AppLocalizations.of(context)!.light;
     } else {
-      themeModeText = 'System Default';
+      themeModeText = AppLocalizations.of(context)!.system_default;
     }
 
     return ListTile(
-      title: const Text('Choose Theme'),
+      title:  Text(AppLocalizations.of(context)!.choose_theme),
       subtitle: Text(themeModeText),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () => _showThemeSelectionSheet(context, ref),
@@ -141,7 +143,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                title: const Text('System Default'),
+                title:  Text(AppLocalizations.of(context)!.system_default),
                 onTap: () {
                   ref
                       .read(settingViewModelProvider.notifier)
@@ -150,7 +152,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
               ),
               ListTile(
-                title: const Text('Dark Mode'),
+                title: Text(AppLocalizations.of(context)!.dark),
                 onTap: () {
                   ref
                       .read(settingViewModelProvider.notifier)
@@ -159,7 +161,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
               ),
               ListTile(
-                title: const Text('Light Mode'),
+                title: Text(AppLocalizations.of(context)!.light),
                 onTap: () {
                   ref
                       .read(settingViewModelProvider.notifier)
@@ -237,7 +239,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   ListTile _buildLogoutTile(BuildContext context) {
     return ListTile(
       title: Text(
-        'Log out',
+        AppLocalizations.of(context)!.logout,
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
       onTap: () => _showLogoutDialog(context),
@@ -252,18 +254,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Log Out'),
-          content: const Text('Would you like to delete all your downloads?'),
+          title:  Text(AppLocalizations.of(context)!.logout),
+          content: Text(AppLocalizations.of(context)!.logout_message),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               // User chooses not to delete downloads
-              child: const Text('No'),
+              child: Text(AppLocalizations.of(context)!.no),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
               // User chooses to delete downloads
-              child: const Text('Yes'),
+              child: Text(AppLocalizations.of(context)!.yes),
             ),
           ],
         );

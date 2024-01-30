@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Welcome screen view.
 /// This is the first screen that the user sees when the app is opened.
@@ -44,9 +45,9 @@ class WelcomeScreen extends ConsumerWidget {
         const Spacer(),
         _buildLogo(screenSize),
         SizedBox(height: screenSize.height * 0.03),
-        _buildWelcomeText(),
+        _buildWelcomeText(context),
         const SizedBox(height: 8),
-        _buildOverviewText(),
+        _buildOverviewText(context),
         const Spacer(),
         _buildLoginButton(context, ref),
         const SizedBox(height: 12),
@@ -73,9 +74,9 @@ class WelcomeScreen extends ConsumerWidget {
             children: <Widget>[
               _buildLogo(screenSize),
               const SizedBox(height: 24),
-              _buildWelcomeText(),
+              _buildWelcomeText(context),
               const SizedBox(height: 8),
-              _buildOverviewText(),
+              _buildOverviewText(context),
               const SizedBox(height: 48),
               _buildLoginButton(context, ref),
               const SizedBox(height: 12),
@@ -103,11 +104,11 @@ class WelcomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildWelcomeText() {
-    return const Text(
-      'Welcome to Gocast',
+  Widget _buildWelcomeText(BuildContext context) {
+    return Text(
+      AppLocalizations.of(context)!.welcome_to_gocast,
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: Color(0xFF0D47A1),
@@ -115,11 +116,11 @@ class WelcomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildOverviewText() {
-    return const Text(
-      "Your Lectures on the Go",
+  Widget _buildOverviewText(BuildContext context) {
+    return Text(
+      AppLocalizations.of(context)!.your_lectures_on_the_go,
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16, color: Colors.black54),
+      style: const TextStyle(fontSize: 16, color: Colors.black54),
     );
   }
 
@@ -143,7 +144,7 @@ class WelcomeScreen extends ConsumerWidget {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
             )
-          : const Text('TUM Login', style: TextStyle(fontSize: 18)),
+          : Text(AppLocalizations.of(context)!.tum_login, style: TextStyle(fontSize: 18)),
       onPressed: () => handleSSOLogin(context, ref),
     );
   }
@@ -159,9 +160,8 @@ class WelcomeScreen extends ConsumerWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
-      child: const Text('Continue without', style: TextStyle(fontSize: 18)),
+      child: Text(AppLocalizations.of(context)!.continue_without, style: TextStyle(fontSize: 18)),
       onPressed: () {
-        //TODO: Continue without login action
         Navigator.pushNamed(context, '/publiccourses');
       },
     );
@@ -173,10 +173,10 @@ class WelcomeScreen extends ConsumerWidget {
         context,
         MaterialPageRoute(builder: (context) => const InternalLoginScreen()),
       ),
-      child: const Center(
+      child:  Center(
         child: Text(
-          'Use an internal account',
-          style: TextStyle(
+          AppLocalizations.of(context)!.use_an_internal_account,
+          style: const TextStyle(
             decoration: TextDecoration.underline,
             color: Colors.grey,
             decorationColor: Colors.grey,

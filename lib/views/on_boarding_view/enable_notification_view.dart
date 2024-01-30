@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class EnableNotificationscreen extends StatelessWidget {
   const EnableNotificationscreen({super.key});
@@ -20,20 +22,20 @@ class EnableNotificationscreen extends StatelessWidget {
                 height: 200.0,
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Turn on Notifications ?',
+              Text(
+                AppLocalizations.of(context)!.turn_on_notifications,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
-                "Receive instant updates on live lectures, upcoming quizzes, and important announcements. Never miss a beat in your academic journey.",
+              Text(
+                AppLocalizations.of(context)!.notifications_description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black54,
                 ),
@@ -49,16 +51,16 @@ class EnableNotificationscreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: const Text(
-                  'Enable notifications',
-                  style: TextStyle(fontSize: 18),
+                child: Text(
+                  AppLocalizations.of(context)!.enable_notifications,
+                  style: const TextStyle(fontSize: 18),
                 ),
                 onPressed: () {},
               ),
               const SizedBox(height: 12),
               TextButton(
                 child: Text(
-                  'Skip',
+                  AppLocalizations.of(context)!.skip,
                   style: TextStyle(fontSize: 18, color: Colors.blue[900]),
                 ),
                 onPressed: () {},

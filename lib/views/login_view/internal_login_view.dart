@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 /// Internal login screen view.
 ///
@@ -39,21 +41,21 @@ class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildWelcomeText(),
+                _buildWelcomeText(context),
                 const SizedBox(height: 48),
                 _buildTextField(
-                  'Username',
+                  AppLocalizations.of(context)!.username,
                   'e.g. go42tum / example@tum.de',
                   usernameController,
                 ),
                 const SizedBox(height: 24),
                 _buildTextField(
-                  'Password',
-                  'Enter your password',
+                  AppLocalizations.of(context)!.password,
+                  AppLocalizations.of(context)!.enter_your_password,
                   passwordController,
                   obscureText: true,
                 ),
-                _buildForgotPasswordButton(),
+                _buildForgotPasswordButton(context),
                 const SizedBox(height: 24),
                 _buildLoginButton(context, ref),
               ],
@@ -64,9 +66,9 @@ class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
     );
   }
 
-  Widget _buildWelcomeText() {
+  Widget _buildWelcomeText(BuildContext context) {
     return Text(
-      'Welcome To GoCast!',
+      AppLocalizations.of(context)!.welcome_to_gocast,
       textAlign: TextAlign.center,
       style: TextStyle(
         color: Colors.blue[900],
@@ -101,14 +103,14 @@ class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
     );
   }
 
-  Widget _buildForgotPasswordButton() {
+  Widget _buildForgotPasswordButton(BuildContext context) {
     return TextButton(
       onPressed: () {
         // TODO: Forgot Password action
       },
-      child: const Text(
-        'Forgot Password?',
-        style: TextStyle(color: Colors.blue),
+      child: Text(
+        AppLocalizations.of(context)!.forgot_password,
+        style: const TextStyle(color: Colors.blue),
       ),
     );
   }

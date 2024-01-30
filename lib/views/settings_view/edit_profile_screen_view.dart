@@ -78,7 +78,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                   children:  [
                     TextSpan(
-                      text: AppLocalizations.of(context)!.change_limitation_detail,
+                      text: AppLocalizations.of(context)!.name_change_limitation,
                       style: const TextStyle(
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           isError = false;
         });
       } else {
-        _showErrorDialog('Preferred name can only be changed every 3 months');
+        _showErrorDialog('3 months');
       }
     } catch (e) {
       _showErrorDialog('An error occurred');
@@ -151,7 +151,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text("Error"),
-          content: Text(errorMessage),
+          content: Text(errorMessage== '3 months' ? AppLocalizations.of(context)!.name_change_limitation : errorMessage),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
