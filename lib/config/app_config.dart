@@ -6,8 +6,6 @@ class AppConfig {
 
   AppConfig._(); // Private constructor
 
-  // Determine the root URL based on the platform
-  // Used for development only. Once the api is deployed, this can be ignored.
   static String get _rootUrl => 'https://1279.test.live.mm.rbg.tum.de';
 
   // Authentication URLs
@@ -23,10 +21,10 @@ class AppConfig {
 
   static const int grpcPort = 443;
 }
+
 /// Routes - Defines HTTP and gRPC routes for the application.
 class Routes {
   Routes._(); // Private constructor
-
   // HTTP routes
   static String get basicLogin => AppConfig.basicAuthUrl;
 
