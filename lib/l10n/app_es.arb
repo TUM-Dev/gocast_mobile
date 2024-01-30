@@ -93,5 +93,7 @@
   "username": "nombre de usuario",
   "password": "contraseña",
   "enter_your_password": "Introduce tu contraseña",
-  "home": "Inicio"
+  "home": "Inicio",
+  "language_selection": "Idioma",
+  "language_selection_description": "Selecciona tu idioma preferido."
 }

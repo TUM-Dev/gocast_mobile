@@ -93,5 +93,7 @@
   "username": "username",
   "password": "password",
   "enter_your_password": "Enter your password",
-  "home": "Home"
+  "home": "Home",
+  "language_selection": "Language",
+    "language_selection_description": "Select your preferred language"
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/UserPreferences.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/theme.dart';
 import 'package:gocast_mobile/navigation_tab.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
   Logger.level = Level.info;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await UserPreferences.init();
 
   runApp(
      const ProviderScope(
@@ -56,7 +58,7 @@ class App extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: L10n.all,
-      locale: const Locale('de'),
+      locale: Locale(UserPreferences.getLanguage()),
       theme: appTheme, // Your light theme
       darkTheme: darkAppTheme, // Define your dark theme
       themeMode:
