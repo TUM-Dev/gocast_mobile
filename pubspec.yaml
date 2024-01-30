@@ -7,11 +7,14 @@ environment:
   sdk: '>=3.1.5 <4.0.0'
 
 dependencies:
+  connectivity_plus: ^5.0.2
+  tuple: ^2.0.1
   bloc: ^8.1.2
   cookie_jar: ^4.0.8
   dio_cookie_manager: ^3.1.1
   flutter:
     sdk: flutter
+  intl: any
   webview_flutter: ^4.4.2
   flutter_inappwebview: ^5.8.0
   provider: ^6.1.1
@@ -22,10 +25,19 @@ dependencies:
   grpc: ^3.2.4
   dio: ^5.4.0
   fixnum: ^1.1.0
+  flutter_slidable: ^3.0.1
   protobuf: ^3.1.0
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0
-
+  video_player: ^2.8.2
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+  chewie: ^1.7.4
+  url_launcher: ^6.2.3
+  path_provider: any
+  jwt_decode: ^0.3.1
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -38,3 +50,4 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/

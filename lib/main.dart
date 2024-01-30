@@ -1,71 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gocast_mobile/base/networking/api/handler/grpc_handler.dart';
-import 'package:gocast_mobile/config/app_config.dart';
-import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
-import 'package:gocast_mobile/view_models/UserViewModel.dart';
-import 'package:gocast_mobile/views/course_view/courses_overview_view.dart';
+import 'package:gocast_mobile/providers.dart';
+import 'package:gocast_mobile/utils/UserPreferences.dart';
+import 'package:gocast_mobile/utils/globals.dart';
+import 'package:gocast_mobile/utils/theme.dart';
+import 'package:gocast_mobile/navigation_tab.dart';
+import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
-import 'package:gocast_mobile/views/utils/globals.dart';
-import 'package:gocast_mobile/views/utils/theme.dart';
 import 'package:logger/logger.dart';
-
-import 'base/networking/api/gocast/api_v2.pb.dart';
-
-final grpcHandlerProvider =
-    Provider((ref) => GrpcHandler(Routes.grpcHost, Routes.grpcPort));
-final userViewModel =
-    Provider((ref) => UserViewModel(ref.watch(grpcHandlerProvider)));
-
-void main() {
-  Logger.level = Level.debug;
-  runApp(const ProviderScope(child: App()));
-}
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gocast_mobile/l10n/l10n.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
+Future<void> main() async {
+  Logger.level = Level.info;
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await UserPreferences.init();
+
+  runApp(
+     const ProviderScope(
+      child: App(),
+    ),
+  );
+}
+
+bool isPushNotificationListenerSet = false;
+
 class App extends ConsumerWidget {
-  const App({super.key});
+
+   const App({
+    super.key,
+  });
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return StreamBuilder<UserState>(
-      stream: ref.watch(userViewModel).current.stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          final error = snapshot.error as AppError;
-          WidgetsBinding.instance.addPostFrameCallback(
-            (_) => scaffoldMessengerKey.currentState!.showSnackBar(
-              SnackBar(content: Text('Error: ${error.message}')),
-            ),
-          );
-        }
+    final userState = ref.watch(userViewModelProvider);
 
-        final Widget homeScreen = _getHomeScreen(snapshot.data?.user);
+    bool isLoggedIn = ref.watch(userViewModelProvider).user != null;
 
-        return MaterialApp(
-          theme: appTheme,
-          navigatorKey: navigatorKey,
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          home: homeScreen,
-          routes: _buildRoutes(homeScreen),
-        );
-      },
+
+    _handleErrors(ref, userState);
+    _setupNotifications(ref, userState);
+
+    return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: L10n.all,
+      locale: Locale(UserPreferences.getLanguage()),
+      theme: appTheme, // Your light theme
+      darkTheme: darkAppTheme, // Define your dark theme
+      themeMode:
+          ref.watch(themeModeProvider), // Use the theme mode from the provider
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      home: !isLoggedIn
+          ? const WelcomeScreen()
+          : const NavigationTab(),
+      routes: _buildRoutes(),
     );
   }
 
-  Widget _getHomeScreen(User? user) {
-    return user == null ? const WelcomeScreen() : const CourseOverview();
+  void _handleErrors(WidgetRef ref, UserState userState) {
+    // Check for errors in userState and show a SnackBar if there are any
+    if (userState.error != null) {
+      Future.microtask(() {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(content: Text('Error: ${userState.error!.message}')),
+        );
+        // Clear the error
+        ref.read(userViewModelProvider).clearError();
+      });
+    }
   }
 
-  Map<String, WidgetBuilder> _buildRoutes(Widget homeScreen) {
+  Map<String, WidgetBuilder> _buildRoutes() {
     return {
-      '/welcome': (context) => homeScreen,
-      '/home': (context) => homeScreen,
+      '/welcome': (context) => const WelcomeScreen(),
       '/login': (context) => const InternalLoginScreen(),
-      '/courses': (context) => const CourseOverview(),
+      '/navigationTab': (context) => const NavigationTab(),
+      '/publiccourses': (context) => const PublicCourses(),
     };
+  }
+
+  _setupNotifications(WidgetRef ref, UserState userState) {
+    final nvmn = ref.read(notificationViewModelProvider.notifier);
+
+    // Push notifications (e.g. "stream xyz just started") are shown only once
+    nvmn.initPushNotifications();
+
+    if (userState.user != null) {
+      // Upload notifications (e.g., "New VoD for course xyz" are available for
+      // logged in users only and can be also seen in the "notificaions" tab
+      nvmn.handleUploadNotifications(ref);
+    }
   }
 }

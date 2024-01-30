@@ -31,16 +31,16 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 };
 
 service API {
-   // BEGIN API/V2/USER
-   rpc getUser(GetUserRequest) returns (GetUserResponse) {
+  // BEGIN API/V2/USER
+  rpc getUser(GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
       get: "/user/me"
       response_body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       tags: "User"
-      summary: "Get the current user"
-      description: "Returns the user assigned to the token"
+      summary: "Get the current user."
+      description: "Returns a user based on the JWT claims."
     };
   }
 
@@ -52,10 +52,10 @@ service API {
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       tags: "User"
       summary: "Get the current user's courses."
-      description: "Returns all courses of the current user live courses optionally filtered by year, term and paginated by limit and skip."
+      description: "Returns all courses in which the current user is enrolled in, optionally filtered by year, term, limit and skip."
     };
   }
- 
+
   rpc getUserPinned(GetUserPinnedRequest) returns (GetUserPinnedResponse) {
     option (google.api.http) = {
       get: "/user/pinned"
@@ -64,7 +64,32 @@ service API {
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       tags: "User"
       summary: "Get the current user's pinned courses."
-      description: "Returns all courses pinned by the current user optionally filtered by year, term and paginated by limit and skip."
+      description: "Returns all current user's pinned courses, optionally filtered by year, term, limit and skip."
+    };
+  }
+
+  rpc postUserPinned(PostPinnedRequest) returns (PostPinnedResponse) {
+    option (google.api.http) = {
+      post: "/user/pinned"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Add a course to the user's pinned courses."
+      description: "Adds a course to the current user's pinned courses."
+    };
+  }
+
+  rpc deleteUserPinned(DeletePinnedRequest) returns (DeletePinnedResponse) {
+    option (google.api.http) = {
+      delete: "/user/pinned/{courseID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Delete a user's pinned course."
+      description: "Removes a course from the current user's pinned courses."
     };
   }
 
@@ -76,7 +101,7 @@ service API {
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       tags: "User"
       summary: "Get the current user's administered courses."
-      description: "Returns all courses that the current user is an admin of."
+      description: "Returns all courses that are administered by the current user."
     };
   }
 
@@ -88,7 +113,20 @@ service API {
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       tags: "User"
       summary: "Get the current user's settings."
-      description: "Returns the settings of the current user."
+      description: "Returns current user's settings."
+    };
+  }
+
+  rpc patchUserSettings(PatchUserSettingsRequest) returns (PatchUserSettingsResponse) {
+    option (google.api.http) = {
+      patch: "/user/settings"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Update the current user's settings."
+      description: "Updates the current user's settings."
     };
   }
 
@@ -103,8 +141,490 @@ service API {
       description: "Returns the bookmarks created by the current user, optionally filtered by stream."
     };
   }
+
+  rpc putUserBookmark(PutBookmarkRequest) returns (PutBookmarkResponse) {
+    option (google.api.http) = {
+      put: "/user/bookmarks"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Create a new bookmark."
+      description: "Creates a new bookmark for the current user."
+    };
+  }
+
+  rpc patchUserBookmark(PatchBookmarkRequest) returns (PatchBookmarkResponse) {
+    option (google.api.http) = {
+      patch: "/user/bookmarks/{bookmarkID}"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Update a bookmark."
+      description: "Updates a bookmark of the current user."
+    };
+  }
+
+  rpc deleteUserBookmark(DeleteBookmarkRequest) returns (DeleteBookmarkResponse) {
+    option (google.api.http) = {
+      delete: "/user/bookmarks/{bookmarkID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "User"
+      summary: "Delete a bookmark."
+      description: "Deletes a stream's bookmark (=timestamp) for the current user."
+    };
+  }
   // END API/V2/USER
+
+  // BEGIN API/V2/NOTIFICATIONS
+  rpc getBannerAlerts(GetBannerAlertsRequest) returns (GetBannerAlertsResponse) {
+    option (google.api.http) = {
+      get: "/notifications/banner-alerts"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Notifications"
+      summary: "Get all banner alerts."
+      description: "Returns all banner alerts (=system wide notifications)."
+    };
+  }
+
+  rpc getFeatureNotifications(GetFeatureNotificationsRequest) returns (GetFeatureNotificationsResponse) {
+    option (google.api.http) = {
+      get: "/notifications/feature-notifications"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Notifications"
+      summary: "Get all feature notifications."
+      description: "Returns all feature notifications (=can be user-role specific)."
+    };
+  }
+
+  rpc postDeviceToken(PostDeviceTokenRequest) returns (PostDeviceTokenResponse) {
+    option (google.api.http) = {
+      post: "/notifications/device/{deviceToken}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Notifications"
+      summary: "Post a user's device token."
+      description: "Adds a new deviceToken to the user's list of active device tokens."
+    };
+  }
+
+  rpc deleteDeviceToken(DeleteDeviceTokenRequest) returns (DeleteDeviceTokenResponse) {
+    option (google.api.http) = {
+      delete: "/notifications/device/{deviceToken}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Notifications"
+      summary: "Delete a user's device token."
+      description: "Removes an existing entry from the current user's list of active device tokens."
+    };
+  }
+  // END API/V2/NOTIFICATIONS
+
+  // BEGIN API/V2/COURSES
+  rpc getPublicCourses(GetPublicCoursesRequest) returns (GetPublicCoursesResponse) {
+    option (google.api.http) = {
+      get: "/courses/public"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Courses"
+      summary: "Get all public courses"
+      description: "Returns all public courses, optionally filtered by year, term, limit and skip. Includes courses with the visibility \"loggedIn\" if user is authenticated/valid jwt is present and courses with the visibility \"enrolled\" if the user is authenticated and enrolled in that course."
+    };
+  }
+
+  rpc getSemesters(GetSemestersRequest) returns (GetSemestersResponse) {
+    option (google.api.http) = {
+      get: "/courses/semesters"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Courses"
+      summary: "Get all semesters"
+      description: "Returns all semesters including the current one."
+    };
+  }
+
+  rpc getCourseStreams(GetCourseStreamsRequest) returns (GetCourseStreamsResponse) {
+    option (google.api.http) = {
+      get: "/courses/{courseID}/streams"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Courses"
+      summary: "Get all streams"
+      description: "Returns all streams for a given course if course is public OR user is enrolled in course and course has visibility \"enrolled\" OR user is logged / valid jwt is present and course has visibility \"loggedIn.\""
+    };
+  }
+
+  // END API/V2/COURSES
+
+  // START API/V2/STREAMS
+  rpc GetStream(GetStreamRequest) returns (GetStreamResponse) {
+    option (google.api.http) = {
+      get: "/streams/w/vod/streamID"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      summary: "Get stream for VOD"
+      description: "Returns a stream for a given streamID if stream's course is public OR stream's course has visibility \"loggedIn\" and user is logged in / valid jwt is present OR stream's course has visibility \"enrolled\" and user is enrolled in stream's course."
+    };
+  }
+
+  rpc GetNowLive(GetNowLiveRequest) returns (GetNowLiveResponse) {
+    option (google.api.http) = {
+      get: "/streams/w/live"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      description: "Returns all currently live streams if stream's course is public OR stream's course has visibility \"loggedIn\" and user is logged in / valid jwt is present OR stream's course has visibility \"enrolled\" and user is enrolled in stream's course."
+    };
+  }
+
+  rpc getThumbsVOD(GetThumbsVODRequest) returns (GetThumbsVODResponse) {
+    option (google.api.http) = {
+      get: "/streams/thumbs/vod/{streamID}/thumbs"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      summary: "Get thumbnail of VOD"
+      description: "Returns thumbnail path for a VoD, given a streamID if stream's course is public OR stream's course has visibility \"loggedIn\" and user is logged in / valid jwt is present OR stream's course has visibility \"enrolled\" and user is enrolled in stream's course."
+    };
+  }
+
+  rpc getThumbsLive(GetThumbsLiveRequest) returns (GetThumbsLiveResponse) {
+    option (google.api.http) = {
+      get: "/streams/thumbs/live/{streamID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      summary: "Get thumbnail of livestream"
+      description: "Returns thumbnail path for a currently live stream, given a streamID if stream's course is public OR stream's course has visibility \"loggedIn\" and user is logged in / valid jwt is present OR stream's course has visibility \"enrolled\" and user is enrolled in stream's course."
+    };
+  }
+
+  rpc getProgress(GetProgressRequest) returns (GetProgressResponse) {
+    option (google.api.http) = {
+      get: "/streams/progress/{streamID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      summary: "Get progress of stream"
+      description: "Returns current user's watch progress of stream."
+    };
+  }
+
+  rpc putProgress(PutProgressRequest) returns (PutProgressResponse) {
+    option (google.api.http) = {
+      put: "/streams/progress/{streamID}"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      summary: "Update progress of stream"
+      description: "Updates current user's watch progress of stream."
+    };
+  }
+
+  rpc markAsWatched(MarkAsWatchedRequest) returns (MarkAsWatchedResponse) {
+    option (google.api.http) = {
+      put: "/streams/progress/{streamID}/watched"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Streams"
+      summary: "Mark stream as watched"
+      description: "Marks stream as watched."
+    };
+  }
+  // END API/V2/STREAMS
+
+  // START API/V2/CHATS
+  rpc getChatMessages(GetChatMessagesRequest) returns (GetChatMessagesResponse) {
+    option (google.api.http) = {
+      get: "/streams/chat/{streamID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Get all chat messages of a stream"
+      description: "Returns all chat messages of a stream."
+    };
+  }
+
+  rpc postChatMessage(PostChatMessageRequest) returns (PostChatMessageResponse) {
+    option (google.api.http) = {
+      post: "/streams/chat/{streamID}"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Post a chat message to a stream"
+      description: "Posts a chat message to a stream."
+    };
+  }
+
+  rpc postChatReaction(PostChatReactionRequest) returns (PostChatReactionResponse) {
+    option (google.api.http) = {
+      post: "/streams/chat/{streamID}/{chatID}/reactions"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Post a reaction to a chat message"
+      description: "Posts a reaction to a chat message."
+    };
+  }
+
+  rpc deleteChatReaction(DeleteChatReactionRequest) returns (DeleteChatReactionResponse) {
+    option (google.api.http) = {
+      delete: "/streams/chat/{streamID}/{chatID}/reactions/{reactionID}"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Delete a reaction to a chat message"
+      description: "Deletes a reaction to a chat message."
+    };
+  }
+
+  rpc postChatReply(PostChatReplyRequest) returns (PostChatReplyResponse) {
+    option (google.api.http) = {
+      post: "/streams/chat/{streamID}/{chatID}/replies"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Post a reply to a chat message"
+      description: "Posts a reply to a chat message."
+    };
+  }
+
+  rpc markChatMessageAsResolved(MarkChatMessageAsResolvedRequest) returns (MarkChatMessageAsResolvedResponse) {
+    option (google.api.http) = {
+      put: "/streams/chat/{streamID}/{chatID}/resolved"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Mark a chat message as resolved"
+      description: "Marks a chat message as resolved."
+    };
+  }
+
+  rpc markChatMessageAsUnresolved(MarkChatMessageAsUnresolvedRequest) returns (MarkChatMessageAsUnresolvedResponse) {
+    option (google.api.http) = {
+      delete: "/streams/chat/{streamID}/{chatID}/resolved"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Mark a chat message as unresolved"
+      description: "Marks a chat message as unresolved."
+    };
+  }
+
+  rpc getPolls(GetPollsRequest) returns (GetPollsResponse) {
+    option (google.api.http) = {
+      get: "/streams/chat/{streamID}/polls"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Get all polls of a stream"
+      description: "Returns all polls of a stream."
+    };
+  }
+
+  rpc postPollVote(PostPollVoteRequest) returns (PostPollVoteResponse) {
+    option (google.api.http) = {
+      post: "/streams/chat/{streamID}/polls/{pollOptionID}"
+      body: "*"
+      response_body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags:  "Chat"
+      summary: "Post a vote for an actove poll"
+      description: "Posts a vote for an active poll."
+    };
+  }
+  // END API/V2/CHATS
+
 }
+
+
+
+
+
+///////////////////////////////
+//////// CHAT_MESSAGE /////////
+///////////////////////////////
+
+
+message ChatReaction {
+  uint32 chatID = 1;
+  uint32 userID = 2;
+  string username = 3;
+  string emoji = 4;
+}
+
+message AddressedUser {
+  uint32 id = 1;
+  string username = 2;
+}
+
+message ChatMessage {
+  uint32 id = 1;
+  string userID = 2;
+  string username = 3;
+  string message = 4;
+  string sanitizedMessage = 5;
+  uint32 streamID = 6;
+  string color = 7;
+  bool isVisible = 8;
+  repeated ChatReaction reactions = 9;
+  repeated ChatMessage replies = 10;
+  repeated AddressedUser addressedUsers = 11;
+  bool isResolved = 12;
+  google.protobuf.Timestamp createdAt = 13;
+  bool isAdmin = 14;
+}
+
+///////////////////////////////
+//////// CHAT_REQUEST /////////
+///////////////////////////////
+
+message GetChatMessagesRequest {
+  uint32 streamID = 1;
+}
+
+message PostChatMessageRequest {
+  string message = 1;
+  uint32 streamID = 2;
+}
+
+message PostChatReactionRequest {
+  string emoji = 1;
+  uint32 streamID = 2;
+  uint32 chatID = 3;
+}
+
+message DeleteChatReactionRequest {
+  uint32 streamID = 1;
+  uint32 chatID = 2;
+  uint32 reactionID = 3;
+}
+
+message PostChatReplyRequest {
+  string message = 1;
+  uint32 streamID = 2;
+  uint32 chatID = 3;
+}
+
+message MarkChatMessageAsResolvedRequest {
+  uint32 streamID = 1;
+  uint32 chatID = 2;
+}
+
+message MarkChatMessageAsUnresolvedRequest {
+  uint32 streamID = 1;
+  uint32 chatID = 2;
+}
+
+///////////////////////////////
+//////// CHAT_RESPONSE ////////
+///////////////////////////////
+
+message GetChatMessagesResponse {
+  repeated ChatMessage messages = 1;
+}
+
+message PostChatMessageResponse {
+  ChatMessage message = 1;
+}
+
+message PostChatReactionResponse {
+  ChatReaction reaction = 1;
+}
+
+message DeleteChatReactionResponse {}
+
+message PostChatReplyResponse {
+  ChatMessage reply = 1;
+}
+
+message MarkChatMessageAsResolvedResponse {
+  ChatMessage message = 1;
+}
+
+message MarkChatMessageAsUnresolvedResponse {
+  ChatMessage message = 1;
+}
+
+///////////////////////////////
+//////// POLL_MESSAGE /////////
+///////////////////////////////
+
+
+message Poll {
+  uint32 id = 1;
+  uint32 streamID = 2;
+  string question = 3;
+  bool active = 4;
+  repeated PollOption pollOptions = 5;
+}
+
+message PollOption {
+  uint32 id = 1;
+  string answer = 2;
+  uint32 votes = 3;
+  bool voted = 4;
+}
+
+///////////////////////////////
+//////// POLL_REQUEST /////////
+///////////////////////////////
+
+message GetPollsRequest {
+  uint32 streamID = 1;
+}
+
+message PostPollVoteRequest {
+  uint32 streamID = 1;
+  uint32 pollOptionID = 2;
+}
+
+///////////////////////////////
+//////// POLL_RESPONSE ////////
+///////////////////////////////
+
+message GetPollsResponse {
+  repeated Poll polls = 1;
+}
+
+message PostPollVoteResponse {}
 
 ///////////////////////////////
 //////// USER_MESSAGE /////////
@@ -126,8 +646,6 @@ message User {
 }
 
 message UserSetting {
-  uint32 id = 1;
-  uint32 userID = 2;
   UserSettingType type = 3;
   string value = 4;
 }
@@ -145,23 +663,38 @@ enum UserSettingType {
 message GetUserRequest {}
 
 message GetUserCoursesRequest {
-  int32 year = 1;
+  uint32 year = 1;
   string term = 2;
-  string query = 3;
-  int32 limit = 4;
-  int32 skip = 5;
+  uint32 limit = 3;
+  uint32 skip = 4;
 }
 
 message GetUserPinnedRequest {
-  int32 year = 1;
-  string term = 2;
-  int32 limit = 3;
-  int32 skip = 4;
+  uint32 year = 1;
+  string term = 2; 
+  uint32 limit = 3;
+  uint32 skip = 4;
 }
 
 message GetUserAdminRequest {}
 
 message GetUserSettingsRequest {}
+
+message PatchUserSettingsRequest {
+  repeated UserSetting userSettings = 1;
+}
+
+message PatchUserSettingsResponse {
+  repeated UserSetting userSettings = 1;
+}
+
+message PostPinnedRequest {
+  uint32 courseID = 1;
+}
+
+message DeletePinnedRequest {
+  uint32 courseID = 1;
+}
 
 ///////////////////////////////
 //////// USER_RESPONSE ////////
@@ -187,6 +720,10 @@ message GetUserSettingsResponse {
   repeated UserSetting userSettings = 1;
 }
 
+message PostPinnedResponse {}
+
+message DeletePinnedResponse {}
+
 ///////////////////////////////
 ////// BOOKMARK_MESSAGE ///////
 ///////////////////////////////
@@ -206,7 +743,27 @@ message Bookmark {
 ///////////////////////////////
 
 message GetBookmarksRequest {
-  int32 streamID = 1;
+  uint32 streamID = 1;
+}
+
+message PutBookmarkRequest {
+  string description = 1;
+  uint32 hours = 2;
+  uint32 minutes = 3;
+  uint32 seconds = 4;
+  uint32 streamID = 5;
+}
+
+message PatchBookmarkRequest {
+  string description = 1;
+  uint32 hours = 2;
+  uint32 minutes = 3;
+  uint32 seconds = 4;
+  uint32 bookmarkID = 5;
+}
+
+message DeleteBookmarkRequest {
+  uint32 bookmarkID = 1;
 }
 
 ///////////////////////////////
@@ -215,6 +772,68 @@ message GetBookmarksRequest {
 
 message GetBookmarksResponse {
   repeated Bookmark bookmarks = 1;
+}
+
+message PutBookmarkResponse {
+  Bookmark bookmark = 1;
+}
+
+message PatchBookmarkResponse {
+  Bookmark bookmark = 1;
+}
+
+message DeleteBookmarkResponse {}
+
+
+///////////////////////////////
+//// NOTIFICATION_MESSAGE /////
+///////////////////////////////
+
+message BannerAlert {
+  uint32 id = 1;
+  string startsAt = 2;
+  string expiresAt = 3;
+  string text = 4;
+  bool warn = 5;
+}
+
+message FeatureNotification {
+  uint32 id = 1;
+  string Title = 2;
+  string Body = 3;
+  uint32 Target = 4;
+}
+
+message PostDeviceTokenRequest {
+  string deviceToken = 1;
+}
+
+message DeleteDeviceTokenRequest {
+  string deviceToken = 1;
+}
+
+///////////////////////////////
+//// NOTIFICATION_REQUEST /////
+///////////////////////////////
+
+message GetBannerAlertsRequest {}
+
+message GetFeatureNotificationsRequest {}
+
+message PostDeviceTokenResponse {}
+
+message DeleteDeviceTokenResponse {}
+
+///////////////////////////////
+//// NOTIFICATION_RESPONSE ////
+///////////////////////////////
+
+message GetBannerAlertsResponse {
+  repeated BannerAlert bannerAlerts = 1;
+}
+
+message GetFeatureNotificationsResponse {
+  repeated FeatureNotification featureNotifications = 1;
 }
 
 ///////////////////////////////
@@ -236,11 +855,46 @@ message Course {
   repeated Stream streams = 12;
   string cameraPresetPreferences = 13;
   string sourcePreferences = 14;
+  uint32 lastRecordingID = 15;
+  uint32 nextLectureID = 16;
 }
 
 message Semester { 
-  string teachingTerm = 3;
-  uint32 year = 4;
+  string teachingTerm = 1;
+  uint32 year = 2;
+}
+
+///////////////////////////////
+/////// COURSE_REQUEST ////////
+///////////////////////////////
+
+message GetPublicCoursesRequest {
+  uint32 year = 1;
+  string term = 2;
+  uint32 limit = 3;
+  uint32 skip = 4;
+}
+
+message GetSemestersRequest {}
+
+message GetCourseStreamsRequest {
+  uint32 courseID = 1;
+}
+///////////////////////////////
+/////// COURSE_RESPONSE ///////
+///////////////////////////////
+
+message GetPublicCoursesResponse {
+  repeated Course courses = 1;
+}
+
+message GetSemestersResponse { 
+  Semester current = 1;
+  repeated Semester semesters = 2;
+}
+
+message GetCourseStreamsResponse {
+  repeated Stream streams = 1;
 }
 
 ///////////////////////////////
@@ -248,7 +902,7 @@ message Semester {
 ///////////////////////////////
 
 message Stream {
-  uint64 id = 1;
+  uint32 id = 1;
   string name = 2;
   string description = 3;
   uint32 courseID = 4;
@@ -271,5 +925,102 @@ message Stream {
   uint32 vodViews = 21;
   uint32 startOffset = 22;
   uint32 endOffset = 23;
-  int32 duration = 28;
+  uint32 duration = 28;
+  repeated Download downloads = 29;
+  bool isPlanned = 30;
+  bool isComingUp = 31;
+  string HLSUrl = 32;
 }
+
+///////////////////////////////
+/////// STREAM_REQUESTS ///////
+///////////////////////////////
+
+message GetStreamRequest {
+  uint32 streamID = 1;
+}
+
+message GetNowLiveRequest {}
+
+message GetThumbsLiveRequest {
+  uint32 streamID = 1;
+}
+
+message GetThumbsVODRequest {
+  uint32 streamID = 1;
+}
+
+///////////////////////////////
+////// STREAM_RESPONSES ///////
+///////////////////////////////
+
+message GetStreamResponse {
+  Stream stream = 1;
+}
+
+message GetNowLiveResponse {
+  repeated Stream stream = 1;
+}
+
+message GetThumbsVODResponse {
+  string path = 1;
+}
+
+message GetThumbsLiveResponse {
+  string path = 1;
+}
+
+///////////////////////////////
+////// DOWNLOAD_MESSAGE ///////
+///////////////////////////////
+
+message Download {
+  string friendlyName = 1;
+  string downloadURL = 2;
+}
+
+
+///////////////////////////////
+////// PROGRESS_MESSAGE ///////
+///////////////////////////////
+
+message Progress {
+  float progress = 1;
+  bool  watched = 2;
+  uint32 userID = 3;
+  uint32 streamID = 4;
+}
+
+///////////////////////////////
+////// PROGRESS_REQUEST ///////
+///////////////////////////////
+
+message GetProgressRequest {
+  uint32 streamID = 1;
+}
+
+message PutProgressRequest {
+  float progress = 1;
+  uint32 streamID = 3;
+}
+
+message MarkAsWatchedRequest {
+  uint32 streamID = 1;
+}
+
+///////////////////////////////
+////// PROGRESS_RESPONSE //////
+///////////////////////////////
+
+message GetProgressResponse {
+  Progress progress = 1;
+}
+
+message PutProgressResponse {
+  Progress progress = 1;
+}
+
+message MarkAsWatchedResponse {
+  Progress progress = 1;
+}
+

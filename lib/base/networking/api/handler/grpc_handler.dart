@@ -19,11 +19,10 @@ class GrpcHandler {
   /// The [host] and [port] are required.
   GrpcHandler(this.host, this.port) {
     _logger.i('Creating GrpcHandler: Connecting to gRPC server at $host:$port');
-
     _channel = ClientChannel(
       host,
       port: port,
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+      options: const ChannelOptions(credentials: ChannelCredentials.secure()),
     );
   }
 
@@ -44,26 +43,34 @@ class GrpcHandler {
   ) async {
     _logger.d('callGrpcMethod: Initiating gRPC call');
     try {
-      String token = await TokenHandler.loadToken('jwt');
-      final metadata = <String, String>{
-        'grpcgateway-cookie': 'jwt=$token',
-      };
-
-      final callOptions = CallOptions(metadata: metadata);
-
+      String token = '';
+      try {
+        token = await TokenHandler.loadToken('jwt');
+      }catch(e) {
+        token = '';
+      }
+      CallOptions callOptions;
+      if(token.isNotEmpty) {
+        final metadata = <String, String>{
+          'grpcgateway-cookie': 'jwt=$token',
+        };
+         callOptions = CallOptions(metadata: metadata);
+      }else {
+         callOptions = CallOptions();
+      }
       return await grpcMethod(APIClient(_channel, options: callOptions));
     } on SocketException catch (socketException) {
       _logger
           .e('SocketException in callGrpcMethod: ${socketException.message}');
       throw AppError.networkError(socketException.message);
-    } catch (error) {
-      _logger.e('Error in callGrpcMethod: $error');
-      if (error is GrpcError) {
-        _logger.e('gRPC error: ${error.code}, ${error.message}');
-        throw mapGrpcErrorToAppError(error);
+    } catch (e) {
+      _logger.e('Error in callGrpcMethod: $e');
+      if (e is GrpcError) {
+        _logger.e('gRPC error: ${e.code}, ${e.message}');
+        throw mapGrpcErrorToAppError(e);
       } else {
-        _logger.e('Unknown error: $error');
-        throw AppError.networkError(error);
+        _logger.e('Unknown error: $e');
+        throw AppError.networkError(e);
       }
     }
   }
@@ -82,6 +89,8 @@ class GrpcHandler {
         return AppError.forbidden();
       case StatusCode.notFound:
         return AppError.notFound();
+      case StatusCode.alreadyExists:
+        return AppError.conflictError();
       case StatusCode.internal:
         return AppError.internalServerError();
       case StatusCode.unimplemented:

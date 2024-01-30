@@ -1,5 +1,3 @@
-import 'dart:io';
-
 /// AppConfig - Defines the configuration for the application.
 class AppConfig {
   static const String appName = 'GoCast Mobile';
@@ -8,16 +6,7 @@ class AppConfig {
 
   AppConfig._(); // Private constructor
 
-  // Determine the root URL based on the platform
-  // Used for development only. Once the api is deployed, this can be ignored.
-  static String get _rootUrl {
-    if (Platform.isAndroid) {
-      return 'http://10.0.2.2:8081/api';
-    } else if (Platform.isIOS) {
-      return 'http://localhost:8081/api';
-    }
-    throw UnsupportedError('Unsupported platform');
-  }
+  static String get _rootUrl => 'https://1279.test.live.mm.rbg.tum.de';
 
   // Authentication URLs
   static String get basicAuthUrl =>
@@ -28,17 +17,14 @@ class AppConfig {
   static String get ssoRedirectUrl => 'https://live.rbg.tum.de';
 
   // gRPC routes
-  static String get grpcHost {
-    return Platform.isAndroid ? '10.0.2.2' : 'localhost';
-  }
+  static String get grpcHost => 'grpc-1279.test.live.mm.rbg.tum.de';
 
-  static const int grpcPort = 12544;
+  static const int grpcPort = 443;
 }
 
 /// Routes - Defines HTTP and gRPC routes for the application.
 class Routes {
   Routes._(); // Private constructor
-
   // HTTP routes
   static String get basicLogin => AppConfig.basicAuthUrl;
 

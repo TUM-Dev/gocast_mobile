@@ -28,6 +28,435 @@ final $typed_data.Uint8List userSettingTypeDescriptor = $convert.base64Decode(
     'Cg9Vc2VyU2V0dGluZ1R5cGUSEgoOUFJFRkVSUkVEX05BTUUQABIMCghHUkVFVElORxABEhoKFk'
     'NVU1RPTV9QTEFZQkFDS19TUEVFRFMQAg==');
 
+@$core.Deprecated('Use chatReactionDescriptor instead')
+const ChatReaction$json = {
+  '1': 'ChatReaction',
+  '2': [
+    {'1': 'chatID', '3': 1, '4': 1, '5': 13, '10': 'chatID'},
+    {'1': 'userID', '3': 2, '4': 1, '5': 13, '10': 'userID'},
+    {'1': 'username', '3': 3, '4': 1, '5': 9, '10': 'username'},
+    {'1': 'emoji', '3': 4, '4': 1, '5': 9, '10': 'emoji'},
+  ],
+};
+
+/// Descriptor for `ChatReaction`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List chatReactionDescriptor = $convert.base64Decode(
+    'CgxDaGF0UmVhY3Rpb24SFgoGY2hhdElEGAEgASgNUgZjaGF0SUQSFgoGdXNlcklEGAIgASgNUg'
+    'Z1c2VySUQSGgoIdXNlcm5hbWUYAyABKAlSCHVzZXJuYW1lEhQKBWVtb2ppGAQgASgJUgVlbW9q'
+    'aQ==');
+
+@$core.Deprecated('Use addressedUserDescriptor instead')
+const AddressedUser$json = {
+  '1': 'AddressedUser',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'username', '3': 2, '4': 1, '5': 9, '10': 'username'},
+  ],
+};
+
+/// Descriptor for `AddressedUser`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List addressedUserDescriptor = $convert.base64Decode(
+    'Cg1BZGRyZXNzZWRVc2VyEg4KAmlkGAEgASgNUgJpZBIaCgh1c2VybmFtZRgCIAEoCVIIdXNlcm'
+    '5hbWU=');
+
+@$core.Deprecated('Use chatMessageDescriptor instead')
+const ChatMessage$json = {
+  '1': 'ChatMessage',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'userID', '3': 2, '4': 1, '5': 9, '10': 'userID'},
+    {'1': 'username', '3': 3, '4': 1, '5': 9, '10': 'username'},
+    {'1': 'message', '3': 4, '4': 1, '5': 9, '10': 'message'},
+    {'1': 'sanitizedMessage', '3': 5, '4': 1, '5': 9, '10': 'sanitizedMessage'},
+    {'1': 'streamID', '3': 6, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'color', '3': 7, '4': 1, '5': 9, '10': 'color'},
+    {'1': 'isVisible', '3': 8, '4': 1, '5': 8, '10': 'isVisible'},
+    {
+      '1': 'reactions',
+      '3': 9,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.ChatReaction',
+      '10': 'reactions',
+    },
+    {
+      '1': 'replies',
+      '3': 10,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.ChatMessage',
+      '10': 'replies',
+    },
+    {
+      '1': 'addressedUsers',
+      '3': 11,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.AddressedUser',
+      '10': 'addressedUsers',
+    },
+    {'1': 'isResolved', '3': 12, '4': 1, '5': 8, '10': 'isResolved'},
+    {
+      '1': 'createdAt',
+      '3': 13,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'createdAt',
+    },
+    {'1': 'isAdmin', '3': 14, '4': 1, '5': 8, '10': 'isAdmin'},
+  ],
+};
+
+/// Descriptor for `ChatMessage`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List chatMessageDescriptor = $convert.base64Decode(
+    'CgtDaGF0TWVzc2FnZRIOCgJpZBgBIAEoDVICaWQSFgoGdXNlcklEGAIgASgJUgZ1c2VySUQSGg'
+    'oIdXNlcm5hbWUYAyABKAlSCHVzZXJuYW1lEhgKB21lc3NhZ2UYBCABKAlSB21lc3NhZ2USKgoQ'
+    'c2FuaXRpemVkTWVzc2FnZRgFIAEoCVIQc2FuaXRpemVkTWVzc2FnZRIaCghzdHJlYW1JRBgGIA'
+    'EoDVIIc3RyZWFtSUQSFAoFY29sb3IYByABKAlSBWNvbG9yEhwKCWlzVmlzaWJsZRgIIAEoCFIJ'
+    'aXNWaXNpYmxlEjQKCXJlYWN0aW9ucxgJIAMoCzIWLnByb3RvYnVmLkNoYXRSZWFjdGlvblIJcm'
+    'VhY3Rpb25zEi8KB3JlcGxpZXMYCiADKAsyFS5wcm90b2J1Zi5DaGF0TWVzc2FnZVIHcmVwbGll'
+    'cxI/Cg5hZGRyZXNzZWRVc2VycxgLIAMoCzIXLnByb3RvYnVmLkFkZHJlc3NlZFVzZXJSDmFkZH'
+    'Jlc3NlZFVzZXJzEh4KCmlzUmVzb2x2ZWQYDCABKAhSCmlzUmVzb2x2ZWQSOAoJY3JlYXRlZEF0'
+    'GA0gASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJY3JlYXRlZEF0EhgKB2lzQWRtaW'
+    '4YDiABKAhSB2lzQWRtaW4=');
+
+@$core.Deprecated('Use getChatMessagesRequestDescriptor instead')
+const GetChatMessagesRequest$json = {
+  '1': 'GetChatMessagesRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetChatMessagesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getChatMessagesRequestDescriptor =
+    $convert.base64Decode(
+  'ChZHZXRDaGF0TWVzc2FnZXNSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUghzdHJlYW1JRA==',
+);
+
+@$core.Deprecated('Use postChatMessageRequestDescriptor instead')
+const PostChatMessageRequest$json = {
+  '1': 'PostChatMessageRequest',
+  '2': [
+    {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
+    {'1': 'streamID', '3': 2, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `PostChatMessageRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postChatMessageRequestDescriptor =
+    $convert.base64Decode(
+        'ChZQb3N0Q2hhdE1lc3NhZ2VSZXF1ZXN0EhgKB21lc3NhZ2UYASABKAlSB21lc3NhZ2USGgoIc3'
+        'RyZWFtSUQYAiABKA1SCHN0cmVhbUlE');
+
+@$core.Deprecated('Use postChatReactionRequestDescriptor instead')
+const PostChatReactionRequest$json = {
+  '1': 'PostChatReactionRequest',
+  '2': [
+    {'1': 'emoji', '3': 1, '4': 1, '5': 9, '10': 'emoji'},
+    {'1': 'streamID', '3': 2, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'chatID', '3': 3, '4': 1, '5': 13, '10': 'chatID'},
+  ],
+};
+
+/// Descriptor for `PostChatReactionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postChatReactionRequestDescriptor =
+    $convert.base64Decode(
+        'ChdQb3N0Q2hhdFJlYWN0aW9uUmVxdWVzdBIUCgVlbW9qaRgBIAEoCVIFZW1vamkSGgoIc3RyZW'
+        'FtSUQYAiABKA1SCHN0cmVhbUlEEhYKBmNoYXRJRBgDIAEoDVIGY2hhdElE');
+
+@$core.Deprecated('Use deleteChatReactionRequestDescriptor instead')
+const DeleteChatReactionRequest$json = {
+  '1': 'DeleteChatReactionRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'chatID', '3': 2, '4': 1, '5': 13, '10': 'chatID'},
+    {'1': 'reactionID', '3': 3, '4': 1, '5': 13, '10': 'reactionID'},
+  ],
+};
+
+/// Descriptor for `DeleteChatReactionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteChatReactionRequestDescriptor = $convert.base64Decode(
+    'ChlEZWxldGVDaGF0UmVhY3Rpb25SZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUghzdHJlYW1JRB'
+    'IWCgZjaGF0SUQYAiABKA1SBmNoYXRJRBIeCgpyZWFjdGlvbklEGAMgASgNUgpyZWFjdGlvbklE');
+
+@$core.Deprecated('Use postChatReplyRequestDescriptor instead')
+const PostChatReplyRequest$json = {
+  '1': 'PostChatReplyRequest',
+  '2': [
+    {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
+    {'1': 'streamID', '3': 2, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'chatID', '3': 3, '4': 1, '5': 13, '10': 'chatID'},
+  ],
+};
+
+/// Descriptor for `PostChatReplyRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postChatReplyRequestDescriptor = $convert.base64Decode(
+    'ChRQb3N0Q2hhdFJlcGx5UmVxdWVzdBIYCgdtZXNzYWdlGAEgASgJUgdtZXNzYWdlEhoKCHN0cm'
+    'VhbUlEGAIgASgNUghzdHJlYW1JRBIWCgZjaGF0SUQYAyABKA1SBmNoYXRJRA==');
+
+@$core.Deprecated('Use markChatMessageAsResolvedRequestDescriptor instead')
+const MarkChatMessageAsResolvedRequest$json = {
+  '1': 'MarkChatMessageAsResolvedRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'chatID', '3': 2, '4': 1, '5': 13, '10': 'chatID'},
+  ],
+};
+
+/// Descriptor for `MarkChatMessageAsResolvedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List markChatMessageAsResolvedRequestDescriptor =
+    $convert.base64Decode(
+        'CiBNYXJrQ2hhdE1lc3NhZ2VBc1Jlc29sdmVkUmVxdWVzdBIaCghzdHJlYW1JRBgBIAEoDVIIc3'
+        'RyZWFtSUQSFgoGY2hhdElEGAIgASgNUgZjaGF0SUQ=');
+
+@$core.Deprecated('Use markChatMessageAsUnresolvedRequestDescriptor instead')
+const MarkChatMessageAsUnresolvedRequest$json = {
+  '1': 'MarkChatMessageAsUnresolvedRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'chatID', '3': 2, '4': 1, '5': 13, '10': 'chatID'},
+  ],
+};
+
+/// Descriptor for `MarkChatMessageAsUnresolvedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List markChatMessageAsUnresolvedRequestDescriptor =
+    $convert.base64Decode(
+        'CiJNYXJrQ2hhdE1lc3NhZ2VBc1VucmVzb2x2ZWRSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUg'
+        'hzdHJlYW1JRBIWCgZjaGF0SUQYAiABKA1SBmNoYXRJRA==');
+
+@$core.Deprecated('Use getChatMessagesResponseDescriptor instead')
+const GetChatMessagesResponse$json = {
+  '1': 'GetChatMessagesResponse',
+  '2': [
+    {
+      '1': 'messages',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.ChatMessage',
+      '10': 'messages',
+    },
+  ],
+};
+
+/// Descriptor for `GetChatMessagesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getChatMessagesResponseDescriptor =
+    $convert.base64Decode(
+        'ChdHZXRDaGF0TWVzc2FnZXNSZXNwb25zZRIxCghtZXNzYWdlcxgBIAMoCzIVLnByb3RvYnVmLk'
+        'NoYXRNZXNzYWdlUghtZXNzYWdlcw==');
+
+@$core.Deprecated('Use postChatMessageResponseDescriptor instead')
+const PostChatMessageResponse$json = {
+  '1': 'PostChatMessageResponse',
+  '2': [
+    {
+      '1': 'message',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.ChatMessage',
+      '10': 'message',
+    },
+  ],
+};
+
+/// Descriptor for `PostChatMessageResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postChatMessageResponseDescriptor =
+    $convert.base64Decode(
+        'ChdQb3N0Q2hhdE1lc3NhZ2VSZXNwb25zZRIvCgdtZXNzYWdlGAEgASgLMhUucHJvdG9idWYuQ2'
+        'hhdE1lc3NhZ2VSB21lc3NhZ2U=');
+
+@$core.Deprecated('Use postChatReactionResponseDescriptor instead')
+const PostChatReactionResponse$json = {
+  '1': 'PostChatReactionResponse',
+  '2': [
+    {
+      '1': 'reaction',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.ChatReaction',
+      '10': 'reaction',
+    },
+  ],
+};
+
+/// Descriptor for `PostChatReactionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postChatReactionResponseDescriptor =
+    $convert.base64Decode(
+        'ChhQb3N0Q2hhdFJlYWN0aW9uUmVzcG9uc2USMgoIcmVhY3Rpb24YASABKAsyFi5wcm90b2J1Zi'
+        '5DaGF0UmVhY3Rpb25SCHJlYWN0aW9u');
+
+@$core.Deprecated('Use deleteChatReactionResponseDescriptor instead')
+const DeleteChatReactionResponse$json = {
+  '1': 'DeleteChatReactionResponse',
+};
+
+/// Descriptor for `DeleteChatReactionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteChatReactionResponseDescriptor =
+    $convert.base64Decode('ChpEZWxldGVDaGF0UmVhY3Rpb25SZXNwb25zZQ==');
+
+@$core.Deprecated('Use postChatReplyResponseDescriptor instead')
+const PostChatReplyResponse$json = {
+  '1': 'PostChatReplyResponse',
+  '2': [
+    {
+      '1': 'reply',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.ChatMessage',
+      '10': 'reply',
+    },
+  ],
+};
+
+/// Descriptor for `PostChatReplyResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postChatReplyResponseDescriptor = $convert.base64Decode(
+    'ChVQb3N0Q2hhdFJlcGx5UmVzcG9uc2USKwoFcmVwbHkYASABKAsyFS5wcm90b2J1Zi5DaGF0TW'
+    'Vzc2FnZVIFcmVwbHk=');
+
+@$core.Deprecated('Use markChatMessageAsResolvedResponseDescriptor instead')
+const MarkChatMessageAsResolvedResponse$json = {
+  '1': 'MarkChatMessageAsResolvedResponse',
+  '2': [
+    {
+      '1': 'message',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.ChatMessage',
+      '10': 'message',
+    },
+  ],
+};
+
+/// Descriptor for `MarkChatMessageAsResolvedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List markChatMessageAsResolvedResponseDescriptor =
+    $convert.base64Decode(
+        'CiFNYXJrQ2hhdE1lc3NhZ2VBc1Jlc29sdmVkUmVzcG9uc2USLwoHbWVzc2FnZRgBIAEoCzIVLn'
+        'Byb3RvYnVmLkNoYXRNZXNzYWdlUgdtZXNzYWdl');
+
+@$core.Deprecated('Use markChatMessageAsUnresolvedResponseDescriptor instead')
+const MarkChatMessageAsUnresolvedResponse$json = {
+  '1': 'MarkChatMessageAsUnresolvedResponse',
+  '2': [
+    {
+      '1': 'message',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.ChatMessage',
+      '10': 'message',
+    },
+  ],
+};
+
+/// Descriptor for `MarkChatMessageAsUnresolvedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List markChatMessageAsUnresolvedResponseDescriptor =
+    $convert.base64Decode(
+        'CiNNYXJrQ2hhdE1lc3NhZ2VBc1VucmVzb2x2ZWRSZXNwb25zZRIvCgdtZXNzYWdlGAEgASgLMh'
+        'UucHJvdG9idWYuQ2hhdE1lc3NhZ2VSB21lc3NhZ2U=');
+
+@$core.Deprecated('Use pollDescriptor instead')
+const Poll$json = {
+  '1': 'Poll',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'streamID', '3': 2, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'question', '3': 3, '4': 1, '5': 9, '10': 'question'},
+    {'1': 'active', '3': 4, '4': 1, '5': 8, '10': 'active'},
+    {
+      '1': 'pollOptions',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.PollOption',
+      '10': 'pollOptions',
+    },
+  ],
+};
+
+/// Descriptor for `Poll`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pollDescriptor = $convert.base64Decode(
+    'CgRQb2xsEg4KAmlkGAEgASgNUgJpZBIaCghzdHJlYW1JRBgCIAEoDVIIc3RyZWFtSUQSGgoIcX'
+    'Vlc3Rpb24YAyABKAlSCHF1ZXN0aW9uEhYKBmFjdGl2ZRgEIAEoCFIGYWN0aXZlEjYKC3BvbGxP'
+    'cHRpb25zGAUgAygLMhQucHJvdG9idWYuUG9sbE9wdGlvblILcG9sbE9wdGlvbnM=');
+
+@$core.Deprecated('Use pollOptionDescriptor instead')
+const PollOption$json = {
+  '1': 'PollOption',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'answer', '3': 2, '4': 1, '5': 9, '10': 'answer'},
+    {'1': 'votes', '3': 3, '4': 1, '5': 13, '10': 'votes'},
+    {'1': 'voted', '3': 4, '4': 1, '5': 8, '10': 'voted'},
+  ],
+};
+
+/// Descriptor for `PollOption`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pollOptionDescriptor = $convert.base64Decode(
+    'CgpQb2xsT3B0aW9uEg4KAmlkGAEgASgNUgJpZBIWCgZhbnN3ZXIYAiABKAlSBmFuc3dlchIUCg'
+    'V2b3RlcxgDIAEoDVIFdm90ZXMSFAoFdm90ZWQYBCABKAhSBXZvdGVk');
+
+@$core.Deprecated('Use getPollsRequestDescriptor instead')
+const GetPollsRequest$json = {
+  '1': 'GetPollsRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetPollsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPollsRequestDescriptor = $convert.base64Decode(
+  'Cg9HZXRQb2xsc1JlcXVlc3QSGgoIc3RyZWFtSUQYASABKA1SCHN0cmVhbUlE',
+);
+
+@$core.Deprecated('Use postPollVoteRequestDescriptor instead')
+const PostPollVoteRequest$json = {
+  '1': 'PostPollVoteRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+    {'1': 'pollOptionID', '3': 2, '4': 1, '5': 13, '10': 'pollOptionID'},
+  ],
+};
+
+/// Descriptor for `PostPollVoteRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPollVoteRequestDescriptor = $convert.base64Decode(
+    'ChNQb3N0UG9sbFZvdGVSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUghzdHJlYW1JRBIiCgxwb2'
+    'xsT3B0aW9uSUQYAiABKA1SDHBvbGxPcHRpb25JRA==');
+
+@$core.Deprecated('Use getPollsResponseDescriptor instead')
+const GetPollsResponse$json = {
+  '1': 'GetPollsResponse',
+  '2': [
+    {
+      '1': 'polls',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Poll',
+      '10': 'polls',
+    },
+  ],
+};
+
+/// Descriptor for `GetPollsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPollsResponseDescriptor = $convert.base64Decode(
+    'ChBHZXRQb2xsc1Jlc3BvbnNlEiQKBXBvbGxzGAEgAygLMg4ucHJvdG9idWYuUG9sbFIFcG9sbH'
+    'M=');
+
+@$core.Deprecated('Use postPollVoteResponseDescriptor instead')
+const PostPollVoteResponse$json = {
+  '1': 'PostPollVoteResponse',
+};
+
+/// Descriptor for `PostPollVoteResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPollVoteResponseDescriptor =
+    $convert.base64Decode('ChRQb3N0UG9sbFZvdGVSZXNwb25zZQ==');
+
 @$core.Deprecated('Use userDescriptor instead')
 const User$json = {
   '1': 'User',
@@ -36,14 +465,55 @@ const User$json = {
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     {'1': 'lastName', '3': 3, '4': 1, '5': 9, '10': 'lastName'},
     {'1': 'email', '3': 4, '4': 1, '5': 9, '10': 'email'},
-    {'1': 'matriculationNumber', '3': 5, '4': 1, '5': 9, '10': 'matriculationNumber'},
+    {
+      '1': 'matriculationNumber',
+      '3': 5,
+      '4': 1,
+      '5': 9,
+      '10': 'matriculationNumber',
+    },
     {'1': 'lrzID', '3': 6, '4': 1, '5': 9, '10': 'lrzID'},
     {'1': 'role', '3': 7, '4': 1, '5': 13, '10': 'role'},
-    {'1': 'courses', '3': 8, '4': 3, '5': 11, '6': '.protobuf.Course', '10': 'courses'},
-    {'1': 'administeredCourses', '3': 9, '4': 3, '5': 11, '6': '.protobuf.Course', '10': 'administeredCourses'},
-    {'1': 'pinnedCourses', '3': 10, '4': 3, '5': 11, '6': '.protobuf.Course', '10': 'pinnedCourses'},
-    {'1': 'settings', '3': 11, '4': 3, '5': 11, '6': '.protobuf.UserSetting', '10': 'settings'},
-    {'1': 'bookmarks', '3': 12, '4': 3, '5': 11, '6': '.protobuf.Bookmark', '10': 'bookmarks'},
+    {
+      '1': 'courses',
+      '3': 8,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'courses',
+    },
+    {
+      '1': 'administeredCourses',
+      '3': 9,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'administeredCourses',
+    },
+    {
+      '1': 'pinnedCourses',
+      '3': 10,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'pinnedCourses',
+    },
+    {
+      '1': 'settings',
+      '3': 11,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.UserSetting',
+      '10': 'settings',
+    },
+    {
+      '1': 'bookmarks',
+      '3': 12,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Bookmark',
+      '10': 'bookmarks',
+    },
   ],
 };
 
@@ -63,18 +533,22 @@ final $typed_data.Uint8List userDescriptor = $convert.base64Decode(
 const UserSetting$json = {
   '1': 'UserSetting',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
-    {'1': 'userID', '3': 2, '4': 1, '5': 13, '10': 'userID'},
-    {'1': 'type', '3': 3, '4': 1, '5': 14, '6': '.protobuf.UserSettingType', '10': 'type'},
+    {
+      '1': 'type',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.protobuf.UserSettingType',
+      '10': 'type',
+    },
     {'1': 'value', '3': 4, '4': 1, '5': 9, '10': 'value'},
   ],
 };
 
 /// Descriptor for `UserSetting`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List userSettingDescriptor = $convert.base64Decode(
-    'CgtVc2VyU2V0dGluZxIOCgJpZBgBIAEoDVICaWQSFgoGdXNlcklEGAIgASgNUgZ1c2VySUQSLQ'
-    'oEdHlwZRgDIAEoDjIZLnByb3RvYnVmLlVzZXJTZXR0aW5nVHlwZVIEdHlwZRIUCgV2YWx1ZRgE'
-    'IAEoCVIFdmFsdWU=');
+    'CgtVc2VyU2V0dGluZxItCgR0eXBlGAMgASgOMhkucHJvdG9idWYuVXNlclNldHRpbmdUeXBlUg'
+    'R0eXBlEhQKBXZhbHVlGAQgASgJUgV2YWx1ZQ==');
 
 @$core.Deprecated('Use getUserRequestDescriptor instead')
 const GetUserRequest$json = {
@@ -82,43 +556,40 @@ const GetUserRequest$json = {
 };
 
 /// Descriptor for `GetUserRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getUserRequestDescriptor = $convert.base64Decode(
-    'Cg5HZXRVc2VyUmVxdWVzdA==',
-);
+final $typed_data.Uint8List getUserRequestDescriptor =
+    $convert.base64Decode('Cg5HZXRVc2VyUmVxdWVzdA==');
 
 @$core.Deprecated('Use getUserCoursesRequestDescriptor instead')
 const GetUserCoursesRequest$json = {
   '1': 'GetUserCoursesRequest',
   '2': [
-    {'1': 'year', '3': 1, '4': 1, '5': 5, '10': 'year'},
+    {'1': 'year', '3': 1, '4': 1, '5': 13, '10': 'year'},
     {'1': 'term', '3': 2, '4': 1, '5': 9, '10': 'term'},
-    {'1': 'query', '3': 3, '4': 1, '5': 9, '10': 'query'},
-    {'1': 'limit', '3': 4, '4': 1, '5': 5, '10': 'limit'},
-    {'1': 'skip', '3': 5, '4': 1, '5': 5, '10': 'skip'},
+    {'1': 'limit', '3': 3, '4': 1, '5': 13, '10': 'limit'},
+    {'1': 'skip', '3': 4, '4': 1, '5': 13, '10': 'skip'},
   ],
 };
 
 /// Descriptor for `GetUserCoursesRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserCoursesRequestDescriptor = $convert.base64Decode(
-    'ChVHZXRVc2VyQ291cnNlc1JlcXVlc3QSEgoEeWVhchgBIAEoBVIEeWVhchISCgR0ZXJtGAIgAS'
-    'gJUgR0ZXJtEhQKBXF1ZXJ5GAMgASgJUgVxdWVyeRIUCgVsaW1pdBgEIAEoBVIFbGltaXQSEgoE'
-    'c2tpcBgFIAEoBVIEc2tpcA==');
+    'ChVHZXRVc2VyQ291cnNlc1JlcXVlc3QSEgoEeWVhchgBIAEoDVIEeWVhchISCgR0ZXJtGAIgAS'
+    'gJUgR0ZXJtEhQKBWxpbWl0GAMgASgNUgVsaW1pdBISCgRza2lwGAQgASgNUgRza2lw');
 
 @$core.Deprecated('Use getUserPinnedRequestDescriptor instead')
 const GetUserPinnedRequest$json = {
   '1': 'GetUserPinnedRequest',
   '2': [
-    {'1': 'year', '3': 1, '4': 1, '5': 5, '10': 'year'},
+    {'1': 'year', '3': 1, '4': 1, '5': 13, '10': 'year'},
     {'1': 'term', '3': 2, '4': 1, '5': 9, '10': 'term'},
-    {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
-    {'1': 'skip', '3': 4, '4': 1, '5': 5, '10': 'skip'},
+    {'1': 'limit', '3': 3, '4': 1, '5': 13, '10': 'limit'},
+    {'1': 'skip', '3': 4, '4': 1, '5': 13, '10': 'skip'},
   ],
 };
 
 /// Descriptor for `GetUserPinnedRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserPinnedRequestDescriptor = $convert.base64Decode(
-    'ChRHZXRVc2VyUGlubmVkUmVxdWVzdBISCgR5ZWFyGAEgASgFUgR5ZWFyEhIKBHRlcm0YAiABKA'
-    'lSBHRlcm0SFAoFbGltaXQYAyABKAVSBWxpbWl0EhIKBHNraXAYBCABKAVSBHNraXA=');
+    'ChRHZXRVc2VyUGlubmVkUmVxdWVzdBISCgR5ZWFyGAEgASgNUgR5ZWFyEhIKBHRlcm0YAiABKA'
+    'lSBHRlcm0SFAoFbGltaXQYAyABKA1SBWxpbWl0EhIKBHNraXAYBCABKA1SBHNraXA=');
 
 @$core.Deprecated('Use getUserAdminRequestDescriptor instead')
 const GetUserAdminRequest$json = {
@@ -126,9 +597,8 @@ const GetUserAdminRequest$json = {
 };
 
 /// Descriptor for `GetUserAdminRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getUserAdminRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRVc2VyQWRtaW5SZXF1ZXN0',
-);
+final $typed_data.Uint8List getUserAdminRequestDescriptor =
+    $convert.base64Decode('ChNHZXRVc2VyQWRtaW5SZXF1ZXN0');
 
 @$core.Deprecated('Use getUserSettingsRequestDescriptor instead')
 const GetUserSettingsRequest$json = {
@@ -136,8 +606,76 @@ const GetUserSettingsRequest$json = {
 };
 
 /// Descriptor for `GetUserSettingsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getUserSettingsRequestDescriptor = $convert.base64Decode(
-    'ChZHZXRVc2VyU2V0dGluZ3NSZXF1ZXN0',
+final $typed_data.Uint8List getUserSettingsRequestDescriptor =
+    $convert.base64Decode('ChZHZXRVc2VyU2V0dGluZ3NSZXF1ZXN0');
+
+@$core.Deprecated('Use patchUserSettingsRequestDescriptor instead')
+const PatchUserSettingsRequest$json = {
+  '1': 'PatchUserSettingsRequest',
+  '2': [
+    {
+      '1': 'userSettings',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.UserSetting',
+      '10': 'userSettings',
+    },
+  ],
+};
+
+/// Descriptor for `PatchUserSettingsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List patchUserSettingsRequestDescriptor =
+    $convert.base64Decode(
+        'ChhQYXRjaFVzZXJTZXR0aW5nc1JlcXVlc3QSOQoMdXNlclNldHRpbmdzGAEgAygLMhUucHJvdG'
+        '9idWYuVXNlclNldHRpbmdSDHVzZXJTZXR0aW5ncw==');
+
+@$core.Deprecated('Use patchUserSettingsResponseDescriptor instead')
+const PatchUserSettingsResponse$json = {
+  '1': 'PatchUserSettingsResponse',
+  '2': [
+    {
+      '1': 'userSettings',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.UserSetting',
+      '10': 'userSettings',
+    },
+  ],
+};
+
+/// Descriptor for `PatchUserSettingsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List patchUserSettingsResponseDescriptor =
+    $convert.base64Decode(
+        'ChlQYXRjaFVzZXJTZXR0aW5nc1Jlc3BvbnNlEjkKDHVzZXJTZXR0aW5ncxgBIAMoCzIVLnByb3'
+        'RvYnVmLlVzZXJTZXR0aW5nUgx1c2VyU2V0dGluZ3M=');
+
+@$core.Deprecated('Use postPinnedRequestDescriptor instead')
+const PostPinnedRequest$json = {
+  '1': 'PostPinnedRequest',
+  '2': [
+    {'1': 'courseID', '3': 1, '4': 1, '5': 13, '10': 'courseID'},
+  ],
+};
+
+/// Descriptor for `PostPinnedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPinnedRequestDescriptor = $convert.base64Decode(
+  'ChFQb3N0UGlubmVkUmVxdWVzdBIaCghjb3Vyc2VJRBgBIAEoDVIIY291cnNlSUQ=',
+);
+
+@$core.Deprecated('Use deletePinnedRequestDescriptor instead')
+const DeletePinnedRequest$json = {
+  '1': 'DeletePinnedRequest',
+  '2': [
+    {'1': 'courseID', '3': 1, '4': 1, '5': 13, '10': 'courseID'},
+  ],
+};
+
+/// Descriptor for `DeletePinnedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deletePinnedRequestDescriptor =
+    $convert.base64Decode(
+  'ChNEZWxldGVQaW5uZWRSZXF1ZXN0EhoKCGNvdXJzZUlEGAEgASgNUghjb3Vyc2VJRA==',
 );
 
 @$core.Deprecated('Use getUserResponseDescriptor instead')
@@ -150,27 +688,42 @@ const GetUserResponse$json = {
 
 /// Descriptor for `GetUserResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUserResponseDescriptor = $convert.base64Decode(
-    'Cg9HZXRVc2VyUmVzcG9uc2USIgoEdXNlchgBIAEoCzIOLnByb3RvYnVmLlVzZXJSBHVzZXI=',
+  'Cg9HZXRVc2VyUmVzcG9uc2USIgoEdXNlchgBIAEoCzIOLnByb3RvYnVmLlVzZXJSBHVzZXI=',
 );
 
 @$core.Deprecated('Use getUserCoursesResponseDescriptor instead')
 const GetUserCoursesResponse$json = {
   '1': 'GetUserCoursesResponse',
   '2': [
-    {'1': 'courses', '3': 1, '4': 3, '5': 11, '6': '.protobuf.Course', '10': 'courses'},
+    {
+      '1': 'courses',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'courses',
+    },
   ],
 };
 
 /// Descriptor for `GetUserCoursesResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getUserCoursesResponseDescriptor = $convert.base64Decode(
-    'ChZHZXRVc2VyQ291cnNlc1Jlc3BvbnNlEioKB2NvdXJzZXMYASADKAsyEC5wcm90b2J1Zi5Db3'
-    'Vyc2VSB2NvdXJzZXM=');
+final $typed_data.Uint8List getUserCoursesResponseDescriptor =
+    $convert.base64Decode(
+        'ChZHZXRVc2VyQ291cnNlc1Jlc3BvbnNlEioKB2NvdXJzZXMYASADKAsyEC5wcm90b2J1Zi5Db3'
+        'Vyc2VSB2NvdXJzZXM=');
 
 @$core.Deprecated('Use getUserPinnedResponseDescriptor instead')
 const GetUserPinnedResponse$json = {
   '1': 'GetUserPinnedResponse',
   '2': [
-    {'1': 'courses', '3': 1, '4': 3, '5': 11, '6': '.protobuf.Course', '10': 'courses'},
+    {
+      '1': 'courses',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'courses',
+    },
   ],
 };
 
@@ -183,7 +736,14 @@ final $typed_data.Uint8List getUserPinnedResponseDescriptor = $convert.base64Dec
 const GetUserAdminResponse$json = {
   '1': 'GetUserAdminResponse',
   '2': [
-    {'1': 'courses', '3': 1, '4': 3, '5': 11, '6': '.protobuf.Course', '10': 'courses'},
+    {
+      '1': 'courses',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'courses',
+    },
   ],
 };
 
@@ -196,14 +756,40 @@ final $typed_data.Uint8List getUserAdminResponseDescriptor = $convert.base64Deco
 const GetUserSettingsResponse$json = {
   '1': 'GetUserSettingsResponse',
   '2': [
-    {'1': 'userSettings', '3': 1, '4': 3, '5': 11, '6': '.protobuf.UserSetting', '10': 'userSettings'},
+    {
+      '1': 'userSettings',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.UserSetting',
+      '10': 'userSettings',
+    },
   ],
 };
 
 /// Descriptor for `GetUserSettingsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getUserSettingsResponseDescriptor = $convert.base64Decode(
-    'ChdHZXRVc2VyU2V0dGluZ3NSZXNwb25zZRI5Cgx1c2VyU2V0dGluZ3MYASADKAsyFS5wcm90b2'
-    'J1Zi5Vc2VyU2V0dGluZ1IMdXNlclNldHRpbmdz');
+final $typed_data.Uint8List getUserSettingsResponseDescriptor =
+    $convert.base64Decode(
+        'ChdHZXRVc2VyU2V0dGluZ3NSZXNwb25zZRI5Cgx1c2VyU2V0dGluZ3MYASADKAsyFS5wcm90b2'
+        'J1Zi5Vc2VyU2V0dGluZ1IMdXNlclNldHRpbmdz');
+
+@$core.Deprecated('Use postPinnedResponseDescriptor instead')
+const PostPinnedResponse$json = {
+  '1': 'PostPinnedResponse',
+};
+
+/// Descriptor for `PostPinnedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postPinnedResponseDescriptor =
+    $convert.base64Decode('ChJQb3N0UGlubmVkUmVzcG9uc2U=');
+
+@$core.Deprecated('Use deletePinnedResponseDescriptor instead')
+const DeletePinnedResponse$json = {
+  '1': 'DeletePinnedResponse',
+};
+
+/// Descriptor for `DeletePinnedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deletePinnedResponseDescriptor =
+    $convert.base64Decode('ChREZWxldGVQaW5uZWRSZXNwb25zZQ==');
 
 @$core.Deprecated('Use bookmarkDescriptor instead')
 const Bookmark$json = {
@@ -230,20 +816,77 @@ final $typed_data.Uint8List bookmarkDescriptor = $convert.base64Decode(
 const GetBookmarksRequest$json = {
   '1': 'GetBookmarksRequest',
   '2': [
-    {'1': 'streamID', '3': 1, '4': 1, '5': 5, '10': 'streamID'},
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
   ],
 };
 
 /// Descriptor for `GetBookmarksRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getBookmarksRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRCb29rbWFya3NSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgFUghzdHJlYW1JRA==',
+final $typed_data.Uint8List getBookmarksRequestDescriptor =
+    $convert.base64Decode(
+  'ChNHZXRCb29rbWFya3NSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUghzdHJlYW1JRA==',
 );
+
+@$core.Deprecated('Use putBookmarkRequestDescriptor instead')
+const PutBookmarkRequest$json = {
+  '1': 'PutBookmarkRequest',
+  '2': [
+    {'1': 'description', '3': 1, '4': 1, '5': 9, '10': 'description'},
+    {'1': 'hours', '3': 2, '4': 1, '5': 13, '10': 'hours'},
+    {'1': 'minutes', '3': 3, '4': 1, '5': 13, '10': 'minutes'},
+    {'1': 'seconds', '3': 4, '4': 1, '5': 13, '10': 'seconds'},
+    {'1': 'streamID', '3': 5, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `PutBookmarkRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List putBookmarkRequestDescriptor = $convert.base64Decode(
+    'ChJQdXRCb29rbWFya1JlcXVlc3QSIAoLZGVzY3JpcHRpb24YASABKAlSC2Rlc2NyaXB0aW9uEh'
+    'QKBWhvdXJzGAIgASgNUgVob3VycxIYCgdtaW51dGVzGAMgASgNUgdtaW51dGVzEhgKB3NlY29u'
+    'ZHMYBCABKA1SB3NlY29uZHMSGgoIc3RyZWFtSUQYBSABKA1SCHN0cmVhbUlE');
+
+@$core.Deprecated('Use patchBookmarkRequestDescriptor instead')
+const PatchBookmarkRequest$json = {
+  '1': 'PatchBookmarkRequest',
+  '2': [
+    {'1': 'description', '3': 1, '4': 1, '5': 9, '10': 'description'},
+    {'1': 'hours', '3': 2, '4': 1, '5': 13, '10': 'hours'},
+    {'1': 'minutes', '3': 3, '4': 1, '5': 13, '10': 'minutes'},
+    {'1': 'seconds', '3': 4, '4': 1, '5': 13, '10': 'seconds'},
+    {'1': 'bookmarkID', '3': 5, '4': 1, '5': 13, '10': 'bookmarkID'},
+  ],
+};
+
+/// Descriptor for `PatchBookmarkRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List patchBookmarkRequestDescriptor = $convert.base64Decode(
+    'ChRQYXRjaEJvb2ttYXJrUmVxdWVzdBIgCgtkZXNjcmlwdGlvbhgBIAEoCVILZGVzY3JpcHRpb2'
+    '4SFAoFaG91cnMYAiABKA1SBWhvdXJzEhgKB21pbnV0ZXMYAyABKA1SB21pbnV0ZXMSGAoHc2Vj'
+    'b25kcxgEIAEoDVIHc2Vjb25kcxIeCgpib29rbWFya0lEGAUgASgNUgpib29rbWFya0lE');
+
+@$core.Deprecated('Use deleteBookmarkRequestDescriptor instead')
+const DeleteBookmarkRequest$json = {
+  '1': 'DeleteBookmarkRequest',
+  '2': [
+    {'1': 'bookmarkID', '3': 1, '4': 1, '5': 13, '10': 'bookmarkID'},
+  ],
+};
+
+/// Descriptor for `DeleteBookmarkRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteBookmarkRequestDescriptor = $convert.base64Decode(
+    'ChVEZWxldGVCb29rbWFya1JlcXVlc3QSHgoKYm9va21hcmtJRBgBIAEoDVIKYm9va21hcmtJRA'
+    '==');
 
 @$core.Deprecated('Use getBookmarksResponseDescriptor instead')
 const GetBookmarksResponse$json = {
   '1': 'GetBookmarksResponse',
   '2': [
-    {'1': 'bookmarks', '3': 1, '4': 3, '5': 11, '6': '.protobuf.Bookmark', '10': 'bookmarks'},
+    {
+      '1': 'bookmarks',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Bookmark',
+      '10': 'bookmarks',
+    },
   ],
 };
 
@@ -252,6 +895,196 @@ final $typed_data.Uint8List getBookmarksResponseDescriptor = $convert.base64Deco
     'ChRHZXRCb29rbWFya3NSZXNwb25zZRIwCglib29rbWFya3MYASADKAsyEi5wcm90b2J1Zi5Cb2'
     '9rbWFya1IJYm9va21hcmtz');
 
+@$core.Deprecated('Use putBookmarkResponseDescriptor instead')
+const PutBookmarkResponse$json = {
+  '1': 'PutBookmarkResponse',
+  '2': [
+    {
+      '1': 'bookmark',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Bookmark',
+      '10': 'bookmark',
+    },
+  ],
+};
+
+/// Descriptor for `PutBookmarkResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List putBookmarkResponseDescriptor = $convert.base64Decode(
+    'ChNQdXRCb29rbWFya1Jlc3BvbnNlEi4KCGJvb2ttYXJrGAEgASgLMhIucHJvdG9idWYuQm9va2'
+    '1hcmtSCGJvb2ttYXJr');
+
+@$core.Deprecated('Use patchBookmarkResponseDescriptor instead')
+const PatchBookmarkResponse$json = {
+  '1': 'PatchBookmarkResponse',
+  '2': [
+    {
+      '1': 'bookmark',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Bookmark',
+      '10': 'bookmark',
+    },
+  ],
+};
+
+/// Descriptor for `PatchBookmarkResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List patchBookmarkResponseDescriptor = $convert.base64Decode(
+    'ChVQYXRjaEJvb2ttYXJrUmVzcG9uc2USLgoIYm9va21hcmsYASABKAsyEi5wcm90b2J1Zi5Cb2'
+    '9rbWFya1IIYm9va21hcms=');
+
+@$core.Deprecated('Use deleteBookmarkResponseDescriptor instead')
+const DeleteBookmarkResponse$json = {
+  '1': 'DeleteBookmarkResponse',
+};
+
+/// Descriptor for `DeleteBookmarkResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteBookmarkResponseDescriptor =
+    $convert.base64Decode('ChZEZWxldGVCb29rbWFya1Jlc3BvbnNl');
+
+@$core.Deprecated('Use bannerAlertDescriptor instead')
+const BannerAlert$json = {
+  '1': 'BannerAlert',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'startsAt', '3': 2, '4': 1, '5': 9, '10': 'startsAt'},
+    {'1': 'expiresAt', '3': 3, '4': 1, '5': 9, '10': 'expiresAt'},
+    {'1': 'text', '3': 4, '4': 1, '5': 9, '10': 'text'},
+    {'1': 'warn', '3': 5, '4': 1, '5': 8, '10': 'warn'},
+  ],
+};
+
+/// Descriptor for `BannerAlert`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List bannerAlertDescriptor = $convert.base64Decode(
+    'CgtCYW5uZXJBbGVydBIOCgJpZBgBIAEoDVICaWQSGgoIc3RhcnRzQXQYAiABKAlSCHN0YXJ0c0'
+    'F0EhwKCWV4cGlyZXNBdBgDIAEoCVIJZXhwaXJlc0F0EhIKBHRleHQYBCABKAlSBHRleHQSEgoE'
+    'd2FybhgFIAEoCFIEd2Fybg==');
+
+@$core.Deprecated('Use featureNotificationDescriptor instead')
+const FeatureNotification$json = {
+  '1': 'FeatureNotification',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
+    {'1': 'Title', '3': 2, '4': 1, '5': 9, '10': 'Title'},
+    {'1': 'Body', '3': 3, '4': 1, '5': 9, '10': 'Body'},
+    {'1': 'Target', '3': 4, '4': 1, '5': 13, '10': 'Target'},
+  ],
+};
+
+/// Descriptor for `FeatureNotification`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List featureNotificationDescriptor = $convert.base64Decode(
+    'ChNGZWF0dXJlTm90aWZpY2F0aW9uEg4KAmlkGAEgASgNUgJpZBIUCgVUaXRsZRgCIAEoCVIFVG'
+    'l0bGUSEgoEQm9keRgDIAEoCVIEQm9keRIWCgZUYXJnZXQYBCABKA1SBlRhcmdldA==');
+
+@$core.Deprecated('Use postDeviceTokenRequestDescriptor instead')
+const PostDeviceTokenRequest$json = {
+  '1': 'PostDeviceTokenRequest',
+  '2': [
+    {'1': 'deviceToken', '3': 1, '4': 1, '5': 9, '10': 'deviceToken'},
+  ],
+};
+
+/// Descriptor for `PostDeviceTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postDeviceTokenRequestDescriptor =
+    $convert.base64Decode(
+        'ChZQb3N0RGV2aWNlVG9rZW5SZXF1ZXN0EiAKC2RldmljZVRva2VuGAEgASgJUgtkZXZpY2VUb2'
+        'tlbg==');
+
+@$core.Deprecated('Use deleteDeviceTokenRequestDescriptor instead')
+const DeleteDeviceTokenRequest$json = {
+  '1': 'DeleteDeviceTokenRequest',
+  '2': [
+    {'1': 'deviceToken', '3': 1, '4': 1, '5': 9, '10': 'deviceToken'},
+  ],
+};
+
+/// Descriptor for `DeleteDeviceTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDeviceTokenRequestDescriptor =
+    $convert.base64Decode(
+        'ChhEZWxldGVEZXZpY2VUb2tlblJlcXVlc3QSIAoLZGV2aWNlVG9rZW4YASABKAlSC2RldmljZV'
+        'Rva2Vu');
+
+@$core.Deprecated('Use getBannerAlertsRequestDescriptor instead')
+const GetBannerAlertsRequest$json = {
+  '1': 'GetBannerAlertsRequest',
+};
+
+/// Descriptor for `GetBannerAlertsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getBannerAlertsRequestDescriptor =
+    $convert.base64Decode('ChZHZXRCYW5uZXJBbGVydHNSZXF1ZXN0');
+
+@$core.Deprecated('Use getFeatureNotificationsRequestDescriptor instead')
+const GetFeatureNotificationsRequest$json = {
+  '1': 'GetFeatureNotificationsRequest',
+};
+
+/// Descriptor for `GetFeatureNotificationsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getFeatureNotificationsRequestDescriptor =
+    $convert.base64Decode('Ch5HZXRGZWF0dXJlTm90aWZpY2F0aW9uc1JlcXVlc3Q=');
+
+@$core.Deprecated('Use postDeviceTokenResponseDescriptor instead')
+const PostDeviceTokenResponse$json = {
+  '1': 'PostDeviceTokenResponse',
+};
+
+/// Descriptor for `PostDeviceTokenResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postDeviceTokenResponseDescriptor =
+    $convert.base64Decode('ChdQb3N0RGV2aWNlVG9rZW5SZXNwb25zZQ==');
+
+@$core.Deprecated('Use deleteDeviceTokenResponseDescriptor instead')
+const DeleteDeviceTokenResponse$json = {
+  '1': 'DeleteDeviceTokenResponse',
+};
+
+/// Descriptor for `DeleteDeviceTokenResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDeviceTokenResponseDescriptor =
+    $convert.base64Decode('ChlEZWxldGVEZXZpY2VUb2tlblJlc3BvbnNl');
+
+@$core.Deprecated('Use getBannerAlertsResponseDescriptor instead')
+const GetBannerAlertsResponse$json = {
+  '1': 'GetBannerAlertsResponse',
+  '2': [
+    {
+      '1': 'bannerAlerts',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.BannerAlert',
+      '10': 'bannerAlerts',
+    },
+  ],
+};
+
+/// Descriptor for `GetBannerAlertsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getBannerAlertsResponseDescriptor =
+    $convert.base64Decode(
+        'ChdHZXRCYW5uZXJBbGVydHNSZXNwb25zZRI5CgxiYW5uZXJBbGVydHMYASADKAsyFS5wcm90b2'
+        'J1Zi5CYW5uZXJBbGVydFIMYmFubmVyQWxlcnRz');
+
+@$core.Deprecated('Use getFeatureNotificationsResponseDescriptor instead')
+const GetFeatureNotificationsResponse$json = {
+  '1': 'GetFeatureNotificationsResponse',
+  '2': [
+    {
+      '1': 'featureNotifications',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.FeatureNotification',
+      '10': 'featureNotifications',
+    },
+  ],
+};
+
+/// Descriptor for `GetFeatureNotificationsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getFeatureNotificationsResponseDescriptor =
+    $convert.base64Decode(
+        'Ch9HZXRGZWF0dXJlTm90aWZpY2F0aW9uc1Jlc3BvbnNlElEKFGZlYXR1cmVOb3RpZmljYXRpb2'
+        '5zGAEgAygLMh0ucHJvdG9idWYuRmVhdHVyZU5vdGlmaWNhdGlvblIUZmVhdHVyZU5vdGlmaWNh'
+        'dGlvbnM=');
+
 @$core.Deprecated('Use courseDescriptor instead')
 const Course$json = {
   '1': 'Course',
@@ -259,17 +1092,63 @@ const Course$json = {
     {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     {'1': 'slug', '3': 3, '4': 1, '5': 9, '10': 'slug'},
-    {'1': 'semester', '3': 4, '4': 1, '5': 11, '6': '.protobuf.Semester', '10': 'semester'},
-    {'1': 'TUMOnlineIdentifier', '3': 5, '4': 1, '5': 9, '10': 'TUMOnlineIdentifier'},
+    {
+      '1': 'semester',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Semester',
+      '10': 'semester',
+    },
+    {
+      '1': 'TUMOnlineIdentifier',
+      '3': 5,
+      '4': 1,
+      '5': 9,
+      '10': 'TUMOnlineIdentifier',
+    },
     {'1': 'VODEnabled', '3': 6, '4': 1, '5': 8, '10': 'VODEnabled'},
     {'1': 'downloadsEnabled', '3': 7, '4': 1, '5': 8, '10': 'downloadsEnabled'},
     {'1': 'chatEnabled', '3': 8, '4': 1, '5': 8, '10': 'chatEnabled'},
-    {'1': 'anonymousChatEnabled', '3': 9, '4': 1, '5': 8, '10': 'anonymousChatEnabled'},
-    {'1': 'moderatedChatEnabled', '3': 10, '4': 1, '5': 8, '10': 'moderatedChatEnabled'},
+    {
+      '1': 'anonymousChatEnabled',
+      '3': 9,
+      '4': 1,
+      '5': 8,
+      '10': 'anonymousChatEnabled',
+    },
+    {
+      '1': 'moderatedChatEnabled',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'moderatedChatEnabled',
+    },
     {'1': 'vodChatEnabled', '3': 11, '4': 1, '5': 8, '10': 'vodChatEnabled'},
-    {'1': 'streams', '3': 12, '4': 3, '5': 11, '6': '.protobuf.Stream', '10': 'streams'},
-    {'1': 'cameraPresetPreferences', '3': 13, '4': 1, '5': 9, '10': 'cameraPresetPreferences'},
-    {'1': 'sourcePreferences', '3': 14, '4': 1, '5': 9, '10': 'sourcePreferences'},
+    {
+      '1': 'streams',
+      '3': 12,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Stream',
+      '10': 'streams',
+    },
+    {
+      '1': 'cameraPresetPreferences',
+      '3': 13,
+      '4': 1,
+      '5': 9,
+      '10': 'cameraPresetPreferences',
+    },
+    {
+      '1': 'sourcePreferences',
+      '3': 14,
+      '4': 1,
+      '5': 9,
+      '10': 'sourcePreferences',
+    },
+    {'1': 'lastRecordingID', '3': 15, '4': 1, '5': 13, '10': 'lastRecordingID'},
+    {'1': 'nextLectureID', '3': 16, '4': 1, '5': 13, '10': 'nextLectureID'},
   ],
 };
 
@@ -285,56 +1164,211 @@ final $typed_data.Uint8List courseDescriptor = $convert.base64Decode(
     '5hYmxlZBgLIAEoCFIOdm9kQ2hhdEVuYWJsZWQSKgoHc3RyZWFtcxgMIAMoCzIQLnByb3RvYnVm'
     'LlN0cmVhbVIHc3RyZWFtcxI4ChdjYW1lcmFQcmVzZXRQcmVmZXJlbmNlcxgNIAEoCVIXY2FtZX'
     'JhUHJlc2V0UHJlZmVyZW5jZXMSLAoRc291cmNlUHJlZmVyZW5jZXMYDiABKAlSEXNvdXJjZVBy'
-    'ZWZlcmVuY2Vz');
+    'ZWZlcmVuY2VzEigKD2xhc3RSZWNvcmRpbmdJRBgPIAEoDVIPbGFzdFJlY29yZGluZ0lEEiQKDW'
+    '5leHRMZWN0dXJlSUQYECABKA1SDW5leHRMZWN0dXJlSUQ=');
 
 @$core.Deprecated('Use semesterDescriptor instead')
 const Semester$json = {
   '1': 'Semester',
   '2': [
-    {'1': 'teachingTerm', '3': 3, '4': 1, '5': 9, '10': 'teachingTerm'},
-    {'1': 'year', '3': 4, '4': 1, '5': 13, '10': 'year'},
+    {'1': 'teachingTerm', '3': 1, '4': 1, '5': 9, '10': 'teachingTerm'},
+    {'1': 'year', '3': 2, '4': 1, '5': 13, '10': 'year'},
   ],
 };
 
 /// Descriptor for `Semester`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List semesterDescriptor = $convert.base64Decode(
-    'CghTZW1lc3RlchIiCgx0ZWFjaGluZ1Rlcm0YAyABKAlSDHRlYWNoaW5nVGVybRISCgR5ZWFyGA'
-    'QgASgNUgR5ZWFy');
+    'CghTZW1lc3RlchIiCgx0ZWFjaGluZ1Rlcm0YASABKAlSDHRlYWNoaW5nVGVybRISCgR5ZWFyGA'
+    'IgASgNUgR5ZWFy');
+
+@$core.Deprecated('Use getPublicCoursesRequestDescriptor instead')
+const GetPublicCoursesRequest$json = {
+  '1': 'GetPublicCoursesRequest',
+  '2': [
+    {'1': 'year', '3': 1, '4': 1, '5': 13, '10': 'year'},
+    {'1': 'term', '3': 2, '4': 1, '5': 9, '10': 'term'},
+    {'1': 'limit', '3': 3, '4': 1, '5': 13, '10': 'limit'},
+    {'1': 'skip', '3': 4, '4': 1, '5': 13, '10': 'skip'},
+  ],
+};
+
+/// Descriptor for `GetPublicCoursesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPublicCoursesRequestDescriptor = $convert.base64Decode(
+    'ChdHZXRQdWJsaWNDb3Vyc2VzUmVxdWVzdBISCgR5ZWFyGAEgASgNUgR5ZWFyEhIKBHRlcm0YAi'
+    'ABKAlSBHRlcm0SFAoFbGltaXQYAyABKA1SBWxpbWl0EhIKBHNraXAYBCABKA1SBHNraXA=');
+
+@$core.Deprecated('Use getSemestersRequestDescriptor instead')
+const GetSemestersRequest$json = {
+  '1': 'GetSemestersRequest',
+};
+
+/// Descriptor for `GetSemestersRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getSemestersRequestDescriptor =
+    $convert.base64Decode('ChNHZXRTZW1lc3RlcnNSZXF1ZXN0');
+
+@$core.Deprecated('Use getCourseStreamsRequestDescriptor instead')
+const GetCourseStreamsRequest$json = {
+  '1': 'GetCourseStreamsRequest',
+  '2': [
+    {'1': 'courseID', '3': 1, '4': 1, '5': 13, '10': 'courseID'},
+  ],
+};
+
+/// Descriptor for `GetCourseStreamsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCourseStreamsRequestDescriptor =
+    $convert.base64Decode(
+  'ChdHZXRDb3Vyc2VTdHJlYW1zUmVxdWVzdBIaCghjb3Vyc2VJRBgBIAEoDVIIY291cnNlSUQ=',
+);
+
+@$core.Deprecated('Use getPublicCoursesResponseDescriptor instead')
+const GetPublicCoursesResponse$json = {
+  '1': 'GetPublicCoursesResponse',
+  '2': [
+    {
+      '1': 'courses',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Course',
+      '10': 'courses',
+    },
+  ],
+};
+
+/// Descriptor for `GetPublicCoursesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPublicCoursesResponseDescriptor =
+    $convert.base64Decode(
+        'ChhHZXRQdWJsaWNDb3Vyc2VzUmVzcG9uc2USKgoHY291cnNlcxgBIAMoCzIQLnByb3RvYnVmLk'
+        'NvdXJzZVIHY291cnNlcw==');
+
+@$core.Deprecated('Use getSemestersResponseDescriptor instead')
+const GetSemestersResponse$json = {
+  '1': 'GetSemestersResponse',
+  '2': [
+    {
+      '1': 'current',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Semester',
+      '10': 'current',
+    },
+    {
+      '1': 'semesters',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Semester',
+      '10': 'semesters',
+    },
+  ],
+};
+
+/// Descriptor for `GetSemestersResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getSemestersResponseDescriptor = $convert.base64Decode(
+    'ChRHZXRTZW1lc3RlcnNSZXNwb25zZRIsCgdjdXJyZW50GAEgASgLMhIucHJvdG9idWYuU2VtZX'
+    'N0ZXJSB2N1cnJlbnQSMAoJc2VtZXN0ZXJzGAIgAygLMhIucHJvdG9idWYuU2VtZXN0ZXJSCXNl'
+    'bWVzdGVycw==');
+
+@$core.Deprecated('Use getCourseStreamsResponseDescriptor instead')
+const GetCourseStreamsResponse$json = {
+  '1': 'GetCourseStreamsResponse',
+  '2': [
+    {
+      '1': 'streams',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Stream',
+      '10': 'streams',
+    },
+  ],
+};
+
+/// Descriptor for `GetCourseStreamsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCourseStreamsResponseDescriptor =
+    $convert.base64Decode(
+        'ChhHZXRDb3Vyc2VTdHJlYW1zUmVzcG9uc2USKgoHc3RyZWFtcxgBIAMoCzIQLnByb3RvYnVmLl'
+        'N0cmVhbVIHc3RyZWFtcw==');
 
 @$core.Deprecated('Use streamDescriptor instead')
 const Stream$json = {
   '1': 'Stream',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 4, '10': 'id'},
+    {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
     {'1': 'courseID', '3': 4, '4': 1, '5': 13, '10': 'courseID'},
-    {'1': 'start', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'start'},
-    {'1': 'end', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'end'},
+    {
+      '1': 'start',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'start',
+    },
+    {
+      '1': 'end',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'end',
+    },
     {'1': 'chatEnabled', '3': 7, '4': 1, '5': 8, '10': 'chatEnabled'},
     {'1': 'roomName', '3': 8, '4': 1, '5': 9, '10': 'roomName'},
     {'1': 'roomCode', '3': 9, '4': 1, '5': 9, '10': 'roomCode'},
     {'1': 'eventTypeName', '3': 10, '4': 1, '5': 9, '10': 'eventTypeName'},
-    {'1': 'TUMOnlineEventID', '3': 11, '4': 1, '5': 13, '10': 'TUMOnlineEventID'},
-    {'1': 'seriesIdentifier', '3': 12, '4': 1, '5': 9, '10': 'seriesIdentifier'},
+    {
+      '1': 'TUMOnlineEventID',
+      '3': 11,
+      '4': 1,
+      '5': 13,
+      '10': 'TUMOnlineEventID',
+    },
+    {
+      '1': 'seriesIdentifier',
+      '3': 12,
+      '4': 1,
+      '5': 9,
+      '10': 'seriesIdentifier',
+    },
     {'1': 'playlistUrl', '3': 13, '4': 1, '5': 9, '10': 'playlistUrl'},
     {'1': 'playlistUrlPRES', '3': 14, '4': 1, '5': 9, '10': 'playlistUrlPRES'},
     {'1': 'playlistUrlCAM', '3': 15, '4': 1, '5': 9, '10': 'playlistUrlCAM'},
     {'1': 'liveNow', '3': 16, '4': 1, '5': 8, '10': 'liveNow'},
-    {'1': 'liveNowTimestamp', '3': 17, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'liveNowTimestamp'},
+    {
+      '1': 'liveNowTimestamp',
+      '3': 17,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'liveNowTimestamp',
+    },
     {'1': 'recording', '3': 18, '4': 1, '5': 8, '10': 'recording'},
     {'1': 'premiere', '3': 19, '4': 1, '5': 8, '10': 'premiere'},
     {'1': 'ended', '3': 20, '4': 1, '5': 8, '10': 'ended'},
     {'1': 'vodViews', '3': 21, '4': 1, '5': 13, '10': 'vodViews'},
     {'1': 'startOffset', '3': 22, '4': 1, '5': 13, '10': 'startOffset'},
     {'1': 'endOffset', '3': 23, '4': 1, '5': 13, '10': 'endOffset'},
-    {'1': 'duration', '3': 28, '4': 1, '5': 5, '10': 'duration'},
+    {'1': 'duration', '3': 28, '4': 1, '5': 13, '10': 'duration'},
+    {
+      '1': 'downloads',
+      '3': 29,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Download',
+      '10': 'downloads',
+    },
+    {'1': 'isPlanned', '3': 30, '4': 1, '5': 8, '10': 'isPlanned'},
+    {'1': 'isComingUp', '3': 31, '4': 1, '5': 8, '10': 'isComingUp'},
+    {'1': 'HLSUrl', '3': 32, '4': 1, '5': 9, '10': 'HLSUrl'},
   ],
 };
 
 /// Descriptor for `Stream`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List streamDescriptor = $convert.base64Decode(
-    'CgZTdHJlYW0SDgoCaWQYASABKARSAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSIAoLZGVzY3JpcH'
+    'CgZTdHJlYW0SDgoCaWQYASABKA1SAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSIAoLZGVzY3JpcH'
     'Rpb24YAyABKAlSC2Rlc2NyaXB0aW9uEhoKCGNvdXJzZUlEGAQgASgNUghjb3Vyc2VJRBIwCgVz'
     'dGFydBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSBXN0YXJ0EiwKA2VuZBgGIA'
     'EoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSA2VuZBIgCgtjaGF0RW5hYmxlZBgHIAEo'
@@ -348,6 +1382,256 @@ final $typed_data.Uint8List streamDescriptor = $convert.base64Decode(
     'RhbXBSEGxpdmVOb3dUaW1lc3RhbXASHAoJcmVjb3JkaW5nGBIgASgIUglyZWNvcmRpbmcSGgoI'
     'cHJlbWllcmUYEyABKAhSCHByZW1pZXJlEhQKBWVuZGVkGBQgASgIUgVlbmRlZBIaCgh2b2RWaW'
     'V3cxgVIAEoDVIIdm9kVmlld3MSIAoLc3RhcnRPZmZzZXQYFiABKA1SC3N0YXJ0T2Zmc2V0EhwK'
-    'CWVuZE9mZnNldBgXIAEoDVIJZW5kT2Zmc2V0EhoKCGR1cmF0aW9uGBwgASgFUghkdXJhdGlvbg'
-    '==');
+    'CWVuZE9mZnNldBgXIAEoDVIJZW5kT2Zmc2V0EhoKCGR1cmF0aW9uGBwgASgNUghkdXJhdGlvbh'
+    'IwCglkb3dubG9hZHMYHSADKAsyEi5wcm90b2J1Zi5Eb3dubG9hZFIJZG93bmxvYWRzEhwKCWlz'
+    'UGxhbm5lZBgeIAEoCFIJaXNQbGFubmVkEh4KCmlzQ29taW5nVXAYHyABKAhSCmlzQ29taW5nVX'
+    'ASFgoGSExTVXJsGCAgASgJUgZITFNVcmw=');
 
+@$core.Deprecated('Use getStreamRequestDescriptor instead')
+const GetStreamRequest$json = {
+  '1': 'GetStreamRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetStreamRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStreamRequestDescriptor = $convert.base64Decode(
+  'ChBHZXRTdHJlYW1SZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUghzdHJlYW1JRA==',
+);
+
+@$core.Deprecated('Use getNowLiveRequestDescriptor instead')
+const GetNowLiveRequest$json = {
+  '1': 'GetNowLiveRequest',
+};
+
+/// Descriptor for `GetNowLiveRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getNowLiveRequestDescriptor =
+    $convert.base64Decode('ChFHZXROb3dMaXZlUmVxdWVzdA==');
+
+@$core.Deprecated('Use getThumbsLiveRequestDescriptor instead')
+const GetThumbsLiveRequest$json = {
+  '1': 'GetThumbsLiveRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetThumbsLiveRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsLiveRequestDescriptor =
+    $convert.base64Decode(
+  'ChRHZXRUaHVtYnNMaXZlUmVxdWVzdBIaCghzdHJlYW1JRBgBIAEoDVIIc3RyZWFtSUQ=',
+);
+
+@$core.Deprecated('Use getThumbsVODRequestDescriptor instead')
+const GetThumbsVODRequest$json = {
+  '1': 'GetThumbsVODRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetThumbsVODRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsVODRequestDescriptor =
+    $convert.base64Decode(
+  'ChNHZXRUaHVtYnNWT0RSZXF1ZXN0EhoKCHN0cmVhbUlEGAEgASgNUghzdHJlYW1JRA==',
+);
+
+@$core.Deprecated('Use getStreamResponseDescriptor instead')
+const GetStreamResponse$json = {
+  '1': 'GetStreamResponse',
+  '2': [
+    {
+      '1': 'stream',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Stream',
+      '10': 'stream',
+    },
+  ],
+};
+
+/// Descriptor for `GetStreamResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStreamResponseDescriptor = $convert.base64Decode(
+    'ChFHZXRTdHJlYW1SZXNwb25zZRIoCgZzdHJlYW0YASABKAsyEC5wcm90b2J1Zi5TdHJlYW1SBn'
+    'N0cmVhbQ==');
+
+@$core.Deprecated('Use getNowLiveResponseDescriptor instead')
+const GetNowLiveResponse$json = {
+  '1': 'GetNowLiveResponse',
+  '2': [
+    {
+      '1': 'stream',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.protobuf.Stream',
+      '10': 'stream',
+    },
+  ],
+};
+
+/// Descriptor for `GetNowLiveResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getNowLiveResponseDescriptor = $convert.base64Decode(
+    'ChJHZXROb3dMaXZlUmVzcG9uc2USKAoGc3RyZWFtGAEgAygLMhAucHJvdG9idWYuU3RyZWFtUg'
+    'ZzdHJlYW0=');
+
+@$core.Deprecated('Use getThumbsVODResponseDescriptor instead')
+const GetThumbsVODResponse$json = {
+  '1': 'GetThumbsVODResponse',
+  '2': [
+    {'1': 'path', '3': 1, '4': 1, '5': 9, '10': 'path'},
+  ],
+};
+
+/// Descriptor for `GetThumbsVODResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsVODResponseDescriptor = $convert
+    .base64Decode('ChRHZXRUaHVtYnNWT0RSZXNwb25zZRISCgRwYXRoGAEgASgJUgRwYXRo');
+
+@$core.Deprecated('Use getThumbsLiveResponseDescriptor instead')
+const GetThumbsLiveResponse$json = {
+  '1': 'GetThumbsLiveResponse',
+  '2': [
+    {'1': 'path', '3': 1, '4': 1, '5': 9, '10': 'path'},
+  ],
+};
+
+/// Descriptor for `GetThumbsLiveResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getThumbsLiveResponseDescriptor =
+    $convert.base64Decode(
+  'ChVHZXRUaHVtYnNMaXZlUmVzcG9uc2USEgoEcGF0aBgBIAEoCVIEcGF0aA==',
+);
+
+@$core.Deprecated('Use downloadDescriptor instead')
+const Download$json = {
+  '1': 'Download',
+  '2': [
+    {'1': 'friendlyName', '3': 1, '4': 1, '5': 9, '10': 'friendlyName'},
+    {'1': 'downloadURL', '3': 2, '4': 1, '5': 9, '10': 'downloadURL'},
+  ],
+};
+
+/// Descriptor for `Download`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List downloadDescriptor = $convert.base64Decode(
+    'CghEb3dubG9hZBIiCgxmcmllbmRseU5hbWUYASABKAlSDGZyaWVuZGx5TmFtZRIgCgtkb3dubG'
+    '9hZFVSTBgCIAEoCVILZG93bmxvYWRVUkw=');
+
+@$core.Deprecated('Use progressDescriptor instead')
+const Progress$json = {
+  '1': 'Progress',
+  '2': [
+    {'1': 'progress', '3': 1, '4': 1, '5': 2, '10': 'progress'},
+    {'1': 'watched', '3': 2, '4': 1, '5': 8, '10': 'watched'},
+    {'1': 'userID', '3': 3, '4': 1, '5': 13, '10': 'userID'},
+    {'1': 'streamID', '3': 4, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `Progress`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List progressDescriptor = $convert.base64Decode(
+    'CghQcm9ncmVzcxIaCghwcm9ncmVzcxgBIAEoAlIIcHJvZ3Jlc3MSGAoHd2F0Y2hlZBgCIAEoCF'
+    'IHd2F0Y2hlZBIWCgZ1c2VySUQYAyABKA1SBnVzZXJJRBIaCghzdHJlYW1JRBgEIAEoDVIIc3Ry'
+    'ZWFtSUQ=');
+
+@$core.Deprecated('Use getProgressRequestDescriptor instead')
+const GetProgressRequest$json = {
+  '1': 'GetProgressRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `GetProgressRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getProgressRequestDescriptor =
+    $convert.base64Decode(
+  'ChJHZXRQcm9ncmVzc1JlcXVlc3QSGgoIc3RyZWFtSUQYASABKA1SCHN0cmVhbUlE',
+);
+
+@$core.Deprecated('Use putProgressRequestDescriptor instead')
+const PutProgressRequest$json = {
+  '1': 'PutProgressRequest',
+  '2': [
+    {'1': 'progress', '3': 1, '4': 1, '5': 2, '10': 'progress'},
+    {'1': 'streamID', '3': 3, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `PutProgressRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List putProgressRequestDescriptor = $convert.base64Decode(
+    'ChJQdXRQcm9ncmVzc1JlcXVlc3QSGgoIcHJvZ3Jlc3MYASABKAJSCHByb2dyZXNzEhoKCHN0cm'
+    'VhbUlEGAMgASgNUghzdHJlYW1JRA==');
+
+@$core.Deprecated('Use markAsWatchedRequestDescriptor instead')
+const MarkAsWatchedRequest$json = {
+  '1': 'MarkAsWatchedRequest',
+  '2': [
+    {'1': 'streamID', '3': 1, '4': 1, '5': 13, '10': 'streamID'},
+  ],
+};
+
+/// Descriptor for `MarkAsWatchedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List markAsWatchedRequestDescriptor =
+    $convert.base64Decode(
+  'ChRNYXJrQXNXYXRjaGVkUmVxdWVzdBIaCghzdHJlYW1JRBgBIAEoDVIIc3RyZWFtSUQ=',
+);
+
+@$core.Deprecated('Use getProgressResponseDescriptor instead')
+const GetProgressResponse$json = {
+  '1': 'GetProgressResponse',
+  '2': [
+    {
+      '1': 'progress',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Progress',
+      '10': 'progress',
+    },
+  ],
+};
+
+/// Descriptor for `GetProgressResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getProgressResponseDescriptor = $convert.base64Decode(
+    'ChNHZXRQcm9ncmVzc1Jlc3BvbnNlEi4KCHByb2dyZXNzGAEgASgLMhIucHJvdG9idWYuUHJvZ3'
+    'Jlc3NSCHByb2dyZXNz');
+
+@$core.Deprecated('Use putProgressResponseDescriptor instead')
+const PutProgressResponse$json = {
+  '1': 'PutProgressResponse',
+  '2': [
+    {
+      '1': 'progress',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Progress',
+      '10': 'progress',
+    },
+  ],
+};
+
+/// Descriptor for `PutProgressResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List putProgressResponseDescriptor = $convert.base64Decode(
+    'ChNQdXRQcm9ncmVzc1Jlc3BvbnNlEi4KCHByb2dyZXNzGAEgASgLMhIucHJvdG9idWYuUHJvZ3'
+    'Jlc3NSCHByb2dyZXNz');
+
+@$core.Deprecated('Use markAsWatchedResponseDescriptor instead')
+const MarkAsWatchedResponse$json = {
+  '1': 'MarkAsWatchedResponse',
+  '2': [
+    {
+      '1': 'progress',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.protobuf.Progress',
+      '10': 'progress',
+    },
+  ],
+};
+
+/// Descriptor for `MarkAsWatchedResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List markAsWatchedResponseDescriptor = $convert.base64Decode(
+    'ChVNYXJrQXNXYXRjaGVkUmVzcG9uc2USLgoIcHJvZ3Jlc3MYASABKAsyEi5wcm90b2J1Zi5Qcm'
+    '9ncmVzc1IIcHJvZ3Jlc3M=');
