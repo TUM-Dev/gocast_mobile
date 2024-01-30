@@ -11,6 +11,9 @@ import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gocast_mobile/l10n/l10n.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -46,6 +49,14 @@ class App extends ConsumerWidget {
     _setupNotifications(ref, userState);
 
     return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: L10n.all,
+      locale: const Locale('fr'),
       theme: appTheme, // Your light theme
       darkTheme: darkAppTheme, // Define your dark theme
       themeMode:

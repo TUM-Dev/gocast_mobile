@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PulsingBackground extends StatefulWidget {
   const PulsingBackground({super.key});
@@ -42,7 +44,7 @@ class _PulsingBackgroundState extends State<PulsingBackground>
             borderRadius: BorderRadius.circular(4.0),
           ),
           child: Text(
-            'Live Now',
+            AppLocalizations.of(context)!.live_now,
             style: Theme.of(context)
                 .textTheme
                 .titleMedium

@@ -6,6 +6,8 @@ import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
 import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download_content_view.dart';
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class DownloadedCourses extends ConsumerStatefulWidget {
   const DownloadedCourses({super.key});
@@ -22,17 +24,17 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this video?'),
+          title:  Text(AppLocalizations.of(context)!.confirm_delete),
+          content: Text(AppLocalizations.of(context)!.confirm_delete_message),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
             ),
             TextButton(
-              child: const Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
               onPressed: () async {
                 Navigator.of(context).pop(); // Dismiss the dialog
                 await ref
@@ -63,8 +65,8 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
         child: DownloadCoursesContentView(
           customAppBar: CustomSearchTopNavBar(
             searchController: searchController,
-            title: 'Downloads',
-            filterOptions: const ['Newest First', 'Oldest First'],
+            title: AppLocalizations.of(context)!.download,
+            filterOptions: [AppLocalizations.of(context)!.newest_first, AppLocalizations.of(context)!.oldest_first],
             onClick: (String choice) {
               // Handle filter option click
             },
@@ -99,8 +101,3 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
 
   }
 }
-
-
-//              onDelete: ()  {
-//                 _showDeleteConfirmationDialog(videoId);
-//               },

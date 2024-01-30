@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pbgrpc.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
@@ -29,14 +30,14 @@ class CoursesList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     bool isTablet = MediaQuery.of(context).size.width >= 600;
     return courses.isEmpty
-        ? _buildPlaceholder()
+        ? _buildPlaceholder(context)
         : _buildCourseListView(context, isTablet, ref);
   }
 
-  Padding _buildPlaceholder() {
-    return const Padding(
+  Padding _buildPlaceholder(BuildContext context) {
+    return Padding(
       padding: AppPadding.sectionPadding,
-      child: Center(child: Text('No courses found.')),
+      child: Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
     );
   }
 

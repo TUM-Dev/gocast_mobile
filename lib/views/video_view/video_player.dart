@@ -13,6 +13,8 @@ import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.da
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class VideoPlayerPage extends ConsumerStatefulWidget {
   final Stream stream;
@@ -292,7 +294,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     String fileName = "stream.mp4";
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Starting download...')),
+       SnackBar(content: Text(AppLocalizations.of(context)!.starting_download)),
     );
     // Call the download function from the StreamViewModel
 

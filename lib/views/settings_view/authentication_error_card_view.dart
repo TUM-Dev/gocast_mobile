@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<bool> showAuthenticationErrorCard(
   BuildContext context,
@@ -18,8 +19,8 @@ Future<bool> showAuthenticationErrorCard(
             borderRadius: BorderRadius.circular(12.0),
           ),
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          title: const Text('Authentication Required'),
-          content: const Text('Please log in to access this feature.'),
+          title: Text(AppLocalizations.of(context)!.auth_required_title),
+          content: Text(AppLocalizations.of(context)!.auth_required_message),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
