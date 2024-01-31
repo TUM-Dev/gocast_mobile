@@ -62,7 +62,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       pinnedViewModelNotifier.updatedDisplayedPinnedCourses(temp);
       isSearchInitialized = false;
     } else {
-      displayedCourses = displayedCourses.where((course) {
+      displayedCourses = temp.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();

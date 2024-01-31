@@ -71,7 +71,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
         videoViewModelNotifier.updatedDisplayedStreams(temp);
         isSearchInitialized = false;
       } else {
-        displayedStreams = displayedStreams.where((stream) {
+        displayedStreams = temp.where((stream) {
           return stream.item1.name.toLowerCase().contains(searchInput) ||
               stream.item1.description.toLowerCase().contains(searchInput);
         }).toList();

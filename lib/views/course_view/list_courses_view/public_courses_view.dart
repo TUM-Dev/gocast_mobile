@@ -60,7 +60,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
       userViewModelNotifier.updatedDisplayedCourses(temp);
       isSearchInitialized = false;
     } else {
-      displayedCourses = displayedCourses.where((course) {
+      displayedCourses = temp.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();
