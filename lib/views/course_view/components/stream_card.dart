@@ -23,9 +23,6 @@ class StreamCard extends ConsumerStatefulWidget {
 }
 
 class StreamCardState extends ConsumerState<StreamCard> {
-  String imageName =
-      'https://live.rbg.tum.de/thumb-fallback.png'; // Replace with your image URL
-
   @override
   void initState() {
     super.initState();
@@ -102,7 +99,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
         AspectRatio(
           aspectRatio: 16 / 9,
           child: Image.network(
-            imageName,
+            widget.imageName,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) {
