@@ -35,5 +35,5 @@ jobs:
       - name: Run Tests
         run: flutter test
 
-      - name: Build Project
+      - name: Build Project for iOS
         run: flutter build ipa --no-codesign
