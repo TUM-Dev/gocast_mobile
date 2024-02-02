@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
+import 'package:gocast_mobile/utils/tools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
@@ -59,7 +60,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       final videoDetailsMap = {
         'filePath': filePath,
         'name': streamName,
-        'duration': _formatDuration(stream.end.toDateTime().difference(stream.start.toDateTime()).inMinutes),
+        'duration': Tools.formatDuration(stream.end.toDateTime().difference(stream.start.toDateTime()).inMinutes),
         'description': stream.description,
         'date': streamDate,
       };
@@ -170,17 +171,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  String _formatDuration(int durationInMinutes) {
-    int hours = durationInMinutes ~/ 60;
-    int minutes = durationInMinutes % 60;
-    int seconds = 0;
-
-    String formattedHours = hours < 10 ? '0$hours' : '$hours';
-    String formattedMinutes = minutes < 10 ? '0$minutes' : '$minutes';
-    String formattedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
-
-    return '$formattedHours:$formattedMinutes:$formattedSeconds';
-  }
 
 
 }

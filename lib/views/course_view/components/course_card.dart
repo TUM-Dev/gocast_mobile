@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gocast_mobile/utils/tools.dart';
 
 class CourseCard extends StatelessWidget {
   final String title;
@@ -48,7 +49,7 @@ class CourseCard extends StatelessWidget {
     bool? isPinned,
     required bool isLoggedIn,
   }) {
-    final tumID = _extractCourseIds(title);
+    final tumID = Tools.extractCourseIds(title);
     return CourseCard._(
       key: key,
       title: title,
@@ -208,10 +209,6 @@ class CourseCard extends StatelessWidget {
         false;
   }
 
-
-
-
-
   Widget _buildCourseIsLive(BuildContext context) {
     if (live == null) return const SizedBox();
     return live!
@@ -238,31 +235,11 @@ class CourseCard extends StatelessWidget {
   Widget _buildCourseColor() {
     return Container(
       width: 5,
-      color: _colorPicker(),
+      color: Tools.colorPicker(tumID),
     );
   }
 
-  Color _colorPicker() {
-    if (tumID.length < 2) return Colors.grey;
-    switch (tumID.substring(0, 2)) {
-      case 'IN':
-        return Colors.blue;
-      case 'MA':
-        return Colors.purple;
-      case 'CH':
-        return Colors.green;
-      case 'PH':
-        return Colors.orange;
-      case 'MW':
-        return Colors.red;
-      case 'EL':
-        return Colors.black87;
-      case 'CI':
-        return Colors.teal;
-      default:
-        return Colors.grey;
-    }
-  }
+
 
   Widget _buildCourseTitle(TextTheme textTheme) {
     return Text(
@@ -290,26 +267,6 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
-
-  static String _extractCourseIds(String title) {
-    // This pattern is designed to repeatedly capture course IDs with specified prefixes,
-    // followed by alphanumeric characters and possibly separated by commas within brackets or parentheses.
-    // It uses a global search to find all occurrences of such patterns.
-    final pattern = RegExp(r'(?:CIT|IN|MA|CH|MW|PH)\d[\w-]*');
-    final matches = pattern.allMatches(title);
-
-    // Initialize an empty list to collect IDs.
-    List<String> ids = [];
-
-    // Iterate over all matches and add the matched ID to the list.
-    for (var match in matches) {
-      ids.add(match.group(0)!); // Safe to use `!` as allMatches() only returns non-null matches.
-    }
-
-    // Join extracted IDs with a dash.
-    return ids.join(' , ');
-  }
-
 
 
 }
