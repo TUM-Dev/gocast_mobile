@@ -85,7 +85,6 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(isLoading: true);
     try {
       var semesters = await CourseHandler(_grpcHandler).fetchSemesters();
-      semesters.item1.add(semesters.item2);
       state = state.copyWith(current: semesters.item2, isLoading: false);
       state = state.copyWith(semesters: semesters.item1, isLoading: false);
 
