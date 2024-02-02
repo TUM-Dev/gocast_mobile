@@ -103,7 +103,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
               title: course.name,
               courseId: course.id,
               subtitle: course.tUMOnlineIdentifier,
-              tumID: course.tUMOnlineIdentifier,
               onTap: () => _handleCourseTap(course, context),
             );
           }).toList(),

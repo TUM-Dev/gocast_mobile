@@ -98,7 +98,6 @@ class CourseSection extends StatelessWidget {
             isPinned: isPinned,
             onPinUnpin: (course) => _togglePin(course, isPinned),
             title: course.name,
-            tumID: course.slug,
             live: streams.any((stream) => stream.courseID == course.id),
             courseId: course.id,
             onTap: () {

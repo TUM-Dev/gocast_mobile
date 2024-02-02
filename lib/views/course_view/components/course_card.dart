@@ -21,19 +21,49 @@ class CourseCard extends StatelessWidget {
   //for displaying livestreams
   final String? subtitle;
 
-  const CourseCard({
+  const CourseCard._({
     super.key,
     required this.title,
-    this.subtitle,
     required this.tumID,
-    required this.courseId,
     required this.onTap,
+    required this.courseId,
+    // Pass other fields as before
     this.live,
     this.course,
     this.onPinUnpin,
     this.isPinned,
     required this.isLoggedIn,
+    this.subtitle,
   });
+
+  factory CourseCard({
+    Key? key,
+    required String title,
+    String? subtitle,
+    required int courseId,
+    required VoidCallback onTap,
+    bool? live,
+    Course? course,
+    Function(Course)? onPinUnpin,
+    bool? isPinned,
+    required bool isLoggedIn,
+  }) {
+    final tumID = _extractCourseIds(title);
+    return CourseCard._(
+      key: key,
+      title: title,
+      tumID: tumID,
+      courseId: courseId,
+      onTap: onTap,
+      live: live,
+      course: course,
+      onPinUnpin: onPinUnpin,
+      isPinned: isPinned,
+      isLoggedIn: isLoggedIn,
+      subtitle: subtitle,
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +257,8 @@ class CourseCard extends StatelessWidget {
         return Colors.red;
       case 'EL':
         return Colors.black87;
+      case 'CI':
+        return Colors.teal;
       default:
         return Colors.grey;
     }
@@ -258,4 +290,26 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
+
+  static String _extractCourseIds(String title) {
+    // This pattern is designed to repeatedly capture course IDs with specified prefixes,
+    // followed by alphanumeric characters and possibly separated by commas within brackets or parentheses.
+    // It uses a global search to find all occurrences of such patterns.
+    final pattern = RegExp(r'(?:CIT|IN|MA|CH|MW|PH)\d[\w-]*');
+    final matches = pattern.allMatches(title);
+
+    // Initialize an empty list to collect IDs.
+    List<String> ids = [];
+
+    // Iterate over all matches and add the matched ID to the list.
+    for (var match in matches) {
+      ids.add(match.group(0)!); // Safe to use `!` as allMatches() only returns non-null matches.
+    }
+
+    // Join extracted IDs with a dash.
+    return ids.join(' , ');
+  }
+
+
+
 }
