@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/section_kind.dart';
+import 'package:gocast_mobile/utils/sort_utils.dart';
 import 'package:gocast_mobile/views/components/base_view.dart';
 import 'package:gocast_mobile/views/course_view/components/course_section.dart';
 import 'package:gocast_mobile/views/course_view/components/live_stream_section.dart';
@@ -49,6 +50,12 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     }
     final userCourses = ref.watch(userViewModelProvider).userCourses ?? [];
     final publicCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
+    final currentSemester =
+        ref.watch(userViewModelProvider).currentAsString ?? "All";
+    final userCoursesCurrent =
+        CourseUtils.filterCoursesBySemester(userCourses, currentSemester);
+    final publicCoursesCurrent =
+        CourseUtils.filterCoursesBySemester(publicCourses, currentSemester);
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams;
     final liveStreamWithThumb =
         ref.watch(videoViewModelProvider).liveStreamsWithThumb ?? [];
@@ -76,7 +83,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                     child: LiveStreamSection(
                   ref: ref,
                   sectionTitle: AppLocalizations.of(context)!.live_now,
-                  courses: (userCourses) + (publicCourses),
+                  courses: (userCoursesCurrent) + (publicCoursesCurrent),
                   streams: liveStreamWithThumb,
                 ),
               ),
@@ -88,7 +95,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                       child: _buildSection(
                         AppLocalizations.of(context)!.my_courses,
                         SectionKind.myCourses,
-                        userCourses,
+                        userCoursesCurrent,
                         liveStreams,
                       ),
                     ),
@@ -96,7 +103,7 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                       child: _buildSection(
                         AppLocalizations.of(context)!.public_courses,
                         SectionKind.publicCourses,
-                        publicCourses,
+                        publicCoursesCurrent,
                         liveStreams,
                       ),
                     ),
@@ -106,13 +113,13 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
                 _buildSection(
                   AppLocalizations.of(context)!.my_courses,
                   SectionKind.myCourses,
-                  userCourses,
+                  userCoursesCurrent,
                   liveStreams,
                 ),
                 _buildSection(
                   AppLocalizations.of(context)!.public_courses,
                   SectionKind.publicCourses,
-                  publicCourses,
+                  publicCoursesCurrent,
                   liveStreams,
                 ),
               ],
