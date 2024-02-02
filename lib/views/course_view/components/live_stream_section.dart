@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+import 'package:gocast_mobile/utils/tools.dart';
 
 import 'package:gocast_mobile/views/course_view/components/pulse_background.dart';
 import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
@@ -85,7 +86,7 @@ class LiveStreamSection extends StatelessWidget {
           return SmallStreamCard(
             title: stream.item1.name,
             subtitle: course.name,
-            tumID: course.tUMOnlineIdentifier,
+            tumID: Tools.extractCourseIds(course.name),
             roomName: stream.item1.roomName,
             roomNumber: stream.item1.roomCode,
             path: imagePath,

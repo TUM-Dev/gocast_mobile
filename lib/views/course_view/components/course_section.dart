@@ -77,7 +77,7 @@ class CourseSection extends StatelessWidget {
   Widget _buildCourseList(BuildContext context) {
     bool isTablet = MediaQuery.of(context).size.width >= 600 ? true : false;
     int displayCount = math.min(courses.length, 3);
-    double cardHeight = 75;
+    double cardHeight = 95;
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTablet ? double.infinity : cardHeight * displayCount,),
@@ -98,7 +98,6 @@ class CourseSection extends StatelessWidget {
             isPinned: isPinned,
             onPinUnpin: (course) => _togglePin(course, isPinned),
             title: course.name,
-            tumID: course.tUMOnlineIdentifier,
             live: streams.any((stream) => stream.courseID == course.id),
             courseId: course.id,
             onTap: () {

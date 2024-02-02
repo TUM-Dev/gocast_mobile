@@ -73,7 +73,6 @@ class CoursesList extends ConsumerWidget {
               }
             },
             title: course.name,
-            tumID: course.tUMOnlineIdentifier,
             live: liveCourses.contains(course),
             courseId: course.id,
             onTap: () {

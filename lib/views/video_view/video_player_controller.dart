@@ -106,16 +106,6 @@ class VideoPlayerControllerManager {
         ),
       );
     }
-    if (currentStream.hasPlaylistUrlCAM() &&
-        currentStream.hasPlaylistUrlPRES()) {
-      items.add(
-        OptionItem(
-          onTap: () => onMenuSelection?.call('Split view', currentStream),
-          iconData: Icons.vertical_split_sharp,
-          title: "Split view",
-        ),
-      );
-    }
     return items;
   }
 

@@ -181,7 +181,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     final streamWithThumb = streamsWithThumb[index];
     final stream = streamWithThumb.item1;
     final thumbnail = _getThumbnailUrl(streamWithThumb.item2);
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: StreamCard(

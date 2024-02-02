@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
+import 'package:gocast_mobile/utils/tools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'dart:io';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
+
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
   final Logger _logger = Logger();
@@ -34,6 +37,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           name: videoDetailsMap['name'],
           duration: videoDetailsMap['duration'],
           description: videoDetailsMap['description'],
+          date: videoDetailsMap['date'],
         );
         return MapEntry(int.parse(key), videoDetails);
       }).cast<int, VideoDetails>(); // Ensure the map has the correct type
@@ -41,24 +45,24 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  Future<String> downloadVideo(String videoUrl, int streamId, String fileName,
-      String streamName, int streamDuration, String description,) async {
+  Future<String> downloadVideo(String videoUrl, Stream stream, String streamName, String streamDate) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/$fileName';
+      final filePath = '${directory.path}/${streamName.replaceAll(' ', '_')}.mp4';
       Dio dio = Dio();
       await dio.download(videoUrl, filePath);
       _logger.d('Downloaded video to: $filePath');
 
       final prefs = await SharedPreferences.getInstance();
-      final int streamIdInt = streamId.toInt();
+      final int streamIdInt = stream.id.toInt();
 
       // Create a map for the video details
       final videoDetailsMap = {
         'filePath': filePath,
         'name': streamName,
-        'duration': streamDuration,
-        'description': description,
+        'duration': Tools.formatDuration(stream.end.toDateTime().difference(stream.start.toDateTime()).inMinutes),
+        'description': stream.description,
+        'date': streamDate,
       };
 
       // Convert video details map to JSON string
@@ -82,6 +86,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           name: videoDetailsMap['name'],
           duration: videoDetailsMap['duration'],
           description: videoDetailsMap['description'],
+          date: videoDetailsMap['date'],
         );
         return MapEntry(key, videoDetails);
       }).cast<int, VideoDetails>();
@@ -165,6 +170,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error deleting all videos: $e');
     }
   }
+
 
 
 }
