@@ -21,9 +21,6 @@ class FilterPopupMenuButton extends ConsumerWidget {
 
     return PopupMenuButton<String>(
       onSelected: (choice) {
-        // When an item is selected, update both providers to ensure they stay in sync
-        ref.read(userViewModelProvider.notifier).setSelectedSemester(choice);
-        ref.read(pinnedCourseViewModelProvider.notifier).setSelectedSemester(choice);
         onClick(choice);
       },
       itemBuilder: (BuildContext context) {

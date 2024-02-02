@@ -41,6 +41,9 @@ class MyCoursesState extends ConsumerState<MyCourses> {
   void filterCoursesBySemester(String selectedSemester) {
     var allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
     ref
+        .read(pinnedCourseViewModelProvider.notifier)
+        .setSelectedSemester(selectedSemester);
+    ref
         .read(userViewModelProvider.notifier)
         .updateSelectedSemester(selectedSemester, allUserCourses);
   }

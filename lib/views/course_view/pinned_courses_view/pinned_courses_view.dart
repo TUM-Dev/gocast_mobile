@@ -42,6 +42,9 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   void filterCoursesBySemester(String selectedSemester) {
+    ref
+        .read(userViewModelProvider.notifier)
+        .setSelectedSemester(selectedSemester);
     var userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     ref
         .read(pinnedCourseViewModelProvider.notifier)
