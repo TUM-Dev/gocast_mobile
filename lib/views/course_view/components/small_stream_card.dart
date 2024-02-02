@@ -4,6 +4,7 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+//import 'package:http/http.dart' as http;
 
 class SmallStreamCard extends StatelessWidget {
   final String title;
@@ -183,14 +184,25 @@ class SmallStreamCard extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildLocation(ThemeData themeData) {
-    if (roomNumber == null) return const SizedBox();
+    final isLocationEmpty =
+        (roomName?.isEmpty ?? true) && (roomNumber?.isEmpty ?? true);
 
-    final Uri url = Uri.parse('https://nav.tum.de/room/$roomNumber');
+    return isLocationEmpty
+        ? _buildInactiveLocation(themeData)
+        : _buildActiveLocation(themeData);
+  }
+
+  Widget _buildActiveLocation(ThemeData themeData) {
+    // Determine the URL based on the availability of roomNumber
+    final Uri url = roomNumber?.isNotEmpty ?? false
+        ? Uri.parse(
+            'https://nav.tum.de/room/$roomNumber') // Use roomNumber in URL if available
+        : Uri.parse(
+            'https://nav.tum.de/search?q=${Uri.encodeComponent(roomName ?? '')}'); // Fall back to search URL using roomName
 
     return Align(
-      alignment: Alignment.centerRight, // Align to the right
+      alignment: Alignment.centerRight,
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -204,21 +216,43 @@ class SmallStreamCard extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () async {
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url);
-            } else {
-              throw 'Could not launch $url';
+            try {
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url);
+              }
+            } catch (e) {
+              // Handle exceptions or errors here
             }
           },
           child: const Row(
             mainAxisSize: MainAxisSize.min,
-            // Constrain row size to its children
             children: [
               Icon(Icons.room, size: 24),
-              SizedBox(width: 8), // Spacing before the arrow icon
+              SizedBox(width: 8),
               Icon(Icons.arrow_forward_ios, size: 16),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInactiveLocation(ThemeData themeData) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.withOpacity(0.4)),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.room, size: 24, color: Colors.grey),
+            SizedBox(width: 8),
+            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+          ],
         ),
       ),
     );
