@@ -280,8 +280,6 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         break;
       }
     }
-   //downloadUrl="https://file-examples.com/storage/fed61549c865b2b5c9768b5/2017/04/file_example_MP4_480_1_5MG.mp4";
-    // Check if the Combined URL is found
     if (downloadUrl == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -292,7 +290,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
     }
 
     // Use the extracted URL for downloading
-    String fileName = "stream.mp4";
+    String fileName = "${stream.id}.mp4";
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(content: Text(AppLocalizations.of(context)!.starting_download)),
