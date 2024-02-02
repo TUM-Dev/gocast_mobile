@@ -81,8 +81,8 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
           .read(courseViewModelProvider)
           .course;
       if (course != null) {
-        if ((course.chatEnabled || course.vodChatEnabled) &&
-            widget.stream.chatEnabled) {
+        if ((course.chatEnabled && widget.stream.chatEnabled) ||
+            (course.vodChatEnabled && widget.stream.chatEnabled)) {
           setState(() {
             _isChatActive = true;
             _isPollActive = true;
