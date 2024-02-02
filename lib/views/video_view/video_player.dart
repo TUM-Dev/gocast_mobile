@@ -12,6 +12,7 @@ import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.dart';
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -288,18 +289,17 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       );
       return;
     }
-
     // Use the extracted URL for downloading
-    String fileName = "${stream.id}.mp4";
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(content: Text(AppLocalizations.of(context)!.starting_download)),
     );
     // Call the download function from the StreamViewModel
-
+    String streamName = stream.name != '' ? stream.name : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(stream.start.toDateTime())}';
+    String streamDate = DateFormat('dd MMMM yyyy', Localizations.localeOf(context).toString()).format(stream.start.toDateTime());
     ref
         .read(downloadViewModelProvider.notifier)
-        .downloadVideo(downloadUrl, stream.id, fileName,stream.name,stream.duration,stream.description,)
+        .downloadVideo(downloadUrl, stream, streamName, streamDate)
         .then((localPath) {
       if (localPath.isNotEmpty) {
         // Download successful

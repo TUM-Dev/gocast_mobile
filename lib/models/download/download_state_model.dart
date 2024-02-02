@@ -21,26 +21,31 @@ class DownloadState {
 class VideoDetails {
   final String filePath;
   final String name;
-  final int duration; // Duration in seconds or your preferred unit
+  final String duration; // Duration in seconds or your preferred unit
   final String description;
+  final String date;
 
   const VideoDetails({
     required this.filePath,
     required this.name,
     required this.duration,
     required this.description,
+    required this.date,
   });
 
   VideoDetails copyWith({
     String? filePath,
     String? name,
-    int? duration,
+    String? duration,
+    String? description,
+    String? date,
   }) {
     return VideoDetails(
       filePath: filePath ?? this.filePath,
       name: name ?? this.name,
       duration: duration ?? this.duration,
-      description: description,
+      description: description ?? this.description,
+      date: date ?? this.date,
     );
   }
 }

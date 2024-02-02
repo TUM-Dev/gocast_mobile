@@ -74,22 +74,18 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
           videoCards: downloadedVideos.entries.map((entry) {
             final int videoId = entry.key;
             final VideoDetails videoDetails = entry.value;
-            final String localPath = videoDetails.filePath;
-            final String videoName = videoDetails.name;
-            final int durationSeconds = videoDetails.duration;
-            final String formattedDuration = "${(durationSeconds ~/ 3600).toString().padLeft(2, '0')}:${((durationSeconds % 3600) ~/ 60).toString().padLeft(2, '0')}:${(durationSeconds % 60).toString().padLeft(2, '0')}";
             return  SmallStreamCard(
               isDownloaded: true,
                 courseId: videoId,
-                title: videoName,
-                subtitle: formattedDuration,
-                tumID: "TUMID",
+                title: videoDetails.name,
+                subtitle: videoDetails.duration,
+                tumID: videoDetails.date,
                 showDeleteConfirmationDialog: _showDeleteConfirmationDialog,
                 onTap: () {
                 Navigator.of(context).push(
                 MaterialPageRoute(
                builder: (context) =>
-               OfflineVideoPlayerPage(localPath: localPath),
+               OfflineVideoPlayerPage(localPath: videoDetails.filePath),
                ),
                );
               },
