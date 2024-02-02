@@ -132,7 +132,7 @@ class SmallStreamCard extends StatelessWidget {
                     _buildCourseTitle(themeData.textTheme),
                     _buildCourseSubtitle(themeData.textTheme),
                     const SizedBox(height: 15),
-                    _buildLocation(themeData),
+                    if (!isDownloaded!) _buildLocation(themeData),
                   ],
                 ),
               ),

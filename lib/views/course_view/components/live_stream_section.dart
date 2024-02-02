@@ -89,6 +89,7 @@ class LiveStreamSection extends StatelessWidget {
             roomName: stream.item1.roomName,
             roomNumber: stream.item1.roomCode,
             path: imagePath,
+            isDownloaded: false,
             courseId: course.id,
             onTap: () {
               Navigator.push(
