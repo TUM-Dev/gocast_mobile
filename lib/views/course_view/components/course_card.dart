@@ -135,7 +135,15 @@ class CourseCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3.0),
-                      child: _buildCourseTitle(themeData.textTheme),
+                      child: Row(
+                        children: [
+                          Expanded(child:
+                          _buildCourseTitle(themeData.textTheme),
+                          ),
+                          if (isPinned)
+                             Icon(Icons.push_pin, color: themeData.primaryColor, size:16),
+                        ],
+                      ),
                     ),
                   ],
                 ),
