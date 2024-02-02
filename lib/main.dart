@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -43,6 +44,8 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _checkConnectivityAndRedirect(context, ref);
+
     final userState = ref.watch(userViewModelProvider);
 
     bool isLoggedIn = ref.watch(userViewModelProvider).user != null;
@@ -61,10 +64,10 @@ class App extends ConsumerWidget {
       ],
       supportedLocales: L10n.all,
       locale: Locale(UserPreferences.getLanguage()),
-      theme: appTheme, // Your light theme
-      darkTheme: darkAppTheme, // Define your dark theme
+      theme: appTheme,
+      darkTheme: darkAppTheme,
       themeMode:
-          ref.watch(themeModeProvider), // Use the theme mode from the provider
+          ref.watch(themeModeProvider),
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: !isLoggedIn
@@ -73,6 +76,16 @@ class App extends ConsumerWidget {
       routes: _buildRoutes(),
     );
   }
+
+   void _checkConnectivityAndRedirect(BuildContext context, WidgetRef ref) {
+     Connectivity().checkConnectivity().then((connectivityResult) {
+       if (connectivityResult == ConnectivityResult.none) {
+         WidgetsBinding.instance.addPostFrameCallback((_) {
+           Navigator.of(context).pushReplacementNamed('/downloads');
+         });
+       }
+     });
+   }
 
   void _handleErrors(WidgetRef ref, UserState userState) {
     // Check for errors in userState and show a SnackBar if there are any
