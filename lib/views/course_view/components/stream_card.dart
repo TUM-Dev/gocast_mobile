@@ -71,7 +71,8 @@ class StreamCardState extends ConsumerState<StreamCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildHeader(
-                  title: widget.stream.name,
+                  title: widget.stream.name != '' ?  widget.stream.name : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString())
+                      .format(widget.stream.start.toDateTime())}',
                   subtitle: widget.stream.description,
                   length: widget.stream.duration,
                   themeData: themeData,
