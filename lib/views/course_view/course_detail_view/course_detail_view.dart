@@ -71,7 +71,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
         videoViewModelNotifier.updatedDisplayedStreams(temp);
         isSearchInitialized = false;
       } else {
-        displayedStreams = displayedStreams.where((stream) {
+        displayedStreams = temp.where((stream) {
           return stream.item1.name.toLowerCase().contains(searchInput) ||
               stream.item1.description.toLowerCase().contains(searchInput);
         }).toList();
@@ -88,7 +88,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
       appBar: CustomSearchTopNavBarWithBackButton(
         searchController: searchController,
         onClick: _handleSortOptionSelected,
-        filterOptions: [AppLocalizations.of(context)!.newest_first, AppLocalizations.of(context)!.oldest_first],
+        filterOptions: const ['Newest First', 'Oldest First'],
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshStreams(widget.courseId),

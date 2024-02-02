@@ -42,6 +42,9 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   void filterCoursesBySemester(String selectedSemester) {
+    ref
+        .read(userViewModelProvider.notifier)
+        .setSelectedSemester(selectedSemester);
     var userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     ref
         .read(pinnedCourseViewModelProvider.notifier)
@@ -62,7 +65,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       pinnedViewModelNotifier.updatedDisplayedPinnedCourses(temp);
       isSearchInitialized = false;
     } else {
-      displayedCourses = displayedCourses.where((course) {
+      displayedCourses = temp.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();
