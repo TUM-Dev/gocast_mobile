@@ -2,18 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/models/download/download_state_model.dart';
 import 'package:gocast_mobile/models/error/error_model.dart';
 import 'package:gocast_mobile/providers.dart';
-import 'package:gocast_mobile/views/chat_view/inactive_view.dart';
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OfflineVideoPlayerPage extends ConsumerStatefulWidget {
-  final String localPath;
+  final VideoDetails videoDetails;
 
   const OfflineVideoPlayerPage({
     super.key,
-    required this.localPath,
+    required this.videoDetails,
   });
 
   @override
@@ -21,8 +21,7 @@ class OfflineVideoPlayerPage extends ConsumerStatefulWidget {
       OfflineVideoPlayerPageState();
 }
 
-class OfflineVideoPlayerPageState
-    extends ConsumerState<OfflineVideoPlayerPage> {
+class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> {
   late OfflineVideoPlayerControllerManager _controllerManager;
 
   Timer? _progressTimer;
@@ -30,11 +29,18 @@ class OfflineVideoPlayerPageState
   Widget _buildVideoLayout() {
     return Column(
       children: <Widget>[
-        Expanded(child: _controllerManager.buildVideoPlayer()),
-        const Expanded(child: InactiveView()),
+        Expanded(
+          child: Center( // Center the player
+            child: AspectRatio(
+              aspectRatio: _controllerManager.videoPlayerController.value.aspectRatio,
+              child: _controllerManager.buildVideoPlayer(),
+            ),
+          ),
+        ),
       ],
     );
   }
+
 
   @override
   void initState() {
@@ -56,7 +62,7 @@ class OfflineVideoPlayerPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Replace me with video Title")),
+      appBar: AppBar(title: Text(widget.videoDetails.name)),
       body: ref.read(videoViewModelProvider).isLoading
           ? const Center(child: CircularProgressIndicator())
           : _buildVideoLayout(),
@@ -71,7 +77,7 @@ class OfflineVideoPlayerPageState
 // Initialize the controller manager.
   void _initializeControllerManager() {
     _controllerManager =
-        OfflineVideoPlayerControllerManager(localPath: widget.localPath);
+        OfflineVideoPlayerControllerManager(localPath: widget.videoDetails.filePath);
   }
 
 // Initialize the video player and seek to the last progress.
@@ -89,7 +95,7 @@ class OfflineVideoPlayerPageState
 // Seek to the last progress.
   Future<void> _seekToLastProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    final progress = prefs.getDouble('progress_${widget.localPath}') ?? 0.0;
+    final progress = prefs.getDouble('progress_${widget.videoDetails.name}') ?? 0.0;
     final position = Duration(
       seconds: (progress *
               _controllerManager.videoPlayerController.value.duration.inSeconds)
@@ -140,17 +146,17 @@ class OfflineVideoPlayerPageState
 
   Future<void> _updateProgress(double progress) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('progress_${widget.localPath}', progress);
+    await prefs.setDouble('progress_${widget.videoDetails.name}', progress);
   }
 
   bool _shouldMarkAsWatched(double progress) {
-    const watchedThreshold = 0.9; // 90%
+    const watchedThreshold = 0.8;
     return progress >= watchedThreshold;
   }
 
   Future<void> _markStreamAsWatched() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('watched_${widget.localPath}', true);
+    await prefs.setBool('watched_${widget.videoDetails.name}', true);
   }
 
   // Simplified loading state management

@@ -85,7 +85,7 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
                 Navigator.of(context).push(
                 MaterialPageRoute(
                builder: (context) =>
-               OfflineVideoPlayerPage(localPath: videoDetails.filePath),
+               OfflineVideoPlayerPage(videoDetails: videoDetails,),
                ),
                );
               },
