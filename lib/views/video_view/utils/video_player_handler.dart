@@ -38,4 +38,5 @@ class VideoPlayerHandlers {
   void handleToggleChat() {
     onToggleChat();
   }
+
 }

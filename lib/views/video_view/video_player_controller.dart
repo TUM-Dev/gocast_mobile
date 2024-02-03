@@ -47,7 +47,6 @@ class VideoPlayerControllerManager {
       aspectRatio: videoPlayerController.value.aspectRatio,
       autoPlay: true,
       looping: false,
-      zoomAndPan: true,
       additionalOptions: (context) => _getAdditionalOptions(),
       errorBuilder: (context, errorMessage) {
         return Center(
@@ -62,17 +61,12 @@ class VideoPlayerControllerManager {
           ),
         );
       },
-      isLive: currentStream.liveNow,
       allowMuting: true,
-      useRootNavigator: true,
       cupertinoProgressColors: _getCupertinoProgressColors(),
       materialProgressColors: _getMaterialProgressColors(),
       placeholder: Container(color: Colors.black),
-      autoInitialize: true,
       allowFullScreen: true,
-      fullScreenByDefault: false,
       playbackSpeeds: _filteredPlaybackSpeeds(),
-      allowPlaybackSpeedChanging: true,
     );
   }
 
@@ -166,16 +160,7 @@ class VideoPlayerControllerManager {
     }
   }
 
-  List<double> _getPlaybackSpeeds() {
-    final settingViewModel = ref.read(settingViewModelProvider.notifier);
-    return settingViewModel.parsePlaybackSpeeds();
-  }
-
   List<double> _filteredPlaybackSpeeds() {
-    final playbackSpeeds = _getPlaybackSpeeds();
-    var filteredSpeeds = playbackSpeeds.where((speed) => speed <= 2.0).toList();
-    return filteredSpeeds.isEmpty
-        ? [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
-        : filteredSpeeds;
+    return ref.read(playbackSpeedsProvider);
   }
 }

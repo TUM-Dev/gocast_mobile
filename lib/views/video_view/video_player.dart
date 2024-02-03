@@ -176,19 +176,18 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
   void _setupProgressListener() {
     _progressTimer =
-        Timer.periodic(const Duration(seconds: 5), _progressUpdateCallback);
+        Timer.periodic(const Duration(seconds: 15), _progressUpdateCallback);
   }
 
   void _progressUpdateCallback(Timer timer) async {
     if (!_isPlayerInitialized()) return;
-    if (_controllerManager.videoPlayerController.value.isPlaying) {
+    if(!_controllerManager.videoPlayerController.value.isPlaying) return;
       final position = _getCurrentPosition();
       final progress = _calculateProgress(position);
       await _updateProgress(progress);
       if (_shouldMarkAsWatched(progress)) {
         await _markStreamAsWatched();
       }
-    }
   }
 
   bool _isPlayerInitialized() {
@@ -212,7 +211,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   bool _shouldMarkAsWatched(double progress) {
-    const watchedThreshold = 0.9;
+    const watchedThreshold = 0.8;
     return progress >= watchedThreshold;
   }
 
