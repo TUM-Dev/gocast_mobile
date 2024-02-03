@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -10,6 +9,7 @@ import 'package:gocast_mobile/views/chat_view/chat_view.dart';
 import 'package:gocast_mobile/views/chat_view/inactive_view.dart';
 import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 import 'package:gocast_mobile/views/video_view/utils/custom_video_control_bar.dart';
+import 'package:gocast_mobile/views/video_view/utils/download_service.dart';
 import 'package:gocast_mobile/views/video_view/utils/video_player_handler.dart';
 import 'package:gocast_mobile/views/video_view/video_player_controller.dart';
 import 'package:intl/intl.dart';
@@ -270,50 +270,27 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   Future<void> _downloadVideo(Stream stream, String type) async {
-  // Extract the "Combined" download URL from the Stream object
-    bool canDownload = await _handleDownloadConnectivity(stream, type);
-    if (!canDownload) return; // Exit if download should not proceed
-
-    String? downloadUrl;
-    for (var download in stream.downloads) {
-      if (download.friendlyName == type) {
-        downloadUrl = download.downloadURL;
-        break;
-      }
-    }
-    if (downloadUrl == null) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(
-            'Download type "$type" not available for this lecture',),),
-      );
-      return;
-    }
-    // Use the extracted URL for downloading
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text(AppLocalizations.of(context)!.starting_download)),
+    final downloadService = DownloadService(
+      ref: ref,
+      isWidgetMounted: () => mounted,
+      onShowSnackBar: (message) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+      },
+      startingDownloadMessage: AppLocalizations.of(context)!.starting_download,
+      downloadNotAvailableMessage: AppLocalizations.of(context)!.download_not_allowed,
+      downloadCompletedMessage: AppLocalizations.of(context)!.download_completed,
+      downloadFailedMessage: AppLocalizations.of(context)!.download_failed,
+      donwloadCancelledMessage: AppLocalizations.of(context)!.download_cancelled,
+      showDownloadConfirmationDialog: _showDownloadConfirmationDialog,
+      showMobileDataNotAllowedDialog: _showMobileDataNotAllowedDialog,
     );
-    // Call the download function from the StreamViewModel
     String streamName = stream.name != '' ? stream.name : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(stream.start.toDateTime())}';
     String streamDate = DateFormat('dd MMMM yyyy', Localizations.localeOf(context).toString()).format(stream.start.toDateTime());
-    ref
-        .read(downloadViewModelProvider.notifier)
-        .downloadVideo(downloadUrl, stream, streamName, streamDate)
-        .then((localPath) {
-      if (localPath.isNotEmpty) {
-        // Download successful
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Video Downloaded')),
-        );
-      } else {
-        // Download failed, but not due to Wi-Fi (since it would throw an exception)
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Download failed')),
-        );
-      }
-    });
+    downloadService.downloadVideo(stream, type, streamName, streamDate);
   }
+
 
   Future<bool> _showDownloadConfirmationDialog() async {
     return await showDialog(
@@ -342,6 +319,8 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       },
     ) ?? false; // If dialog is dismissed, return false
   }
+
+
   void _showMobileDataNotAllowedDialog() {
     showDialog(
       context: context,
@@ -363,34 +342,6 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       },
     );
   }
-
-  Future<bool> _handleDownloadConnectivity(Stream stream, String type) async {
-    final isDownloadWithWifiOnly = ref
-        .watch(settingViewModelProvider)
-        .isDownloadWithWifiOnly;
-
-    var connectivityResult = await (Connectivity().checkConnectivity());
-
-    // If 'Download Over Wi-Fi Only' is enabled and connected to mobile, show a dialog
-    if (connectivityResult == ConnectivityResult.mobile && isDownloadWithWifiOnly) {
-      if (!mounted) return false;
-      _showMobileDataNotAllowedDialog();
-      return false;
-    }
-
-    // If on mobile data and 'Download Over Wi-Fi Only' is disabled, ask for confirmation
-    if (connectivityResult == ConnectivityResult.mobile && !isDownloadWithWifiOnly) {
-      bool shouldProceed = await _showDownloadConfirmationDialog();
-      if (!mounted) return false;
-      if (!shouldProceed) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Download cancelled')),
-        );
-        return false;
-      }
-    }
-
-    return true; // Proceed with download if all checks pass
-  }
+  
 
 }

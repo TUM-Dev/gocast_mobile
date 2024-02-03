@@ -9,10 +9,10 @@ class DownloadState {
   });
 
   DownloadState copyWith({
-    Map<int, VideoDetails>? downloadedVideos,
+    required Map<int, VideoDetails> downloadedVideos,
   }) {
     return DownloadState(
-      downloadedVideos: downloadedVideos ?? this.downloadedVideos,
+      downloadedVideos: downloadedVideos,
     );
   }
 }
@@ -21,7 +21,7 @@ class DownloadState {
 class VideoDetails {
   final String filePath;
   final String name;
-  final String duration; // Duration in seconds or your preferred unit
+  final String duration;
   final String description;
   final String date;
 
@@ -48,4 +48,21 @@ class VideoDetails {
       date: date ?? this.date,
     );
   }
+
+  VideoDetails.fromJson(Map<String, dynamic> json)
+      : filePath = json['filePath'],
+        name = json['name'],
+        duration = json['duration'],
+        description = json['description'],
+        date = json['date'];
+
+  Map<String, dynamic> toJson() => {
+    'filePath': filePath,
+    'name': name,
+    'duration': duration,
+    'description': description,
+    'date': date,
+  };
+
+
 }

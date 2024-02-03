@@ -65,12 +65,9 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
         'date': streamDate,
       };
 
-      // Convert video details map to JSON string
-      final videoDetailsJson = json.encode(videoDetailsMap);
-
       // Save the JSON string in your SharedPreferences
-      final downloadedVideosJson = Map<int, String>.from(state.downloadedVideos)
-        ..[streamIdInt] = videoDetailsJson;
+      final downloadedVideosJson = Map<int, VideoDetails>.from(state.downloadedVideos)
+        ..[streamIdInt] = VideoDetails.fromJson(videoDetailsMap);
 
       await prefs.setString(
         'downloadedVideos',
@@ -80,7 +77,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
       // Convert the JSON strings back to VideoDetails objects for the state
       final downloadedVideos = downloadedVideosJson.map((key, value) {
-        final videoDetailsMap = json.decode(value);
+        final videoDetailsMap = value.toJson();
         final videoDetails = VideoDetails(
           filePath: videoDetailsMap['filePath'],
           name: videoDetailsMap['name'],

@@ -197,9 +197,9 @@ class SmallStreamCard extends StatelessWidget {
     // Determine the URL based on the availability of roomNumber
     final Uri url = roomNumber?.isNotEmpty ?? false
         ? Uri.parse(
-            'https://nav.tum.de/room/$roomNumber') // Use roomNumber in URL if available
+            'https://nav.tum.de/room/$roomNumber',) // Use roomNumber in URL if available
         : Uri.parse(
-            'https://nav.tum.de/search?q=${Uri.encodeComponent(roomName ?? '')}'); // Fall back to search URL using roomName
+            'https://nav.tum.de/search?q=${Uri.encodeComponent(roomName ?? '')}',); // Fall back to search URL using roomName
 
     return Align(
       alignment: Alignment.centerRight,

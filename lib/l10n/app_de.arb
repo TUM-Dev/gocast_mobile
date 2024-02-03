@@ -95,5 +95,8 @@
   "enter_your_password": "Geben Sie Ihr Passwort ein",
   "home": "Startseite",
   "language_selection": "Sprache",
-  "language_selection_description": "Wählen Sie Ihre bevorzugte Sprache aus"
+  "language_selection_description": "Wählen Sie Ihre bevorzugte Sprache aus",
+  "download_completed": "Download abgeschlossen",
+  "download_failed": "Download fehlgeschlagen",
+  "download_canceled": "Download abgebrochen"
 }

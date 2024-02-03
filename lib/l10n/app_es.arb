@@ -95,5 +95,8 @@
   "enter_your_password": "Introduce tu contraseña",
   "home": "Inicio",
   "language_selection": "Idioma",
-  "language_selection_description": "Selecciona tu idioma preferido."
+  "language_selection_description": "Selecciona tu idioma preferido.",
+  "download_complete": "Descarga completa",
+  "download_failed": "Error de descarga",
+  "download_cancelled": "Descarga cancelada"
 }
