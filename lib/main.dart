@@ -81,7 +81,7 @@ class App extends ConsumerWidget {
      Connectivity().checkConnectivity().then((connectivityResult) {
        if (connectivityResult == ConnectivityResult.none) {
          WidgetsBinding.instance.addPostFrameCallback((_) {
-           Navigator.of(context).pushReplacementNamed('/downloads');
+           Navigator.of(context).pushNamed('/downloads');
          });
        }
      });

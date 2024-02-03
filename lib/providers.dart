@@ -78,3 +78,6 @@ final progressProvider = FutureProvider.autoDispose.family<Progress, int>(
     return videoViewModel.fetchProgressForStream(streamId);
   },
 );
+
+final isSearchActiveProvider = StateProvider<bool>((ref) => false);
+
