@@ -21,7 +21,8 @@ class OfflineVideoPlayerPage extends ConsumerStatefulWidget {
       OfflineVideoPlayerPageState();
 }
 
-class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> {
+class OfflineVideoPlayerPageState
+    extends ConsumerState<OfflineVideoPlayerPage> {
   late OfflineVideoPlayerControllerManager _controllerManager;
 
   Timer? _progressTimer;
@@ -30,9 +31,11 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
     return Column(
       children: <Widget>[
         Expanded(
-          child: Center( // Center the player
+          child: Center(
+            // Center the player
             child: AspectRatio(
-              aspectRatio: _controllerManager.videoPlayerController.value.aspectRatio,
+              aspectRatio:
+                  _controllerManager.videoPlayerController.value.aspectRatio,
               child: _controllerManager.buildVideoPlayer(),
             ),
           ),
@@ -40,7 +43,6 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
       ],
     );
   }
-
 
   @override
   void initState() {
@@ -76,8 +78,8 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
 
 // Initialize the controller manager.
   void _initializeControllerManager() {
-    _controllerManager =
-        OfflineVideoPlayerControllerManager(localPath: widget.videoDetails.filePath);
+    _controllerManager = OfflineVideoPlayerControllerManager(
+        localPath: widget.videoDetails.filePath);
   }
 
 // Initialize the video player and seek to the last progress.
@@ -95,7 +97,8 @@ class OfflineVideoPlayerPageState extends ConsumerState<OfflineVideoPlayerPage> 
 // Seek to the last progress.
   Future<void> _seekToLastProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    final progress = prefs.getDouble('progress_${widget.videoDetails.name}') ?? 0.0;
+    final progress =
+        prefs.getDouble('progress_${widget.videoDetails.name}') ?? 0.0;
     final position = Duration(
       seconds: (progress *
               _controllerManager.videoPlayerController.value.duration.inSeconds)

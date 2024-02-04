@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 /// Internal login screen view.
 ///
 /// This screen is used to login with a username and password.
@@ -132,7 +131,7 @@ class InternalLoginScreenState extends ConsumerState<InternalLoginScreen> {
           usernameController.text,
           passwordController.text,
         );
-        if ( userState.user != null) {
+        if (userState.user != null) {
           ref.read(settingViewModelProvider.notifier).fetchUserSettings();
         } else {
           userState.copyWith(isLoading: false);

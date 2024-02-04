@@ -37,7 +37,8 @@ class CoursesList extends ConsumerWidget {
   Padding _buildPlaceholder(BuildContext context) {
     return Padding(
       padding: AppPadding.sectionPadding,
-      child: Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
+      child:
+          Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
     );
   }
 
@@ -48,45 +49,47 @@ class CoursesList extends ConsumerWidget {
   ) {
     final liveStreams = ref.watch(videoViewModelProvider).liveStreams ?? [];
     var liveCourseIds = liveStreams.map((stream) => stream.courseID).toSet();
-    final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
+    final userPinned =
+        ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     List<Course> liveCourses =
         courses.where((course) => liveCourseIds.contains(course.id)).toList();
     return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemCount: courses.length,
-        itemBuilder: (BuildContext context, int index) {
-          final course = courses[index];
-          final isPinned = userPinned.contains(course);
-          return CourseCard(
-            isLoggedIn: ref.read(userViewModelProvider).user != null,
-            course: course,
-            isPinned: isPinned,
-            onPinUnpin: (course) {
-              final pinnedViewModelNotifier =
-                  ref.read(pinnedCourseViewModelProvider.notifier);
-              if (isPinned) {
-                pinnedViewModelNotifier.unpinCourse(course.id);
-              } else {
-                pinnedViewModelNotifier.pinCourse(course.id);
-              }
-            },
-            title: course.name,
-            live: liveCourses.contains(course),
-            courseId: course.id,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CourseDetail(
-                    title: course.name,
-                    courseId: course.id,
-                  ),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      itemCount: courses.length,
+      itemBuilder: (BuildContext context, int index) {
+        final course = courses[index];
+        final isPinned = userPinned.contains(course);
+        return CourseCard(
+          isLoggedIn: ref.read(userViewModelProvider).user != null,
+          course: course,
+          isPinned: isPinned,
+          onPinUnpin: (course) {
+            final pinnedViewModelNotifier =
+                ref.read(pinnedCourseViewModelProvider.notifier);
+            if (isPinned) {
+              pinnedViewModelNotifier.unpinCourse(course.id);
+            } else {
+              pinnedViewModelNotifier.pinCourse(course.id);
+            }
+          },
+          title: course.name,
+          live: liveCourses.contains(course),
+          courseId: course.id,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CourseDetail(
+                  title: course.name,
+                  courseId: course.id,
                 ),
-              );
-            },
-          );
-        },);
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

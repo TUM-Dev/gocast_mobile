@@ -27,7 +27,7 @@ Future<void> main() async {
   await UserPreferences.init();
 
   runApp(
-     const ProviderScope(
+    const ProviderScope(
       child: App(),
     ),
   );
@@ -36,11 +36,9 @@ Future<void> main() async {
 bool isPushNotificationListenerSet = false;
 
 class App extends ConsumerWidget {
-
-   const App({
+  const App({
     super.key,
   });
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +47,6 @@ class App extends ConsumerWidget {
     final userState = ref.watch(userViewModelProvider);
 
     bool isLoggedIn = ref.watch(userViewModelProvider).user != null;
-
 
     _handleErrors(ref, userState);
     _setupNotifications(ref, userState);
@@ -66,26 +63,23 @@ class App extends ConsumerWidget {
       locale: Locale(UserPreferences.getLanguage()),
       theme: appTheme,
       darkTheme: darkAppTheme,
-      themeMode:
-          ref.watch(themeModeProvider),
+      themeMode: ref.watch(themeModeProvider),
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
-      home: !isLoggedIn
-          ? const WelcomeScreen()
-          : const NavigationTab(),
+      home: !isLoggedIn ? const WelcomeScreen() : const NavigationTab(),
       routes: _buildRoutes(),
     );
   }
 
-   void _checkConnectivityAndRedirect(BuildContext context, WidgetRef ref) {
-     Connectivity().checkConnectivity().then((connectivityResult) {
-       if (connectivityResult == ConnectivityResult.none) {
-         WidgetsBinding.instance.addPostFrameCallback((_) {
-           Navigator.of(context).pushNamed('/downloads');
-         });
-       }
-     });
-   }
+  void _checkConnectivityAndRedirect(BuildContext context, WidgetRef ref) {
+    Connectivity().checkConnectivity().then((connectivityResult) {
+      if (connectivityResult == ConnectivityResult.none) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pushNamed('/downloads');
+        });
+      }
+    });
+  }
 
   void _handleErrors(WidgetRef ref, UserState userState) {
     // Check for errors in userState and show a SnackBar if there are any

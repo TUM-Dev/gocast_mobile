@@ -81,7 +81,8 @@ class CustomVideoControlBar extends StatelessWidget {
 
     return Consumer(
       builder: (context, ref, child) {
-        final pinnedViewModel = ref.read(pinnedCourseViewModelProvider.notifier);
+        final pinnedViewModel =
+            ref.read(pinnedCourseViewModelProvider.notifier);
         final downloadViewModel = ref.read(downloadViewModelProvider.notifier);
         final isPinned = pinnedViewModel.isCoursePinned(currentStream.courseID);
         final isDownloaded =
@@ -103,7 +104,8 @@ class CustomVideoControlBar extends StatelessWidget {
                   ),
                   IconButton(
                     icon: isPollVisible
-                        ? Icon(Icons.quiz_outlined,
+                        ? Icon(
+                            Icons.quiz_outlined,
                             color: themeData.primaryColor,
                           )
                         : const Icon(Icons.quiz_outlined),

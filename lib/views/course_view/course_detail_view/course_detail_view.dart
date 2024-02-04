@@ -167,7 +167,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
                 ),
               ),
             )
-          :  Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
+          : Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
     );
   }
 
@@ -250,7 +250,8 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   bool _checkPinStatus() {
-    final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
+    final userPinned =
+        ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     // Iterate over the userPinned list and check if courseId matches
     for (var course in userPinned) {
       if (course.id == widget.courseId) {

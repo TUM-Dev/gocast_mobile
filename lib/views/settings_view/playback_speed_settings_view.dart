@@ -37,7 +37,7 @@ class PlaybackSpeedSettings extends ConsumerWidget {
     List<double> playbackSpeeds,
   ) {
     return ListTile(
-      title:  Text(AppLocalizations.of(context)!.playback_speed),
+      title: Text(AppLocalizations.of(context)!.playback_speed),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () => showPlaybackSpeedsPicker(
         context,

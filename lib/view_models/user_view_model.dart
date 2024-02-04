@@ -21,10 +21,9 @@ class UserViewModel extends StateNotifier<UserState> {
 
   final GrpcHandler _grpcHandler;
 
-  UserViewModel(this._grpcHandler) : super(const UserState()){
+  UserViewModel(this._grpcHandler) : super(const UserState()) {
     _checkToken();
   }
-
 
   /// Handles basic authentication.
   /// If the authentication is successful, it navigates to the courses screen.
@@ -68,12 +67,11 @@ class UserViewModel extends StateNotifier<UserState> {
     }
   }
 
-
   Future<void> logout() async {
     await TokenHandler.deleteToken('jwt');
     await TokenHandler.deleteToken('device_token');
     await TokenHandler.deleteToken('jwt_token');
-    state=state.reset();
+    state = state.reset();
     _logger.i('Logged out user and cleared tokens.');
   }
 
@@ -141,7 +139,6 @@ class UserViewModel extends StateNotifier<UserState> {
     state = state.copyWith(displayedCourses: displayedCourses);
   }
 
-
   void setUpDisplayedCourses(List<Course> allCourses) {
     CourseUtils.sortCourses(allCourses, 'Newest First');
     updatedDisplayedCourses(
@@ -159,10 +156,10 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<void> _checkToken() async {
     if (_isTokenChecked) return;
     String token = await _getToken();
-    if(token.isNotEmpty && !Jwt.isExpired(token)) {
+    if (token.isNotEmpty && !Jwt.isExpired(token)) {
       _logger.i('Token found, fetching user: $token');
       fetchUser();
-    }else {
+    } else {
       _logger.i('Token not found or expired');
     }
     _isTokenChecked = true;
@@ -171,10 +168,9 @@ class UserViewModel extends StateNotifier<UserState> {
   Future<String> _getToken() async {
     try {
       return await TokenHandler.loadToken('jwt');
-    } catch(e){
+    } catch (e) {
       Logger().w("Token not found");
       return '';
     }
   }
-
 }

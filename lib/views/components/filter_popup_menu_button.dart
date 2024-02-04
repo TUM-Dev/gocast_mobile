@@ -17,7 +17,8 @@ class FilterPopupMenuButton extends ConsumerWidget {
     // Assuming both selectedSemester and pinnedSelectedSemester are always the same,
     // we can just use one of them for the check mark logic.
     final selectedSemester = ref.read(userViewModelProvider).selectedSemester;
-    final selectedSortedOption = ref.read(videoViewModelProvider).selectedFilterOption;
+    final selectedSortedOption =
+        ref.read(videoViewModelProvider).selectedFilterOption;
 
     return PopupMenuButton<String>(
       onSelected: (choice) {
@@ -26,7 +27,8 @@ class FilterPopupMenuButton extends ConsumerWidget {
       itemBuilder: (BuildContext context) {
         return filterOptions.map((choice) {
           // Check if the item is selected
-          bool isSelected = selectedSemester == choice || selectedSortedOption == choice;
+          bool isSelected =
+              selectedSemester == choice || selectedSortedOption == choice;
 
           return PopupMenuItem<String>(
             value: choice,
@@ -35,7 +37,8 @@ class FilterPopupMenuButton extends ConsumerWidget {
               title: Text(choice),
               trailing: Opacity(
                 opacity: isSelected ? 1.0 : 0.0,
-                child: Icon(Icons.check, color: Theme.of(context).iconTheme.color),
+                child:
+                    Icon(Icons.check, color: Theme.of(context).iconTheme.color),
               ),
             ),
           );
@@ -44,7 +47,4 @@ class FilterPopupMenuButton extends ConsumerWidget {
       icon: Icon(Icons.filter_list, color: Theme.of(context).iconTheme.color),
     );
   }
-
-
-
 }

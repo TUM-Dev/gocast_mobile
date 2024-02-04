@@ -16,7 +16,6 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class VideoPlayerPage extends ConsumerStatefulWidget {
   final Stream stream;
 
@@ -77,10 +76,10 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       await ref
           .read(courseViewModelProvider.notifier)
           .getCourseWithID(widget.stream.courseID);
-      await ref.read(chatViewModelProvider.notifier).fetchChatMessages(widget.stream.id);
-      Course? course = ref
-          .read(courseViewModelProvider)
-          .course;
+      await ref
+          .read(chatViewModelProvider.notifier)
+          .fetchChatMessages(widget.stream.id);
+      Course? course = ref.read(courseViewModelProvider).course;
       if (course != null) {
         if ((course.chatEnabled && widget.stream.chatEnabled) ||
             (course.vodChatEnabled && widget.stream.chatEnabled)) {
@@ -109,9 +108,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.stream.name)),
-      body: ref
-          .read(videoViewModelProvider)
-          .isLoading
+      body: ref.read(videoViewModelProvider).isLoading
           ? const Center(child: CircularProgressIndicator())
           : _buildVideoLayout(),
     );
@@ -153,12 +150,10 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 // Seek to the last progress.
   Future<void> _seekToLastProgress() async {
     Progress progress =
-        ref
-            .read(videoViewModelProvider)
-            .progress ?? Progress(progress: 0.0);
+        ref.read(videoViewModelProvider).progress ?? Progress(progress: 0.0);
     final position = Duration(
       seconds: (progress.progress *
-          _controllerManager.videoPlayerController.value.duration.inSeconds)
+              _controllerManager.videoPlayerController.value.duration.inSeconds)
           .round(),
     );
     await _controllerManager.videoPlayerController.seekTo(position);
@@ -181,13 +176,13 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
 
   void _progressUpdateCallback(Timer timer) async {
     if (!_isPlayerInitialized()) return;
-    if(!_controllerManager.videoPlayerController.value.isPlaying) return;
-      final position = _getCurrentPosition();
-      final progress = _calculateProgress(position);
-      await _updateProgress(progress);
-      if (_shouldMarkAsWatched(progress)) {
-        await _markStreamAsWatched();
-      }
+    if (!_controllerManager.videoPlayerController.value.isPlaying) return;
+    final position = _getCurrentPosition();
+    final progress = _calculateProgress(position);
+    await _updateProgress(progress);
+    if (_shouldMarkAsWatched(progress)) {
+      await _markStreamAsWatched();
+    }
   }
 
   bool _isPlayerInitialized() {
@@ -222,9 +217,7 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
   }
 
   void _switchPlaylist(String newPlaylistUrl) async {
-    if (ref
-        .read(videoViewModelProvider)
-        .videoSource == newPlaylistUrl) {
+    if (ref.read(videoViewModelProvider).videoSource == newPlaylistUrl) {
       Logger().i("Already displaying $newPlaylistUrl");
       return;
     }
@@ -278,57 +271,66 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
         );
       },
       startingDownloadMessage: AppLocalizations.of(context)!.starting_download,
-      downloadNotAvailableMessage: AppLocalizations.of(context)!.download_not_allowed,
-      downloadCompletedMessage: AppLocalizations.of(context)!.download_completed,
+      downloadNotAvailableMessage:
+          AppLocalizations.of(context)!.download_not_allowed,
+      downloadCompletedMessage:
+          AppLocalizations.of(context)!.download_completed,
       downloadFailedMessage: AppLocalizations.of(context)!.download_failed,
-      donwloadCancelledMessage: AppLocalizations.of(context)!.download_cancelled,
+      donwloadCancelledMessage:
+          AppLocalizations.of(context)!.download_cancelled,
       showDownloadConfirmationDialog: _showDownloadConfirmationDialog,
       showMobileDataNotAllowedDialog: _showMobileDataNotAllowedDialog,
     );
-    String streamName = stream.name != '' ? stream.name : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(stream.start.toDateTime())}';
-    String streamDate = DateFormat('dd MMMM yyyy', Localizations.localeOf(context).toString()).format(stream.start.toDateTime());
+    String streamName = stream.name != ''
+        ? stream.name
+        : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(stream.start.toDateTime())}';
+    String streamDate =
+        DateFormat('dd MMMM yyyy', Localizations.localeOf(context).toString())
+            .format(stream.start.toDateTime());
     downloadService.downloadVideo(stream, type, streamName, streamDate);
   }
 
-
   Future<bool> _showDownloadConfirmationDialog() async {
     return await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text("Download Video"),
-          content: const Text(
-              "You are on mobile data. Would you like to download the video over mobile data?",),
-          actions: <Widget>[
-            TextButton(
-              child: const Text("No"),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(false);
-              },
-            ),
-            TextButton(
-              child: const Text("Yes"),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ) ?? false; // If dialog is dismissed, return false
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Download Video"),
+              content: const Text(
+                "You are on mobile data. Would you like to download the video over mobile data?",
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("No"),
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(false);
+                  },
+                ),
+                TextButton(
+                  child: const Text("Yes"),
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(true);
+                  },
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // If dialog is dismissed, return false
   }
-
 
   void _showMobileDataNotAllowedDialog() {
     showDialog(
       context: context,
-      barrierDismissible: false, // User must tap a button for the dialog to close
+      barrierDismissible:
+          false, // User must tap a button for the dialog to close
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: const Text("Download Not Allowed"),
           content: const Text(
-              "You are currently on mobile data. Video cannot be downloaded over mobile data due to your settings.",),
+            "You are currently on mobile data. Video cannot be downloaded over mobile data due to your settings.",
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
@@ -341,6 +343,4 @@ class VideoPlayerPageState extends ConsumerState<VideoPlayerPage> {
       },
     );
   }
-  
-
 }

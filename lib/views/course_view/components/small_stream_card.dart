@@ -76,29 +76,33 @@ class SmallStreamCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStreamCard(BuildContext context, ThemeData themeData, double cardWidth) {
-    return (isDownloaded!=null && showDeleteConfirmationDialog!=null) ? _buildDownloadedCard(context, themeData, cardWidth) : _buildLiveCard(themeData, cardWidth);
+  Widget _buildStreamCard(
+      BuildContext context, ThemeData themeData, double cardWidth) {
+    return (isDownloaded != null && showDeleteConfirmationDialog != null)
+        ? _buildDownloadedCard(context, themeData, cardWidth)
+        : _buildLiveCard(themeData, cardWidth);
   }
 
-  Widget _buildDownloadedCard (BuildContext context, ThemeData themeData, double cardWidth) {
+  Widget _buildDownloadedCard(
+      BuildContext context, ThemeData themeData, double cardWidth) {
     return Slidable(
-        key: Key(courseId.toString()),
-        closeOnScroll: true,
-        endActionPane: ActionPane(
-          motion: const DrawerMotion(),
-          dragDismissible: true,
-          children: [
-            SlidableAction(
-              onPressed: (_) => showDeleteConfirmationDialog!(courseId!),
-              autoClose: true,
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              icon: Icons.delete_rounded,
-              label: AppLocalizations.of(context)!.delete,
-            ),
-          ],
-        ),
-        child: _buildLiveCard(themeData, cardWidth*1.3),
+      key: Key(courseId.toString()),
+      closeOnScroll: true,
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        dragDismissible: true,
+        children: [
+          SlidableAction(
+            onPressed: (_) => showDeleteConfirmationDialog!(courseId!),
+            autoClose: true,
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: Icons.delete_rounded,
+            label: AppLocalizations.of(context)!.delete,
+          ),
+        ],
+      ),
+      child: _buildLiveCard(themeData, cardWidth * 1.3),
     );
   }
 
@@ -155,35 +159,35 @@ class SmallStreamCard extends StatelessWidget {
                     AppImages.course1,
                     fit: BoxFit.cover,
                   )
-                :
-            Image.network(
-              path!, // Use the image URL
-              fit: BoxFit.cover, // Maintain the cover fit
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child; // Image is fully loaded
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            (loadingProgress.expectedTotalBytes ?? 1)
-                        : null,
+                : Image.network(
+                    path!, // Use the image URL
+                    fit: BoxFit.cover, // Maintain the cover fit
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child; // Image is fully loaded
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        AppImages.course1,
+                        fit: BoxFit.cover,
+                      );
+                    },
                   ),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  AppImages.course1,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
           ),
         ),
       ],
     );
   }
+
   Widget _buildLocation(ThemeData themeData) {
     final isLocationEmpty =
         (roomName?.isEmpty ?? true) && (roomNumber?.isEmpty ?? true);
@@ -197,9 +201,11 @@ class SmallStreamCard extends StatelessWidget {
     // Determine the URL based on the availability of roomNumber
     final Uri url = roomNumber?.isNotEmpty ?? false
         ? Uri.parse(
-            'https://nav.tum.de/room/$roomNumber',) // Use roomNumber in URL if available
+            'https://nav.tum.de/room/$roomNumber',
+          ) // Use roomNumber in URL if available
         : Uri.parse(
-            'https://nav.tum.de/search?q=${Uri.encodeComponent(roomName ?? '')}',); // Fall back to search URL using roomName
+            'https://nav.tum.de/search?q=${Uri.encodeComponent(roomName ?? '')}',
+          ); // Fall back to search URL using roomName
 
     return Align(
       alignment: Alignment.centerRight,

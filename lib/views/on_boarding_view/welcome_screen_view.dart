@@ -144,7 +144,8 @@ class WelcomeScreen extends ConsumerWidget {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
             )
-          : Text(AppLocalizations.of(context)!.tum_login, style: const TextStyle(fontSize: 18)),
+          : Text(AppLocalizations.of(context)!.tum_login,
+              style: const TextStyle(fontSize: 18)),
       onPressed: () => handleSSOLogin(context, ref),
     );
   }
@@ -160,7 +161,8 @@ class WelcomeScreen extends ConsumerWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
-      child: Text(AppLocalizations.of(context)!.continue_without, style: const TextStyle(fontSize: 18)),
+      child: Text(AppLocalizations.of(context)!.continue_without,
+          style: const TextStyle(fontSize: 18)),
       onPressed: () {
         Navigator.pushNamed(context, '/publiccourses');
       },
@@ -173,7 +175,7 @@ class WelcomeScreen extends ConsumerWidget {
         context,
         MaterialPageRoute(builder: (context) => const InternalLoginScreen()),
       ),
-      child:  Center(
+      child: Center(
         child: Text(
           AppLocalizations.of(context)!.use_an_internal_account,
           style: const TextStyle(

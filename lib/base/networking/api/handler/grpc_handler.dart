@@ -44,13 +44,13 @@ class GrpcHandler {
     final token = await TokenHandler.getToken();
     try {
       CallOptions callOptions;
-      if(token.isNotEmpty) {
+      if (token.isNotEmpty) {
         final metadata = <String, String>{
           'grpcgateway-cookie': 'jwt=$token',
         };
-         callOptions = CallOptions(metadata: metadata);
-      }else {
-         callOptions = CallOptions();
+        callOptions = CallOptions(metadata: metadata);
+      } else {
+        callOptions = CallOptions();
       }
       return await grpcMethod(APIClient(_channel, options: callOptions));
     } on SocketException catch (socketException) {

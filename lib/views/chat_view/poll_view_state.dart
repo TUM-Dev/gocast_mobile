@@ -5,7 +5,6 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/poll_view.dart';
 
-
 class PollViewState extends ConsumerState<PollView> {
   Timer? _updateTimer;
   Map<int, int> selectedOptions = {};
@@ -66,7 +65,10 @@ class PollViewState extends ConsumerState<PollView> {
   }
 
   Widget _buildPollCard(
-      BuildContext context, Poll poll, Map<int, int> answeredPolls,) {
+    BuildContext context,
+    Poll poll,
+    Map<int, int> answeredPolls,
+  ) {
     bool isAnswered = answeredPolls.containsKey(poll.id);
     return isAnswered
         ? _buildAnsweredPollCard(context, poll, answeredPolls[poll.id])
@@ -74,7 +76,10 @@ class PollViewState extends ConsumerState<PollView> {
   }
 
   Widget _buildAnsweredPollCard(
-      BuildContext context, Poll poll, int? answeredOptionId,) {
+    BuildContext context,
+    Poll poll,
+    int? answeredOptionId,
+  ) {
     ThemeData themeData = Theme.of(context);
     return Opacity(
       opacity: 0.5,
@@ -105,13 +110,16 @@ class PollViewState extends ConsumerState<PollView> {
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio:
-                        3,
+                    childAspectRatio: 3,
                   ),
                   itemCount: poll.pollOptions.length,
                   itemBuilder: (context, index) {
-                    return _buildInactivePollOption(context, poll,
-                        poll.pollOptions[index], answeredOptionId,);
+                    return _buildInactivePollOption(
+                      context,
+                      poll,
+                      poll.pollOptions[index],
+                      answeredOptionId,
+                    );
                   },
                 ),
               ],
@@ -122,23 +130,25 @@ class PollViewState extends ConsumerState<PollView> {
     );
   }
 
-  Widget _buildInactivePollOption(BuildContext context, Poll poll,
-      PollOption option, int? selectedOptionId,) {
+  Widget _buildInactivePollOption(
+    BuildContext context,
+    Poll poll,
+    PollOption option,
+    int? selectedOptionId,
+  ) {
     bool isSelected = option.id == selectedOptionId;
     return Container(
       margin: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
         color: isSelected ? Colors.grey : Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        border:
-            Border.all(color: Colors.grey),
+        border: Border.all(color: Colors.grey),
       ),
       child: Center(
         child: Text(
           option.answer,
           style: const TextStyle(
-            color:
-                Colors.black,
+            color: Colors.black,
           ),
         ),
       ),
@@ -173,13 +183,15 @@ class PollViewState extends ConsumerState<PollView> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio:
-                      3,
+                  childAspectRatio: 3,
                 ),
                 itemCount: poll.pollOptions.length,
                 itemBuilder: (context, index) {
                   return _buildActivePollOption(
-                      context, poll, poll.pollOptions[index],);
+                    context,
+                    poll,
+                    poll.pollOptions[index],
+                  );
                 },
               ),
               _buildSubmitButton(poll),
@@ -191,7 +203,10 @@ class PollViewState extends ConsumerState<PollView> {
   }
 
   Widget _buildActivePollOption(
-      BuildContext context, Poll poll, PollOption option,) {
+    BuildContext context,
+    Poll poll,
+    PollOption option,
+  ) {
     bool isSelected = selectedOptions[poll.id] == option.id;
     return GestureDetector(
       onTap: () {
@@ -200,7 +215,8 @@ class PollViewState extends ConsumerState<PollView> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.all(4.0), // Add some spacing around each button
+        margin:
+            const EdgeInsets.all(4.0), // Add some spacing around each button
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue : Colors.white,
           // Change color based on selection
@@ -231,13 +247,11 @@ class PollViewState extends ConsumerState<PollView> {
               poll.question,
               style: const TextStyle(
                 fontSize: 16.0,
-                fontWeight: FontWeight
-                    .bold,
+                fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
               maxLines: 2,
-              overflow: TextOverflow
-                  .ellipsis,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -249,18 +263,19 @@ class PollViewState extends ConsumerState<PollView> {
     final pollViewModel = ref.read(pollViewModelProvider.notifier);
 
     return Padding(
-      padding: const EdgeInsets.all(8.0), // Consistent padding with the rest of the layout
+      padding: const EdgeInsets.all(
+          8.0), // Consistent padding with the rest of the layout
       child: ElevatedButton(
         onPressed: selectedOptions.containsKey(poll.id)
             ? () {
-          final int? pollOptionId = selectedOptions[poll.id];
-          if (pollOptionId != null) {
-            setState(() {
-              pollViewModel.postPollVote(poll.streamID, pollOptionId);
-              pollViewModel.postAnsweredPoll(poll.id, pollOptionId);
-            });
-          }
-        }
+                final int? pollOptionId = selectedOptions[poll.id];
+                if (pollOptionId != null) {
+                  setState(() {
+                    pollViewModel.postPollVote(poll.streamID, pollOptionId);
+                    pollViewModel.postAnsweredPoll(poll.id, pollOptionId);
+                  });
+                }
+              }
             : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
@@ -279,5 +294,4 @@ class PollViewState extends ConsumerState<PollView> {
       ),
     );
   }
-
 }

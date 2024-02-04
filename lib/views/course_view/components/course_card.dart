@@ -10,7 +10,6 @@ class CourseCard extends StatelessWidget {
   final VoidCallback onTap;
   final int courseId;
 
-
   //for displaying courses
   final bool? live;
 
@@ -65,7 +64,6 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -92,15 +90,15 @@ class CourseCard extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-            child: _buildCourseCard(
-              themeData,
-              cardWidth,
-              context,
-              course!,
-              onPinUnpin!,
-              isPinned!,
-              isLoggedIn,
-                ),
+          child: _buildCourseCard(
+            themeData,
+            cardWidth,
+            context,
+            course!,
+            onPinUnpin!,
+            isPinned!,
+            isLoggedIn,
+          ),
         ),
       ),
     );
@@ -113,39 +111,40 @@ class CourseCard extends StatelessWidget {
     Course course,
     Function(Course) onPinUnpin,
     bool isPinned,
-      bool isLoggedIn,
+    bool isLoggedIn,
   ) {
-
     return Slidable(
       key: ValueKey(course.id),
       closeOnScroll: true,
-      endActionPane: isLoggedIn ? ActionPane(
-        motion: const DrawerMotion(),
-        dragDismissible: true,
-        children: [
-          if (isPinned)
-            SlidableAction(
-              autoClose: true,
-              onPressed: (_) async {
-                bool confirmUnpin = await _confirmUnpin(context);
-                if (confirmUnpin) onPinUnpin(course);
-              },
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              icon: Icons.push_pin_outlined,
-              label: AppLocalizations.of(context)!.unpin ,
-            ),
-          if (!isPinned)
-            SlidableAction(
-              autoClose: true,
-              onPressed: (_) => onPinUnpin(course),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              icon: Icons.push_pin,
-              label: AppLocalizations.of(context)!.pin,
-            ),
-        ],
-      ) : null,
+      endActionPane: isLoggedIn
+          ? ActionPane(
+              motion: const DrawerMotion(),
+              dragDismissible: true,
+              children: [
+                if (isPinned)
+                  SlidableAction(
+                    autoClose: true,
+                    onPressed: (_) async {
+                      bool confirmUnpin = await _confirmUnpin(context);
+                      if (confirmUnpin) onPinUnpin(course);
+                    },
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    icon: Icons.push_pin_outlined,
+                    label: AppLocalizations.of(context)!.unpin,
+                  ),
+                if (!isPinned)
+                  SlidableAction(
+                    autoClose: true,
+                    onPressed: (_) => onPinUnpin(course),
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    icon: Icons.push_pin,
+                    label: AppLocalizations.of(context)!.pin,
+                  ),
+              ],
+            )
+          : null,
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -168,11 +167,12 @@ class CourseCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 3.0),
                       child: Row(
                         children: [
-                          Expanded(child:
-                          _buildCourseTitle(themeData.textTheme),
+                          Expanded(
+                            child: _buildCourseTitle(themeData.textTheme),
                           ),
                           if (isPinned)
-                             Icon(Icons.push_pin, color: themeData.primaryColor, size:16),
+                            Icon(Icons.push_pin,
+                                color: themeData.primaryColor, size: 16),
                         ],
                       ),
                     ),
@@ -192,7 +192,8 @@ class CourseCard extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(AppLocalizations.of(context)!.confirm_unpin_title),
-              content: Text(AppLocalizations.of(context)!.confirm_unpin_message),
+              content:
+                  Text(AppLocalizations.of(context)!.confirm_unpin_message),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
@@ -212,7 +213,7 @@ class CourseCard extends StatelessWidget {
   Widget _buildCourseIsLive(BuildContext context) {
     if (live == null) return const SizedBox();
     return live!
-        ?  Row(
+        ? Row(
             children: [
               const Icon(
                 Icons.circle,
@@ -238,8 +239,6 @@ class CourseCard extends StatelessWidget {
       color: Tools.colorPicker(tumID),
     );
   }
-
-
 
   Widget _buildCourseTitle(TextTheme textTheme) {
     return Text(
@@ -267,6 +266,4 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
-
-
 }

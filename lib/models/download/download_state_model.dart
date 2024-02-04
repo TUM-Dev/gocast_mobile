@@ -57,12 +57,10 @@ class VideoDetails {
         date = json['date'];
 
   Map<String, dynamic> toJson() => {
-    'filePath': filePath,
-    'name': name,
-    'duration': duration,
-    'description': description,
-    'date': date,
-  };
-
-
+        'filePath': filePath,
+        'name': name,
+        'duration': duration,
+        'description': description,
+        'date': date,
+      };
 }

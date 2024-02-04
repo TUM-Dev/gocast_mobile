@@ -41,7 +41,8 @@ class PinnedCourseState {
       isLoading: isLoading ?? this.isLoading,
       userPinned: userPinned ?? this.userPinned,
       error: error ?? this.error,
-      displayedPinnedCourses: displayedPinnedCourses ?? this.displayedPinnedCourses,
+      displayedPinnedCourses:
+          displayedPinnedCourses ?? this.displayedPinnedCourses,
       semesters: semesters ?? this.semesters,
       selectedSemester: selectedSemester ?? this.selectedSemester,
       semestersAsString: semestersAsString ?? this.semestersAsString,
@@ -63,5 +64,4 @@ class PinnedCourseState {
       currentAsString: currentAsString,
     );
   }
-
 }

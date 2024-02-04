@@ -4,7 +4,6 @@ import 'package:gocast_mobile/providers.dart';
 import 'notifications_screen_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class MyNotifications extends ConsumerStatefulWidget {
   const MyNotifications({super.key});
 

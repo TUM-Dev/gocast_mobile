@@ -69,8 +69,9 @@ class StreamCardState extends ConsumerState<StreamCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildHeader(
-                  title: widget.stream.name != '' ?  widget.stream.name : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString())
-                      .format(widget.stream.start.toDateTime())}',
+                  title: widget.stream.name != ''
+                      ? widget.stream.name
+                      : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(widget.stream.start.toDateTime())}',
                   subtitle: widget.stream.description,
                   length: widget.stream.duration,
                   themeData: themeData,
@@ -169,8 +170,6 @@ class StreamCardState extends ConsumerState<StreamCard> {
     );
   }
 
-
-
   Widget _buildStreamDate(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
@@ -196,7 +195,10 @@ class StreamCardState extends ConsumerState<StreamCard> {
       ),
       padding: const EdgeInsets.all(5),
       child: Text(
-        Tools.formatDuration(widget.stream.end.toDateTime().difference(widget.stream.start.toDateTime()).inMinutes),
+        Tools.formatDuration(widget.stream.end
+            .toDateTime()
+            .difference(widget.stream.start.toDateTime())
+            .inMinutes),
         style: themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
           color: Colors.white,

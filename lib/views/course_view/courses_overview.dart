@@ -79,8 +79,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
           onRefresh: _refreshData,
           child: ListView(
             children: [
-                Center(
-                    child: LiveStreamSection(
+              Center(
+                child: LiveStreamSection(
                   ref: ref,
                   sectionTitle: AppLocalizations.of(context)!.live_now,
                   courses: (userCoursesCurrent) + (publicCoursesCurrent),
@@ -130,10 +130,12 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     );
   }
 
-  Widget _buildSection(String title,
-      SectionKind sectionKind,
-      courses,
-      streams,) {
+  Widget _buildSection(
+    String title,
+    SectionKind sectionKind,
+    courses,
+    streams,
+  ) {
     return CourseSection(
       ref: ref,
       sectionTitle: title,
@@ -174,7 +176,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
 
   Future<void> _refreshData() async {
     setState(
-        () => isLoading = true,); // Set loading to true at the start of refresh
+      () => isLoading = true,
+    ); // Set loading to true at the start of refresh
 
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     await userViewModelNotifier.fetchUserCourses();
@@ -182,7 +185,8 @@ class CourseOverviewState extends ConsumerState<CourseOverview> {
     await ref.read(videoViewModelProvider.notifier).fetchLiveNowStreams();
     await ref.read(videoViewModelProvider.notifier).fetchLiveThumbnails();
 
-    setState(() =>
-        isLoading = false,); // Set loading to false once refresh is complete
+    setState(
+      () => isLoading = false,
+    ); // Set loading to false once refresh is complete
   }
 }

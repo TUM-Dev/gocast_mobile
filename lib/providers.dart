@@ -81,8 +81,6 @@ final progressProvider = FutureProvider.autoDispose.family<Progress, int>(
 
 final isSearchActiveProvider = StateProvider<bool>((ref) => false);
 
-
 final playbackSpeedsProvider = StateProvider<List<double>>((ref) {
   return [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 });
-

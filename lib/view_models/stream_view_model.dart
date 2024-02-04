@@ -25,8 +25,6 @@ class StreamViewModel extends StateNotifier<StreamState> {
     }
   }
 
-
-
   void updatedDisplayedStreams(List<Tuple2<Stream, String>> allStreams) {
     state = state.copyWith(displayedStreams: allStreams);
   }

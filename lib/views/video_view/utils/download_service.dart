@@ -3,7 +3,6 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:gocast_mobile/providers.dart';
 
-
 class DownloadService {
   final WidgetRef ref;
   final bool Function() isWidgetMounted;
@@ -15,8 +14,6 @@ class DownloadService {
   final String downloadCompletedMessage;
   final String downloadFailedMessage;
   final String donwloadCancelledMessage;
-
-
 
   DownloadService({
     required this.ref,
@@ -31,7 +28,8 @@ class DownloadService {
     required this.showMobileDataNotAllowedDialog,
   });
 
-  Future<void> downloadVideo(Stream stream, String type, String streamName, String streamDate) async {
+  Future<void> downloadVideo(
+      Stream stream, String type, String streamName, String streamDate) async {
     bool canDownload = await _handleDownloadConnectivity(stream, type);
     if (!canDownload) return;
 
@@ -51,37 +49,38 @@ class DownloadService {
 
     onShowSnackBar(startingDownloadMessage);
 
-    ref.read(downloadViewModelProvider.notifier)
+    ref
+        .read(downloadViewModelProvider.notifier)
         .downloadVideo(downloadUrl, stream, streamName, streamDate)
         .then((localPath) {
       if (!isWidgetMounted()) return;
-      onShowSnackBar(localPath.isNotEmpty ? downloadCompletedMessage : downloadFailedMessage);
+      onShowSnackBar(localPath.isNotEmpty
+          ? downloadCompletedMessage
+          : downloadFailedMessage);
     });
   }
 
-
-Future<bool> _handleDownloadConnectivity(Stream stream, String type) async {
-  final isDownloadWithWifiOnly = ref
-      .watch(settingViewModelProvider)
-      .isDownloadWithWifiOnly;
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  // If 'Download Over Wi-Fi Only' is enabled and connected to mobile, show a dialog
-  if (connectivityResult == ConnectivityResult.mobile && isDownloadWithWifiOnly) {
-    if (!isWidgetMounted()) return false;
-    showMobileDataNotAllowedDialog();
-    return false;
-  }
-  // If on mobile data and 'Download Over Wi-Fi Only' is disabled, ask for confirmation
-  if (connectivityResult == ConnectivityResult.mobile && !isDownloadWithWifiOnly) {
-    bool shouldProceed = await showDownloadConfirmationDialog();
-    if (!isWidgetMounted()) return false;
-    if (!shouldProceed) {
-      onShowSnackBar(donwloadCancelledMessage);
+  Future<bool> _handleDownloadConnectivity(Stream stream, String type) async {
+    final isDownloadWithWifiOnly =
+        ref.watch(settingViewModelProvider).isDownloadWithWifiOnly;
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    // If 'Download Over Wi-Fi Only' is enabled and connected to mobile, show a dialog
+    if (connectivityResult == ConnectivityResult.mobile &&
+        isDownloadWithWifiOnly) {
+      if (!isWidgetMounted()) return false;
+      showMobileDataNotAllowedDialog();
       return false;
     }
+    // If on mobile data and 'Download Over Wi-Fi Only' is disabled, ask for confirmation
+    if (connectivityResult == ConnectivityResult.mobile &&
+        !isDownloadWithWifiOnly) {
+      bool shouldProceed = await showDownloadConfirmationDialog();
+      if (!isWidgetMounted()) return false;
+      if (!shouldProceed) {
+        onShowSnackBar(donwloadCancelledMessage);
+        return false;
+      }
+    }
+    return true;
   }
-  return true;
-}
-
-
 }

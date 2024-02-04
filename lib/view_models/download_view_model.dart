@@ -9,7 +9,6 @@ import 'package:logger/logger.dart';
 import 'dart:io';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
-
 class DownloadViewModel extends StateNotifier<DownloadState> {
   final Logger _logger = Logger();
 
@@ -21,7 +20,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     final int streamIdInt = id.toInt(); // Convert Int64 to int
     return state.downloadedVideos.containsKey(streamIdInt);
   }
-
 
   Future<void> initDownloads() async {
     final prefs = await SharedPreferences.getInstance();
@@ -45,10 +43,12 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  Future<String> downloadVideo(String videoUrl, Stream stream, String streamName, String streamDate) async {
+  Future<String> downloadVideo(String videoUrl, Stream stream,
+      String streamName, String streamDate) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/${streamName.replaceAll(' ', '_')}.mp4';
+      final filePath =
+          '${directory.path}/${streamName.replaceAll(' ', '_')}.mp4';
       Dio dio = Dio();
       await dio.download(videoUrl, filePath);
       _logger.d('Downloaded video to: $filePath');
@@ -60,19 +60,26 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       final videoDetailsMap = {
         'filePath': filePath,
         'name': streamName,
-        'duration': Tools.formatDuration(stream.end.toDateTime().difference(stream.start.toDateTime()).inMinutes),
+        'duration': Tools.formatDuration(stream.end
+            .toDateTime()
+            .difference(stream.start.toDateTime())
+            .inMinutes),
         'description': stream.description,
         'date': streamDate,
       };
 
       // Save the JSON string in your SharedPreferences
-      final downloadedVideosJson = Map<int, VideoDetails>.from(state.downloadedVideos)
-        ..[streamIdInt] = VideoDetails.fromJson(videoDetailsMap);
+      final downloadedVideosJson =
+          Map<int, VideoDetails>.from(state.downloadedVideos)
+            ..[streamIdInt] = VideoDetails.fromJson(videoDetailsMap);
 
       await prefs.setString(
         'downloadedVideos',
-        json.encode(downloadedVideosJson.map((key, value) =>
-            MapEntry(key.toString(), value),),),
+        json.encode(
+          downloadedVideosJson.map(
+            (key, value) => MapEntry(key.toString(), value),
+          ),
+        ),
       );
 
       // Convert the JSON strings back to VideoDetails objects for the state
@@ -124,24 +131,26 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
         final prefs = await SharedPreferences.getInstance();
         final updatedDownloads = Map<int, VideoDetails>.from(
-            state.downloadedVideos,);
+          state.downloadedVideos,
+        );
         updatedDownloads.remove(videoId);
 
         // Save updated list to SharedPreferences
         // Convert VideoDetails objects to JSON strings before saving
         await prefs.setString(
           'downloadedVideos',
-          json.encode(updatedDownloads.map((key, value) =>
-              MapEntry(key.toString(), json.encode(value)),),)
-          ,);
+          json.encode(
+            updatedDownloads.map(
+              (key, value) => MapEntry(key.toString(), json.encode(value)),
+            ),
+          ),
+        );
         state = state.copyWith(downloadedVideos: updatedDownloads);
       }
-    }
-    catch (e) {
-    _logger.e('Error deleting video with ID $videoId: $e');
+    } catch (e) {
+      _logger.e('Error deleting video with ID $videoId: $e');
     }
   }
-
 
   Future<void> deleteAllDownloads() async {
     _logger.i('Deleting all downloaded videos');
@@ -167,8 +176,4 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error deleting all videos: $e');
     }
   }
-
-
-
 }
-

@@ -13,7 +13,6 @@ class TokenHandler {
   static const _storage = FlutterSecureStorage();
   static String cachedToken = '';
 
-
   /// Stores a token.
   ///
   /// This method saves a token to shared preferences. The token is identified
@@ -113,7 +112,7 @@ class TokenHandler {
   }
 
   static Future<String> getToken() async {
-    if(cachedToken.isNotEmpty) {
+    if (cachedToken.isNotEmpty) {
       _logger.d('Using cached token');
       return cachedToken;
     }
@@ -125,5 +124,4 @@ class TokenHandler {
   static Future<void> _invalidateToken() async {
     cachedToken = '';
   }
-
 }

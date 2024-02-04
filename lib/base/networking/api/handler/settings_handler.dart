@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 
 import 'grpc_handler.dart';
 
-
 class SettingsHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;

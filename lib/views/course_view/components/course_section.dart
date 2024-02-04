@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -8,7 +7,6 @@ import 'package:gocast_mobile/views/components/view_all_button.dart';
 import 'package:gocast_mobile/views/course_view/components/course_card.dart';
 import 'package:gocast_mobile/views/course_view/course_detail_view/course_detail_view.dart';
 import 'dart:math' as math;
-
 
 /// CourseSection
 ///
@@ -27,8 +25,7 @@ import 'dart:math' as math;
 /// different titles, courses and onViewAll actions.
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
-  final SectionKind
-      sectionKind;
+  final SectionKind sectionKind;
   final List<Course> courses;
   final List<Stream> streams;
   final VoidCallback? onViewAll;
@@ -80,7 +77,9 @@ class CourseSection extends StatelessWidget {
     double cardHeight = 95;
 
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: isTablet ? double.infinity : cardHeight * displayCount,),
+      constraints: BoxConstraints(
+        maxHeight: isTablet ? double.infinity : cardHeight * displayCount,
+      ),
       child: ListView.builder(
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,

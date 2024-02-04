@@ -46,10 +46,12 @@ class AuthHandler {
     });
     Response response;
     try {
-     response = await dio.post(url, data: formData);
-     _logger.i('Received HTTP response with status code: ${response.statusCode}');
+      response = await dio.post(url, data: formData);
+      _logger
+          .i('Received HTTP response with status code: ${response.statusCode}');
     } catch (e) {
-      _logger.e('Error during basic authentication for user: $username, Error: $e');
+      _logger.e(
+          'Error during basic authentication for user: $username, Error: $e');
       throw AppError.userError();
     }
     try {
