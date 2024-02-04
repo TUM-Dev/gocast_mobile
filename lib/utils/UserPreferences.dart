@@ -5,9 +5,11 @@ class UserPreferences {
 
   static const _keyLanguage = 'language';
 
-  static Future init() async => _preferences = await SharedPreferences.getInstance();
+  static Future init() async =>
+      _preferences = await SharedPreferences.getInstance();
 
-  static Future setLanguage(String language) async => await _preferences?.setString(_keyLanguage, language);
+  static Future setLanguage(String language) async =>
+      await _preferences?.setString(_keyLanguage, language);
 
   static String getLanguage() => _preferences?.getString(_keyLanguage) ?? 'en';
 

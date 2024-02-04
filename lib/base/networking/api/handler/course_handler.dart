@@ -4,7 +4,6 @@ import 'package:gocast_mobile/base/networking/api/handler/user_handler.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
-
 class CourseHandler {
   static final Logger _logger = Logger();
   final GrpcHandler _grpcHandler;
@@ -23,7 +22,8 @@ class CourseHandler {
       },
     );
   }
-/// fetches the semesters and the current semester.
+
+  /// fetches the semesters and the current semester.
   Future<Tuple2<List<Semester>, Semester>> fetchSemesters() async {
     _logger.i('Fetching semesters');
     final response = await _grpcHandler.callGrpcMethod(

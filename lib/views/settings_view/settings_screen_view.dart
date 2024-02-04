@@ -11,7 +11,6 @@ import 'package:gocast_mobile/views/settings_view/authentication_error_card_view
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -48,8 +47,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             children: [
               _buildProfileTile(userState),
               const Divider(),
-              _buildSectionTitle(AppLocalizations.of(context)!.account_settings),
-              _buildEditableListTile(AppLocalizations.of(context)!.edit_profile, () async {
+              _buildSectionTitle(
+                  AppLocalizations.of(context)!.account_settings),
+              _buildEditableListTile(AppLocalizations.of(context)!.edit_profile,
+                  () async {
                 bool isAuthenticated =
                     await showAuthenticationErrorCard(context, ref);
                 if (isAuthenticated && mounted) {
@@ -88,7 +89,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _buildLogoutTile(context),
               const Divider(),
               _buildSectionTitle(AppLocalizations.of(context)!.more),
-              _buildNavigableListTile(AppLocalizations.of(context)!.about_us, ""),
+              _buildNavigableListTile(
+                  AppLocalizations.of(context)!.about_us, ""),
               _buildNavigableListTile(
                 AppLocalizations.of(context)!.privacy_policy,
                 "https://live.rbg.tum.de/privacy",
@@ -129,7 +131,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       themeModeText = AppLocalizations.of(context)!.system_default;
     }
     return ListTile(
-      title:  Text(AppLocalizations.of(context)!.choose_theme),
+      title: Text(AppLocalizations.of(context)!.choose_theme),
       subtitle: Text(themeModeText),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () => _showThemeSelectionSheet(context, ref),
@@ -139,7 +141,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   ListTile _buildLanguageSelectionTile(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(AppLocalizations.of(context)!.language_selection),
-      subtitle: Text(UserPreferences.getLanguageName(UserPreferences.getLanguage())),
+      subtitle:
+          Text(UserPreferences.getLanguageName(UserPreferences.getLanguage())),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () async {
         final selectedLanguage = await showModalBottomSheet<String>(
@@ -149,10 +152,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <String>['en', 'fr', 'de', 'es']
-                    .map((String lang) => ListTile(
-                  title: Text(UserPreferences.getLanguageName(lang)),
-                  onTap: () => Navigator.pop(context, lang),
-                ),)
+                    .map(
+                      (String lang) => ListTile(
+                        title: Text(UserPreferences.getLanguageName(lang)),
+                        onTap: () => Navigator.pop(context, lang),
+                      ),
+                    )
                     .toList(),
               ),
             );
@@ -168,7 +173,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-
   void _showThemeSelectionSheet(BuildContext context, WidgetRef ref) {
     showModalBottomSheet(
       context: context,
@@ -177,7 +181,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                title:  Text(AppLocalizations.of(context)!.system_default),
+                title: Text(AppLocalizations.of(context)!.system_default),
                 onTap: () {
                   ref
                       .read(settingViewModelProvider.notifier)
@@ -288,7 +292,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text(AppLocalizations.of(context)!.logout),
+          title: Text(AppLocalizations.of(context)!.logout),
           content: Text(AppLocalizations.of(context)!.logout_message),
           actions: <Widget>[
             TextButton(

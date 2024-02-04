@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class CustomBottomNavBar extends ConsumerWidget {
   const CustomBottomNavBar({super.key});
 

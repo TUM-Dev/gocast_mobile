@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 class TokenHandler {
   static final Logger _logger = Logger();
   static const _storage = FlutterSecureStorage();
+  static String cachedToken = '';
 
   /// Stores a token.
   ///
@@ -84,7 +85,6 @@ class TokenHandler {
         _logger.w('Token not found for key: $key');
         return "";
       }
-
       _logger.i('Token successfully loaded for key: $key');
       return token;
     } catch (e) {
@@ -103,10 +103,25 @@ class TokenHandler {
   static Future<void> deleteToken(String key) async {
     try {
       await _storage.delete(key: key);
+      await _invalidateToken();
       _logger.i('Token successfully deleted for key: $key');
     } catch (e) {
       _logger.e('Error deleting token: $e');
       throw AppError.notFound();
     }
+  }
+
+  static Future<String> getToken() async {
+    if (cachedToken.isNotEmpty) {
+      _logger.d('Using cached token');
+      return cachedToken;
+    }
+    _logger.d('Loading token from storage');
+    cachedToken = await loadToken('jwt');
+    return cachedToken;
+  }
+
+  static Future<void> _invalidateToken() async {
+    cachedToken = '';
   }
 }

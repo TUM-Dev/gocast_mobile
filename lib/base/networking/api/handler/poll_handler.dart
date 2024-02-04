@@ -39,7 +39,8 @@ class PollHandlers {
     );
     return _grpcHandler.callGrpcMethod(
       (client) async {
-        await client.postPollVote(PostPollVoteRequest(
+        await client.postPollVote(
+          PostPollVoteRequest(
             streamID: streamID,
             pollOptionID: pollOptionID,
           ),

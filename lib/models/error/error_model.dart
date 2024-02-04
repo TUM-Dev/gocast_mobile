@@ -73,7 +73,9 @@ class AppError implements Exception {
   factory AppError.unknownError(String? message) =>
       AppError('❓An unknown error occurred {message: $message}');
 
-  factory AppError.userError() => AppError('🥱Username or password are incorrect');
+  factory AppError.userError() =>
+      AppError('🥱Username or password are incorrect');
 
-  factory AppError.notificationNotAvailableYet() => AppError('🔕Notification not available yet, Set the FireBase keys first');
+  factory AppError.notificationNotAvailableYet() =>
+      AppError('🔕Notification not available yet, Set the FireBase keys first');
 }

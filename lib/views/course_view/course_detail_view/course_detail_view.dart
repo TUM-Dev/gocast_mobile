@@ -167,7 +167,7 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
                 ),
               ),
             )
-          :  Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
+          : Center(child: Text(AppLocalizations.of(context)!.no_courses_found)),
     );
   }
 
@@ -181,7 +181,6 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
     final streamWithThumb = streamsWithThumb[index];
     final stream = streamWithThumb.item1;
     final thumbnail = _getThumbnailUrl(streamWithThumb.item2);
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: StreamCard(
@@ -251,7 +250,8 @@ class CourseDetailState extends ConsumerState<CourseDetail> {
   }
 
   bool _checkPinStatus() {
-    final userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
+    final userPinned =
+        ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     // Iterate over the userPinned list and check if courseId matches
     for (var course in userPinned) {
       if (course.id == widget.courseId) {

@@ -1,7 +1,7 @@
 /// AppConfig - Defines the configuration for the application.
 class AppConfig {
   static const String appName = 'GoCast Mobile';
-  static const String appVersion = '0.1.0';
+  static const String appVersion = '0.2.0';
   static const String appDescription = 'GoCast Mobile App';
 
   AppConfig._(); // Private constructor

@@ -14,20 +14,19 @@ class SettingViewModel extends StateNotifier<SettingState> {
   SettingViewModel(this._grpcHandler) : super(const SettingState());
 
   Future<void> fetchUserSettings() async {
-      final userSettings =
-          await SettingsHandler(_grpcHandler).fetchUserSettings();
-      state = state.copyWith(userSettings: userSettings);
+    final userSettings =
+        await SettingsHandler(_grpcHandler).fetchUserSettings();
+    state = state.copyWith(userSettings: userSettings);
   }
 
   Future<void> updateUserSettings(List<UserSetting> updatedSettings) async {
-
-      final success = await SettingsHandler(_grpcHandler)
-          .updateUserSettings(updatedSettings);
-      if (success) {
-        state = state.copyWith(userSettings: updatedSettings);
-      } else {
-        Logger().e('Failed to update user settings');
-      }
+    final success =
+        await SettingsHandler(_grpcHandler).updateUserSettings(updatedSettings);
+    if (success) {
+      state = state.copyWith(userSettings: updatedSettings);
+    } else {
+      Logger().e('Failed to update user settings');
+    }
   }
 
   Future<void> loadPreferences() async {
@@ -88,8 +87,8 @@ class SettingViewModel extends StateNotifier<SettingState> {
   }
 
   Future<void> updatePreferredGreeting(String newGreeting) async {
-      await SettingsHandler(_grpcHandler).updateGreeting(newGreeting);
-      await fetchUserSettings();
+    await SettingsHandler(_grpcHandler).updateGreeting(newGreeting);
+    await fetchUserSettings();
   }
 
   Future<bool> updatePreferredName(String newName) async {
@@ -120,5 +119,4 @@ class SettingViewModel extends StateNotifier<SettingState> {
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }
-
 }

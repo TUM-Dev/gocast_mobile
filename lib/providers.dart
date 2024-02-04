@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/config/app_config.dart';
@@ -78,3 +79,14 @@ final progressProvider = FutureProvider.autoDispose.family<Progress, int>(
     return videoViewModel.fetchProgressForStream(streamId);
   },
 );
+
+final isSearchActiveProvider = StateProvider<bool>((ref) => false);
+
+final playbackSpeedsProvider = StateProvider<List<double>>((ref) {
+  return [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+});
+
+final connectivityProvider = StreamProvider<ConnectivityResult>((ref) {
+  return Connectivity().onConnectivityChanged;
+});
+

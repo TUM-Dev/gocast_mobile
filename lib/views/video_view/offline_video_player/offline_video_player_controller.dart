@@ -45,10 +45,12 @@ class OfflineVideoPlayerControllerManager {
       cupertinoProgressColors: _getCupertinoProgressColors(),
       materialProgressColors: _getMaterialProgressColors(),
       placeholder: Container(color: Colors.black),
+      allowMuting: true,
       autoInitialize: true,
       allowFullScreen: true,
       fullScreenByDefault: false,
       showOptions: true,
+      playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
     );
   }
 

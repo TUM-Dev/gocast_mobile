@@ -25,7 +25,6 @@ class BooKMarkHandler {
     );
   }
 
-
   /// Adds a bookmark for the current user.
   ///
   /// Sends a `putUserBookmark` gRPC call with the given [bookmarkData] to add a bookmark.

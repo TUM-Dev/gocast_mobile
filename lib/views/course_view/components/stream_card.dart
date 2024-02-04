@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
+import 'package:gocast_mobile/utils/tools.dart';
 import 'package:gocast_mobile/views/video_view/video_player.dart';
 import 'package:intl/intl.dart';
 
@@ -68,7 +69,9 @@ class StreamCardState extends ConsumerState<StreamCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildHeader(
-                  title: widget.stream.name,
+                  title: widget.stream.name != ''
+                      ? widget.stream.name
+                      : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(widget.stream.start.toDateTime())}',
                   subtitle: widget.stream.description,
                   length: widget.stream.duration,
                   themeData: themeData,
@@ -167,18 +170,6 @@ class StreamCardState extends ConsumerState<StreamCard> {
     );
   }
 
-  String formatDuration(int durationInMinutes) {
-    int hours = durationInMinutes ~/ 60;
-    int minutes = durationInMinutes % 60;
-    int seconds = 0;
-
-    String formattedHours = hours < 10 ? '0$hours' : '$hours';
-    String formattedMinutes = minutes < 10 ? '0$minutes' : '$minutes';
-    String formattedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
-
-    return '$formattedHours:$formattedMinutes:$formattedSeconds';
-  }
-
   Widget _buildStreamDate(ThemeData themeData) {
     return Container(
       decoration: BoxDecoration(
@@ -204,7 +195,10 @@ class StreamCardState extends ConsumerState<StreamCard> {
       ),
       padding: const EdgeInsets.all(5),
       child: Text(
-        formatDuration(widget.stream.duration),
+        Tools.formatDuration(widget.stream.end
+            .toDateTime()
+            .difference(widget.stream.start.toDateTime())
+            .inMinutes),
         style: themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
           color: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -6,6 +7,7 @@ import 'package:gocast_mobile/utils/UserPreferences.dart';
 import 'package:gocast_mobile/utils/globals.dart';
 import 'package:gocast_mobile/utils/theme.dart';
 import 'package:gocast_mobile/navigation_tab.dart';
+import 'package:gocast_mobile/views/course_view/downloaded_courses_view/downloaded_courses_view.dart';
 import 'package:gocast_mobile/views/course_view/list_courses_view/public_courses_view.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
@@ -25,7 +27,7 @@ Future<void> main() async {
   await UserPreferences.init();
 
   runApp(
-     const ProviderScope(
+    const ProviderScope(
       child: App(),
     ),
   );
@@ -34,23 +36,34 @@ Future<void> main() async {
 bool isPushNotificationListenerSet = false;
 
 class App extends ConsumerWidget {
-
-   const App({
+  const App({
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final connectivityStatus = ref.watch(connectivityProvider);
+    connectivityStatus.whenData((result) {
+      if(result == ConnectivityResult.none) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (ModalRoute.of(context)?.settings.name != '/downloads') {
+            Navigator.of(context).pushNamed('/downloads');
+            return;
+          }
+        });
+      }
+    });
+
     final userState = ref.watch(userViewModelProvider);
 
     bool isLoggedIn = ref.watch(userViewModelProvider).user != null;
-
 
     _handleErrors(ref, userState);
     _setupNotifications(ref, userState);
 
     return MaterialApp(
+      title: 'GoCast',
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -59,15 +72,12 @@ class App extends ConsumerWidget {
       ],
       supportedLocales: L10n.all,
       locale: Locale(UserPreferences.getLanguage()),
-      theme: appTheme, // Your light theme
-      darkTheme: darkAppTheme, // Define your dark theme
-      themeMode:
-          ref.watch(themeModeProvider), // Use the theme mode from the provider
+      theme: appTheme,
+      darkTheme: darkAppTheme,
+      themeMode: ref.watch(themeModeProvider),
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: scaffoldMessengerKey,
-      home: !isLoggedIn
-          ? const WelcomeScreen()
-          : const NavigationTab(),
+      home: !isLoggedIn ? const WelcomeScreen() : const NavigationTab(),
       routes: _buildRoutes(),
     );
   }
@@ -91,6 +101,7 @@ class App extends ConsumerWidget {
       '/login': (context) => const InternalLoginScreen(),
       '/navigationTab': (context) => const NavigationTab(),
       '/publiccourses': (context) => const PublicCourses(),
+      '/downloads': (context) => const DownloadedCourses(),
     };
   }
 

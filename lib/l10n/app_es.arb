@@ -5,7 +5,7 @@
   },
   "my_courses": "Mis Cursos",
   "public_courses": "Cursos Públicos",
-  "live_now": "En Vivo Ahora",
+  "live_now": "En Vivo",
   "pinned_courses": "Cursos Anclados",
   "pinned_empty": "No tienes cursos anclados.",
   "pin": "Anclar",
@@ -95,5 +95,8 @@
   "enter_your_password": "Introduce tu contraseña",
   "home": "Inicio",
   "language_selection": "Idioma",
-  "language_selection_description": "Selecciona tu idioma preferido."
+  "language_selection_description": "Selecciona tu idioma preferido.",
+  "download_complete": "Descarga completa",
+  "download_failed": "Error de descarga",
+  "download_cancelled": "Descarga cancelada"
 }

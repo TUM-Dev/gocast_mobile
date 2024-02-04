@@ -30,7 +30,7 @@ class NotificationViewModel extends StateNotifier<NotificationState> {
     String? deviceToken;
     try {
       deviceToken = await _firebaseMessaging.getToken();
-    }catch(e){
+    } catch (e) {
       throw AppError.notificationNotAvailableYet();
     }
     // Send device_token to API

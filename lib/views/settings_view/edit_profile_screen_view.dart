@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
 
@@ -43,7 +42,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         title: Padding(
           padding:
               isLandscape ? const EdgeInsets.only(top: 16.0) : EdgeInsets.zero,
-          child:  Text(AppLocalizations.of(context)!.edit_profile),
+          child: Text(AppLocalizations.of(context)!.edit_profile),
         ),
       ),
       body: Padding(
@@ -55,9 +54,10 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text(
+              Text(
                 AppLocalizations.of(context)!.preferred_name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               TextField(
@@ -76,9 +76,10 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     color:
                         Theme.of(context).colorScheme.scrim.withOpacity(0.50),
                   ),
-                  children:  [
+                  children: [
                     TextSpan(
-                      text: AppLocalizations.of(context)!.name_change_limitation,
+                      text:
+                          AppLocalizations.of(context)!.name_change_limitation,
                       style: const TextStyle(
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
@@ -95,7 +96,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                 ),
                 onPressed: () => _onSaveButtonPressed(context),
-                child:  Padding(
+                child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(AppLocalizations.of(context)!.save),
                 ),
@@ -151,7 +152,9 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text("Error"),
-          content: Text(errorMessage== '3 months' ? AppLocalizations.of(context)!.name_change_limitation : errorMessage),
+          content: Text(errorMessage == '3 months'
+              ? AppLocalizations.of(context)!.name_change_limitation
+              : errorMessage),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
