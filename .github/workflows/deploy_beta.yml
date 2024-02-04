@@ -8,6 +8,8 @@ on:
       - 'lib/**'
       - 'ios/**'
       - 'android/**'
+      - '.github/workflows/deploy_beta.yml'
+      - 'pubspec.yml'
 
 jobs:
   deploy:
