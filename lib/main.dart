@@ -42,7 +42,17 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _checkConnectivityAndRedirect(context, ref);
+    final connectivityStatus = ref.watch(connectivityProvider);
+    connectivityStatus.whenData((result) {
+      if(result == ConnectivityResult.none) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (ModalRoute.of(context)?.settings.name != '/downloads') {
+            Navigator.of(context).pushNamed('/downloads');
+            return;
+          }
+        });
+      }
+    });
 
     final userState = ref.watch(userViewModelProvider);
 
@@ -52,6 +62,7 @@ class App extends ConsumerWidget {
     _setupNotifications(ref, userState);
 
     return MaterialApp(
+      title: 'GoCast',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -69,16 +80,6 @@ class App extends ConsumerWidget {
       home: !isLoggedIn ? const WelcomeScreen() : const NavigationTab(),
       routes: _buildRoutes(),
     );
-  }
-
-  void _checkConnectivityAndRedirect(BuildContext context, WidgetRef ref) {
-    Connectivity().checkConnectivity().then((connectivityResult) {
-      if (connectivityResult == ConnectivityResult.none) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.of(context).pushNamed('/downloads');
-        });
-      }
-    });
   }
 
   void _handleErrors(WidgetRef ref, UserState userState) {

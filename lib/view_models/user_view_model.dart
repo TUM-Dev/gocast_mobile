@@ -17,7 +17,6 @@ import 'package:logger/logger.dart';
 
 class UserViewModel extends StateNotifier<UserState> {
   final Logger _logger = Logger();
-  bool _isTokenChecked = false; // Flag to track token check
 
   final GrpcHandler _grpcHandler;
 
@@ -154,7 +153,6 @@ class UserViewModel extends StateNotifier<UserState> {
   }
 
   Future<void> _checkToken() async {
-    if (_isTokenChecked) return;
     String token = await _getToken();
     if (token.isNotEmpty && !Jwt.isExpired(token)) {
       _logger.i('Token found, fetching user: $token');
@@ -162,7 +160,6 @@ class UserViewModel extends StateNotifier<UserState> {
     } else {
       _logger.i('Token not found or expired');
     }
-    _isTokenChecked = true;
   }
 
   Future<String> _getToken() async {
