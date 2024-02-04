@@ -8,7 +8,6 @@ import 'package:gocast_mobile/views/course_view/downloaded_courses_view/download
 import 'package:gocast_mobile/views/video_view/offline_video_player/offline_video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class DownloadedCourses extends ConsumerStatefulWidget {
   const DownloadedCourses({super.key});
 
@@ -24,7 +23,7 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text(AppLocalizations.of(context)!.confirm_delete),
+          title: Text(AppLocalizations.of(context)!.confirm_delete),
           content: Text(AppLocalizations.of(context)!.confirm_delete_message),
           actions: <Widget>[
             TextButton(
@@ -66,7 +65,10 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
           customAppBar: CustomSearchTopNavBar(
             searchController: searchController,
             title: AppLocalizations.of(context)!.download,
-            filterOptions: [AppLocalizations.of(context)!.newest_first, AppLocalizations.of(context)!.oldest_first],
+            filterOptions: [
+              AppLocalizations.of(context)!.newest_first,
+              AppLocalizations.of(context)!.oldest_first
+            ],
             onClick: (String choice) {
               // Handle filter option click
             },
@@ -74,30 +76,26 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
           videoCards: downloadedVideos.entries.map((entry) {
             final int videoId = entry.key;
             final VideoDetails videoDetails = entry.value;
-            final String localPath = videoDetails.filePath;
-            final String videoName = videoDetails.name;
-            final int durationSeconds = videoDetails.duration;
-            final String formattedDuration = "${(durationSeconds ~/ 3600).toString().padLeft(2, '0')}:${((durationSeconds % 3600) ~/ 60).toString().padLeft(2, '0')}:${(durationSeconds % 60).toString().padLeft(2, '0')}";
-            return  SmallStreamCard(
+            return SmallStreamCard(
               isDownloaded: true,
-                courseId: videoId,
-                title: videoName,
-                subtitle: formattedDuration,
-                tumID: "TUMID",
-                showDeleteConfirmationDialog: _showDeleteConfirmationDialog,
-                onTap: () {
+              courseId: videoId,
+              title: videoDetails.name,
+              subtitle: videoDetails.duration,
+              tumID: videoDetails.date,
+              showDeleteConfirmationDialog: _showDeleteConfirmationDialog,
+              onTap: () {
                 Navigator.of(context).push(
-                MaterialPageRoute(
-               builder: (context) =>
-               OfflineVideoPlayerPage(localPath: localPath),
-               ),
-               );
+                  MaterialPageRoute(
+                    builder: (context) => OfflineVideoPlayerPage(
+                      videoDetails: videoDetails,
+                    ),
+                  ),
+                );
               },
-    );
+            );
           }).toList(),
         ),
       ),
     );
-
   }
 }

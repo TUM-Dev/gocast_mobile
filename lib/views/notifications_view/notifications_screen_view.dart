@@ -7,7 +7,6 @@ import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/settings_view/settings_screen_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class NotificationsScreen extends ConsumerWidget {
   final String title;
   final List<PushNotification> pushNotifications;
@@ -41,12 +40,15 @@ class NotificationsScreen extends ConsumerWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 children: [
-                  _buildSectionHeader(AppLocalizations.of(context)!.banner_notification),
+                  _buildSectionHeader(
+                      AppLocalizations.of(context)!.banner_notification),
                   for (var alert in bannerAlerts) _buildBannerAlert(alert),
-                  _buildSectionHeader(AppLocalizations.of(context)!.feature_notifications),
+                  _buildSectionHeader(
+                      AppLocalizations.of(context)!.feature_notifications),
                   for (var notification in featureNotifications)
                     _buildFeatureNotification(notification),
-                  _buildSectionHeader(AppLocalizations.of(context)!.recent_uploads),
+                  _buildSectionHeader(
+                      AppLocalizations.of(context)!.recent_uploads),
                   for (var notification in pushNotifications)
                     _buildPushNotification(notification),
                 ],
@@ -73,7 +75,9 @@ class NotificationsScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: Center(child: Text(AppLocalizations.of(context)!.no_notifications_found)),
+                    child: Center(
+                        child: Text(AppLocalizations.of(context)!
+                            .no_notifications_found)),
                   ),
                 ],
               ),

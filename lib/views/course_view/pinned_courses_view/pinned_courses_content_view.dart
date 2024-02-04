@@ -51,8 +51,11 @@ class PinnedCoursesContentView extends ConsumerWidget {
                         padding: AppPadding.sectionPadding,
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 295.0),
-                            child: Text(AppLocalizations.of(context)!.pinned_empty,),
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 295.0),
+                            child: Text(
+                              AppLocalizations.of(context)!.pinned_empty,
+                            ),
                           ),
                         ),
                       ),

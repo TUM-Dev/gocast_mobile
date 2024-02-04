@@ -9,7 +9,6 @@ import 'package:logger/logger.dart';
 /// Handles gRPC communication for the application.
 class GrpcHandler {
   static final Logger _logger = Logger();
-
   final String host;
   final int port;
   late ClientChannel _channel;
@@ -42,21 +41,16 @@ class GrpcHandler {
     Future<T> Function(APIClient client) grpcMethod,
   ) async {
     _logger.d('callGrpcMethod: Initiating gRPC call');
+    final token = await TokenHandler.getToken();
     try {
-      String token = '';
-      try {
-        token = await TokenHandler.loadToken('jwt');
-      }catch(e) {
-        token = '';
-      }
       CallOptions callOptions;
-      if(token.isNotEmpty) {
+      if (token.isNotEmpty) {
         final metadata = <String, String>{
           'grpcgateway-cookie': 'jwt=$token',
         };
-         callOptions = CallOptions(metadata: metadata);
-      }else {
-         callOptions = CallOptions();
+        callOptions = CallOptions(metadata: metadata);
+      } else {
+        callOptions = CallOptions();
       }
       return await grpcMethod(APIClient(_channel, options: callOptions));
     } on SocketException catch (socketException) {

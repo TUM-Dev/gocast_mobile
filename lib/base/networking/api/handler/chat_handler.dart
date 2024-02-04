@@ -56,9 +56,11 @@ class ChatHandlers {
   /// Takes a [emoji] parameter to post a chat reaction.
   ///
   /// returns a [ChatReaction] instance that represents the posted chat reaction.
-  Future<ChatReaction> postMessageReaction(int messageID,
-      int streamID,
-      String emoji,) async {
+  Future<ChatReaction> postMessageReaction(
+    int messageID,
+    int streamID,
+    String emoji,
+  ) async {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.postChatReaction(
@@ -80,9 +82,11 @@ class ChatHandlers {
   /// Takes a [messageID] parameter to delete a chat reaction for a specific message.
   /// Takes a [streamID] parameter to delete a chat reaction for a specific stream.
   /// Takes a [reactionID] parameter to delete a chat reaction.
-  Future<void> deleteMessageReaction(int messageID,
-      int streamID,
-      int reactionID,) async {
+  Future<void> deleteMessageReaction(
+    int messageID,
+    int streamID,
+    int reactionID,
+  ) async {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         await client.deleteChatReaction(
@@ -105,9 +109,11 @@ class ChatHandlers {
   /// Takes a [message] parameter to post a chat reply.
   ///
   /// returns a [ChatMessage] instance that represents the posted chat reply.
-  Future<ChatMessage> postChatReply(int messageID,
-      int streamID,
-      String message,) async {
+  Future<ChatMessage> postChatReply(
+    int messageID,
+    int streamID,
+    String message,
+  ) async {
     return _grpcHandler.callGrpcMethod(
       (client) async {
         final response = await client.postChatReply(
@@ -155,5 +161,4 @@ class ChatHandlers {
       },
     );
   }
-
 }

@@ -8,13 +8,11 @@ import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/chat_view/chat_view.dart';
 import 'package:logger/logger.dart';
 
-
 class ChatViewState extends ConsumerState<ChatView> {
   late ScrollController _scrollController;
   Timer? _updateTimer;
   bool _isCooldownActive = false;
   bool _isInitialScrollDone = false;
-
 
   @override
   void initState() {
@@ -63,7 +61,8 @@ class ChatViewState extends ConsumerState<ChatView> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('You are sending messages too fast. Please wait a 60 seconds.'),
+            content: Text(
+                'You are sending messages too fast. Please wait a 60 seconds.'),
           ),
         );
       });
@@ -88,7 +87,6 @@ class ChatViewState extends ConsumerState<ChatView> {
       ),
     );
   }
-
 
   BoxDecoration getChatDecoration(bool isIOS) {
     return BoxDecoration(
@@ -142,7 +140,9 @@ class ChatViewState extends ConsumerState<ChatView> {
 
   BoxDecoration getMessageBubbleStyle(bool isSentByMe, bool isIOS) {
     return BoxDecoration(
-      color: isSentByMe ? (isIOS ? CupertinoColors.activeBlue : Colors.blue) : (isIOS ? CupertinoColors.systemGrey6 : Colors.grey[300]),
+      color: isSentByMe
+          ? (isIOS ? CupertinoColors.activeBlue : Colors.blue)
+          : (isIOS ? CupertinoColors.systemGrey6 : Colors.grey[300]),
       borderRadius: BorderRadius.circular(18),
     );
   }
@@ -151,20 +151,30 @@ class ChatViewState extends ConsumerState<ChatView> {
     TextEditingController controller = TextEditingController();
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 15.0),
-      child: isIOS ? buildIOSMessageInputField(controller) : buildNonIOSMessageInputField(controller),
+      child: isIOS
+          ? buildIOSMessageInputField(controller)
+          : buildNonIOSMessageInputField(controller),
     );
   }
 
   Widget buildIOSMessageInputField(TextEditingController controller) {
     return CupertinoTextField(
       controller: controller,
-      placeholder: _isCooldownActive ? 'Wait 30 seconds before sending another message' : 'Type a message...',
+      placeholder: _isCooldownActive
+          ? 'Wait 30 seconds before sending another message'
+          : 'Type a message...',
       enabled: !_isCooldownActive,
       suffix: GestureDetector(
         onTap: () => postMessage(context, ref, controller.text),
         child: _isCooldownActive
-            ? const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.systemGrey,)
-            : const Icon(CupertinoIcons.arrow_up_circle_fill, color: CupertinoColors.activeBlue,),
+            ? const Icon(
+                CupertinoIcons.arrow_up_circle_fill,
+                color: CupertinoColors.systemGrey,
+              )
+            : const Icon(
+                CupertinoIcons.arrow_up_circle_fill,
+                color: CupertinoColors.activeBlue,
+              ),
       ),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
@@ -178,7 +188,9 @@ class ChatViewState extends ConsumerState<ChatView> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        hintText: _isCooldownActive ? 'Wait 30 seconds before sending another message' : 'Type a message...',
+        hintText: _isCooldownActive
+            ? 'Wait 30 seconds before sending another message'
+            : 'Type a message...',
         enabled: !_isCooldownActive,
         suffixIcon: GestureDetector(
           onTap: () => postMessage(context, ref, controller.text),
@@ -199,7 +211,9 @@ class ChatViewState extends ConsumerState<ChatView> {
   void postMessage(BuildContext context, WidgetRef ref, String message) {
     if (!_isCooldownActive && message.isNotEmpty && message.trim().isNotEmpty) {
       final int? streamId = widget.streamID;
-      ref.read(chatViewModelProvider.notifier).postChatMessage(streamId!, message);
+      ref
+          .read(chatViewModelProvider.notifier)
+          .postChatMessage(streamId!, message);
       // Start cooldown
       Logger().i('Cooldown started');
       setState(() {
@@ -216,7 +230,6 @@ class ChatViewState extends ConsumerState<ChatView> {
     }
   }
 
-
   void _scrollToBottom() {
     if (!_isInitialScrollDone && mounted && _scrollController.hasClients) {
       _scrollController.animateTo(
@@ -227,6 +240,4 @@ class ChatViewState extends ConsumerState<ChatView> {
       _isInitialScrollDone = true;
     }
   }
-
-
 }

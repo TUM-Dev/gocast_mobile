@@ -30,8 +30,8 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
   void _initializeCourses() {
     final userViewModelNotifier = ref.read(userViewModelProvider.notifier);
     Future.microtask(() async {
-      await userViewModelNotifier.fetchPublicCourses();
       await userViewModelNotifier.fetchSemesters();
+      await userViewModelNotifier.fetchPublicCourses();
     });
   }
 
@@ -41,6 +41,9 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
 
   void filterCoursesBySemester(String selectedSemester) {
     var allUserCourses = ref.watch(userViewModelProvider).publicCourses ?? [];
+    ref
+        .read(pinnedCourseViewModelProvider.notifier)
+        .setSelectedSemester(selectedSemester);
     ref
         .read(userViewModelProvider.notifier)
         .updateSelectedSemester(selectedSemester, allUserCourses);
@@ -60,7 +63,7 @@ class PublicCoursesState extends ConsumerState<PublicCourses> {
       userViewModelNotifier.updatedDisplayedCourses(temp);
       isSearchInitialized = false;
     } else {
-      displayedCourses = displayedCourses.where((course) {
+      displayedCourses = temp.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();

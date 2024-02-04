@@ -26,7 +26,6 @@ class PinnedViewModel extends StateNotifier<PinnedCourseState> {
     }
   }
 
-
   Future<bool> pinCourse(int courseID) async {
     state = state.copyWith(isLoading: true);
     try {
@@ -44,7 +43,6 @@ class PinnedViewModel extends StateNotifier<PinnedCourseState> {
       return false;
     }
   }
-
 
   Future<bool> unpinCourse(int courseID) async {
     state = state.copyWith(isLoading: true);
@@ -113,6 +111,4 @@ class PinnedViewModel extends StateNotifier<PinnedCourseState> {
   void setSelectedSemester(String choice) {
     state = state.copyWith(selectedSemester: choice);
   }
-
-
 }

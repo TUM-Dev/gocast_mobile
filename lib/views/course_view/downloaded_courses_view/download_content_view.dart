@@ -6,8 +6,6 @@ import 'package:gocast_mobile/views/components/custom_search_top_nav_bar.dart';
 import 'package:gocast_mobile/views/course_view/components/small_stream_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-
 /// CourseListScreen
 ///
 /// This screen displays a list of courses.
@@ -43,13 +41,14 @@ class DownloadCoursesContentView extends ConsumerWidget {
             itemCount: videoCards.isEmpty ? 1 : videoCards.length,
             itemBuilder: (BuildContext context, int index) {
               if (videoCards.isEmpty) {
-                return  Center(
+                return Center(
                   child: Padding(
                     padding: AppPadding.sectionPadding,
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 295.0),
-                        child: Text(AppLocalizations.of(context)!.no_downloaded_courses),
+                        child: Text(AppLocalizations.of(context)!
+                            .no_downloaded_courses),
                       ),
                     ),
                   ),

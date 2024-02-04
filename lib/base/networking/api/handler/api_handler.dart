@@ -37,7 +37,8 @@ class ApiHandler {
   /// This method takes a [statusCode] and [apiMessage] and throws an [AppError]
   /// based on the status code.
   static void handleHttpStatus(int? statusCode, String? apiMessage) {
-    _logger.i('Handling HTTP status code: $statusCode, API message: $apiMessage');
+    _logger
+        .i('Handling HTTP status code: $statusCode, API message: $apiMessage');
     if (statusCode == null) {
       throw AppError.unknownError("Status code is null");
     }

@@ -20,7 +20,8 @@ class PinButton extends ConsumerWidget {
     if (!isLoggedIn) {
       return const Icon(
         Icons.push_pin_outlined,
-        color: Colors.transparent,);
+        color: Colors.transparent,
+      );
     }
     return StatefulBuilder(
       builder: (context, setState) {

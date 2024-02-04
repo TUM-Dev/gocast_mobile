@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/views/components/filter_popup_menu_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class CustomSearchTopNavBar extends ConsumerWidget
     implements PreferredSizeWidget {
@@ -117,5 +117,3 @@ class CustomSearchTopNavBar extends ConsumerWidget
   @override
   Size get preferredSize => const Size.fromHeight(50);
 }
-
-final isSearchActiveProvider = StateProvider<bool>((ref) => false);

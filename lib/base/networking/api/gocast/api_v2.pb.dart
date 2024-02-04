@@ -55,14 +55,20 @@ class ChatReaction extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'ChatReaction',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'ChatReaction',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'chatID',
+      $pb.PbFieldType.OU3,
       protoName: 'chatID',
     )
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'userID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'userID',
+      $pb.PbFieldType.OU3,
       protoName: 'userID',
     )
     ..aOS(3, _omitFieldNames ? '' : 'username')
@@ -172,8 +178,8 @@ class AddressedUser extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'AddressedUser',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'AddressedUser',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
@@ -307,36 +313,50 @@ class ChatMessage extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'ChatMessage',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'ChatMessage',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'userID', protoName: 'userID')
     ..aOS(3, _omitFieldNames ? '' : 'username')
-    ..aOS(4, _omitFieldNames ? '' : 'message')..aOS(
-        5, _omitFieldNames ? '' : 'sanitizedMessage',
+    ..aOS(4, _omitFieldNames ? '' : 'message')
+    ..aOS(
+      5,
+      _omitFieldNames ? '' : 'sanitizedMessage',
       protoName: 'sanitizedMessage',
     )
-    ..a<$core.int>(6, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      6,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..aOS(7, _omitFieldNames ? '' : 'color')
     ..aOB(8, _omitFieldNames ? '' : 'isVisible', protoName: 'isVisible')
     ..pc<ChatReaction>(
-        9, _omitFieldNames ? '' : 'reactions', $pb.PbFieldType.PM,
+      9,
+      _omitFieldNames ? '' : 'reactions',
+      $pb.PbFieldType.PM,
       subBuilder: ChatReaction.create,
     )
-    ..pc<ChatMessage>(10, _omitFieldNames ? '' : 'replies', $pb.PbFieldType.PM,
+    ..pc<ChatMessage>(
+      10,
+      _omitFieldNames ? '' : 'replies',
+      $pb.PbFieldType.PM,
       subBuilder: ChatMessage.create,
     )
     ..pc<AddressedUser>(
-        11, _omitFieldNames ? '' : 'addressedUsers', $pb.PbFieldType.PM,
+      11,
+      _omitFieldNames ? '' : 'addressedUsers',
+      $pb.PbFieldType.PM,
       protoName: 'addressedUsers',
       subBuilder: AddressedUser.create,
     )
     ..aOB(12, _omitFieldNames ? '' : 'isResolved', protoName: 'isResolved')
-    ..aOM<$1.Timestamp>(13, _omitFieldNames ? '' : 'createdAt',
+    ..aOM<$1.Timestamp>(
+      13,
+      _omitFieldNames ? '' : 'createdAt',
       protoName: 'createdAt',
       subBuilder: $1.Timestamp.create,
     )
@@ -535,11 +555,14 @@ class GetChatMessagesRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetChatMessagesRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetChatMessagesRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -614,12 +637,15 @@ class PostChatMessageRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostChatMessageRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostChatMessageRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'message')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -710,15 +736,21 @@ class PostChatReactionRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostChatReactionRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostChatReactionRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'emoji')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      3,
+      _omitFieldNames ? '' : 'chatID',
+      $pb.PbFieldType.OU3,
       protoName: 'chatID',
     )
     ..hasRequiredFields = false;
@@ -821,17 +853,26 @@ class DeleteChatReactionRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteChatReactionRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeleteChatReactionRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'chatID',
+      $pb.PbFieldType.OU3,
       protoName: 'chatID',
     )
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'reactionID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      3,
+      _omitFieldNames ? '' : 'reactionID',
+      $pb.PbFieldType.OU3,
       protoName: 'reactionID',
     )
     ..hasRequiredFields = false;
@@ -934,15 +975,21 @@ class PostChatReplyRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostChatReplyRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostChatReplyRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'message')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      3,
+      _omitFieldNames ? '' : 'chatID',
+      $pb.PbFieldType.OU3,
       protoName: 'chatID',
     )
     ..hasRequiredFields = false;
@@ -1039,14 +1086,20 @@ class MarkChatMessageAsResolvedRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MarkChatMessageAsResolvedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'MarkChatMessageAsResolvedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'chatID',
+      $pb.PbFieldType.OU3,
       protoName: 'chatID',
     )
     ..hasRequiredFields = false;
@@ -1078,7 +1131,7 @@ class MarkChatMessageAsResolvedRequest extends $pb.GeneratedMessage {
       $pb.PbList<MarkChatMessageAsResolvedRequest>();
   @$core.pragma('dart2js:noInline')
   static MarkChatMessageAsResolvedRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MarkChatMessageAsResolvedRequest>(
+          $pb.GeneratedMessage.$_defaultFor<MarkChatMessageAsResolvedRequest>(
         create,
       );
   static MarkChatMessageAsResolvedRequest? _defaultInstance;
@@ -1137,14 +1190,20 @@ class MarkChatMessageAsUnresolvedRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MarkChatMessageAsUnresolvedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'MarkChatMessageAsUnresolvedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'chatID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'chatID',
+      $pb.PbFieldType.OU3,
       protoName: 'chatID',
     )
     ..hasRequiredFields = false;
@@ -1176,7 +1235,7 @@ class MarkChatMessageAsUnresolvedRequest extends $pb.GeneratedMessage {
       $pb.PbList<MarkChatMessageAsUnresolvedRequest>();
   @$core.pragma('dart2js:noInline')
   static MarkChatMessageAsUnresolvedRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MarkChatMessageAsUnresolvedRequest>(
+          $pb.GeneratedMessage.$_defaultFor<MarkChatMessageAsUnresolvedRequest>(
         create,
       );
   static MarkChatMessageAsUnresolvedRequest? _defaultInstance;
@@ -1231,11 +1290,14 @@ class GetChatMessagesResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetChatMessagesResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetChatMessagesResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<ChatMessage>(1, _omitFieldNames ? '' : 'messages', $pb.PbFieldType.PM,
+    ..pc<ChatMessage>(
+      1,
+      _omitFieldNames ? '' : 'messages',
+      $pb.PbFieldType.PM,
       subBuilder: ChatMessage.create,
     )
     ..hasRequiredFields = false;
@@ -1297,11 +1359,13 @@ class PostChatMessageResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostChatMessageResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostChatMessageResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<ChatMessage>(1, _omitFieldNames ? '' : 'message',
+    ..aOM<ChatMessage>(
+      1,
+      _omitFieldNames ? '' : 'message',
       subBuilder: ChatMessage.create,
     )
     ..hasRequiredFields = false;
@@ -1374,11 +1438,13 @@ class PostChatReactionResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostChatReactionResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostChatReactionResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<ChatReaction>(1, _omitFieldNames ? '' : 'reaction',
+    ..aOM<ChatReaction>(
+      1,
+      _omitFieldNames ? '' : 'reaction',
       subBuilder: ChatReaction.create,
     )
     ..hasRequiredFields = false;
@@ -1443,8 +1509,8 @@ class DeleteChatReactionResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteChatReactionResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeleteChatReactionResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -1503,11 +1569,13 @@ class PostChatReplyResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostChatReplyResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostChatReplyResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<ChatMessage>(1, _omitFieldNames ? '' : 'reply',
+    ..aOM<ChatMessage>(
+      1,
+      _omitFieldNames ? '' : 'reply',
       subBuilder: ChatMessage.create,
     )
     ..hasRequiredFields = false;
@@ -1580,11 +1648,13 @@ class MarkChatMessageAsResolvedResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MarkChatMessageAsResolvedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'MarkChatMessageAsResolvedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<ChatMessage>(1, _omitFieldNames ? '' : 'message',
+    ..aOM<ChatMessage>(
+      1,
+      _omitFieldNames ? '' : 'message',
       subBuilder: ChatMessage.create,
     )
     ..hasRequiredFields = false;
@@ -1616,7 +1686,7 @@ class MarkChatMessageAsResolvedResponse extends $pb.GeneratedMessage {
       $pb.PbList<MarkChatMessageAsResolvedResponse>();
   @$core.pragma('dart2js:noInline')
   static MarkChatMessageAsResolvedResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MarkChatMessageAsResolvedResponse>(
+          $pb.GeneratedMessage.$_defaultFor<MarkChatMessageAsResolvedResponse>(
         create,
       );
   static MarkChatMessageAsResolvedResponse? _defaultInstance;
@@ -1661,11 +1731,13 @@ class MarkChatMessageAsUnresolvedResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MarkChatMessageAsUnresolvedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'MarkChatMessageAsUnresolvedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<ChatMessage>(1, _omitFieldNames ? '' : 'message',
+    ..aOM<ChatMessage>(
+      1,
+      _omitFieldNames ? '' : 'message',
       subBuilder: ChatMessage.create,
     )
     ..hasRequiredFields = false;
@@ -1757,18 +1829,23 @@ class Poll extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Poll',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Poll',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      2,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..aOS(3, _omitFieldNames ? '' : 'question')
     ..aOB(4, _omitFieldNames ? '' : 'active')
     ..pc<PollOption>(
-        5, _omitFieldNames ? '' : 'pollOptions', $pb.PbFieldType.PM,
+      5,
+      _omitFieldNames ? '' : 'pollOptions',
+      $pb.PbFieldType.PM,
       protoName: 'pollOptions',
       subBuilder: PollOption.create,
     )
@@ -1884,8 +1961,8 @@ class PollOption extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PollOption',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PollOption',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
@@ -1989,11 +2066,14 @@ class GetPollsRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetPollsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetPollsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -2063,15 +2143,20 @@ class PostPollVoteRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostPollVoteRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostPollVoteRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..a<$core.int>(
-        2, _omitFieldNames ? '' : 'pollOptionID', $pb.PbFieldType.OU3,
+      2,
+      _omitFieldNames ? '' : 'pollOptionID',
+      $pb.PbFieldType.OU3,
       protoName: 'pollOptionID',
     )
     ..hasRequiredFields = false;
@@ -2149,11 +2234,14 @@ class GetPollsResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetPollsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetPollsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Poll>(1, _omitFieldNames ? '' : 'polls', $pb.PbFieldType.PM,
+    ..pc<Poll>(
+      1,
+      _omitFieldNames ? '' : 'polls',
+      $pb.PbFieldType.PM,
       subBuilder: Poll.create,
     )
     ..hasRequiredFields = false;
@@ -2202,8 +2290,8 @@ class PostPollVoteResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostPollVoteResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostPollVoteResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -2301,35 +2389,51 @@ class User extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'User',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'User',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'lastName', protoName: 'lastName')
-    ..aOS(4, _omitFieldNames ? '' : 'email')..aOS(
-        5, _omitFieldNames ? '' : 'matriculationNumber',
+    ..aOS(4, _omitFieldNames ? '' : 'email')
+    ..aOS(
+      5,
+      _omitFieldNames ? '' : 'matriculationNumber',
       protoName: 'matriculationNumber',
     )
     ..aOS(6, _omitFieldNames ? '' : 'lrzID', protoName: 'lrzID')
     ..a<$core.int>(7, _omitFieldNames ? '' : 'role', $pb.PbFieldType.OU3)
-    ..pc<Course>(8, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+    ..pc<Course>(
+      8,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
       subBuilder: Course.create,
     )
     ..pc<Course>(
-        9, _omitFieldNames ? '' : 'administeredCourses', $pb.PbFieldType.PM,
+      9,
+      _omitFieldNames ? '' : 'administeredCourses',
+      $pb.PbFieldType.PM,
       protoName: 'administeredCourses',
       subBuilder: Course.create,
     )
-    ..pc<Course>(10, _omitFieldNames ? '' : 'pinnedCourses', $pb.PbFieldType.PM,
+    ..pc<Course>(
+      10,
+      _omitFieldNames ? '' : 'pinnedCourses',
+      $pb.PbFieldType.PM,
       protoName: 'pinnedCourses',
       subBuilder: Course.create,
     )
-    ..pc<UserSetting>(11, _omitFieldNames ? '' : 'settings', $pb.PbFieldType.PM,
+    ..pc<UserSetting>(
+      11,
+      _omitFieldNames ? '' : 'settings',
+      $pb.PbFieldType.PM,
       subBuilder: UserSetting.create,
     )
-    ..pc<Bookmark>(12, _omitFieldNames ? '' : 'bookmarks', $pb.PbFieldType.PM,
+    ..pc<Bookmark>(
+      12,
+      _omitFieldNames ? '' : 'bookmarks',
+      $pb.PbFieldType.PM,
       subBuilder: Bookmark.create,
     )
     ..hasRequiredFields = false;
@@ -2485,13 +2589,16 @@ class UserSetting extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'UserSetting',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'UserSetting',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..e<UserSettingType>(3, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
-        defaultOrMaker: UserSettingType.PREFERRED_NAME,
-        valueOf: UserSettingType.valueOf,
+    ..e<UserSettingType>(
+      3,
+      _omitFieldNames ? '' : 'type',
+      $pb.PbFieldType.OE,
+      defaultOrMaker: UserSettingType.PREFERRED_NAME,
+      valueOf: UserSettingType.valueOf,
       enumValues: UserSettingType.values,
     )
     ..aOS(4, _omitFieldNames ? '' : 'value')
@@ -2562,8 +2669,8 @@ class GetUserRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -2630,8 +2737,8 @@ class GetUserCoursesRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserCoursesRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserCoursesRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
@@ -2754,8 +2861,8 @@ class GetUserPinnedRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserPinnedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserPinnedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
@@ -2856,8 +2963,8 @@ class GetUserAdminRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserAdminRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserAdminRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -2904,8 +3011,8 @@ class GetUserSettingsRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserSettingsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserSettingsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -2963,12 +3070,14 @@ class PatchUserSettingsRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PatchUserSettingsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PatchUserSettingsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..pc<UserSetting>(
-        1, _omitFieldNames ? '' : 'userSettings', $pb.PbFieldType.PM,
+      1,
+      _omitFieldNames ? '' : 'userSettings',
+      $pb.PbFieldType.PM,
       protoName: 'userSettings',
       subBuilder: UserSetting.create,
     )
@@ -3031,12 +3140,14 @@ class PatchUserSettingsResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PatchUserSettingsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PatchUserSettingsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..pc<UserSetting>(
-        1, _omitFieldNames ? '' : 'userSettings', $pb.PbFieldType.PM,
+      1,
+      _omitFieldNames ? '' : 'userSettings',
+      $pb.PbFieldType.PM,
       protoName: 'userSettings',
       subBuilder: UserSetting.create,
     )
@@ -3099,11 +3210,14 @@ class PostPinnedRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostPinnedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostPinnedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.OU3,
       protoName: 'courseID',
     )
     ..hasRequiredFields = false;
@@ -3171,11 +3285,14 @@ class DeletePinnedRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeletePinnedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeletePinnedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.OU3,
       protoName: 'courseID',
     )
     ..hasRequiredFields = false;
@@ -3243,8 +3360,8 @@ class GetUserResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOM<User>(1, _omitFieldNames ? '' : 'user', subBuilder: User.create)
@@ -3315,11 +3432,14 @@ class GetUserCoursesResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserCoursesResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserCoursesResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
       subBuilder: Course.create,
     )
     ..hasRequiredFields = false;
@@ -3381,11 +3501,14 @@ class GetUserPinnedResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserPinnedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserPinnedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
       subBuilder: Course.create,
     )
     ..hasRequiredFields = false;
@@ -3447,11 +3570,14 @@ class GetUserAdminResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserAdminResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserAdminResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
       subBuilder: Course.create,
     )
     ..hasRequiredFields = false;
@@ -3511,12 +3637,14 @@ class GetUserSettingsResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetUserSettingsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetUserSettingsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..pc<UserSetting>(
-        1, _omitFieldNames ? '' : 'userSettings', $pb.PbFieldType.PM,
+      1,
+      _omitFieldNames ? '' : 'userSettings',
+      $pb.PbFieldType.PM,
       protoName: 'userSettings',
       subBuilder: UserSetting.create,
     )
@@ -3571,8 +3699,8 @@ class PostPinnedResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostPinnedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostPinnedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -3619,8 +3747,8 @@ class DeletePinnedResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeletePinnedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeletePinnedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -3700,16 +3828,19 @@ class Bookmark extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Bookmark',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Bookmark',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'hours', $pb.PbFieldType.OU3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'minutes', $pb.PbFieldType.OU3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)..a<
-        $core.int>(6, _omitFieldNames ? '' : 'userID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(5, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)
+    ..a<$core.int>(
+      6,
+      _omitFieldNames ? '' : 'userID',
+      $pb.PbFieldType.OU3,
       protoName: 'userID',
     )
     ..a<$core.int>(
@@ -3852,11 +3983,14 @@ class GetBookmarksRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBookmarksRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetBookmarksRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -3940,15 +4074,18 @@ class PutBookmarkRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PutBookmarkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PutBookmarkRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'hours', $pb.PbFieldType.OU3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'minutes', $pb.PbFieldType.OU3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)..a<
-        $core.int>(5, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(4, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)
+    ..a<$core.int>(
+      5,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -4080,15 +4217,18 @@ class PatchBookmarkRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PatchBookmarkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PatchBookmarkRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'description')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'hours', $pb.PbFieldType.OU3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'minutes', $pb.PbFieldType.OU3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)..a<
-        $core.int>(5, _omitFieldNames ? '' : 'bookmarkID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(4, _omitFieldNames ? '' : 'seconds', $pb.PbFieldType.OU3)
+    ..a<$core.int>(
+      5,
+      _omitFieldNames ? '' : 'bookmarkID',
+      $pb.PbFieldType.OU3,
       protoName: 'bookmarkID',
     )
     ..hasRequiredFields = false;
@@ -4205,11 +4345,14 @@ class DeleteBookmarkRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteBookmarkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeleteBookmarkRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'bookmarkID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'bookmarkID',
+      $pb.PbFieldType.OU3,
       protoName: 'bookmarkID',
     )
     ..hasRequiredFields = false;
@@ -4280,11 +4423,14 @@ class GetBookmarksResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBookmarksResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetBookmarksResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Bookmark>(1, _omitFieldNames ? '' : 'bookmarks', $pb.PbFieldType.PM,
+    ..pc<Bookmark>(
+      1,
+      _omitFieldNames ? '' : 'bookmarks',
+      $pb.PbFieldType.PM,
       subBuilder: Bookmark.create,
     )
     ..hasRequiredFields = false;
@@ -4344,11 +4490,13 @@ class PutBookmarkResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PutBookmarkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PutBookmarkResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<Bookmark>(1, _omitFieldNames ? '' : 'bookmark',
+    ..aOM<Bookmark>(
+      1,
+      _omitFieldNames ? '' : 'bookmark',
       subBuilder: Bookmark.create,
     )
     ..hasRequiredFields = false;
@@ -4418,11 +4566,13 @@ class PatchBookmarkResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PatchBookmarkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PatchBookmarkResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<Bookmark>(1, _omitFieldNames ? '' : 'bookmark',
+    ..aOM<Bookmark>(
+      1,
+      _omitFieldNames ? '' : 'bookmark',
       subBuilder: Bookmark.create,
     )
     ..hasRequiredFields = false;
@@ -4487,8 +4637,8 @@ class DeleteBookmarkResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteBookmarkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeleteBookmarkResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -4562,8 +4712,8 @@ class BannerAlert extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BannerAlert',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'BannerAlert',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
@@ -4694,14 +4844,17 @@ class FeatureNotification extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'FeatureNotification',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'FeatureNotification',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'Title', protoName: 'Title')
     ..aOS(3, _omitFieldNames ? '' : 'Body', protoName: 'Body')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'Target', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      4,
+      _omitFieldNames ? '' : 'Target',
+      $pb.PbFieldType.OU3,
       protoName: 'Target',
     )
     ..hasRequiredFields = false;
@@ -4805,8 +4958,8 @@ class PostDeviceTokenRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostDeviceTokenRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostDeviceTokenRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'deviceToken', protoName: 'deviceToken')
@@ -4878,8 +5031,8 @@ class DeleteDeviceTokenRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteDeviceTokenRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeleteDeviceTokenRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'deviceToken', protoName: 'deviceToken')
@@ -4943,8 +5096,8 @@ class GetBannerAlertsRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBannerAlertsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetBannerAlertsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -4994,8 +5147,8 @@ class GetFeatureNotificationsRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetFeatureNotificationsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetFeatureNotificationsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -5047,8 +5200,8 @@ class PostDeviceTokenResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PostDeviceTokenResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PostDeviceTokenResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -5098,8 +5251,8 @@ class DeleteDeviceTokenResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'DeleteDeviceTokenResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'DeleteDeviceTokenResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -5157,12 +5310,14 @@ class GetBannerAlertsResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetBannerAlertsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetBannerAlertsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..pc<BannerAlert>(
-        1, _omitFieldNames ? '' : 'bannerAlerts', $pb.PbFieldType.PM,
+      1,
+      _omitFieldNames ? '' : 'bannerAlerts',
+      $pb.PbFieldType.PM,
       protoName: 'bannerAlerts',
       subBuilder: BannerAlert.create,
     )
@@ -5225,13 +5380,15 @@ class GetFeatureNotificationsResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetFeatureNotificationsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetFeatureNotificationsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..pc<FeatureNotification>(
-        1, _omitFieldNames ? '' : 'featureNotifications', $pb.PbFieldType.PM,
-        protoName: 'featureNotifications',
+      1,
+      _omitFieldNames ? '' : 'featureNotifications',
+      $pb.PbFieldType.PM,
+      protoName: 'featureNotifications',
       subBuilder: FeatureNotification.create,
     )
     ..hasRequiredFields = false;
@@ -5263,7 +5420,7 @@ class GetFeatureNotificationsResponse extends $pb.GeneratedMessage {
       $pb.PbList<GetFeatureNotificationsResponse>();
   @$core.pragma('dart2js:noInline')
   static GetFeatureNotificationsResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GetFeatureNotificationsResponse>(
+          $pb.GeneratedMessage.$_defaultFor<GetFeatureNotificationsResponse>(
         create,
       );
   static GetFeatureNotificationsResponse? _defaultInstance;
@@ -5357,25 +5514,33 @@ class Course extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Course',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Course',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'slug')
-    ..aOM<Semester>(4, _omitFieldNames ? '' : 'semester',
+    ..aOM<Semester>(
+      4,
+      _omitFieldNames ? '' : 'semester',
       subBuilder: Semester.create,
     )
-    ..aOS(5, _omitFieldNames ? '' : 'TUMOnlineIdentifier',
+    ..aOS(
+      5,
+      _omitFieldNames ? '' : 'TUMOnlineIdentifier',
       protoName: 'TUMOnlineIdentifier',
     )
-    ..aOB(6, _omitFieldNames ? '' : 'VODEnabled', protoName: 'VODEnabled')..aOB(
-        7, _omitFieldNames ? '' : 'downloadsEnabled',
+    ..aOB(6, _omitFieldNames ? '' : 'VODEnabled', protoName: 'VODEnabled')
+    ..aOB(
+      7,
+      _omitFieldNames ? '' : 'downloadsEnabled',
       protoName: 'downloadsEnabled',
     )
-    ..aOB(8, _omitFieldNames ? '' : 'chatEnabled', protoName: 'chatEnabled')..aOB(
-        9, _omitFieldNames ? '' : 'anonymousChatEnabled',
+    ..aOB(8, _omitFieldNames ? '' : 'chatEnabled', protoName: 'chatEnabled')
+    ..aOB(
+      9,
+      _omitFieldNames ? '' : 'anonymousChatEnabled',
       protoName: 'anonymousChatEnabled',
     )
     ..aOB(
@@ -5388,10 +5553,15 @@ class Course extends $pb.GeneratedMessage {
       _omitFieldNames ? '' : 'vodChatEnabled',
       protoName: 'vodChatEnabled',
     )
-    ..pc<Stream>(12, _omitFieldNames ? '' : 'streams', $pb.PbFieldType.PM,
+    ..pc<Stream>(
+      12,
+      _omitFieldNames ? '' : 'streams',
+      $pb.PbFieldType.PM,
       subBuilder: Stream.create,
     )
-    ..aOS(13, _omitFieldNames ? '' : 'cameraPresetPreferences',
+    ..aOS(
+      13,
+      _omitFieldNames ? '' : 'cameraPresetPreferences',
       protoName: 'cameraPresetPreferences',
     )
     ..aOS(
@@ -5400,7 +5570,9 @@ class Course extends $pb.GeneratedMessage {
       protoName: 'sourcePreferences',
     )
     ..a<$core.int>(
-        15, _omitFieldNames ? '' : 'lastRecordingID', $pb.PbFieldType.OU3,
+      15,
+      _omitFieldNames ? '' : 'lastRecordingID',
+      $pb.PbFieldType.OU3,
       protoName: 'lastRecordingID',
     )
     ..a<$core.int>(
@@ -5648,8 +5820,8 @@ class Semester extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Semester',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Semester',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'teachingTerm', protoName: 'teachingTerm')
@@ -5740,8 +5912,8 @@ class GetPublicCoursesRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetPublicCoursesRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetPublicCoursesRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'year', $pb.PbFieldType.OU3)
@@ -5844,8 +6016,8 @@ class GetSemestersRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetSemestersRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetSemestersRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -5900,11 +6072,14 @@ class GetCourseStreamsRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetCourseStreamsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetCourseStreamsRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.OU3,
       protoName: 'courseID',
     )
     ..hasRequiredFields = false;
@@ -5975,11 +6150,14 @@ class GetPublicCoursesResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetPublicCoursesResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetPublicCoursesResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+    ..pc<Course>(
+      1,
+      _omitFieldNames ? '' : 'courses',
+      $pb.PbFieldType.PM,
       subBuilder: Course.create,
     )
     ..hasRequiredFields = false;
@@ -6045,14 +6223,19 @@ class GetSemestersResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetSemestersResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetSemestersResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<Semester>(1, _omitFieldNames ? '' : 'current',
+    ..aOM<Semester>(
+      1,
+      _omitFieldNames ? '' : 'current',
       subBuilder: Semester.create,
     )
-    ..pc<Semester>(2, _omitFieldNames ? '' : 'semesters', $pb.PbFieldType.PM,
+    ..pc<Semester>(
+      2,
+      _omitFieldNames ? '' : 'semesters',
+      $pb.PbFieldType.PM,
       subBuilder: Semester.create,
     )
     ..hasRequiredFields = false;
@@ -6126,11 +6309,14 @@ class GetCourseStreamsResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetCourseStreamsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetCourseStreamsResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Stream>(1, _omitFieldNames ? '' : 'streams', $pb.PbFieldType.PM,
+    ..pc<Stream>(
+      1,
+      _omitFieldNames ? '' : 'streams',
+      $pb.PbFieldType.PM,
       subBuilder: Stream.create,
     )
     ..hasRequiredFields = false;
@@ -6300,37 +6486,52 @@ class Stream extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Stream',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Stream',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.OU3)
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'description')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'courseID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      4,
+      _omitFieldNames ? '' : 'courseID',
+      $pb.PbFieldType.OU3,
       protoName: 'courseID',
     )
-    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'start',
+    ..aOM<$1.Timestamp>(
+      5,
+      _omitFieldNames ? '' : 'start',
       subBuilder: $1.Timestamp.create,
     )
-    ..aOM<$1.Timestamp>(6, _omitFieldNames ? '' : 'end',
+    ..aOM<$1.Timestamp>(
+      6,
+      _omitFieldNames ? '' : 'end',
       subBuilder: $1.Timestamp.create,
     )
     ..aOB(7, _omitFieldNames ? '' : 'chatEnabled', protoName: 'chatEnabled')
     ..aOS(8, _omitFieldNames ? '' : 'roomName', protoName: 'roomName')
-    ..aOS(9, _omitFieldNames ? '' : 'roomCode', protoName: 'roomCode')..aOS(
-        10, _omitFieldNames ? '' : 'eventTypeName',
+    ..aOS(9, _omitFieldNames ? '' : 'roomCode', protoName: 'roomCode')
+    ..aOS(
+      10,
+      _omitFieldNames ? '' : 'eventTypeName',
       protoName: 'eventTypeName',
     )
     ..a<$core.int>(
-        11, _omitFieldNames ? '' : 'TUMOnlineEventID', $pb.PbFieldType.OU3,
+      11,
+      _omitFieldNames ? '' : 'TUMOnlineEventID',
+      $pb.PbFieldType.OU3,
       protoName: 'TUMOnlineEventID',
     )
-    ..aOS(12, _omitFieldNames ? '' : 'seriesIdentifier',
+    ..aOS(
+      12,
+      _omitFieldNames ? '' : 'seriesIdentifier',
       protoName: 'seriesIdentifier',
     )
-    ..aOS(13, _omitFieldNames ? '' : 'playlistUrl', protoName: 'playlistUrl')..aOS(
-        14, _omitFieldNames ? '' : 'playlistUrlPRES',
+    ..aOS(13, _omitFieldNames ? '' : 'playlistUrl', protoName: 'playlistUrl')
+    ..aOS(
+      14,
+      _omitFieldNames ? '' : 'playlistUrlPRES',
       protoName: 'playlistUrlPRES',
     )
     ..aOS(
@@ -6339,25 +6540,38 @@ class Stream extends $pb.GeneratedMessage {
       protoName: 'playlistUrlCAM',
     )
     ..aOB(16, _omitFieldNames ? '' : 'liveNow', protoName: 'liveNow')
-    ..aOM<$1.Timestamp>(17, _omitFieldNames ? '' : 'liveNowTimestamp',
+    ..aOM<$1.Timestamp>(
+      17,
+      _omitFieldNames ? '' : 'liveNowTimestamp',
       protoName: 'liveNowTimestamp',
       subBuilder: $1.Timestamp.create,
     )
     ..aOB(18, _omitFieldNames ? '' : 'recording')
     ..aOB(19, _omitFieldNames ? '' : 'premiere')
     ..aOB(20, _omitFieldNames ? '' : 'ended')
-    ..a<$core.int>(21, _omitFieldNames ? '' : 'vodViews', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      21,
+      _omitFieldNames ? '' : 'vodViews',
+      $pb.PbFieldType.OU3,
       protoName: 'vodViews',
     )
     ..a<$core.int>(
-        22, _omitFieldNames ? '' : 'startOffset', $pb.PbFieldType.OU3,
+      22,
+      _omitFieldNames ? '' : 'startOffset',
+      $pb.PbFieldType.OU3,
       protoName: 'startOffset',
     )
-    ..a<$core.int>(23, _omitFieldNames ? '' : 'endOffset', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      23,
+      _omitFieldNames ? '' : 'endOffset',
+      $pb.PbFieldType.OU3,
       protoName: 'endOffset',
     )
     ..a<$core.int>(28, _omitFieldNames ? '' : 'duration', $pb.PbFieldType.OU3)
-    ..pc<Download>(29, _omitFieldNames ? '' : 'downloads', $pb.PbFieldType.PM,
+    ..pc<Download>(
+      29,
+      _omitFieldNames ? '' : 'downloads',
+      $pb.PbFieldType.PM,
       subBuilder: Download.create,
     )
     ..aOB(30, _omitFieldNames ? '' : 'isPlanned', protoName: 'isPlanned')
@@ -6746,11 +6960,14 @@ class GetStreamRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetStreamRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetStreamRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -6810,8 +7027,8 @@ class GetNowLiveRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetNowLiveRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetNowLiveRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )..hasRequiredFields = false;
 
@@ -6866,11 +7083,14 @@ class GetThumbsLiveRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsLiveRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetThumbsLiveRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -6939,11 +7159,14 @@ class GetThumbsVODRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsVODRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetThumbsVODRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -7011,8 +7234,8 @@ class GetStreamResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetStreamResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetStreamResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOM<Stream>(1, _omitFieldNames ? '' : 'stream', subBuilder: Stream.create)
@@ -7083,11 +7306,14 @@ class GetNowLiveResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetNowLiveResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetNowLiveResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..pc<Stream>(1, _omitFieldNames ? '' : 'stream', $pb.PbFieldType.PM,
+    ..pc<Stream>(
+      1,
+      _omitFieldNames ? '' : 'stream',
+      $pb.PbFieldType.PM,
       subBuilder: Stream.create,
     )
     ..hasRequiredFields = false;
@@ -7146,8 +7372,8 @@ class GetThumbsVODResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsVODResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetThumbsVODResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'path')
@@ -7217,8 +7443,8 @@ class GetThumbsLiveResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetThumbsLiveResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetThumbsLiveResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'path')
@@ -7294,8 +7520,8 @@ class Download extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Download',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Download',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..aOS(1, _omitFieldNames ? '' : 'friendlyName', protoName: 'friendlyName')
@@ -7386,16 +7612,22 @@ class Progress extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'Progress',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'Progress',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.double>(1, _omitFieldNames ? '' : 'progress', $pb.PbFieldType.OF)
     ..aOB(2, _omitFieldNames ? '' : 'watched')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'userID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      3,
+      _omitFieldNames ? '' : 'userID',
+      $pb.PbFieldType.OU3,
       protoName: 'userID',
     )
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      4,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -7496,11 +7728,14 @@ class GetProgressRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetProgressRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetProgressRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -7572,12 +7807,15 @@ class PutProgressRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PutProgressRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PutProgressRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
     ..a<$core.double>(1, _omitFieldNames ? '' : 'progress', $pb.PbFieldType.OF)
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      3,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -7657,11 +7895,14 @@ class MarkAsWatchedRequest extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MarkAsWatchedRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'MarkAsWatchedRequest',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'streamID', $pb.PbFieldType.OU3,
+    ..a<$core.int>(
+      1,
+      _omitFieldNames ? '' : 'streamID',
+      $pb.PbFieldType.OU3,
       protoName: 'streamID',
     )
     ..hasRequiredFields = false;
@@ -7730,11 +7971,13 @@ class GetProgressResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetProgressResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'GetProgressResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<Progress>(1, _omitFieldNames ? '' : 'progress',
+    ..aOM<Progress>(
+      1,
+      _omitFieldNames ? '' : 'progress',
       subBuilder: Progress.create,
     )
     ..hasRequiredFields = false;
@@ -7804,11 +8047,13 @@ class PutProgressResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'PutProgressResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'PutProgressResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<Progress>(1, _omitFieldNames ? '' : 'progress',
+    ..aOM<Progress>(
+      1,
+      _omitFieldNames ? '' : 'progress',
       subBuilder: Progress.create,
     )
     ..hasRequiredFields = false;
@@ -7878,11 +8123,13 @@ class MarkAsWatchedResponse extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MarkAsWatchedResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
+    _omitMessageNames ? '' : 'MarkAsWatchedResponse',
+    package: const $pb.PackageName(_omitMessageNames ? '' : 'protobuf'),
     createEmptyInstance: create,
   )
-    ..aOM<Progress>(1, _omitFieldNames ? '' : 'progress',
+    ..aOM<Progress>(
+      1,
+      _omitFieldNames ? '' : 'progress',
       subBuilder: Progress.create,
     )
     ..hasRequiredFields = false;

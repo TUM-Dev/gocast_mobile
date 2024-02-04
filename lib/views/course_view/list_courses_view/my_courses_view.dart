@@ -41,6 +41,9 @@ class MyCoursesState extends ConsumerState<MyCourses> {
   void filterCoursesBySemester(String selectedSemester) {
     var allUserCourses = ref.watch(userViewModelProvider).userCourses ?? [];
     ref
+        .read(pinnedCourseViewModelProvider.notifier)
+        .setSelectedSemester(selectedSemester);
+    ref
         .read(userViewModelProvider.notifier)
         .updateSelectedSemester(selectedSemester, allUserCourses);
   }
@@ -59,7 +62,7 @@ class MyCoursesState extends ConsumerState<MyCourses> {
       userViewModelNotifier.updatedDisplayedCourses(temp);
       isSearchInitialized = false;
     } else {
-      displayedCourses = displayedCourses.where((course) {
+      displayedCourses = temp.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();

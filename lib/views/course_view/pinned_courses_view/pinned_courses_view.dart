@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
@@ -42,6 +41,9 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
   }
 
   void filterCoursesBySemester(String selectedSemester) {
+    ref
+        .read(userViewModelProvider.notifier)
+        .setSelectedSemester(selectedSemester);
     var userPinned = ref.watch(pinnedCourseViewModelProvider).userPinned ?? [];
     ref
         .read(pinnedCourseViewModelProvider.notifier)
@@ -62,7 +64,7 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
       pinnedViewModelNotifier.updatedDisplayedPinnedCourses(temp);
       isSearchInitialized = false;
     } else {
-      displayedCourses = displayedCourses.where((course) {
+      displayedCourses = temp.where((course) {
         return course.name.toLowerCase().contains(searchInput) ||
             course.slug.toLowerCase().contains(searchInput);
       }).toList();
@@ -103,7 +105,6 @@ class PinnedCoursesState extends ConsumerState<PinnedCourses> {
               title: course.name,
               courseId: course.id,
               subtitle: course.tUMOnlineIdentifier,
-              tumID: course.tUMOnlineIdentifier,
               onTap: () => _handleCourseTap(course, context),
             );
           }).toList(),

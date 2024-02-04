@@ -5,7 +5,6 @@ import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 import 'package:gocast_mobile/views/settings_view/authentication_error_card_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class PreferredGreetingView extends ConsumerWidget {
   const PreferredGreetingView({super.key});
 

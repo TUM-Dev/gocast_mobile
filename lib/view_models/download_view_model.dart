@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/download/download_state_model.dart';
+import 'package:gocast_mobile/utils/tools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'dart:io';
+import 'package:gocast_mobile/base/networking/api/gocast/api_v2.pb.dart';
 
 class DownloadViewModel extends StateNotifier<DownloadState> {
   final Logger _logger = Logger();
@@ -18,7 +20,6 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     final int streamIdInt = id.toInt(); // Convert Int64 to int
     return state.downloadedVideos.containsKey(streamIdInt);
   }
-
 
   Future<void> initDownloads() async {
     final prefs = await SharedPreferences.getInstance();
@@ -34,6 +35,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
           name: videoDetailsMap['name'],
           duration: videoDetailsMap['duration'],
           description: videoDetailsMap['description'],
+          date: videoDetailsMap['date'],
         );
         return MapEntry(int.parse(key), videoDetails);
       }).cast<int, VideoDetails>(); // Ensure the map has the correct type
@@ -41,47 +43,54 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
     }
   }
 
-  Future<String> downloadVideo(String videoUrl, int streamId, String fileName,
-      String streamName, int streamDuration, String description,) async {
+  Future<String> downloadVideo(String videoUrl, Stream stream,
+      String streamName, String streamDate) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/$fileName';
+      final filePath =
+          '${directory.path}/${streamName.replaceAll(' ', '_')}.mp4';
       Dio dio = Dio();
       await dio.download(videoUrl, filePath);
       _logger.d('Downloaded video to: $filePath');
 
       final prefs = await SharedPreferences.getInstance();
-      final int streamIdInt = streamId.toInt();
+      final int streamIdInt = stream.id.toInt();
 
       // Create a map for the video details
       final videoDetailsMap = {
         'filePath': filePath,
         'name': streamName,
-        'duration': streamDuration,
-        'description': description,
+        'duration': Tools.formatDuration(stream.end
+            .toDateTime()
+            .difference(stream.start.toDateTime())
+            .inMinutes),
+        'description': stream.description,
+        'date': streamDate,
       };
 
-      // Convert video details map to JSON string
-      final videoDetailsJson = json.encode(videoDetailsMap);
-
       // Save the JSON string in your SharedPreferences
-      final downloadedVideosJson = Map<int, String>.from(state.downloadedVideos)
-        ..[streamIdInt] = videoDetailsJson;
+      final downloadedVideosJson =
+          Map<int, VideoDetails>.from(state.downloadedVideos)
+            ..[streamIdInt] = VideoDetails.fromJson(videoDetailsMap);
 
       await prefs.setString(
         'downloadedVideos',
-        json.encode(downloadedVideosJson.map((key, value) =>
-            MapEntry(key.toString(), value),),),
+        json.encode(
+          downloadedVideosJson.map(
+            (key, value) => MapEntry(key.toString(), value),
+          ),
+        ),
       );
 
       // Convert the JSON strings back to VideoDetails objects for the state
       final downloadedVideos = downloadedVideosJson.map((key, value) {
-        final videoDetailsMap = json.decode(value);
+        final videoDetailsMap = value.toJson();
         final videoDetails = VideoDetails(
           filePath: videoDetailsMap['filePath'],
           name: videoDetailsMap['name'],
           duration: videoDetailsMap['duration'],
           description: videoDetailsMap['description'],
+          date: videoDetailsMap['date'],
         );
         return MapEntry(key, videoDetails);
       }).cast<int, VideoDetails>();
@@ -122,24 +131,26 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
 
         final prefs = await SharedPreferences.getInstance();
         final updatedDownloads = Map<int, VideoDetails>.from(
-            state.downloadedVideos,);
+          state.downloadedVideos,
+        );
         updatedDownloads.remove(videoId);
 
         // Save updated list to SharedPreferences
         // Convert VideoDetails objects to JSON strings before saving
         await prefs.setString(
           'downloadedVideos',
-          json.encode(updatedDownloads.map((key, value) =>
-              MapEntry(key.toString(), json.encode(value)),),)
-          ,);
+          json.encode(
+            updatedDownloads.map(
+              (key, value) => MapEntry(key.toString(), json.encode(value)),
+            ),
+          ),
+        );
         state = state.copyWith(downloadedVideos: updatedDownloads);
       }
-    }
-    catch (e) {
-    _logger.e('Error deleting video with ID $videoId: $e');
+    } catch (e) {
+      _logger.e('Error deleting video with ID $videoId: $e');
     }
   }
-
 
   Future<void> deleteAllDownloads() async {
     _logger.i('Deleting all downloaded videos');
@@ -165,7 +176,4 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
       _logger.e('Error deleting all videos: $e');
     }
   }
-
-
 }
-
