@@ -171,8 +171,11 @@ class CourseCard extends StatelessWidget {
                             child: _buildCourseTitle(themeData.textTheme),
                           ),
                           if (isPinned)
-                            Icon(Icons.push_pin,
-                                color: themeData.primaryColor, size: 16,),
+                            Icon(
+                              Icons.push_pin,
+                              color: themeData.primaryColor,
+                              size: 16,
+                            ),
                         ],
                       ),
                     ),

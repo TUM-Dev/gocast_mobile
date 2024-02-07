@@ -41,14 +41,17 @@ class NotificationsScreen extends ConsumerWidget {
                 scrollDirection: Axis.vertical,
                 children: [
                   _buildSectionHeader(
-                      AppLocalizations.of(context)!.banner_notification,),
+                    AppLocalizations.of(context)!.banner_notification,
+                  ),
                   for (var alert in bannerAlerts) _buildBannerAlert(alert),
                   _buildSectionHeader(
-                      AppLocalizations.of(context)!.feature_notifications,),
+                    AppLocalizations.of(context)!.feature_notifications,
+                  ),
                   for (var notification in featureNotifications)
                     _buildFeatureNotification(notification),
                   _buildSectionHeader(
-                      AppLocalizations.of(context)!.recent_uploads,),
+                    AppLocalizations.of(context)!.recent_uploads,
+                  ),
                   for (var notification in pushNotifications)
                     _buildPushNotification(notification),
                 ],
@@ -76,8 +79,10 @@ class NotificationsScreen extends ConsumerWidget {
                 children: <Widget>[
                   Expanded(
                     child: Center(
-                        child: Text(AppLocalizations.of(context)!
-                            .no_notifications_found,),),
+                      child: Text(
+                        AppLocalizations.of(context)!.no_notifications_found,
+                      ),
+                    ),
                   ),
                 ],
               ),

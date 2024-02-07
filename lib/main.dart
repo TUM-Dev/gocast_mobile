@@ -41,7 +41,6 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final userState = ref.watch(userViewModelProvider);
 
     bool isLoggedIn = ref.watch(userViewModelProvider).user != null;

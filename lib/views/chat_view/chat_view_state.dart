@@ -62,7 +62,8 @@ class ChatViewState extends ConsumerState<ChatView> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-                'You are sending messages too fast. Please wait a 60 seconds.',),
+              'You are sending messages too fast. Please wait a 60 seconds.',
+            ),
           ),
         );
       });

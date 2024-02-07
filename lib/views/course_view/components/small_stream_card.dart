@@ -77,14 +77,20 @@ class SmallStreamCard extends StatelessWidget {
   }
 
   Widget _buildStreamCard(
-      BuildContext context, ThemeData themeData, double cardWidth,) {
+    BuildContext context,
+    ThemeData themeData,
+    double cardWidth,
+  ) {
     return (isDownloaded != null && showDeleteConfirmationDialog != null)
         ? _buildDownloadedCard(context, themeData, cardWidth)
         : _buildLiveCard(themeData, cardWidth);
   }
 
   Widget _buildDownloadedCard(
-      BuildContext context, ThemeData themeData, double cardWidth,) {
+    BuildContext context,
+    ThemeData themeData,
+    double cardWidth,
+  ) {
     return Slidable(
       key: Key(courseId.toString()),
       closeOnScroll: true,
