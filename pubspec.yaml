@@ -38,6 +38,7 @@ dependencies:
   jwt_decode: ^0.3.1
   flutter_localizations:
     sdk: flutter
+  touch_indicator: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -730,6 +730,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  touch_indicator:
+    dependency: "direct main"
+    description:
+      name: touch_indicator
+      sha256: c7582fc10f433b795a0057036f7c74f050d32f7c317479cb9469ab849c7321c3
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   tuple:
     dependency: "direct main"
     description:

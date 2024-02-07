@@ -12,6 +12,7 @@ import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:gocast_mobile/views/on_boarding_view/welcome_screen_view.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:touch_indicator/touch_indicator.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -57,6 +58,7 @@ class App extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      builder: (context, child) => TouchIndicator(child: child!),
       supportedLocales: L10n.all,
       locale: Locale(UserPreferences.getLanguage()),
       theme: appTheme,
