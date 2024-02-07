@@ -1,9 +1,11 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/providers.dart';
 import 'package:gocast_mobile/utils/constants.dart';
 import 'package:gocast_mobile/views/login_view/internal_login_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
 
 /// Welcome screen view.
 /// This is the first screen that the user sees when the app is opened.
@@ -16,11 +18,38 @@ class WelcomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Getting screen size for responsive layout
+    final connectivityStatus = ref.watch(connectivityProvider);
+    Logger().i(connectivityStatus.toString());
+    return connectivityStatus.when(
+        data: (result) {
+          // If there's no connectivity, navigate or replace the current view.
+          if (result == ConnectivityResult.none) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+
+              if (ModalRoute.of(context)?.settings.name != '/downloads') {
+                Navigator.of(context).pushReplacementNamed('/downloads');
+              }
+            });
+          }
+          return _buildMainLayout(context, ref);
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) {
+          return Center(
+            child: Text(
+              AppLocalizations.of(context)!.error_occurred,
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        },
+    );
+  }
+
+
+  Widget _buildMainLayout(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -145,7 +174,7 @@ class WelcomeScreen extends ConsumerWidget {
               ),
             )
           : Text(AppLocalizations.of(context)!.tum_login,
-              style: const TextStyle(fontSize: 18)),
+              style: const TextStyle(fontSize: 18),),
       onPressed: () => handleSSOLogin(context, ref),
     );
   }
@@ -162,7 +191,7 @@ class WelcomeScreen extends ConsumerWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: Text(AppLocalizations.of(context)!.continue_without,
-          style: const TextStyle(fontSize: 18)),
+          style: const TextStyle(fontSize: 18),),
       onPressed: () {
         Navigator.pushNamed(context, '/publiccourses');
       },
