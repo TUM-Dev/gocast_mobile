@@ -21,9 +21,11 @@ class SuggestedStreamsWidget extends StatelessWidget {
               final stream = suggestedStreams[index];
               return ListTile(
                 leading: const Icon(Icons.play_circle_outline),
-                title: Text(stream.name != ''
-                    ? stream.name
-                    : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(stream.start.toDateTime())}'),
+                title: Text(
+                  stream.name != ''
+                      ? stream.name
+                      : 'Lecture: ${DateFormat('EEEE. dd', Localizations.localeOf(context).toString()).format(stream.start.toDateTime())}',
+                ),
                 subtitle: Text(
                   DateFormat('dd MMMM yyyy').format(stream.start.toDateTime()),
                 ),

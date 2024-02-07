@@ -195,10 +195,12 @@ class StreamCardState extends ConsumerState<StreamCard> {
       ),
       padding: const EdgeInsets.all(5),
       child: Text(
-        Tools.formatDuration(widget.stream.end
-            .toDateTime()
-            .difference(widget.stream.start.toDateTime())
-            .inMinutes),
+        Tools.formatDuration(
+          widget.stream.end
+              .toDateTime()
+              .difference(widget.stream.start.toDateTime())
+              .inMinutes,
+        ),
         style: themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
           color: Colors.white,

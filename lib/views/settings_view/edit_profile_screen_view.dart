@@ -152,9 +152,11 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text("Error"),
-          content: Text(errorMessage == '3 months'
-              ? AppLocalizations.of(context)!.name_change_limitation
-              : errorMessage),
+          content: Text(
+            errorMessage == '3 months'
+                ? AppLocalizations.of(context)!.name_change_limitation
+                : errorMessage,
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
