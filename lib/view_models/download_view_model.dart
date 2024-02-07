@@ -44,7 +44,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
   }
 
   Future<String> downloadVideo(String videoUrl, Stream stream,
-      String streamName, String streamDate) async {
+      String streamName, String streamDate,) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final filePath =
@@ -63,7 +63,7 @@ class DownloadViewModel extends StateNotifier<DownloadState> {
         'duration': Tools.formatDuration(stream.end
             .toDateTime()
             .difference(stream.start.toDateTime())
-            .inMinutes),
+            .inMinutes,),
         'description': stream.description,
         'date': streamDate,
       };

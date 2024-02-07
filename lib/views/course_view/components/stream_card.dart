@@ -198,7 +198,7 @@ class StreamCardState extends ConsumerState<StreamCard> {
         Tools.formatDuration(widget.stream.end
             .toDateTime()
             .difference(widget.stream.start.toDateTime())
-            .inMinutes),
+            .inMinutes,),
         style: themeData.textTheme.labelSmall?.copyWith(
           fontSize: 12,
           color: Colors.white,

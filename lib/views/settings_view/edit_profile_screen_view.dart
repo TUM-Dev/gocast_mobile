@@ -154,7 +154,7 @@ class EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           title: const Text("Error"),
           content: Text(errorMessage == '3 months'
               ? AppLocalizations.of(context)!.name_change_limitation
-              : errorMessage),
+              : errorMessage,),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),

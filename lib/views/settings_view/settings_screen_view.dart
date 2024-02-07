@@ -48,7 +48,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _buildProfileTile(userState),
               const Divider(),
               _buildSectionTitle(
-                  AppLocalizations.of(context)!.account_settings),
+                  AppLocalizations.of(context)!.account_settings,),
               _buildEditableListTile(AppLocalizations.of(context)!.edit_profile,
                   () async {
                 bool isAuthenticated =
@@ -90,7 +90,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const Divider(),
               _buildSectionTitle(AppLocalizations.of(context)!.more),
               _buildNavigableListTile(
-                  AppLocalizations.of(context)!.about_us, ""),
+                  AppLocalizations.of(context)!.about_us, "",),
               _buildNavigableListTile(
                 AppLocalizations.of(context)!.privacy_policy,
                 "https://live.rbg.tum.de/privacy",

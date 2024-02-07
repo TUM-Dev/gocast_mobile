@@ -29,7 +29,7 @@ class DownloadService {
   });
 
   Future<void> downloadVideo(
-      Stream stream, String type, String streamName, String streamDate) async {
+      Stream stream, String type, String streamName, String streamDate,) async {
     bool canDownload = await _handleDownloadConnectivity(stream, type);
     if (!canDownload) return;
 
@@ -56,7 +56,7 @@ class DownloadService {
       if (!isWidgetMounted()) return;
       onShowSnackBar(localPath.isNotEmpty
           ? downloadCompletedMessage
-          : downloadFailedMessage);
+          : downloadFailedMessage,);
     });
   }
 

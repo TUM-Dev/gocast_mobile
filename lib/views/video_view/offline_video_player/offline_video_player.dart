@@ -79,7 +79,7 @@ class OfflineVideoPlayerPageState
 // Initialize the controller manager.
   void _initializeControllerManager() {
     _controllerManager = OfflineVideoPlayerControllerManager(
-        localPath: widget.videoDetails.filePath);
+        localPath: widget.videoDetails.filePath,);
   }
 
 // Initialize the video player and seek to the last progress.

@@ -48,7 +48,7 @@ class DownloadCoursesContentView extends ConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 295.0),
                         child: Text(AppLocalizations.of(context)!
-                            .no_downloaded_courses),
+                            .no_downloaded_courses,),
                       ),
                     ),
                   ),

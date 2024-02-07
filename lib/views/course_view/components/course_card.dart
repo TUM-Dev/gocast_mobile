@@ -172,7 +172,7 @@ class CourseCard extends StatelessWidget {
                           ),
                           if (isPinned)
                             Icon(Icons.push_pin,
-                                color: themeData.primaryColor, size: 16),
+                                color: themeData.primaryColor, size: 16,),
                         ],
                       ),
                     ),

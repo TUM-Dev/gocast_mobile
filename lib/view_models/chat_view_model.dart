@@ -18,7 +18,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
       final messages =
           await ChatHandlers(_grpcHandler).getChatMessages(streamId);
       state = state.copyWith(
-          messages: messages, isLoading: false, accessDenied: false);
+          messages: messages, isLoading: false, accessDenied: false,);
     } catch (e) {
       state = state.copyWith(
         error: e as AppError,
@@ -39,9 +39,9 @@ class ChatViewModel extends StateNotifier<ChatState> {
             await ChatHandlers(_grpcHandler).getChatMessages(streamId);
         final combinedMessages = List<ChatMessage>.from(state.messages ?? [])
           ..addAll(messages
-              .where((newMessage) => !state.messages!.contains(newMessage)));
+              .where((newMessage) => !state.messages!.contains(newMessage)),);
         state = state.copyWith(
-            messages: combinedMessages, isLoading: false, accessDenied: false);
+            messages: combinedMessages, isLoading: false, accessDenied: false,);
       } catch (e) {
         state = state.copyWith(
           error: e as AppError,
