@@ -58,7 +58,24 @@ class App extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      builder: (context, child) => TouchIndicator(child: child!),
+      builder: (context, child) => TouchIndicator(
+          indicatorColor: Colors.blueAccent,
+          indicator: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.blueAccent.withOpacity(0.3),
+            ),
+            child:  Center(
+              child: Icon(
+                Icons.circle_rounded,
+                size: 40.0,
+                color: Colors.blueAccent.withOpacity(0.3),)
+            ),
+          ),
+          indicatorSize: 50.0,
+          forceInReleaseMode: true,
+          child: child!,
+      ),
       supportedLocales: L10n.all,
       locale: Locale(UserPreferences.getLanguage()),
       theme: appTheme,
