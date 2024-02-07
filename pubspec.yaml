@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   connectivity_plus: ^5.0.2
-  tuple: ^2.0.1
+  tuple: ^2.0.2
   bloc: ^8.1.2
   cookie_jar: ^4.0.8
   dio_cookie_manager: ^3.1.1
@@ -20,7 +20,7 @@ dependencies:
   provider: ^6.1.1
   shared_preferences: ^2.2.2
   uni_links: ^0.5.1
-  flutter_riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.10
   rxdart: ^0.27.7
   grpc: ^3.2.4
   dio: ^5.4.0
@@ -30,10 +30,10 @@ dependencies:
   logger: ^2.0.2+1
   flutter_secure_storage: ^9.0.0
   video_player: ^2.8.2
-  firebase_core: ^2.24.2
-  firebase_messaging: ^14.7.10
+  firebase_core: ^2.25.4
+  firebase_messaging: ^14.7.15
   chewie: ^1.7.4
-  url_launcher: ^6.2.3
+  url_launcher: ^6.2.4
   path_provider: any
   jwt_decode: ^0.3.1
   flutter_localizations:
