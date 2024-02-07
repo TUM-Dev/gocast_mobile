@@ -264,7 +264,8 @@ class PollViewState extends ConsumerState<PollView> {
 
     return Padding(
       padding: const EdgeInsets.all(
-          8.0), // Consistent padding with the rest of the layout
+        8.0,
+      ), // Consistent padding with the rest of the layout
       child: ElevatedButton(
         onPressed: selectedOptions.containsKey(poll.id)
             ? () {

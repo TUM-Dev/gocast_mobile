@@ -60,9 +60,8 @@ class TokenHandler {
       final token = await _storage.read(key: key);
       if (token == null) {
         _logger.w('Token not found for key: $key');
-        throw AppError.authenticationError();
+        return '';
       }
-
       _logger.i('Token successfully loaded for key: $key');
       return token;
     } catch (e) {

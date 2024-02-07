@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gocast_mobile/models/user/user_state_model.dart';
@@ -42,18 +41,6 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final connectivityStatus = ref.watch(connectivityProvider);
-    connectivityStatus.whenData((result) {
-      if(result == ConnectivityResult.none) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (ModalRoute.of(context)?.settings.name != '/downloads') {
-            Navigator.of(context).pushNamed('/downloads');
-            return;
-          }
-        });
-      }
-    });
-
     final userState = ref.watch(userViewModelProvider);
 
     bool isLoggedIn = ref.watch(userViewModelProvider).user != null;

@@ -51,7 +51,8 @@ class AuthHandler {
           .i('Received HTTP response with status code: ${response.statusCode}');
     } catch (e) {
       _logger.e(
-          'Error during basic authentication for user: $username, Error: $e');
+        'Error during basic authentication for user: $username, Error: $e',
+      );
       throw AppError.userError();
     }
     try {

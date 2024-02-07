@@ -89,4 +89,3 @@ final playbackSpeedsProvider = StateProvider<List<double>>((ref) {
 final connectivityProvider = StreamProvider<ConnectivityResult>((ref) {
   return Connectivity().onConnectivityChanged;
 });
-

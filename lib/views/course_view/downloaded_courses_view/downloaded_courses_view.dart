@@ -67,7 +67,7 @@ class DownloadedCoursesState extends ConsumerState<DownloadedCourses> {
             title: AppLocalizations.of(context)!.download,
             filterOptions: [
               AppLocalizations.of(context)!.newest_first,
-              AppLocalizations.of(context)!.oldest_first
+              AppLocalizations.of(context)!.oldest_first,
             ],
             onClick: (String choice) {
               // Handle filter option click
